@@ -6,6 +6,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.patp.sistema.model.Usuario;
+import com.patp.sistema.model.Gerenciamento;
+import com.patp.sistema.model.Etapa;
+import com.patp.sistema.model.Processo;
+import com.patp.sistema.repository.GerenciamentoRepository;
+import com.patp.sistema.repository.EtapaRepository;
+import com.patp.sistema.repository.ProcessoRepository;
 import com.patp.sistema.repository.UsuarioRepository;
 import com.patp.sistema.service.SessaoService;
 
@@ -14,6 +20,9 @@ abstract class ApiIntegrationSupport {
     @Autowired protected JdbcTemplate jdbc;
     @Autowired protected UsuarioRepository usuarios;
     @Autowired protected SessaoService sessoes;
+    @Autowired protected GerenciamentoRepository quadros;
+    @Autowired protected EtapaRepository etapas;
+    @Autowired protected ProcessoRepository processos;
 
     @BeforeEach
     void limparDados() {
@@ -36,5 +45,39 @@ abstract class ApiIntegrationSupport {
 
     protected String token(Usuario usuario) {
         return "Bearer " + sessoes.criarSessao(usuario);
+    }
+
+    protected Gerenciamento quadro(Usuario criador) {
+        Gerenciamento quadro = new Gerenciamento();
+        quadro.setNome("Quadro");
+        quadro.setDescricao("Descrição");
+        quadro.setCriador(criador);
+        return quadros.saveAndFlush(quadro);
+    }
+
+    protected Etapa etapa(Gerenciamento quadro, String nome, int ordem) {
+        Etapa etapa = new Etapa();
+        etapa.setNome(nome);
+        etapa.setSetor("Engenharia");
+        etapa.setOrdem(ordem);
+        etapa.setGerenciamento(quadro);
+        return etapas.saveAndFlush(etapa);
+    }
+
+    protected Processo demanda(Etapa etapa) {
+        Processo processo = new Processo();
+        processo.setNumeroProcesso("P-" + etapa.getId());
+        processo.setPessoa("Pessoa");
+        processo.setStatus("Em andamento");
+        processo.setEtapa(etapa);
+        return processos.saveAndFlush(processo);
+    }
+
+    protected java.util.Map<String, Object> conteudoPersistido() {
+        java.util.Map<String, Object> dados = new java.util.LinkedHashMap<>();
+        for (String tabela : new String[]{"etapas", "processos", "comentarios", "historicos"}) {
+            dados.put(tabela, jdbc.queryForList("select * from " + tabela + " order by id"));
+        }
+        return dados;
     }
 }

@@ -116,12 +116,12 @@ T8 -> T9
 **Depends on:** T3
 **Requirement:** GER-01–20/23/26/27 e erro de quadro arquivado GER-21.
 **Done when:**
-- [ ] Todos os endpoints têm sucesso, limites, autenticação, inexistência, autorização, estado e versão conforme aplicáveis, com textos/status exatos.
-- [ ] Nome normalizado conforme JavaScript, limites UTF-16, descrição/etapas opcionais, nomes iguais independentes.
-- [ ] Falha na segunda etapa desfaz pai e filhos; autoria vem da sessão; versão antiga não sobrescreve; repetição de estado não incrementa versão.
-- [ ] Editar/arquivar/restaurar preserva registros associados; metadados e permissão seguros retornados em DTO.
-- [ ] JSON/formato inválido recebe 400; erros de banco são genéricos; transações usam READ_COMMITTED e lock no pai.
-- [ ] Gate build passa e relatório de adequação localiza assertions por GER aplicável.
+- [x] Todos os endpoints têm sucesso, limites, autenticação, inexistência, autorização, estado e versão conforme aplicáveis, com textos/status exatos.
+- [x] Nome normalizado conforme JavaScript, limites UTF-16, descrição/etapas opcionais, nomes iguais independentes.
+- [x] Falha na segunda etapa desfaz pai e filhos; autoria vem da sessão; versão antiga não sobrescreve; repetição de estado não incrementa versão.
+- [x] Editar/arquivar/restaurar preserva registros associados; metadados e permissão seguros retornados em DTO.
+- [x] JSON/formato inválido recebe 400; erros de banco são genéricos; transações usam READ_COMMITTED e lock no pai.
+- [x] Gate build passa e relatório de adequação localiza assertions por GER aplicável.
 **Tests:** integration
 **Gate:** build
 **Commit:** `feat(gerenciamentos): complete authorized board lifecycle API`
