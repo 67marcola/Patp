@@ -587,4 +587,26 @@ Todos os casos usam dados validos. Os testes parametrizados executam cada verbo/
 | Adicionar comentario | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:38`: `.andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value("Gerenciamento arquivado. Restaure-o antes de alterar."));` | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:39`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | PASS |
 | Adicionar historico manual | `sistema/src/test/java/com/patp/sistema/HistoricoArchiveTests.java:38`: `.andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value("Gerenciamento arquivado. Restaure-o antes de alterar."));` | `sistema/src/test/java/com/patp/sistema/HistoricoArchiveTests.java:39`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | PASS |
 
-Limites do lote: H2 demonstra API/transacoes/locks/persistencia isolados; nao demonstra sozinho migracao, collation ou configuracao real do MySQL. O orquestrador verificou schema antigo em MySQL temporario e executara a suite completa separada apos este lote. O defeito de charset das recusas 401 identificado nessa verificacao sera corrigido em tarefa propria; nao equivale a alterar senha, papel ou guardas. DELETE ativo de processo continua com a falha preexistente de FK documentada em T6; a nova transacao impede log parcial. A interface e o Verificador independente ainda sao necessarios para concluir a feature. Nenhum dado real foi alterado por este trabalhador.
+Limites do lote: H2 demonstra API/transacoes/locks/persistencia isolados; nao demonstra sozinho migracao, collation ou configuracao real do MySQL. O orquestrador verificou schema antigo em MySQL temporario e executara a suite completa separada apos este lote. O defeito de charset das recusas 401 identificado nessa verificacao foi corrigido em T14 abaixo; nao equivale a alterar senha, papel ou guardas. DELETE ativo de processo continua com a falha preexistente de FK documentada em T6; a nova transacao impede log parcial. A interface e o Verificador independente ainda sao necessarios para concluir a feature. Nenhum dado real foi alterado por este trabalhador.
+
+## T14 — respostas de sessão em UTF-8
+
+Premissas antes da correção: o contrato continua sendo 401 com campo JSON `erro`; os dois textos existentes permanecem iguais. Arquivos previstos: `AutenticacaoInterceptor.java`, novo `AutenticacaoResponseTests.java` e documentação de tarefa/evidência/rastreabilidade. Sucesso: cliente HTTP interpreta bytes UTF-8 e obtém as mensagens exatas, sem gravação, com gate completo passando.
+
+Reprodução: a primeira fixture MockMvc não expôs a falha porque o mock usa UTF-8. Mantidas as mesmas assertions de status, texto e banco, substituiu-se somente a fixture da requisição por HTTP real em porta aleatória, lendo `byte[]` sem conversão implícita de charset. Antes da correção, os dois casos produziram `MalformedInputException` ao decodificar os bytes. Correção: definir UTF-8 antes de escrever o JSON manual nos dois caminhos 401.
+
+Gate executado: `mvn.cmd -B verify`, 97 testes, zero falhas, erros ou ignorados, BUILD SUCCESS. `npm.cmd run build` e lint das fontes/configuração existentes PASS. Nenhum teste existente removido, ignorado ou enfraquecido. Logs de reprodução e gate em `%TEMP%/creral-auth-utf8-red-http.log` e `%TEMP%/creral-auth-utf8-build.log`.
+
+| Critério / adequação direta | Evidência e assertion | Resultado |
+| --- | --- | --- |
+| GER-23: ausência e token inválido recusados | `sistema/src/test/java/com/patp/sistema/AutenticacaoResponseTests.java:38`, `assertThat(response.statusCode()).isEqualTo(401)` em dois casos | PASS |
+| Contrato JSON UTF-8 e textos legíveis | `sistema/src/test/java/com/patp/sistema/AutenticacaoResponseTests.java:40`, decoder UTF-8 estrito; linha 41, `assertThat(json.readTree(body).path("erro").asString()).isEqualTo(...)` com as duas mensagens exatas | PASS |
+| Recusa não cria gerenciamento | `sistema/src/test/java/com/patp/sistema/AutenticacaoResponseTests.java:43`, `assertThat(quadros.count()).isZero()` | PASS |
+
+| Assertion / adequação reversa | Âncora | Manter? |
+| --- | --- | --- |
+| `AutenticacaoResponseTests.java:38`, status 401 | GER-23 / Done when T14 | Sim |
+| `AutenticacaoResponseTests.java:40`, decoder; linha 41, campo erro exato | Contrato JSON de erro / Done when T14 | Sim |
+| `AutenticacaoResponseTests.java:43`, zero quadros | GER-23, recusa sem efeito | Sim |
+
+T14 concluída. A validação independente e a interface permanecem pendentes; esses resultados ainda não encerram a feature.

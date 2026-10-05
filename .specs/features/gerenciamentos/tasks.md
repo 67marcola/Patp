@@ -44,19 +44,25 @@ T1 -> T2 -> T3 -> T4
 T5 -> T6 -> T7 -> T8
 ```
 
-### Phase 3: Interface e fluxo em navegador
+### Phase 3: Correção da resposta de autenticação
+
+```text
+T8 -> T14
+```
+
+### Phase 4: Interface e fluxo em navegador
 
 ```text
 T9 -> T10 -> T11 -> T12 -> T13
 ```
 
-Execução sequencial. Lote servidor: fases 1/2 (8 tarefas, T1 executada pelo orquestrador antes do trabalhador T2–T8). Lote interface: fase 3 (5 tarefas). Verificador novo após o último commit. Consultas/revisões independentes podem ocorrer em paralelo, sem editar os arquivos do trabalhador.
+Execução sequencial. Lote servidor: fases 1/2 (8 tarefas, T1 executada pelo orquestrador antes do trabalhador T2–T8). Correção técnica T14 executada pelo orquestrador após esse lote. Lote interface: fase 4 (5 tarefas). Verificador novo após o último commit. Consultas/revisões independentes podem ocorrer em paralelo, sem editar os arquivos do trabalhador.
 
 Dependências entre fases:
 
 ```text
 T4 -> T5
-T8 -> T9
+T14 -> T9
 ```
 
 ## Task Breakdown
@@ -190,7 +196,7 @@ T8 -> T9
 **What:** configurar os runners da interface com componentes e serviços testáveis por comportamento.
 **Where:** `frontend/package.json`
 **Companions:** lockfile, configuração Vitest/Playwright e setup. Primeiro teste de contrato do runner, sem testes tautológicos; manter baixo impacto no runtime.
-**Depends on:** T8
+**Depends on:** T14
 **Requirement:** base de GER-28–41.
 **Done when:**
 - [ ] Vitest executa um teste significativo de comportamento existente em DOM e npm build/lint passam.
@@ -261,6 +267,21 @@ T8 -> T9
 **Gate:** build
 **Commit:** `feat(frontend): show archived boards as read only`
 
+### T14: Garantir JSON UTF-8 nas recusas de sessão
+
+**What:** corrigir a codificação das respostas 401, com teste dos bytes interpretados pelo cliente HTTP.
+**Where:** `sistema/src/main/java/com/patp/sistema/config/AutenticacaoInterceptor.java`
+**Companions:** teste de integração de resposta de autenticação; documentação/evidência de falha e correção.
+**Depends on:** T8
+**Requirement:** GER-23 e contrato JSON de erro do CRUD.
+**Done when:**
+- [x] Sessão ausente e inválida retornam 401 e JSON válido em UTF-8, preservando os textos existentes `Usuário não autenticado.` / `Sessão inválida ou expirada.`.
+- [x] Teste interpreta os bytes diretamente como UTF-8, sem depender da conversão de charset do MockMvc.
+- [x] Gate build passa com os 95 casos existentes mais 2 casos novos, sem testes ignorados, removidos ou enfraquecidos.
+**Tests:** integration
+**Gate:** build
+**Commit:** `fix(auth): encode session errors as UTF-8 JSON`
+
 ## Diagram-Definition Cross-Check
 
 | Task | Depends On | Diagram Shows | Status |
@@ -273,7 +294,8 @@ T8 -> T9
 | T6 | T5 | T5 -> T6 | OK |
 | T7 | T6 | T6 -> T7 | OK |
 | T8 | T7 | T7 -> T8 | OK |
-| T9 | T8 | fase anterior | OK |
+| T14 | T8 | T8 -> T14 | OK |
+| T9 | T14 | fase anterior | OK |
 | T10 | T9 | T9 -> T10 | OK |
 | T11 | T10 | T10 -> T11 | OK |
 | T12 | T11 | T11 -> T12 | OK |
@@ -285,6 +307,7 @@ T8 -> T9
 | --- | --- | --- | --- | --- |
 | T1 | Infra de teste | integration | integration | OK |
 | T2–T8 | Identidade/CRUD/JPA/guardas | integration | integration | OK |
+| T14 | Resposta HTTP de autenticação | integration | integration | OK |
 | T9 | Infra React | integration | integration | OK |
 | T10 | Cliente HTTP | unit | unit | OK |
 | T11–T12 | React | integration | integration | OK |
