@@ -4,7 +4,9 @@ Data: 2026-10-04. Branch analisada: `testes`. Base: `5d8beb9`.
 
 A leitura do código confirma uma implementação parcial do gerenciador de etapas. O botão de criar processo está sem ação no frontend. Nenhuma funcionalidade de aplicação foi alterada nesta análise. As regras de negócio abaixo ainda precisam ser esclarecidas com o usuário.
 
-Atualização em 2026-10-04: o usuário confirmou várias demandas por quadro, permissões 1A, arquivamento 2A, administradores escolhidos, arquivados somente consulta e administração de quadros sem criador apenas por administradores. As decisões AD-001 a AD-006 estão em `STATE.md`. A especificação do primeiro CRUD está em `.specs/features/gerenciamentos/spec.md`, pronta para revisão; código da aplicação ainda não foi alterado.
+Atualização em 2026-10-05: o usuário aprovou a especificação do primeiro CRUD e autorizou implementação/testes. A API e interface de gerenciamentos, permissões, arquivamento/restauração e proteção dos registros associados foram implementadas: 97 testes H2, 65 testes da interface e 1 fluxo real no navegador passaram; houve também 96 testes de comportamento em MySQL temporário e verificação de schema antigo/reinicialização. A verificação independente permanece pendente. Detalhes em `features/gerenciamentos/spec.md`, `evidence.md`, `frontend-evidence.md` e `mysql-validation.md`. Para experimentar com dados fictícios, ver `../docs/OPERACAO.md`. As decisões AD-001 a AD-008 estão em `STATE.md`; AD-007/008 tratam do próximo CRUD de etapas.
+
+As tabelas e linhas de código abaixo registram o diagnóstico da base `5d8beb9`; não descrevem como pendentes os reparos já comprovados nos relatórios atuais.
 
 ## Escopo solicitado
 
@@ -75,7 +77,7 @@ Os caminhos são relativos à raiz do projeto.
 
 O comando padrão `npm.cmd run lint` também foi executado, mas percorreu dependências em `node_modules` e gerou muitos avisos externos. A análise restrita aos arquivos do projeto está registrada acima.
 
-O teste `contextLoads` ainda não foi executado nesta sessão. A configuração padrão usa MySQL com `ddl-auto=update`, sem perfil isolado. Antes dos testes de comportamento, estabelecer ambiente de teste separado do banco configurado. Nenhuma consulta ou alteração do MySQL foi feita.
+Na coleta inicial, o teste `contextLoads` não havia sido executado. A configuração padrão usa MySQL com `ddl-auto=update`; a implementação posterior estabeleceu H2 isolado de teste e uma instância MySQL temporária. O banco configurado na aplicação não foi consultado nem alterado.
 
 O build gerou `frontend/dist/`. A revisão automática recusou a remoção dessa pasta por política. O artefato permaneceu no workspace.
 
