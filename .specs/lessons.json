@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 2,
+  "next_id": 3,
   "lessons": [
     {
       "id": "L-001",
@@ -22,6 +22,24 @@
       ],
       "created": "2026-10-05T04:48:05Z",
       "last_seen": "2026-10-05T04:48:05Z"
+    },
+    {
+      "id": "L-002",
+      "key": "surviving_mutant::em mutacoes http teste respostas 2xx com json ilegivel e exija erro de comunicacao rascunho preservado e nenhum reenvio automatico",
+      "text": "Em mutações HTTP, teste respostas 2xx com JSON ilegível e exija erro de comunicação, rascunho preservado e nenhum reenvio automático.",
+      "signal": "surviving_mutant",
+      "scope": "frontend",
+      "status": "candidate",
+      "features": [
+        "etapas"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        ".specs/features/etapas/validation.md:M10 / ETA-27 (frontend)"
+      ],
+      "created": "2026-10-05T11:21:53Z",
+      "last_seen": "2026-10-05T11:21:53Z"
     }
   ]
 }
