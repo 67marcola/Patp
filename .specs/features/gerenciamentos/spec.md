@@ -257,7 +257,7 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | GER-28 | Interface | Specify | Pending |
 | GER-29 | Interface | Specify | Pending |
 | GER-30 | Interface | Specify | Pending |
-| GER-31 | Interface | Specify | Pending |
+| GER-31 | Interface | Execute | In Progress: cancelamento existente verificado em T9; demais fluxos pendentes |
 | GER-32 | Interface | Specify | Pending |
 | GER-33 | Interface | Specify | Pending |
 | GER-34 | Interface | Specify | Pending |
