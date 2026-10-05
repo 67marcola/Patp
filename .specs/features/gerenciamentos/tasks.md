@@ -214,9 +214,9 @@ T14 -> T9
 **Depends on:** T9
 **Requirement:** GER-32–34/40; contratos.
 **Done when:**
-- [ ] Filtro, token, versão e métodos/rotas correspondem ao design; 204 é sucesso sem parse de JSON.
-- [ ] Erros JSON mantêm mensagem/status; comunicação usa texto exato; não há retry de mutações.
-- [ ] Gate passa com assertions de saída e requests efetivos.
+- [x] Filtro, token, versão e métodos/rotas correspondem ao design; 204 é sucesso sem parse de JSON.
+- [x] Erros JSON mantêm mensagem/status; comunicação usa texto exato; não há retry de mutações.
+- [x] Gate passa com assertions de saída e requests efetivos.
 **Tests:** unit
 **Gate:** quick
 **Commit:** `feat(frontend): add board lifecycle HTTP client`

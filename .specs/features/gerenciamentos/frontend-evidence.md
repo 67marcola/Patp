@@ -20,3 +20,31 @@ Gates: `npm.cmd test` PASS **1/1**; `npm.cmd run build` PASS; `npm.cmd run lint`
 | `CriarGerenciamento.test.jsx:21`, `expect(fetchSpy).not.toHaveBeenCalled()` | GER-31, nenhum envio; contagem é o resultado exigido nesta parte | Sim |
 
 Adequação: assertion de estado renderizado e ausência de request, sem tautologias, skips ou remoções. Guidelines adicionais ausentes; padrões da skill aplicados. T9 concluída; cobertura restante GER-28–41 será entregue nas tarefas próprias.
+
+## T10: contrato HTTP
+
+Premissas: DTO seguro com criador resumido, PUT para mudança de estado, versão recebida no DTO e usada sem exposição como campo. Arquivos: api.js/api.test.js e registros da tarefa. API usa `VITE_API_URL` opcional e mantém localhost:8081/api como padrão. AbortSignal suportado nas consultas; nenhum retry automático.
+
+Gate quick: `npm.cmd test` PASS **16/16**, sendo **15** casos novos HTTP e o caso anterior preservado. Antes da implementação, 14 dos 15 casos HTTP falharam, comprovando as lacunas; depois passaram sem alterar assertions. `Response` real exercita 204 sem corpo.
+
+| Adequação direta: critério | Evidência e assertion | Resultado esperado | Resultado |
+| --- | --- | --- | --- |
+| Filtro/token/consulta, T10 e GER-28 | `frontend/src/services/api.test.js:24`, `.toEqual([quadro])`; `:26`, `toHaveBeenCalledWith(...?arquivado=${arquivado}, objectContaining({method:"GET",headers:{Authorization:"Bearer sessao"},signal:controller.signal}))` | Ambos filtros e sessão; DTO intacto | PASS |
+| Buscar/criar DTO e payload, T10 e GER-06/35 | `api.test.js:34`, `.toEqual(quadro)`; `:41`, `.toEqual(quadro)`; `:43`, `.toBe("POST")`; `:44`, headers `.toEqual(...)`; `:45`, `expect(JSON.parse(request.body)).toEqual(dados)` | ID/nome/descrição/criador/estado/versão/permissão e corpo completo corretos | PASS |
+| Editar versão/nome/descrição, T10 e GER-35 | `api.test.js:51`, `.toEqual({...quadro,nome:"Novo nome",versao:3})`; `:52`, URL `.toBe(.../9)`; `:53`, `.toBe("PUT")`; `:54`, corpo `.toEqual(dados)` | PUT por ID e versão; retorno persistido | PASS |
+| Arquivar/restaurar 204, T10 e GER-34/41 | `api.test.js:62`, `.toBeUndefined()`; `:63`, URL `.toBe(.../${acao})`; `:64`, `.toBe("PUT")`; `:65`, corpo `.toEqual({versao:2})` | Sem JSON obrigatório, rotas e versão corretas | PASS |
+| Erros exatos/status e ausência de retry, GER-33/40 | `api.test.js:76`, `.rejects.toMatchObject({message:mensagem,status})`; `:78`, `.toHaveBeenCalledTimes(1)` | 400/401/403/404/409 preservados; uma chamada | PASS |
+| Comunicação e erro sem JSON, GER-33/40 | `api.test.js:84`, `.rejects.toMatchObject({message:"Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.",status:0})`; `:87`, `.toHaveBeenCalledTimes(1)`; `:92`, `.rejects.toMatchObject({message:"Não foi possível concluir a operação.",status:500})` | Sem falsa garantia de rollback ou detalhe interno | PASS |
+| Consulta de etapas centralizada, GER-29 | `api.test.js:100`, `.toEqual(etapas)`; `:101`, URL `.toBe(.../9/etapas)` | Valores preservados e rota existente | PASS |
+
+| Adequação reversa: assertions | Âncora | Manter |
+| --- | --- | --- |
+| `api.test.js:24/26`, lista `.toEqual` e request com token/filtro/signal | T10, contrato de consulta GER-28 | Sim |
+| `api.test.js:34/35/41/43/44/45`, DTO `.toEqual` e URL/método/headers/corpo | T10, GER-06/35 | Sim |
+| `api.test.js:51/52/53/54`, DTO/URL/PUT/corpo | T10, GER-35 | Sim |
+| `api.test.js:62/63/64/65`, retorno undefined/URL/PUT/versão | T10, GER-34/41 e contrato 204 | Sim |
+| `api.test.js:76/78`, rejeição com mensagem/status e única chamada | GER-33/40; sem retries | Sim |
+| `api.test.js:84/87/92`, erro de comunicação e erro seguro500 | GER-33/40; texto prescrito | Sim |
+| `api.test.js:100/101`, etapas e URL | GER-29, consulta atual preservada | Sim |
+
+Adequação: todos os campos do DTO e payload são comparados por valor; requests complementam os resultados, não os substituem. Sem testes removidos, enfraquecidos ou ignorados. Erros da UI continuam pendentes nas tarefas próprias; nenhum desvio de especificação.
