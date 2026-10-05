@@ -29,6 +29,8 @@ Alternativas consideradas: (1) versão do quadro existente, escolhida por não e
 - `Quadro.jsx`: snapshot atual, controles permissionados, confirmação, atualização/retryGET e retorno de foco; contagens reais sem falso texto de vazio.
 - `Gerenciamentos.jsx`: receber metadados atualizados do Quadro para versão/cache corretos ao voltar e arquivar.
 
+Na edição de legado, Quadro passa ao formulário a posição visual da etapa (`index + 1` da sequência consultada). Assim o select 1..N também funciona quando a ordem persistida é 7/7 ou contém lacunas. O snapshot conserva os números antigos e abrir/cancelar o editor não grava nada; a próxima mutação confirmada aplica a normalização prevista.
+
 ## Data Models
 
 Nenhuma mudança de tabela/coluna. Reusar Gerenciamento.@Version. Snapshot protegido pelo mesmo lock dos escritores evita combinar versão velha com etapas novas. Demandas e históricos conservam IDs/valores; nomenclatura não classifica categoria final.
