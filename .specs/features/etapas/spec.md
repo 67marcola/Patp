@@ -122,6 +122,7 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 - Trim de nome/setor acompanha JavaScript `String.trim()`, com NBSP/BOM, e limites são UTF-16. Descrição/nome/autoria/estado do quadro, demandas e históricos não são alterados por este CRUD, salvo sua versão.
 - Contagens de demandas incluem todos os status. GETs não normalizam ordens nem inserem etapas finais; próxima mutação estrutura ordens por ordem antiga e ID antes de aplicar posição escolhida.
 - Campos desconhecidos de setor legado não são preenchidos por suposição. Consultar/reordenar outras etapas não renomeia nem atribui setor a uma etapa antiga.
+- Na interface, a posição de edição é o índice visual na lista ordenada, de1..N; ordens legadas7/7 ou com lacunas não viram opções inválidas. Abrir/cancelar editor não escreve, e nome/setor originais são conservados. O servidor normaliza ordens somente na mutação confirmada.
 - Erro de comunicação usa `Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.`. Repetir consulta não repete POST/PUT/DELETE. Há nenhum efeito idempotente prometido para DELETE de etapa já ausente.
 
 ## Edge Cases
@@ -173,17 +174,17 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 | ETA-19 | Integridade | Execute | T1 gate PASS; Verificador pendente |
 | ETA-20 | Integridade | Execute | T1 gate PASS; Verificador pendente |
 | ETA-21 | Integridade | Execute | T1 gate PASS; Verificador pendente |
-| ETA-22 | Interface | Tasks | Pending |
-| ETA-23 | Interface | Execute | T3 gate PASS; integração/Verificador pendentes |
-| ETA-24 | Interface | Tasks | Pending |
-| ETA-25 | Interface | Tasks | Pending |
-| ETA-26 | Interface | Tasks | Pending |
-| ETA-27 | Interface | Tasks | Pending |
-| ETA-28 | Interface | Tasks | Pending |
-| ETA-29 | Interface | Tasks | Pending |
-| ETA-30 | Interface | Tasks | Pending |
+| ETA-22 | Interface | Execute | T4 gate PASS; Verificador pendente |
+| ETA-23 | Interface | Execute | T3/T4 gate PASS; Verificador pendente |
+| ETA-24 | Interface | Execute | T4 gate PASS; Verificador pendente |
+| ETA-25 | Interface | Execute | T3/T4 gate PASS; Verificador pendente |
+| ETA-26 | Interface | Execute | T3/T4 gate PASS; Verificador pendente |
+| ETA-27 | Interface | Execute | T2–T4 gate PASS; Verificador pendente |
+| ETA-28 | Interface | Execute | T4 gate PASS; E2E/Verificador pendentes |
+| ETA-29 | Interface | Execute | T2/T4 gate PASS; Verificador pendente |
+| ETA-30 | Interface | Execute | T3/T4 gate PASS; E2E/Verificador pendentes |
 
-**Coverage:** 30 requisitos; ETA-01–21 implementados em T1 com gate local. Cliente HTTP T2 validado para ETA-01/12/13/15/27–29. ETA-22–30/formulário/quadro e Verificador independente pendentes.
+**Coverage:** 30 requisitos implementados com gates locais em T1–T4; cliente, formulário e quadro validados com130 Vitest. T5/E2E e Verificador independente pendentes.
 
 ## Success Criteria
 

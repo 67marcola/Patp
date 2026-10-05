@@ -1351,6 +1351,37 @@ button:focus-visible {
     margin-bottom: 22px;
 }
 
+.quadro-acoes,
+.etapa-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.titulo-etapa > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.titulo-etapa {
+    min-width: 0;
+}
+
+.confirmacao-etapa {
+    margin: 0 0 22px;
+    overflow-wrap: anywhere;
+}
+
+.falha-consulta > p {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 700px) {
+    .etapa-acoes {
+        width: 100%;
+    }
+}
+
 .campos-etapa {
     display: flex;
     gap: 16px;

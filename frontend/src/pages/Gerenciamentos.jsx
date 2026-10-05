@@ -94,6 +94,12 @@ function Gerenciamentos() {
         await carregarGerenciamentos(arquivado, true);
     }
 
+    function quadroAtualizado(atualizado) {
+        setSelecionado(atualizado);
+        setGerenciamentos(anteriores => anteriores.flatMap(item => item.id !== atualizado.id
+            ? [item] : atualizado.arquivado === arquivado ? [atualizado] : []));
+    }
+
     function descartarConfirmacao() {
         setConfirmacao(null);
         origemConfirmacao.current = null;
@@ -128,7 +134,7 @@ function Gerenciamentos() {
             voltar={() => setTela("lista")} atualizar={formularioSalvo} />;
     }
     if (tela === "quadro") {
-        return <Quadro gerenciamento={selecionado} voltar={() => setTela("lista")} />;
+        return <Quadro gerenciamento={selecionado} voltar={() => setTela("lista")} atualizar={quadroAtualizado} />;
     }
 
     return (

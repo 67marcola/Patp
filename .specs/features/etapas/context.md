@@ -27,6 +27,7 @@ Etapas obrigatórias de conclusão/cancelamento e os fluxos de finalizar/pular e
 - Permitir remover a última etapa de trabalho se vazia; o quadro poderá aguardar configuração. Não acrescentar mínimo de etapas comuns sem decisão.
 - Ao configurar etapas, validar nome/setor normalizados de 1–255 unidades UTF-16; não truncar dados existentes. Os mesmos limites de campos já valem para etapas iniciais de novos quadros. A ordem inicial mantém o contrato anterior de inteiro positivo; o intervalo e a reorganização deste CRUD se aplicam à configuração de quadro existente.
 - Informar conflito quando a configuração exibida ficou antiga. Gravar a reorganização inteira em uma transação; falha não pode deixar ordem parcial nem remover/mover demandas automaticamente.
+- No editor de uma sequência antiga com empates/lacunas, Posição representa a posição visual da coluna na lista ordenada (1..N). O número antigo permanece no snapshot; preparar o formulário não grava uma normalização. Nome e setor continuam com seus valores conhecidos.
 - Fornecer controles de teclado, confirmação de remoção, mensagens claras e recuperação por nova consulta sem repetir gravação automaticamente.
 
 ## Evidência do código para o próximo design

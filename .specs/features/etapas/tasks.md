@@ -4,7 +4,7 @@
 
 Usuário autorizou continuar a implementação, com AD-007–010 confirmadas. Executar uma tarefa por vez: testes derivados de ETA, gate, adequação direta/reversa com arquivo:linha e assertion, status e um Conventional Commit local. Sem push/deploy/MySQL configurado. Nenhuma fase seguinte começa antes do gate/commit anterior. Delegação técnica autorizada pelas instruções da sessão; não solicitar confirmação de rotina.
 
-**Design:** `design.md`. **Status:** T1–T3 concluídas com gate; T4–T5 pendentes.
+**Design:** `design.md`. **Status:** T1–T4 concluídas com gate; T5 pendente.
 
 ## Test Coverage Matrix
 
@@ -104,9 +104,9 @@ Cinco tarefas; servidor T1 por trabalhador, interface T2–T5 por outro trabalha
 **Depends on:** T3
 **Requirement:** ETA-01/03/15/16/18/22/24–30.
 **Done when:**
-- [ ] Operações funcionam com versão atual e DTO atualiza cache da lista; ocultar controles no arquivo/terceiro; contagens reais sem falso vazio ocupado.
-- [ ] Remover pede confirmação; cancelar não muta e devolve foco; erro/conflito/rede preserva rascunho e GET retry não repete mutação.
-- [ ] Carregamento/erro/vazio distintos, pending impede duplicação/saída e todos controles são alcançados/acionados por Tab/Enter; gate passa.
+- [x] Operações funcionam com versão atual e DTO atualiza cache da lista; ocultar controles no arquivo/terceiro; contagens reais sem falso vazio ocupado.
+- [x] Remover pede confirmação; cancelar não muta e devolve foco; erro/conflito/rede preserva rascunho e GET retry não repete mutação.
+- [x] Carregamento/erro/vazio distintos, pending impede duplicação/saída e todos controles são alcançados/acionados por Tab/Enter; gate passa.
 **Tests:** integration
 **Gate:** full
 **Commit:** feat(frontend): manage stage columns from the board
