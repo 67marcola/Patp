@@ -178,9 +178,9 @@ T8 -> T9
 **Depends on:** T7
 **Requirement:** GER-20/21/22.
 **Done when:**
-- [ ] Histórico manual em arquivado retorna 409 sem gravação; consultas e registro automático de operações ativas mantêm funcionamento.
-- [ ] Todas as 12 rotas da matriz têm assertions de status/mensagem e estado persistido.
-- [ ] Gate build passa e adequação da fase cita evidências exatas.
+- [x] Histórico manual em arquivado retorna 409 sem gravação; consultas e registro automático de operações ativas mantêm funcionamento.
+- [x] Todas as 12 rotas da matriz têm assertions de status/mensagem e estado persistido.
+- [x] Gate build passa e adequação da fase cita evidências exatas.
 **Tests:** integration
 **Gate:** build
 **Commit:** `fix(historico): protect archived board records`
@@ -296,21 +296,21 @@ Cada tarefa entrega um componente/contrato definido. Arquivos acompanhantes são
 
 ## Execution Evidence
 
-Por tarefa, acrescentar resultado real, contagem de testes e tabela bidirecional de adequação com `arquivo:linha` e expressão da assertion antes do commit. Os resultados ainda não foram executados.
+Por tarefa, acrescentar resultado real, contagem de testes e tabela bidirecional de adequação com `arquivo:linha` e expressão da assertion antes do commit. Os resultados do servidor estão em `evidence.md`; a interface e o Verificador independente continuam pendentes.
 
-### T1 conclu?da
+### T1 concluída
 
-Premissas: preservar o teste de contexto, H2 somente de teste e nenhuma conex?o ? inst?ncia configurada. Arquivos: pom, recursos de teste, teste de contexto e documenta??o .specs produzida antes da execu??o. Sucesso: aplica??o inicializa e URL JDBC ? H2 in-memory.
+Premissas: preservar o teste de contexto, H2 somente de teste e nenhuma conexão à instância configurada. Arquivos: pom, recursos de teste, teste de contexto e documentação .specs produzida antes da execução. Sucesso: aplicação inicializa e URL JDBC é H2 in-memory.
 
-Gates: `mvn.cmd -B verify` PASS, 1 teste, 0 falhas/erros/ignorados; build React e oxlint das fontes PASS. N?o h? desvio de especifica??o.
+Gates: `mvn.cmd -B verify` PASS, 1 teste, 0 falhas/erros/ignorados; build React e oxlint das fontes PASS. Não há desvio de especificação.
 
-| Crit?rio / assertion (adequa??o direta) | Evid?ncia e valor | Resultado |
+| Critério / assertion (adequação direta) | Evidência e valor | Resultado |
 | --- | --- | --- |
-| Contexto isolado | `sistema/src/test/java/com/patp/sistema/SistemaApplicationTests.java:22`, `assertTrue(connection.getMetaData().getURL().startsWith("jdbc:h2:mem:"))` | H2 em mem?ria confirmado |
-| H2 n?o entra no runtime | `sistema/pom.xml`, dependency `scope=test`, pacote compilado com sucesso | PASS por inspe??o/build |
+| Contexto isolado | `sistema/src/test/java/com/patp/sistema/SistemaApplicationTests.java:22`, `assertTrue(connection.getMetaData().getURL().startsWith("jdbc:h2:mem:"))` | H2 em memória confirmado |
+| H2 não entra no runtime | `sistema/pom.xml`, dependency `scope=test`, pacote compilado com sucesso | PASS por inspeção/build |
 
-| Assertion (adequa??o reversa) | ?ncora | Manter? |
+| Assertion (adequação reversa) | Âncora | Manter? |
 | --- | --- | --- |
 | `SistemaApplicationTests.java:22`, startsWith jdbc:h2:mem | Done when T1: datasource isolado | Sim |
 
-Adequa??o: assertion de conex?o real, sem mocks/tautologias; teste existente preservado, nenhum skip; sem guidelines adicionais. T1 completa.
+Adequação: assertion de conexão real, sem mocks/tautologias; teste existente preservado, nenhum skip; sem guidelines adicionais. T1 completa.

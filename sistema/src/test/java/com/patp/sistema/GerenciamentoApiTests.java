@@ -290,4 +290,89 @@ class GerenciamentoApiTests extends ApiIntegrationSupport {
         mvc.perform(post("/api/gerenciamentos").header("Authorization", token).contentType(MediaType.APPLICATION_JSON).content("{")) .andExpect(status().isBadRequest());
         mvc.perform(get("/api/gerenciamentos?arquivado=talvez").header("Authorization", token)).andExpect(status().isBadRequest());
     }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void administradorArquivaERestauraQuadroAlheioOuSemCriadorPreservandoConteudo(boolean semCriador) throws Exception { // GER-17/18/20/26 matriz administração
+        var criador = usuario("Criador");
+        var admin = usuario("Admin");
+        admin.setPapel(PapelUsuario.ADMINISTRADOR);
+        usuarios.saveAndFlush(admin);
+        var quadro = quadro(semCriador ? null : criador);
+        var demanda = demanda(etapa(quadro, "Inicial", 1));
+        jdbc.update("insert into comentarios(texto,funcionario,data_hora,processo_id) values('Anterior','Pessoa',CURRENT_TIMESTAMP,?)", demanda.getId());
+        jdbc.update("insert into historicos(acao,descricao,data_hora,usuario,processo_id) values('CRIACAO','Anterior',CURRENT_TIMESTAMP,'Pessoa',?)", demanda.getId());
+        var antes = conteudoPersistido();
+        String base = "/api/gerenciamentos/" + quadro.getId();
+        String token = token(admin);
+        mvc.perform(put(base + "/arquivar").header("Authorization", token).contentType(MediaType.APPLICATION_JSON).content("{\"versao\":0}"))
+                .andExpect(status().isNoContent()).andExpect(content().string(""));
+        assertThat(quadros.findById(quadro.getId()).orElseThrow().isArquivado()).isTrue();
+        assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(1L);
+        assertThat(conteudoPersistido()).isEqualTo(antes);
+        mvc.perform(put(base + "/restaurar").header("Authorization", token).contentType(MediaType.APPLICATION_JSON).content("{\"versao\":1}"))
+                .andExpect(status().isNoContent()).andExpect(content().string(""));
+        var salvo = quadros.findById(quadro.getId()).orElseThrow();
+        assertThat(salvo.isArquivado()).isFalse();
+        assertThat(salvo.getVersao()).isEqualTo(2L);
+        assertThat(salvo.getNome()).isEqualTo("Quadro");
+        assertThat(salvo.getDescricao()).isEqualTo("Descrição");
+        assertThat(salvo.getCriador() == null ? null : salvo.getCriador().getId()).isEqualTo(semCriador ? null : criador.getId());
+        assertThat(conteudoPersistido()).isEqualTo(antes);
+    }
+
+    @Test
+    void quadrosHomonimosTemDemandasIndependentesAoEditarEArquivarUmDeles() throws Exception { // GER-05/15/20 edge homônimos
+        var criador = usuario("Criador");
+        String token = token(criador);
+        for (int i = 0; i < 2; i++) {
+            mvc.perform(post("/api/gerenciamentos").header("Authorization", token).contentType(MediaType.APPLICATION_JSON).content("{\"nome\":\"Mesmo\"}"))
+                    .andExpect(status().isCreated());
+        }
+        var pares = quadros.findAll();
+        var primeira = demanda(etapa(pares.get(0), "Inicial", 1));
+        var segunda = demanda(etapa(pares.get(1), "Inicial", 1));
+        var antes = conteudoPersistido();
+        mvc.perform(put("/api/gerenciamentos/" + pares.get(0).getId()).header("Authorization", token).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"nome\":\"Editado\",\"versao\":0}")).andExpect(status().isOk());
+        mvc.perform(put("/api/gerenciamentos/" + pares.get(0).getId() + "/arquivar").header("Authorization", token).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"versao\":1}")).andExpect(status().isNoContent());
+        assertThat(processos.findByEtapaId(primeira.getEtapa().getId())).extracting("id").containsExactly(primeira.getId());
+        assertThat(processos.findByEtapaId(segunda.getEtapa().getId())).extracting("id").containsExactly(segunda.getId());
+        assertThat(quadros.findById(pares.get(1).getId()).orElseThrow().getNome()).isEqualTo("Mesmo");
+        assertThat(quadros.findById(pares.get(1).getId()).orElseThrow().isArquivado()).isFalse();
+        assertThat(quadros.findById(pares.get(1).getId()).orElseThrow().getVersao()).isZero();
+        assertThat(conteudoPersistido()).isEqualTo(antes);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"nomeNulo", "nomeBranco", "nome256", "setorNulo", "setorBranco", "setor256", "itemNulo"})
+    void camposIniciaisInvalidosRecusamTodaCriacao(String caso) throws Exception { // GER-07 contrato nome/setor
+        var configuracao = new java.util.LinkedHashMap<String, Object>();
+        configuracao.put("nome", caso.equals("nomeNulo") ? null : caso.equals("nomeBranco") ? " \t" : caso.equals("nome256") ? "N".repeat(256) : "Inicial");
+        configuracao.put("setor", caso.equals("setorNulo") ? null : caso.equals("setorBranco") ? " \t" : caso.equals("setor256") ? "S".repeat(256) : "Engenharia");
+        configuracao.put("ordem", 1);
+        var lista = java.util.Collections.singletonList(caso.equals("itemNulo") ? null : configuracao);
+        mvc.perform(post("/api/gerenciamentos").header("Authorization", token(usuario("Criador"))).contentType(MediaType.APPLICATION_JSON)
+                .content(json.writeValueAsString(Map.of("nome", "Quadro", "etapas", lista))))
+                .andExpect(status().isBadRequest());
+        assertThat(quadros.count()).isZero();
+        assertThat(etapas.count()).isZero();
+    }
+
+    @Test
+    void etapaInicialComLimites255EhPersistidaComIdRetornadoDoQuadro() throws Exception { // GER-01/06/07 contrato nome/setor
+        var usuario = usuario("Criador");
+        var resultado = mvc.perform(post("/api/gerenciamentos").header("Authorization", token(usuario)).contentType(MediaType.APPLICATION_JSON)
+                .content(json.writeValueAsString(Map.of("nome", "Quadro", "etapas", java.util.List.of(Map.of("nome", "N".repeat(255), "setor", "S".repeat(255), "ordem", 1))))))
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.id").isNumber()).andExpect(jsonPath("$.descricao").value("")).andReturn();
+        long id = json.readTree(resultado.getResponse().getContentAsString(java.nio.charset.StandardCharsets.UTF_8)).get("id").asLong();
+        assertThat(quadros.findById(id)).isPresent();
+        var etapasSalvas = etapas.findByGerenciamentoIdOrderByOrdem(id);
+        assertThat(etapasSalvas).hasSize(1);
+        assertThat(etapasSalvas.get(0).getNome()).isEqualTo("N".repeat(255));
+        assertThat(etapasSalvas.get(0).getSetor()).isEqualTo("S".repeat(255));
+        assertThat(etapasSalvas.get(0).getOrdem()).isEqualTo(1);
+        assertThat(etapasSalvas.get(0).getGerenciamento().getId()).isEqualTo(id);
+    }
 }
