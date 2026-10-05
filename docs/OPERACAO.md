@@ -10,13 +10,13 @@ Abra um terminal na pasta `frontend/` e execute:
 npm.cmd run preview:isolated
 ```
 
-O comando prepara o Java e abre o sistema em `http://localhost:4173`. Cadastre uma conta fictícia, entre com ela e experimente criar, editar, arquivar, consultar e restaurar gerenciamentos. O cadastro ainda exige entrar depois; a entrada automática será tratada em outro requisito.
+O comando prepara o Java e abre o sistema em `http://localhost:4173`. Cadastre uma conta fictícia, entre com ela e experimente criar, editar, arquivar, consultar e restaurar gerenciamentos. No quadro criado, use Nova etapa e os controles Editar/Remover para configurar colunas. O cadastro ainda exige entrar depois; a entrada automática será tratada em outro requisito.
 
 Requer as dependências npm instaladas, Maven no PATH e `JAVA_HOME` apontando para o JDK. As portas 4173 e 18082 precisam estar livres. O helper inicia diretamente o executável Java desse JDK, com URL, driver, usuário, senha e `create-drop` de H2 explícitos; não inicia o MySQL configurado.
 
 Os dados ficam em memória enquanto o comando está aberto. Recarregar a página conserva esses dados; encerrar com **Ctrl+C** fecha os dois serviços e descarta o banco fictício. Se o Windows perguntar `Terminate batch job (Y/N)?`, responda `Y`. Uma nova execução começa vazia. O proxy e o ajuste de Origin são habilitados somente nesse ambiente isolado; a configuração normal de CORS permanece a mesma.
 
-Para repetir o teste automático de navegador, execute `npm.cmd run test:e2e` na mesma pasta, com Microsoft Edge instalado. Ele cria sua própria conta fictícia, percorre o CRUD usando Tab/Enter, confere a persistência após recarga e encerra os serviços no final. O console informa a pasta temporária das capturas desktop/mobile. Não mantenha o preview aberto ao iniciar esse teste, pois ambos usam as mesmas portas.
+Para repetir o teste automático de navegador, execute `npm.cmd run test:e2e` na mesma pasta, com Microsoft Edge instalado. Ele percorre os CRUDs de gerenciamentos e etapas usando Tab/Enter, confere persistência após recarga e encerra os serviços no final. Cada arquivo de teste usa um H2 novo e contas fictícias próprias. O console informa a pasta temporária das capturas desktop/mobile. Não mantenha o preview aberto ao iniciar esse teste, pois ambos usam as mesmas portas.
 
 ## Selecionar administrador
 
@@ -61,4 +61,19 @@ Criador/admin pode configurar etapas de quadros ativos. POST `/etapas` responde 
 
 Nome e Setor são obrigatórios, normalizados nas bordas e limitados a 255 unidades UTF-16. Setor é informativo. Posição vai de 1 até N+1 na criação e de 1 até N na edição. A próxima configuração reorganiza as ordens antigas em posições consecutivas, sem inventar setor ou alterar demandas/históricos. Etapa com qualquer demanda não pode ser removida; mova as demandas antes. Arquivados ficam somente consulta.
 
-Essa atualização não acrescenta tabela/coluna. A interface de administração será entregue nas próximas tarefas. As etapas finais Concluídos/Cancelados e o destino automático de AD-011 terão requisito próprio.
+Essa atualização não acrescenta tabela/coluna. A interface oferece Nova etapa, edição de Nome/Setor/Posição e remoção com confirmação. Campos são preservados em falha; Atualizar quadro consulta os dados sem repetir gravação. Enquanto uma gravação está pendente, Voltar, Cancelar e Sair ficam bloqueados. As etapas finais Concluídos/Cancelados e o destino automático de AD-011 terão requisito próprio.
+
+## Primeiro teste de uso das etapas
+
+Neste computador, o JDK usado nos testes está em `C:/Program Files/Java/jdk-25.0.2`. Para preparar o terminal PowerShell e abrir o ambiente fictício:
+
+```powershell
+Set-Location -LiteralPath 'C:\Users\Marco\Desktop\sistema-grupo\frontend'
+$env:JAVA_HOME = 'C:\Program Files\Java\jdk-25.0.2'
+$env:Path = "$env:JAVA_HOME\bin;$env:Path"
+npm.cmd run preview:isolated
+```
+
+Com o ambiente isolado acima aberto, cadastre/entre com uma conta fictícia e crie um gerenciamento de teste sem etapas iniciais. Abra o quadro e selecione Nova etapa. Preencha Nome da etapa com `Comprar poste`, Setor responsável com `Almoxarifado` e Posição com `1`. Salve e recarregue a página.
+
+Resultado esperado: uma coluna Comprar poste, setor Almoxarifado, posição 1 e zero demandas; os mesmos dados permanecem após recarga. Informe se funcionou ou descreva o problema observado. Esse resultado humano será registrado separadamente dos testes automáticos. Criar processo ainda será conectado no requisito de demandas.

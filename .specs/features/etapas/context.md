@@ -1,7 +1,7 @@
-# CRUD de etapas: esclarecimento em andamento
+# CRUD de etapas: decisões e contexto
 
 **Data:** 2026-10-05.
-**Status:** regras principais confirmadas; continuação/implementação autorizada. Defaults menores identificados abaixo são escolhas do agente, sem respostas atribuídas ao usuário. Destinos finais confirmados em AD-011, fora deste escopo.
+**Status:** implementação T1–T7 e validação técnica independente concluídas, 30/30 critérios PASS na rodada 2. Teste de uso humano pendente. Defaults menores abaixo são escolhas do agente, sem respostas atribuídas ao usuário. Destinos finais confirmados em AD-011, fora deste escopo.
 
 ## Limite desta entrega
 
@@ -30,14 +30,14 @@ Etapas obrigatórias de conclusão/cancelamento e os fluxos de finalizar/pular e
 - No editor de uma sequência antiga com empates/lacunas, Posição representa a posição visual da coluna na lista ordenada (1..N). O número antigo permanece no snapshot; preparar o formulário não grava uma normalização. Nome e setor continuam com seus valores conhecidos.
 - Fornecer controles de teclado, confirmação de remoção, mensagens claras e recuperação por nova consulta sem repetir gravação automaticamente.
 
-## Evidência do código para o próximo design
+## Evidência histórica e situação após a entrega
 
 `Etapa` tem ID, nome, setor nullable, ordem e gerenciamento; não tem categoria de destino final. Ordens antigas podem empatar ou ter lacunas. O histórico referencia a demanda e conserva nomes em texto, sem vínculo obrigatório com a etapa apagada.
 
-As escritas já bloqueiam o gerenciamento, mas alterar uma etapa não incrementa automaticamente a versão do quadro. A implementação futura deve impedir que uma configuração de tela antiga sobrescreva outra e conferir existência de demandas dentro da mesma transação da remoção.
+Antes desta entrega, as escritas já bloqueavam o gerenciamento, mas alterações de etapas não incrementavam a versão do quadro. T1 agora incrementa essa versão exatamente uma vez, recusa configuração antiga e confere demandas na mesma transação da remoção. T4 atualiza o cache da lista com o snapshot retornado.
 
 A migração das etapas finais deverá tratar quadros antigos e arquivados explicitamente, sem classificar por nome, inventar setores ou inserir colunas como efeito escondido de uma consulta/restauração.
 
 ## Próximo passo
 
-Concluir T1 e implementar T2–T5 com os defaults declarados e as decisões confirmadas. O usuário pode corrigir escolhas menores durante o trabalho. Implementar os destinos finais de AD-011 somente no requisito posterior.
+Registrar o teste de uso humano quando houver resposta. A próxima entrega tratará os destinos finais de AD-011. Permissões de movimentação, reabertura, alcance do botão Pular, justificativa de cancelamento e tratamento de demandas antigas aguardam respostas; perguntas pendentes em `.specs/STATE.md`. O botão Criar processo pertence ao CRUD de demandas e continua no backlog.

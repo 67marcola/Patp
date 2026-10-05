@@ -99,15 +99,15 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature**: CRUD de etapas de trabalho da Creral.
-- **Phase / Task**: T1–T6 implementadas; T7 reforça cobertura de ETA-27 após FAIL da revisão independente, rodada 1.
-- **Completed**: gerenciamentos T1–T16 validado, 41/41 critérios. Etapas até 9a19344: 238 Java/H2, 137 Vitest, build/lint e 2 E2E Edge PASS; MySQL temporário 8.0.43, 237 PASS em mysql-validation.md. Revisão independente: 29/30 critérios completos, ETA-27 parcial; sensor 10 falhas compiláveis, 9 detectadas e M10 sobrevivente. Produção já trata o erro corretamente. Evidências em features/etapas/validation.md, evidence.md e frontend-evidence.md.
-- **In-progress**: T7 por etapas_frontend cobre POST201/PUT200/DELETE200 com JSON ilegível, preservação de campos/colunas e recuperação somente por GET. Verificador liberou autores após remover scratch e comprovar porcelain byteigual. L-002 registrada pelo script como candidate; L-001 continua candidate. Teste humano permanece sem resultado.
-- **Next step**: gate e commit atômico de T7, depois nova revisão independente; fechar somente após PASS e validate_state exit0.
-- **Blockers**: nenhum para a correção autorizada. Regras futuras de movimentação/reabertura ainda aguardam resposta; destinos finais já confirmados em AD-011. Contas administrativas reais serão selecionadas posteriormente.
-- **Uncommitted files**: artefatos gerados de teste/build já existentes, preservados. Relatório e lições desta rodada entram neste checkpoint documental. Arquivos de T7 pertencem ao trabalhador da interface e ficam fora deste staging.
+- **Phase / Task**: T1–T7 concluídas; validação técnica independente PASS na rodada 2 sobre d067682.
+- **Completed**: gerenciamentos, 41/41 critérios; etapas, 30/30 critérios. Gates atuais: 238 Java/H2, 149 Vitest, build/lint e 2 E2E Edge PASS, zero falhas/erros/skips/retries na execução independente. MySQL temporário 8.0.43, 237 PASS em features/etapas/mysql-validation.md; backend intacto em T7. Sensor atual: 5/5 falhas compiláveis detectadas, incluindo M10 e equivalentes PUT/DELETE. Relatório, assertions e histórico em features/etapas/validation.md. validate_state etapas: zero erros, exit 0.
+- **In-progress**: teste de uso humano de etapas sem resultado, roteiro em docs/OPERACAO.md. Análise somente leitura da próxima entrega concluída: Etapa sem categoria, finalização não move coluna e não limpa estado oposto, botão Criar processo ainda sem handler. Perguntas abaixo aguardam resposta. L-001/L-002 continuam candidates; nenhuma promoção.
+- **Next step**: registrar respostas, especificar etapas finais de AD-011 e as transições relacionadas, depois implementar/testar o próximo requisito separadamente. Definir as regras substitutas com as respostas de negócio antes de adaptar os contratos anteriores.
+- **Blockers**: nenhum no CRUD de etapas entregue. Próximos fluxos dependem das decisões de negócio abaixo; contas administrativas reais continuam para seleção posterior.
+- **Uncommitted files**: após este fechamento, somente artefatos gerados de teste/build já existentes, preservados; nenhum fonte/teste intencional pendente. Staging documental explícito.
 - **Branch**: testes; base 5d8beb9.
 
-A aplicação normal e o MySQL configurado não foram iniciados. Instância MySQL temporária encerrada; portas 33817/18082/4173 livres ao término dos testes. Preservar artefatos gerados e usar somente bancos fictícios isolados. Continuação autorizada pelo usuário em 2026-10-05 não equivale a resultado de UAT.
+A aplicação normal e o MySQL configurado não foram iniciados pelos agentes. Instância MySQL temporária encerrada; portas 33817/18082/4173 livres ao término dos testes. Scratch da rodada 2 removida e porcelain completo byteigual antes/depois, 3403 linhas. Processos do usuário em 8081/5173 preservados. A primeira falha ECONNRESET do E2E do autor permanece documentada, causa indeterminada; repetição diagnóstica e gate independente PASS. Continuação autorizada em 2026-10-05 não equivale a resultado de UAT.
 
 ## Próxima conversa: destinos finais e movimentação
 
@@ -117,5 +117,8 @@ Perguntas já enviadas, ainda sem resposta; sugestões não são decisões:
 
 - Quem poderá mover, pular etapas, concluir ou cancelar demandas de quadro ativo: todos os autenticados, ou somente criador/admin?
 - Depois de concluir/cancelar, será permitido reabrir a demanda escolhendo uma etapa de trabalho?
+- Pular permite escolher qualquer etapa de trabalho, inclusive anterior, ou somente uma posterior?
+- Cancelar exige justificativa ou aceita motivo vazio?
+- Demandas antigas com status final e coluna de trabalho serão corrigidas numa migração explícita em todos os quadros, inclusive arquivados, ou somente ativos, com revisão manual dos arquivados após restauração? Preservar IDs, comentários, histórico e datas existentes; não inventar datas. Nenhuma migração real autorizada/executada.
 
 CRUD de etapas segue AD-007–010, com detalhes e defaults declarados em `features/etapas/context.md`. Não inferir respostas novas de “pode continuar”.
