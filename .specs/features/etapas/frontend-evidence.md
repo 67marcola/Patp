@@ -110,3 +110,30 @@ Cada referência curta abaixo é `frontend/src/pages/QuadroEtapas.test.jsx`, exc
 | Quadro.test.jsx:23/53/58/60/72, cenários anteriores | ETA29/30 e regressão GER29/38/40 | Sim |
 
 Adequação PASS. As chamadas são complementadas por estado/campos/foco/contagens/mensagens exatas; nenhum teste prova só invocação. Teclado opera Nova/Editar/Remover/Cancelar/removerconfirm/retry além dos campos do T3. Persistência/reload e seleção nativa via Home/Arrow/Enter são T5. Nenhum SPEC_DEVIATION, nenhuma biblioteca/capacidade posterior acrescentada; guiaRTL/skill existente seguido.
+
+## T6: saída global durante gravação
+
+PASS. Revisão do root encontrou que Sair em App podia desmontar o formulário pendente, lacunaETA26 não detectada pelos testes isolados do quadro. T6 foi declarada antes da alteração e inserida T4→T6→T5, sem reescrever o commit T4. Assumimos que só as três mutações de etapas devem propagar essa pendência. Arquivos: App.jsx, props mínimas em Gerenciamentos/Quadro e App.test.jsx. Login/cadastro e consultas não mudam.
+
+Gate: `npm.cmd test -- --reporter=dot`,137 PASS, zero falhas/skips (130+7). RED anterior: seis mutações falharam em disabledSair; consulta e demais131 casos passaram. `validate_tasks.py etapas`:0erros/0avisos. App usa ref síncrona no handler (:48) e estado para disabled; Quadro propaga true antes da operação e false no finally tanto de salvar quanto remover (:82/94/102/114).
+
+### Adequação direta (Check A/B)
+
+| Critério / ETA | Evidência física + assertion | Outcome definido |
+| --- | --- | --- |
+| Sair bloqueado noPOST/PUT/DELETE, ETA26 | frontend/src/App.test.jsx:40 `expect(screen.getByRole("button", { name: "Sair" }).disabled).toBe(true)`; após tentativa :42 `expect(localStorage.getItem("token")).toBe("sessao")`; :43 `expect(JSON.parse(localStorage.getItem("usuario"))).toEqual(usuario)`; :44 `expect(screen.queryByRole("heading", { name: "Bem-vindo" })).toBeNull()` | manter sessão/usuárioAna/id3/setorTécnico/email fictício; não abrir login durante gravação |
+| Formulário/confirmação pendentes, ETA26 | App.test.jsx:45 `expect(screen.getByRole("dialog", { name: "Remover Execução?" })).not.toBeNull()`; :46 `expect(screen.getByLabelText("Nome da etapa").value).toBe(metodo === "POST" ? "Nova" : "Execução")`; :47 `expect(fetchMock.mock.calls.filter(([, request]) => request.method === metodo)).toHaveLength(1)` | não descartar draft/confirmação, uma gravação em cada rota |
+| finally libera sucesso/erro, ETA26/27 | App.test.jsx:51 `expect(screen.getByRole("button", { name: "Sair" }).disabled).toBe(false)`; :52 `expect(localStorage.getItem("token")).toBe("sessao")`; falha :54 `expect(screen.getByRole("alert").textContent).toBe("Não foi possível concluir a operação.")`; :55 `expect(screen.getByRole("dialog", { name: "Remover Execução?" })).not.toBeNull()`; :56 `expect(screen.getByLabelText("Nome da etapa").value).toBe(metodo === "POST" ? "Nova" : "Execução")` | seis casos3×2; erro500 conserva draft, token só removido quando usuário sai após retorno |
+| Saída após conclusão teclado, ETA26/30 | App.test.jsx:59 `expect((await screen.findByRole("heading", { name: "Bem-vindo" })).textContent).toBe("Bem-vindo")`; :60 `expect(localStorage.getItem("token")).toBeNull()`; :61 `expect(localStorage.getItem("usuario")).toBeNull()` | Sair via Tab/Enter novamente possível em ambos outcomes |
+| GET não bloqueia, limiteT6 | App.test.jsx:67 `expect(screen.getByRole("status").textContent).toBe("Carregando gerenciamentos...")`; :68 `expect(screen.getByRole("button", { name: "Sair" }).disabled).toBe(false)`; :70 `expect((await screen.findByRole("heading", { name: "Bem-vindo" })).textContent).toBe("Bem-vindo")`; :71 `expect(localStorage.getItem("token")).toBeNull()`; :72 `expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET"])` | sair permitido durante consulta pendente, nenhuma mutação |
+
+### Adequação reversa (Check C/D)
+
+| Assertions exatas acima | Requisito | Manter |
+| --- | --- | --- |
+| App.test.jsx:40–47, seis mutações pendentes | ETA26 | Sim |
+| :51–56, sucesso/erro com draft | ETA26/27 | Sim |
+| :59–61, saída manual posterior | ETA26/30 | Sim |
+| :67–72, GET pendente | limite explícitoT6/ETA26 | Sim |
+
+Adequação PASS, outcomes físicos de tela/token/usuário provados; callbacks não substituem estado. Nenhum cenário/teste anterior removido/ignorado/enfraquecido. PadrõesRTL/skill seguidos. A lacuna foi fechada em tarefa de correção, sem declaração prévia de Verificador PASS.
