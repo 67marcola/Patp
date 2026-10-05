@@ -165,4 +165,28 @@ Capturas finais em `C:\Users\Marco\AppData\Local\Temp\creral-gerenciamentos-e2e-
 
 Preview humano: `npm.cmd run preview:isolated` em frontend, instruções em `docs/OPERACAO.md`. Execução manual comprovou HTTP200 no frontend, HTTP401 no endpoint protegido, banco H2 em memória e encerramento dos dois serviços por Ctrl+C; nenhuma escuta em 4173/18082 nem Java filho após encerramento. Não há servidor deixado ligado.
 
-Adequação: resultados observáveis de estado/dados/mensagens/foco e persistência por API real; contagens só para vazio/ausência/request de consulta prescritos. Todos GER-28–41 cobertos em conjunto por T9–T13/T15; backend em evidence.md. T13 implementada e testada. Verificador independente continua pendente; esta evidência é do autor e não declara a feature aceita.
+Adequação inicial do autor: resultados observáveis de estado/dados/mensagens/foco e persistência por API real; contagens só para vazio/ausência/request de consulta prescritos. T13 implementada e testada. A rodada independente posterior encontrou cobertura parcial de GER-38 e motivou T16 abaixo; esta evidência do autor não declara a feature aceita.
+
+## T16: cobertura de teclado após lacuna independente
+
+A rodada 1 do Verificador (`validation.md`, diff até `70497e7`) comprovou 40/41 ACs e um mutante sobrevivente: `tabIndex={-1}` em Remover etapa não era detectado. T16 acrescenta seis casos React, preserva integralmente os 65 casos anteriores e acrescenta remoção inicial ao E2E existente. Não muda fonte de produção. As linhas dos blocos anteriores referem-se às versões das respectivas tarefas; as linhas deste bloco referem-se a T16, e a re-verificação usará o HEAD novo.
+
+Gates: `npm.cmd test` PASS **71/71** (23 formulário, 27 lista, 6 quadro, 15 HTTP), `npm.cmd run build` / `npm.cmd run lint` PASS, `npm.cmd run test:e2e` PASS **1/1** no Edge (13,6 s). Screenshots em TEMP `creral-gerenciamentos-e2e-NelVpm`. A aplicação normal e o MySQL configurado não foram utilizados. Nenhuma assertion anterior removida/enfraquecida: diff dos quatro arquivos de teste contém somente adições. O sensor será repetido pelo Verificador; o autor não presume seu resultado.
+
+| Adequação direta | Evidência e assertion | Resultado prescrito |
+| --- | --- | --- |
+| GER-38/39: campos/remoção inicial | `frontend/src/pages/CriarGerenciamento.test.jsx:205–224`, `document.activeElement.toBe(controle)` após Tab; `:218/222`, valores exatos Etapa temporária/Técnico; `:226/227`, campos `.toBeNull()` após Enter; `:231`, payload `.toEqual({nome:"Quadro",descricao:"Descrição por teclado",etapas:[]})` | Campos operáveis; Enter remove a etapa e ela não é enviada |
+| GER-31/38: sair sem gravar | `CriarGerenciamento.test.jsx:234–238`, helper Tab/foco/Enter para Voltar/Cancelar; callback `.toHaveBeenCalledTimes(1)` e fetch `.not.toHaveBeenCalled()` | Retorno por teclado sem mutação |
+| GER-34/36/38/40: retry lista | `frontend/src/pages/Gerenciamentos.test.jsx:188`, alerta exato conforme erro inicial/gravação confirmada; `:192`, helper teclado; `:194/196`, vazio ativo/Abrir recuperado; `:198`, alerta `.toBeNull()`; `:199–201`, retry `.toEqual([[URLativos,"GET"]])` e total PUT `.toHaveLength(aposMutacao ? 1 : 0)` | Teclado repete somente consulta, inclusive após gravação confirmada |
+| GER-38/40: retry quadro | `frontend/src/pages/Quadro.test.jsx:67`, alerta exato; `:69`, helper teclado; `:70`, etapa `.toBe("Planejamento")`; `:71`, alerta `.toBeNull()`; `:72`, requests `.toEqual` dois GET para a mesma rota de etapas | Quadro recuperado por teclado sem mutação |
+| GER-38: browser real | `frontend/e2e/gerenciamentos.spec.js:39`, helper Tab/foco/Enter em Remover etapa 2; `:40/41`, nome/setor removidos `.toHaveCount(0)`; assertions de persistência anteriores mantidas | Remoção por teclado no Edge e payload/persistência sem a etapa temporária |
+
+| Adequação reversa: grupo de assertions novo | Âncora | Manter |
+| --- | --- | --- |
+| Foco/valores/ausência/payload das etapas | GER-38/39 e Done when T16 | Sim |
+| Callback de retorno e zero requests | GER-31/38 | Sim |
+| Alertas/resultado carregado/GET exato/PUT não repetido | GER-34/36/38/40 | Sim |
+| `frontend/src/test/keyboard.js:7`, foco no alvo alcançado por Tab antes de Enter | GER-38, helper compartilhado dos testes novos | Sim |
+| Remoção/ausência no Edge | GER-38 e Done when T16 | Sim |
+
+T16 implementada e testada; nova verificação independente pendente.

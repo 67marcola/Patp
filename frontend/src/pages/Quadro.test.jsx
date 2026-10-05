@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test, vi } from "vitest";
 import Quadro from "./Quadro";
+import { ativarPorTeclado } from "../test/keyboard";
 
 const quadro = { id: 9, nome: "Instalações", descricao: "Postes", arquivado: true, versao: 3, podeAdministrar: true };
 const etapas = [{ id: 4, nome: "Planejamento", setor: "Técnico", ordem: 1 }];
@@ -57,4 +58,19 @@ test.each([
     expect(screen.queryByRole("alert")).toBeNull();
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(fetchMock.mock.calls.every(([, request]) => request.method === "GET")).toBe(true);
+});
+
+test("GER-38/40: teclado repete consulta do quadro sem mutação", async () => {
+    let falhar = true;
+    const { user, fetchMock } = preparar(() => falhar
+        ? json({ erro: "Não foi possível consultar as etapas." }, 500) : json(etapas));
+    expect((await screen.findByRole("alert")).textContent).toBe("Não foi possível consultar as etapas.");
+    falhar = false;
+    await ativarPorTeclado(user, screen.getByRole("button", { name: "Tentar novamente" }));
+    expect((await screen.findByRole("heading", { name: "Planejamento" })).textContent).toBe("Planejamento");
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(fetchMock.mock.calls.map(([url, request]) => [url, request.method])).toEqual([
+        ["http://localhost:8081/api/gerenciamentos/9/etapas", "GET"],
+        ["http://localhost:8081/api/gerenciamentos/9/etapas", "GET"]
+    ]);
 });
