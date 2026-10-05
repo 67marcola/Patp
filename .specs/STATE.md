@@ -98,16 +98,18 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature**: entrada autom?tica ap?s cadastro, requisito independente j? pedido pelo usu?rio.
-- **Phase / Task**: Specify/Design/Tasks conclu?dos; T1?T5 pendentes em features/autocadastro. validate_spec e validate_tasks PASS, zero erros/warnings.
-- **Completed**: gerenciamentos 41/41 e etapas 30/30 com Verificador independente PASS. Base preservada: 238 Java/H2, 149 Vitest, 2 E2E e build/lint. Fechamento anterior f2e91c5; nenhum fonte/teste intencional pendente ao iniciar.
-- **In-progress**: implementar cadastro que devolve sess?o e entra pela mesma rotina do login. Auditoria somente leitura conclu?da; cadastro atual ignora resposta e exige login adicional. Nenhuma mudan?a de esquema ou pol?tica de cadastro. L-001/L-002 candidates; nenhuma li??o confirmed.
-- **Next step**: T1 servidor, T2 cliente, T3 sess?o comum, T4 formul?rio, T5 navegador real, cada tarefa com gate e commit local. Verificador novo automaticamente ap?s T5; validate_state antes do fechamento.
-- **Blockers**: nenhum para autocadastro. Cinco perguntas de movimenta??o abaixo sem resposta; UAT de gerenciamentos/etapas sem resultado. N?o interpretar continua??es como escolhas ou PASS humano.
-- **Uncommitted files**: documentos de planejamento desta feature antes do commit; artefatos gerados anteriores preservados. Staging expl?cito somente de arquivos intencionais.
-- **Branch**: testes; base hist?rica 5d8beb9, base de autocadastro f2e91c5.
+- **Feature**: entrada automática após cadastro da Creral.
+- **Phase / Task**: T1–T5 concluídas; Verificador independente PASS sobre 92bc8ac, 14/14 AUTs. validate_state autocadastro: zero erros, exit 0.
+- **Completed**: gerenciamentos 41/41, etapas 30/30 e autocadastro 14/14 com Verificadores independentes. Gates atuais próprios do Verificador: 247 Java/H2, 222 Vitest, build/lint e 3 E2E Edge, zero falhas/erros/skips/retries. Nove casos novos passaram também em MySQL TEMP 8.0.43; evidências em features/autocadastro/mysql-validation.md. Código sem alteração de esquema/política, cadastro continua FUNCIONARIO.
+- **In-progress**: UAT humano dos requisitos entregues sem resultado; roteiro do cadastro em docs/OPERACAO.md:21. Movimentação e etapas finais dependem das cinco respostas abaixo. L-001/L-002 continuam candidates; nenhum sinal funcional novo para lessons, nenhuma promoção.
+- **Next step**: registrar respostas de negócio e especificar Concluídos/Cancelados com os fluxos escolhidos antes de implementá-los; retirada de PM é melhoria independente ainda pedida. Continuar um requisito por vez com testes e Verificador. Não inferir escolhas ou PASS humano de continuações.
+- **Blockers**: nenhum funcional para autocadastro. Limpeza da scratch do Verificador foi rejeitada automaticamente; cópia TEMP restaurada e preservada. Perguntas futuras e escolha de contas administrativas reais permanecem pendentes.
+- **Uncommitted files**: após fechamento documental, somente artefatos gerados anteriores preservados; nenhum fonte/teste intencional pendente. Staging explícito dos documentos de fechamento e relatório independente.
+- **Branch**: testes; base histórica 5d8beb9, range de autocadastro f2e91c5..92bc8ac.
 
-Autoriza??o de implementa??o permanece v?lida. N?o iniciar aplica??o normal/MySQL configurado nem reiniciar servi?os do usu?rio. Testes somente H2/helper isolado ou MySQL TEMP fict?cio explicitamente delimitado. N?o push/deploy/alterar contas reais. A falha ECONNRESET anterior de etapas permanece documentada em seu relat?rio, sem causa inventada.
+Autorização de implementação permanece válida. Não iniciar aplicação normal/MySQL configurado nem reiniciar serviços do usuário. Testes somente H2/helper isolado ou MySQL TEMP fictício explicitamente delimitado. Não push/deploy/alterar contas reais. A falha ECONNRESET anterior de etapas permanece documentada em seu relatório, sem causa inventada.
+
+Sensor autocadastro: 7/7 falhas compiláveis detectadas, baselines restauradas 9/9 Java e 73/73 Vitest. Porcelain integral antes/depois byteigual: 231321 bytes, 3408 linhas, SHA256 23f16a08d605c42dfe3179c2ff241faf88a5a65260d40629a7f41f1e45afff86. Comparação com scratch preservada, não após descarte. Revisão automática rejeitou três comandos de limpeza antes de execução com `blocked by policy`, sem razão adicional; interrompidas novas tentativas. Cópia em C:/Users/Marco/AppData/Local/Temp/autocadastro-verifier-968133323a4c4f8d9765d4cd69036d21/scratch, sem processos próprios. Portas 18082/4173/33817 livres; serviços do usuário 8081/5173 preservados. Relatório integral em features/autocadastro/validation.md.
 
 ## Próxima conversa: destinos finais e movimentação
 

@@ -1,6 +1,6 @@
 # Entrada automática após cadastro Specification
 
-**Status:** implementação local concluída com gates; validação independente e teste humano pendentes.
+**Status:** implementação T1–T5 e validação técnica independente PASS, 14/14 critérios. Teste humano pendente. Cópia TEMP restaurada e preservada após rejeição de limpeza.
 **Data:** 2026-10-05. **Contexto:** `context.md`, AD-004 em `.specs/STATE.md`.
 
 ## Problem Statement
@@ -12,7 +12,7 @@ Cadastrar uma conta exige hoje voltar ao login. O servidor já oferece sessões 
 - [x] Entrar na lista de gerenciamentos imediatamente após cadastro confirmado.
 - [x] Preservar segurança do cadastro, login manual e cache de sessão existente.
 - [x] Explicar falhas sem repetir cadastro nem perder os campos preenchidos.
-- [ ] Verificar o fluxo real com H2 e validação independente.
+- [x] Verificar o fluxo real com H2 e validação independente.
 
 ## Out of Scope
 

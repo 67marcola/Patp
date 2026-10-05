@@ -139,4 +139,6 @@ T4 -> T5
 
 ## Execution Evidence
 
+Fechamento independente em 05/10/2026: PASS sobre `92bc8ac`, 14/14 AUTs, 247 Java/H2, 222 Vitest, build/lint e 3 E2E Edge, zero falhas/skips/retries. Sensor detectou 7/7 falhas compiláveis; baselines da cópia restaurada passaram 9/9 Java e 73/73 Vitest. Porcelain completo byteigual antes/depois do sensor: 231321 bytes, 3408 linhas. Relatório `validation.md`; `validate_state.py autocadastro` retornou zero erros, exit 0. MySQL TEMP complementar: nove casos PASS em `mysql-validation.md`. Limpeza da cópia TEMP rejeitada automaticamente; cópia restaurada permanece preservada, sem processos próprios ativos. Não declarar descarte. UAT humano pendente.
+
 Criar evidence.md somente com execução real. Cada tarefa registra suposições/paths/sucesso antes de código, comandos/contagens/limites, mapeamento direto e reverso de assertions físicas e verdict de adequação antes do commit. Após T5, Verificador novo executa validate.md, escreve validation.md e o root roda validate_state. Nenhum resultado humano será inferido de autorização para continuar.
