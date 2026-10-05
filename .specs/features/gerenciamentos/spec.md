@@ -227,33 +227,33 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| GER-01 | Criar com autoria | Specify | Pending |
-| GER-02 | Criar com autoria | Specify | Pending |
-| GER-03 | Criar com autoria | Specify | Pending |
-| GER-04 | Criar com autoria | Specify | Pending |
-| GER-05 | Criar com autoria | Specify | Pending |
-| GER-06 | Criar com autoria | Specify | Pending |
-| GER-07 | Criar com autoria | Specify | Pending |
-| GER-08 | Consultar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
-| GER-09 | Consultar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
-| GER-10 | Consultar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
-| GER-11 | Consultar | Specify | Pending |
-| GER-12 | Editar | Specify | Pending |
-| GER-13 | Editar | Specify | Pending |
-| GER-14 | Editar | Specify | Pending |
-| GER-15 | Editar | Specify | Pending |
-| GER-16 | Editar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
-| GER-17 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
-| GER-18 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
-| GER-19 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
-| GER-20 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
-| GER-21 | Arquivar/restaurar | Specify | Pending |
+| GER-01 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-02 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-03 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-04 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-05 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-06 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-07 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-08 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-09 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-10 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-11 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-12 | Editar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-13 | Editar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-14 | Editar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-15 | Editar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-16 | Editar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-17 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-18 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-19 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-20 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-21 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-22 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
-| GER-23 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
+| GER-23 | Identidade/permissões | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-24 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
 | GER-25 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
-| GER-26 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
-| GER-27 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
+| GER-26 | Identidade/permissões | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-27 | Identidade/permissões | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-28 | Interface | Specify | Pending |
 | GER-29 | Interface | Specify | Pending |
 | GER-30 | Interface | Specify | Pending |
