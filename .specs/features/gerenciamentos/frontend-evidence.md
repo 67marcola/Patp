@@ -130,3 +130,39 @@ Antes da correção: **3 falhas / 25 casos da lista**, incluindo consulta penden
 | `Gerenciamentos.test.jsx:288/292/293/294`, dialog ausente/foco conectado/zero PUT | GER-31 e Done when T15 | Sim |
 
 Adequação: falhas observadas foram reproduzidas por estado da UI e foco; nenhuma alteração de assertion, skip ou remoção. A lista só é exibida quando a consulta posterior encerra e o formulário conclui seu retorno. T15 concluída.
+
+## T13: consulta arquivada e fluxo real no navegador
+
+Premissas: somente CRUD de gerenciamentos; o quadro conserva sua apresentação de etapas existente. CRUD de etapas/demandas, login automático e redesign geral continuam em suas entregas futuras. Arquivado conserva cabeçalho/Voltar durante a consulta, mostra o texto prescrito e oculta o controle de alteração existente. Erros têm `role=alert`; repetir consulta envia somente GET de etapas.
+
+Antes do Quadro: **5/5 casos novos falharam**. Depois: `npm.cmd test` PASS **65/65** (25 lista, 20 formulário, 15 HTTP, 5 quadro), `npm.cmd run build` e `npm.cmd run lint` PASS. `mvn.cmd -B verify` em sistema PASS **97/97**, zero falhas/erros/ignorados, H2 isolado. Nenhum teste anterior modificado, removido ou ignorado.
+
+`npm.cmd run test:e2e` PASS **1/1** no Edge instalado (última execução 13,5 s, fluxo 3,5 s), com login real e conta fictícia via API. Java executado diretamente de JAVA_HOME; URL/driver/usuário/senha/DDL H2 explícitos por CLI. O log do preview manual confirmou `jdbc:h2:mem:creral-browser user=SA`. A instância configurada de MySQL não foi utilizada. Um erro real do ambiente isolado foi observado: o POST do navegador com Origin 4173 recebeu 403 do CORS. O ajuste está somente no proxy opcional do teste, encaminhando esse Origin exato como 5173; CorsConfig normal não foi alterado. Referência do wiring: [Vite server.proxy/configure](https://vite.dev/config/server-options#server-proxy).
+
+| Adequação direta: critério | Evidência e assertion | Resultado prescrito | Resultado |
+| --- | --- | --- | --- |
+| GER-29/38, consulta pendente | `frontend/src/pages/Quadro.test.jsx:21`, aviso `.toBe("Arquivado — somente consulta")`; `:22`, status `.toBe("Carregando quadro...")`; `:23`, Criar processo `.toBeNull()`; `:25`, foco `.toBe(Voltar)`; `:27`, callback `.toHaveBeenCalledTimes(1)`; `:28`, requests `.every(method === "GET").toBe(true)` | Consulta readonly, com Voltar pelo teclado durante carregamento | PASS |
+| GER-29, dados consultáveis | `Quadro.test.jsx:33/34/35/36`, texto de etapa/nome/descrição/setor exatos; `:37`, Criar processo `.toBeNull()`; `:38`, URL `.toBe("http://localhost:8081/api/gerenciamentos/9/etapas")`; `:39`, somente GET | Consulta de etapas preservada sem controles de escrita | PASS |
+| GER-40, erro e repetir | `Quadro.test.jsx:52`, `role=alert` `.textContent.toBe(mensagem)` para 500/404/rede; `:53`, aviso readonly; `:56`, etapa recuperada; `:57`, alerta `.toBeNull()`; `:58`, fetch `.toHaveBeenCalledTimes(2)`; `:59`, somente GET | Erro acessível e consulta recuperada sem mutação | PASS |
+| GER-35, criar e recarregar | `frontend/e2e/gerenciamentos.spec.js:37/39`, botão Abrir `.toBeVisible()` antes/depois de reload; `:43/45/47`, HTTP200, um registro e DTO `.toMatchObject` com campos/criador/ativo/versão0; `:49/51`, etapas HTTP200 e valores iniciais | Dados persistidos reais, sem mock de fetch do navegador | PASS |
+| GER-35, editar e recarregar | `gerenciamentos.spec.js:54`, campo pré-carregado `.toHaveValue`; `:58/60`, Abrir nome atualizado `.toBeVisible()` antes/depois de reload; `:61`, descrição atualizada `.toBeVisible()` | Nome/descrição corrigidos sobrevivem à recarga | PASS |
+| GER-28/29/31/37/38/41, arquivo e teclado | `gerenciamentos.spec.js:8/13`, controle visível/focado após Tab, Enter em `:14`; `:73`, confirmação `.toContainText("Os dados e vínculos serão preservados")`; `:75`, origem `.toBeFocused()` depois de Cancelar; `:78/79`, vazio ativo e filtro `.toHaveAttribute("aria-pressed", "true")`; `:82/83/84/85`, aviso, etapa, setor visíveis e Criar processo `.toHaveCount(0)` | Fluxo keyboard, confirmação, foco, filtro e readonly do estado arquivado | PASS |
+| GER-35/41, restaurar e preservar etapas | `gerenciamentos.spec.js:95/97/98`, Restaurar após reload, GET200 e DTO arquivado versão2; `:100/101`, vazio arquivado com filtro preservado; `:103/105`, Abrir após restauração/reload; `:107/108`, GET200 e DTO ativo versão3; `:110/113`, etapas HTTP200 e `.map(campos).toEqual(etapasIniciais.map(campos))` com id/nome/setor/ordem | Restauração persistida sem perder etapas ou autoria | PASS |
+| Revisão visual, companion T13 | `gerenciamentos.spec.js:64/67/86/89`, screenshots desktop/mobile; `:66/88`, `scrollWidth <= clientWidth` `.toBe(true)` em 375×812 | Novos controles e aviso legíveis sem overflow horizontal | PASS |
+
+| Adequação reversa: assertions | Âncora | Manter |
+| --- | --- | --- |
+| `Quadro.test.jsx:21/22/23/25/27/28`, readonly/status/ausência/foco/Voltar/GET | GER-29/38; Done when T13 | Sim |
+| `Quadro.test.jsx:33/34/35/36/37/38/39`, valores de consulta/URL/ausência/GET | GER-29 | Sim |
+| `Quadro.test.jsx:52/53/56/57/58/59`, mensagem/aviso/recuperação/requests GET | GER-40; Done when T13 | Sim |
+| `gerenciamentos.spec.js:23`, cadastro HTTP200 da conta fictícia | Companion E2E T13: fixture por API real | Sim |
+| `gerenciamentos.spec.js:8/13/29/37/39/43/45/47/49/51/54/58/60/61`, controles/foco/recarga/HTTP/DTO/etapas/campos | GER-35/38/39; Done when T13 | Sim |
+| `gerenciamentos.spec.js:73/75/78/79/82/83/84/85`, preservação/foco/vazio/filtro/readonly/dados/ausência | GER-28/29/31/37/38/41 | Sim |
+| `gerenciamentos.spec.js:95/97/98/100/101/103/105/107/108/110/113`, restore/reload/HTTP/DTO/filtro/etapas | GER-35/41 e GER-20 (preservação) | Sim |
+| `gerenciamentos.spec.js:66/88`, overflow horizontal | Companion T13: revisão visual dos controles do CRUD | Sim |
+
+Capturas finais em `C:\Users\Marco\AppData\Local\Temp\creral-gerenciamentos-e2e-oFmQPi`: `ativos-desktop.png`, `ativos-mobile.png`, `arquivado-desktop.png`, `arquivado-mobile.png`. A execução anterior (`...-hDucUx`) foi inspecionada pelo autor e orquestrador: textos/ações legíveis e aviso visível sem cortes. CSS limitado ao aviso, wrapping e espaço dos novos fluxos em tela pequena.
+
+Preview humano: `npm.cmd run preview:isolated` em frontend, instruções em `docs/OPERACAO.md`. Execução manual comprovou HTTP200 no frontend, HTTP401 no endpoint protegido, banco H2 em memória e encerramento dos dois serviços por Ctrl+C; nenhuma escuta em 4173/18082 nem Java filho após encerramento. Não há servidor deixado ligado.
+
+Adequação: resultados observáveis de estado/dados/mensagens/foco e persistência por API real; contagens só para vazio/ausência/request de consulta prescritos. Todos GER-28–41 cobertos em conjunto por T9–T13/T15; backend em evidence.md. T13 implementada e testada. Verificador independente continua pendente; esta evidência é do autor e não declara a feature aceita.

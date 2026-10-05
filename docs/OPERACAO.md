@@ -2,6 +2,22 @@
 
 Os testes Maven usam H2 em memória pelo classpath de teste. Execute `mvn.cmd -B verify` em `sistema/`. A aplicação normal continua usando MySQL. Não execute o perfil normal para verificar testes.
 
+## Experimentar o CRUD com dados fictícios
+
+Abra um terminal na pasta `frontend/` e execute:
+
+```powershell
+npm.cmd run preview:isolated
+```
+
+O comando prepara o Java e abre o sistema em `http://localhost:4173`. Cadastre uma conta fictícia, entre com ela e experimente criar, editar, arquivar, consultar e restaurar gerenciamentos. O cadastro ainda exige entrar depois; a entrada automática será tratada em outro requisito.
+
+Requer as dependências npm instaladas, Maven no PATH e `JAVA_HOME` apontando para o JDK. As portas 4173 e 18082 precisam estar livres. O helper inicia diretamente o executável Java desse JDK, com URL, driver, usuário, senha e `create-drop` de H2 explícitos; não inicia o MySQL configurado.
+
+Os dados ficam em memória enquanto o comando está aberto. Recarregar a página conserva esses dados; encerrar com **Ctrl+C** fecha os dois serviços e descarta o banco fictício. Se o Windows perguntar `Terminate batch job (Y/N)?`, responda `Y`. Uma nova execução começa vazia. O proxy e o ajuste de Origin são habilitados somente nesse ambiente isolado; a configuração normal de CORS permanece a mesma.
+
+Para repetir o teste automático de navegador, execute `npm.cmd run test:e2e` na mesma pasta, com Microsoft Edge instalado. Ele cria sua própria conta fictícia, percorre o CRUD usando Tab/Enter, confere a persistência após recarga e encerra os serviços no final. O console informa a pasta temporária das capturas desktop/mobile. Não mantenha o preview aberto ao iniciar esse teste, pois ambos usam as mesmas portas.
+
 ## Selecionar administrador
 
 O cadastro público sempre cria funcionário, rejeita ID enviado e não permite escolher papel. O primeiro cadastro não recebe privilégios especiais.

@@ -5,11 +5,11 @@
 Executar com a skill `tlc-spec-driven`, uma tarefa por vez: testes derivados da especificação, gate, adequação com evidências, atualização de status/rastreabilidade e um commit local por tarefa. A implementação e os testes foram autorizados pelo usuário em 2026-10-04. Ferramentas: shell PowerShell, Python, Maven, npm e skill já escolhida pelo usuário. A delegação técnica segue as instruções da sessão; não exige outra confirmação de rotina.
 
 **Design:** `design.md`
-**Status:** In Progress
+**Status:** Implemented; independent Verifier pending
 
 ## Test Coverage Matrix
 
-Gerada por leitura do único teste existente (`SistemaApplicationTests`), `pom.xml`, `package.json` e especificação. Não foram encontrados AGENTS, guias de contribuição ou limiares de cobertura; aplicar padrões fortes limitados a GER-01–41. JUnit/Spring Boot existentes são a base; testes React ainda serão configurados.
+Gerada por leitura do único teste inicial (`SistemaApplicationTests`), `pom.xml`, `package.json` e especificação. Não foram encontrados AGENTS, guias de contribuição ou limiares de cobertura; aplicar padrões fortes limitados a GER-01–41. JUnit/Spring Boot existentes são a base; testes React/navegador configurados em T9/T13.
 
 | Code Layer | Required Test Type | Coverage Expectation | Location Pattern | Run Command |
 | --- | --- | --- | --- | --- |
@@ -271,13 +271,13 @@ T14 -> T9
 
 **What:** completar o contrato de consulta do Quadro e comprovar o fluxo em navegador.
 **Where:** `frontend/src/pages/Quadro.jsx`
-**Companions:** testes React de readonly, testes E2E/configuração necessária e backend de teste isolado para fluxo real.
+**Companions:** testes React de readonly, testes E2E/configuração necessária e backend de teste isolado para fluxo real; comando de preview fictício em docs/OPERACAO.md.
 **Depends on:** T15
 **Requirement:** GER-29/35/38–40; conclusão GER-01–41.
 **Done when:**
-- [ ] Arquivado exibe texto exato e não oferece alteração; consulta/carregamento/erro funcionam com teclado e alerta.
-- [ ] Navegador percorre CRUD completo, recarrega e vê dados persistidos com contas fictícias.
-- [ ] Todos os gates backend/frontend passam; nenhum teste ignorado; adequação completa registrada.
+- [x] Arquivado exibe texto exato e não oferece alteração; consulta/carregamento/erro funcionam com teclado e alerta.
+- [x] Navegador percorre CRUD completo, recarrega e vê dados persistidos com contas fictícias.
+- [x] Todos os gates backend/frontend passam; nenhum teste ignorado; adequação completa registrada.
 **Tests:** e2e + integration
 **Gate:** build
 **Commit:** `feat(frontend): show archived boards as read only`
