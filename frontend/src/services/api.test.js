@@ -148,3 +148,19 @@ test.each(mutacoesEtapa)("ETA-27: %s sem confirmação de rede não anuncia suce
     });
     expect(fetchSpy).toHaveBeenCalledTimes(1);
 });
+
+const corposIlegiveis = ["<html>resposta incompleta</html>", '{"gerenciamento":'];
+test.each(mutacoesEtapa.flatMap(([method, _rota, executar, _dados, status]) =>
+    corposIlegiveis.map(corpo => [method, status, corpo, executar])))
+    ("ETA-27: %s HTTP%s com JSON ilegível%s rejeita sem snapshot ou retry", async (_method, status, corpo, executar) => {
+        const fetchSpy = vi.fn().mockResolvedValue(new Response(corpo, {
+            status, headers: { "Content-Type": "application/json" }
+        }));
+        vi.stubGlobal("fetch", fetchSpy);
+        await expect(executar()).rejects.toMatchObject({
+            name: "ApiError",
+            message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.",
+            status
+        });
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });

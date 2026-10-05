@@ -331,3 +331,76 @@ test("ETA-28: voltar do quadro arquiva com versão retornada pelo CRUD sem recar
     expect(fetchMock.mock.calls.filter(([url]) => url.endsWith("/estrutura-etapas"))).toHaveLength(1);
     expect(fetchMock.mock.calls.filter(([url]) => url.includes("?arquivado="))).toHaveLength(2);
 });
+
+const respostasIlegiveis = ["<html>resposta incompleta</html>", '{"gerenciamento":'];
+test.each([["POST", 201], ["PUT", 200], ["DELETE", 200]].flatMap(([metodo, status]) =>
+    respostasIlegiveis.map(corpo => [metodo, status, corpo])))
+    ("ETA-27/29: %s HTTP%s JSON ilegível%s conserva tela/cache e só reenvia manualmente apósGET", async (metodo, status, corpo) => {
+        let consultas = 0;
+        let mutacoes = 0;
+        const rascunho = { id: 6, nome: "Rascunho", setor: "Engenharia", ordem: 2, quantidadeDemandas: 0 };
+        const etapasConfirmadas = metodo === "DELETE" ? [a] : metodo === "PUT"
+            ? [a, { ...b, nome: "Rascunho", setor: "Engenharia" }]
+            : [a, rascunho, { ...b, ordem: 3 }];
+        const { user, fetchMock, atualizar } = preparar((_url, request) => {
+            if (request.method === "GET") {
+                consultas += 1;
+                return json(snapshot([a, b], { versao: consultas === 1 ? 0 : 7 }));
+            }
+            mutacoes += 1;
+            return mutacoes === 1 ? new Response(corpo, { status, headers: { "Content-Type": "application/json" } })
+                : json(snapshot(etapasConfirmadas, { versao: 8 }), status);
+        });
+        const remover = metodo === "DELETE";
+        await abrirEditor(user, metodo === "POST" ? "+ Nova etapa" : `${remover ? "Remover" : "Editar"} etapa 2: Execução`);
+        if (!remover) await preencher(user, "Rascunho", "Engenharia", "2");
+        const acao = remover ? "Remover" : "Salvar etapa";
+        await ativarPorTeclado(user, screen.getByRole("button", { name: acao, exact: true }));
+        expect((await screen.findByRole("alert")).textContent)
+            .toBe("Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.");
+        expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent))
+            .toEqual(["Planejamento", "Execução"]);
+        expect(screen.getByText("Setor responsável: Técnico").textContent).toBe("Setor responsável: Técnico");
+        expect(screen.getByText("Setor responsável: Campo").textContent).toBe("Setor responsável: Campo");
+        expect(screen.getByText("2 demandas").textContent).toBe("2 demandas");
+        expect(screen.getByText("0 demandas").textContent).toBe("0 demandas");
+        expect(screen.queryByRole("heading", { name: "Nenhuma etapa cadastrada" })).toBeNull();
+        expect(atualizar.mock.calls.map(([registro]) => registro)).toEqual([quadro]);
+        if (remover) expect(screen.getByRole("dialog", { name: "Remover Execução?" })).not.toBeNull();
+        else {
+            expect(screen.getByLabelText("Nome da etapa").value).toBe("Rascunho");
+            expect(screen.getByLabelText("Setor responsável").value).toBe("Engenharia");
+            expect(screen.getByLabelText("Posição").value).toBe("2");
+        }
+        expect(screen.getByRole("button", { name: acao, exact: true }).disabled).toBe(true);
+        await user.click(screen.getByRole("button", { name: acao, exact: true }));
+        expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET", metodo]);
+        const chamadasAntes = fetchMock.mock.calls.length;
+        await ativarPorTeclado(user, screen.getByRole("button", { name: "Atualizar quadro" }));
+        await waitFor(() => expect(atualizar).toHaveBeenCalledTimes(2));
+        expect(fetchMock.mock.calls.slice(chamadasAntes).map(([url, request]) => [url, request.method]))
+            .toEqual([[`${endpoint}/estrutura-etapas`, "GET"]]);
+        expect(atualizar.mock.calls.map(([registro]) => registro)).toEqual([quadro, { ...quadro, versao: 7 }]);
+        expect(fetchMock.mock.calls.filter(([, request]) => request.method === metodo)).toHaveLength(1);
+        if (remover) expect(screen.getByRole("dialog", { name: "Remover Execução?" })).not.toBeNull();
+        else {
+            expect(screen.getByLabelText("Nome da etapa").value).toBe("Rascunho");
+            expect(screen.getByLabelText("Setor responsável").value).toBe("Engenharia");
+            expect(screen.getByLabelText("Posição").value).toBe("2");
+        }
+        expect(screen.getByRole("button", { name: acao, exact: true }).disabled).toBe(false);
+        await ativarPorTeclado(user, screen.getByRole("button", { name: acao, exact: true }));
+        await waitFor(() => expect(atualizar).toHaveBeenCalledTimes(3));
+        expect(atualizar.mock.calls.map(([registro]) => registro)).toEqual([quadro, { ...quadro, versao: 7 }, { ...quadro, versao: 8 }]);
+        expect(screen.queryByRole("alert")).toBeNull();
+        expect(screen.queryByLabelText("Nome da etapa")).toBeNull();
+        expect(screen.queryByRole("dialog")).toBeNull();
+        expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent))
+            .toEqual(metodo === "DELETE" ? ["Planejamento"] : metodo === "PUT" ? ["Planejamento", "Rascunho"] : ["Planejamento", "Rascunho", "Execução"]);
+        const payload = remover ? {} : { nome: "Rascunho", setor: "Engenharia", ordem: 2 };
+        const rota = metodo === "POST" ? `${endpoint}/etapas` : `${endpoint}/etapas/5`;
+        expect(fetchMock.mock.calls.filter(([, request]) => request.method === metodo)
+            .map(([url, request]) => [url, request.method, JSON.parse(request.body)]))
+            .toEqual([[rota, metodo, { ...payload, versao: 0 }], [rota, metodo, { ...payload, versao: 7 }]]);
+        expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET", metodo, "GET", metodo]);
+    });

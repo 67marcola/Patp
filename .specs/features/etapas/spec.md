@@ -1,6 +1,6 @@
 # CRUD de etapas de trabalho da Creral Specification
 
-**Status:** T1 servidor implementada com gate local; T2–T5 e Verificador pendentes. Regras AD-007–010 confirmadas; defaults abaixo declarados pelo agente.
+**Status:** T1–T7 implementadas com gates locais. T7 cobre o gap ETA-27/M10; último relatório independente ainda é FAIL e nova verificação está pendente. Regras AD-007–010 confirmadas; defaults abaixo declarados pelo agente.
 **Data:** 2026-10-05.
 **Contexto:** `context.md`, decisões de `.specs/STATE.md` e contratos do CRUD de gerenciamentos já validado.
 
@@ -124,6 +124,7 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 - Campos desconhecidos de setor legado não são preenchidos por suposição. Consultar/reordenar outras etapas não renomeia nem atribui setor a uma etapa antiga.
 - Na interface, a posição de edição é o índice visual na lista ordenada, de1..N; ordens legadas7/7 ou com lacunas não viram opções inválidas. Abrir/cancelar editor não escreve, e nome/setor originais são conservados. O servidor normaliza ordens somente na mutação confirmada.
 - Erro de comunicação usa `Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.`. Repetir consulta não repete POST/PUT/DELETE. Há nenhum efeito idempotente prometido para DELETE de etapa já ausente.
+- RespostaPOST201/PUT200/DELETE200 com JSON ilegível ou truncado não confirma snapshot: o cliente rejeita com a mesma mensagem de comunicação e conserva o statusHTTP original201/200 no ApiError. Campos/colunas/cache permanecem até nova consulta; isso não afirma rollback no servidor e não acrescenta validação de schema.
 
 ## Edge Cases
 
@@ -179,12 +180,12 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 | ETA-24 | Interface | Execute | T4 gate PASS; Verificador pendente |
 | ETA-25 | Interface | Execute | T3/T4 gate PASS; Verificador pendente |
 | ETA-26 | Interface | Execute | T3/T4/T6 gate PASS, saída global incluída; Verificador pendente |
-| ETA-27 | Interface | Execute | T2–T4 gate PASS; Verificador pendente |
-| ETA-28 | Interface | Execute | T4/T5 gate PASS; Verificador pendente |
-| ETA-29 | Interface | Execute | T2/T4 gate PASS; Verificador pendente |
+| ETA-27 | Interface | Execute | T7 gate local PASS para 2xx ilegível; re-verificação de FAIL parcial/M10 pendente |
+| ETA-28 | Interface | Execute | T4/T5/T7 gate PASS; re-verificação pendente |
+| ETA-29 | Interface | Execute | T2/T4/T7 gate PASS; re-verificação pendente |
 | ETA-30 | Interface | Execute | T3/T4/T5 gate PASS; Verificador pendente |
 
-**Coverage:** 30 requisitos implementados com gates locais em T1–T6; 238 Java/H2, 137 Vitest, build/lint e 2 E2E Edge PASS. MySQL isolado: 237 PASS relatado pelo root. Verificador independente pendente; nenhum resultado humano presumido.
+**Coverage:** 30 requisitos implementados com gates locais em T1–T7; 238 Java/H2, 149 Vitest (137 preservados +12 novos), build/lint e 2 E2E Edge PASS. Primeira execução E2E de T7 falhou por ECONNRESET de causa indeterminada; repetição diagnóstica completa PASS, sem retries. MySQL isolado anterior: 237 PASS relatado pelo root, backend intacto em T7. Último Verificador FAIL parcial em ETA-27/M10; re-verificação independente pendente. Nenhum resultado humano presumido.
 
 ## Success Criteria
 
