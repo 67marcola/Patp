@@ -32,7 +32,7 @@ class EtapaArchiveTests extends ApiIntegrationSupport {
     @Autowired GerenciamentoService gerenciamentoService;
     @Autowired PlatformTransactionManager transactionManager;
     private static final String ERRO = "Gerenciamento arquivado. Restaure-o antes de alterar.";
-    private static final String CORPO = "{\"nome\":\"Mudada\",\"setor\":\"Operação\",\"ordem\":2}";
+    private static final String CORPO = "{\"nome\":\"Mudada\",\"setor\":\"Operação\",\"ordem\":2,\"versao\":0}";
 
     @ParameterizedTest
     @ValueSource(strings = {"POST", "PUT", "DELETE"})
@@ -54,26 +54,38 @@ class EtapaArchiveTests extends ApiIntegrationSupport {
         mvc.perform(request.header("Authorization", token(admin)).contentType(MediaType.APPLICATION_JSON).content(CORPO))
                 .andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value(ERRO));
         assertThat(conteudoPersistido()).isEqualTo(antes);
+        assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(1L);
         mvc.perform(get(base).header("Authorization", token(admin))).andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1)).andExpect(jsonPath("$[0].id").value(etapa.getId()))
                 .andExpect(jsonPath("$[0].nome").value("Original"));
     }
 
     @Test
-    void ativoMantemCriacaoEdicaoExclusaoPeloFuncionario() throws Exception { // GER-21 comportamento ativo
-        var quadro = quadro(usuario("Criador"));
-        String token = token(usuario("Outro"));
+    void ativoPermiteCriacaoEdicaoExclusaoPeloCriadorComPosicoesValidas() throws Exception { // ETA-04/12/13/15 substitui contrato ativo GER-21
+        var criador = usuario("Criador");
+        var quadro = quadro(criador);
+        var primeira = etapa(quadro, "Primeira", 1);
+        var segunda = etapa(quadro, "Segunda", 2);
+        String token = token(criador);
         String base = "/api/gerenciamentos/" + quadro.getId() + "/etapas";
         mvc.perform(post(base).header("Authorization", token).contentType(MediaType.APPLICATION_JSON).content(CORPO))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.nome").value("Mudada"));
-        var etapa = etapas.findAll().get(0);
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.etapas[1].nome").value("Mudada"))
+                .andExpect(jsonPath("$.gerenciamento.versao").value(1));
+        var etapa = etapas.findAll().stream().filter(e -> e.getNome().equals("Mudada")).findFirst().orElseThrow();
         assertThat(etapa.getGerenciamento().getId()).isEqualTo(quadro.getId());
         mvc.perform(put(base + "/" + etapa.getId()).header("Authorization", token).contentType(MediaType.APPLICATION_JSON)
-                .content("{\"nome\":\"Editada\",\"setor\":\"Engenharia\",\"ordem\":3}"))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.nome").value("Editada")).andExpect(jsonPath("$.ordem").value(3));
+                .content("{\"nome\":\"Editada\",\"setor\":\"Engenharia\",\"ordem\":3,\"versao\":1}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.etapas[2].nome").value("Editada"))
+                .andExpect(jsonPath("$.etapas[2].ordem").value(3)).andExpect(jsonPath("$.gerenciamento.versao").value(2));
         assertThat(etapas.findById(etapa.getId()).orElseThrow().getNome()).isEqualTo("Editada");
-        mvc.perform(delete(base + "/" + etapa.getId()).header("Authorization", token)).andExpect(status().isOk());
-        assertThat(etapas.count()).isZero();
+        mvc.perform(delete(base + "/" + etapa.getId()).header("Authorization", token).contentType(MediaType.APPLICATION_JSON).content("{\"versao\":2}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.gerenciamento.versao").value(3))
+                .andExpect(jsonPath("$.etapas.length()").value(2)).andExpect(jsonPath("$.etapas[0].id").value(primeira.getId()))
+                .andExpect(jsonPath("$.etapas[1].id").value(segunda.getId()));
+        assertThat(etapas.existsById(etapa.getId())).isFalse();
+        assertThat(etapas.count()).isEqualTo(2);
+        assertThat(etapas.findById(primeira.getId()).orElseThrow().getOrdem()).isEqualTo(1);
+        assertThat(etapas.findById(segunda.getId()).orElseThrow().getOrdem()).isEqualTo(2);
     }
 
     @Test
@@ -102,7 +114,7 @@ class EtapaArchiveTests extends ApiIntegrationSupport {
                 if (arquivoPrimeiro) {
                     gerenciamentoService.mudarEstado(token, quadro.getId(), 0L, true);
                 } else {
-                    etapaService.criar(quadro.getId(), "Concorrente", "Engenharia", 1);
+                    etapaService.criar(token, quadro.getId(), "Concorrente", "Engenharia", 1, 0L);
                     etapas.flush();
                 }
                 primeiraEscrita.countDown();
@@ -122,16 +134,21 @@ class EtapaArchiveTests extends ApiIntegrationSupport {
             liberarCommit.countDown();
             primeira.get(10, TimeUnit.SECONDS);
             var resposta = segunda.get(10, TimeUnit.SECONDS).getResponse();
-            assertThat(resposta.getStatus()).isEqualTo(arquivoPrimeiro ? 409 : 204);
+            assertThat(resposta.getStatus()).isEqualTo(409);
             if (arquivoPrimeiro) {
                 assertThat(resposta.getContentAsString(java.nio.charset.StandardCharsets.UTF_8)).contains(ERRO);
+            } else {
+                assertThat(resposta.getContentAsString(java.nio.charset.StandardCharsets.UTF_8))
+                        .contains("Gerenciamento alterado por outro usuário. Atualize e tente novamente.");
+                mvc.perform(put("/api/gerenciamentos/" + quadro.getId() + "/arquivar").header("Authorization", bearer)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"versao\":1}")).andExpect(status().isNoContent());
             }
             assertThat(etapas.count()).isEqualTo(arquivoPrimeiro ? 0 : 1);
             if (!arquivoPrimeiro) {
                 assertThat(etapas.findAll().get(0).getNome()).isEqualTo("Concorrente");
             }
             assertThat(quadros.findById(quadro.getId()).orElseThrow().isArquivado()).isTrue();
-            assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(1L);
+            assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(arquivoPrimeiro ? 1L : 2L);
         } finally {
             liberarCommit.countDown();
             executor.shutdownNow();

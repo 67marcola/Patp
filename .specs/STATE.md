@@ -88,15 +88,23 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-05
 - **Status**: active
 
+### AD-011
+- **Decision**: usar somente as duas etapas finais Concluídos e Cancelados, com destino automático conforme a ação de concluir ou cancelar.
+- **Reason**: o usuário respondeu explicitamente “Usar somente Concluídos e Cancelados, com destino automático conforme a ação”.
+- **Trade-off**: não haverá escolha de destinos adicionais; a configuração de etapas de trabalho não atribui categoria por nome.
+- **Scope**: entrega posterior das etapas finais obrigatórias e dos fluxos de concluir/cancelar. Fora do CRUD de etapas de trabalho atual.
+- **Date**: 2026-10-05
+- **Status**: active
+
 ## Handoff
 
 - **Feature**: CRUD de etapas de trabalho da Creral.
-- **Phase / Task**: continuação autorizada; especificação/design/tarefas de etapas em preparação.
-- **Completed**: T1–T16 em commits locais (última tarefa: `811842a`); 41/41 critérios comprovados pelo Verificador independente na rodada 2. Gates repetidos em scratch: 97 Java/H2, 71 Vitest, 1 E2E Edge, build/lint PASS, zero falhas/skips; quatro mutantes de teclado detectados, oito kills anteriores sustentados por hashes de fonte idênticos. MySQL histórico: 96 testes de comportamento e preservação do schema antigo/reinicialização. `validate_state.py gerenciamentos` PASS. Detalhes em `features/gerenciamentos/validation.md` e `mysql-validation.md`.
-- **In-progress**: AD-009/010 confirmadas. Preparar etapas segundo autorização “pode continuar”; propostas menores registradas explicitamente, sem atribuir respostas inexistentes. Teste humano de gerenciamentos permanece sem resultado; “pode continuar” não prova UAT. L-001 permanece candidate; serviços de teste encerrados.
-- **Next step**: validar spec/tarefas de etapas; implementar T1 no servidor e T2–T5 na interface sequencialmente, com gates/commits e Verificador novo ao final.
-- **Blockers**: nenhum para CRUD de etapas de trabalho. Destinos finais continuam sem resposta e não serão implementados nesta entrega. Contas administrativas reais serão selecionadas posteriormente; testes fictícios isolados.
-- **Uncommitted files**: artefatos gerados de teste/build, alguns previamente rastreados no repositório. Fontes, testes e registros intencionais da entrega estão nos commits locais; staging explícito exclui os artefatos.
+- **Phase / Task**: etapas T1 servidor concluída; T2–T5 interface pendentes.
+- **Completed**: gerenciamentos T1–T16 validado independentemente, 41/41 critérios, 97 Java/H2, 71 Vitest, 1 E2E Edge e MySQL isolado96; `validate_state.py gerenciamentos` PASS. Etapas T1: API transacional ETA01–21, verify H2 PASS com238 testes, zero falhas/erros/skips; RED95 falhas de outcome antes da produção. Adequação e adaptação autorizada de seis casos antigos em `features/etapas/evidence.md`. Spec strict/tasks validadores sem erros/avisos.
+- **In-progress**: interface ainda não implementada nesta entrega; MySQL temporário fictício33817/PID23944 ativo sob responsabilidade do root, regressão desta T1 ainda não executada. AD-011 confirmada para requisito posterior. Teste humano de gerenciamentos permanece sem resultado; “pode continuar” não prova UAT. L-001 permanece candidate.
+- **Next step**: root verifica regressão MySQL isolada; implementar T2–T5 na interface sequencialmente com gates/commits. Verificador novo ao final.
+- **Blockers**: nenhum para CRUD de etapas de trabalho. Destinos finais confirmados em AD-011, para requisito posterior. Contas administrativas reais serão selecionadas posteriormente; testes fictícios isolados.
+- **Uncommitted files**: artefatos gerados de teste/build, alguns previamente rastreados no repositório. Fontes, testes e registros intencionais de T1 são incluídos neste commit; staging explícito exclui os artefatos.
 - **Branch**: testes; base 5d8beb9.
 
 A aplicação normal não foi iniciada nem o banco MySQL configurado alterado. A instância temporária tem pasta de dados nova em TEMP e só contém dados fictícios. Usar apenas banco isolado durante os testes.
@@ -105,6 +113,6 @@ A aplicação normal não foi iniciada nem o banco MySQL configurado alterado. A
 
 Já confirmado: somente criador/administrador configura etapas; remover etapa com demandas é bloqueado (AD-007/008).
 
-Pergunta enviada, aguardando resposta: exatamente duas colunas finais fixas, Concluídos/Cancelados, ou permitir destinos adicionais de cada categoria escolhidos ao finalizar? A proposta de destinos adicionais deve manter as duas etapas obrigatórias pedidas originalmente. Não iniciar a implementação desses destinos por ausência de resposta.
+Resposta recebida em 2026-10-05: somente Concluídos e Cancelados, com destino automático conforme a ação (AD-011). Implementação em entrega posterior, mantendo esta API limitada a etapas de trabalho.
 
 Resposta recebida em 2026-10-05: seguir com posição automática e Setor obrigatório, registradas em AD-009/010. Detalhes e defaults menores da próxima entrega em `features/etapas/context.md`.

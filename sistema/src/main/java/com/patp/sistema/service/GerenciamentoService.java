@@ -14,7 +14,6 @@ import com.patp.sistema.dto.GerenciamentoResponse.CriadorResponse;
 import com.patp.sistema.exception.ApiException;
 import com.patp.sistema.model.Etapa;
 import com.patp.sistema.model.Gerenciamento;
-import com.patp.sistema.model.PapelUsuario;
 import com.patp.sistema.model.Usuario;
 import com.patp.sistema.repository.EtapaRepository;
 import com.patp.sistema.repository.GerenciamentoRepository;
@@ -97,7 +96,7 @@ public class GerenciamentoService {
     public GerenciamentoResponse editar(String token, Long id, String nome, String descricao, Long versao) {
         Usuario usuario = usuario(token);
         Gerenciamento gerenciamento = guard.bloquear(id);
-        exigirAdministracao(gerenciamento, usuario);
+        guard.exigirAdministracao(gerenciamento, usuario);
         guard.verificarAtivo(gerenciamento);
         validarVersao(versao);
         compararVersao(gerenciamento, versao);
@@ -118,7 +117,7 @@ public class GerenciamentoService {
     public void mudarEstado(String token, Long id, Long versao, boolean arquivado) {
         Usuario usuario = usuario(token);
         Gerenciamento gerenciamento = guard.bloquear(id);
-        exigirAdministracao(gerenciamento, usuario);
+        guard.exigirAdministracao(gerenciamento, usuario);
         validarVersao(versao);
         if (gerenciamento.isArquivado() == arquivado) {
             return;
@@ -132,25 +131,12 @@ public class GerenciamentoService {
         return sessoes.buscarUsuario(token);
     }
 
-    private boolean podeAdministrar(Gerenciamento gerenciamento, Usuario usuario) {
-        return usuario.getPapel() == PapelUsuario.ADMINISTRADOR
-                || gerenciamento.getCriador() != null
-                && Objects.equals(gerenciamento.getCriador().getId(), usuario.getId());
-    }
-
-    private void exigirAdministracao(Gerenciamento gerenciamento, Usuario usuario) {
-        if (!podeAdministrar(gerenciamento, usuario)) {
-            throw new ApiException(HttpStatus.FORBIDDEN,
-                    "Você não tem permissão para administrar este gerenciamento.");
-        }
-    }
-
-    private GerenciamentoResponse resposta(Gerenciamento gerenciamento, Usuario usuario) {
+    GerenciamentoResponse resposta(Gerenciamento gerenciamento, Usuario usuario) {
         Usuario criador = gerenciamento.getCriador();
         return new GerenciamentoResponse(gerenciamento.getId(), gerenciamento.getNome(),
                 gerenciamento.getDescricao(), criador == null ? null
                         : new CriadorResponse(criador.getId(), criador.getNome()),
-                gerenciamento.isArquivado(), gerenciamento.getVersao(), podeAdministrar(gerenciamento, usuario));
+                gerenciamento.isArquivado(), gerenciamento.getVersao(), guard.podeAdministrar(gerenciamento, usuario));
     }
 
     private void validarVersao(Long versao) {
@@ -182,7 +168,7 @@ public class GerenciamentoService {
         return descricao == null ? "" : descricao;
     }
 
-    private static String normalizar(String texto) {
+    static String normalizar(String texto) {
         return texto == null ? "" : BORDAS.matcher(texto).replaceAll("");
     }
 }

@@ -22,6 +22,17 @@ public interface ProcessoRepository extends JpaRepository<Processo, Long> {
 
     List<Processo> findByEtapaId(Long etapaId);
 
+    boolean existsByEtapaId(Long etapaId);
+
+    @Query("select p.etapa.id as etapaId, count(p) as quantidade from Processo p "
+            + "where p.etapa.gerenciamento.id = :gerenciamentoId group by p.etapa.id")
+    List<ContagemEtapa> contarPorEtapa(@Param("gerenciamentoId") Long gerenciamentoId);
+
+    interface ContagemEtapa {
+        Long getEtapaId();
+        Long getQuantidade();
+    }
+
     @Query("select p.etapa.gerenciamento.id from Processo p where p.id = :id")
     Optional<Long> buscarGerenciamentoId(@Param("id") Long id);
 }
