@@ -4,7 +4,7 @@
 
 Usuário autorizou continuar a implementação, com AD-007–010 confirmadas. Executar uma tarefa por vez: testes derivados de ETA, gate, adequação direta/reversa com arquivo:linha e assertion, status e um Conventional Commit local. Sem push/deploy/MySQL configurado. Nenhuma fase seguinte começa antes do gate/commit anterior. Delegação técnica autorizada pelas instruções da sessão; não solicitar confirmação de rotina.
 
-**Design:** `design.md`. **Status:** T1–T6 concluídas com gates locais; Verificador independente pendente.
+**Design:** `design.md`. **Status:** T1–T7 concluídas com gates locais; T7 cobre ETA-27/M10. Último relatório independente ainda é FAIL; re-verificação pendente.
 
 ## Test Coverage Matrix
 
@@ -39,7 +39,7 @@ T1
 ### Phase 2: Controles e fluxo na interface
 
 ```text
-T2 -> T3 -> T4 -> T6 -> T5
+T2 -> T3 -> T4 -> T6 -> T5 -> T7
 ```
 
 Dependência entre fases:
@@ -48,7 +48,7 @@ Dependência entre fases:
 T1 -> T2
 ```
 
-Seis tarefas; servidor T1 por trabalhador, interface T2–T4/T6/T5 por outro trabalhador, sequenciais. T6 fecha lacuna ETA26 apontada pela revisão depois do commit T4. Ao final, Verificador fresco que não escreveu código/testes.
+Sete tarefas; servidor T1 por trabalhador, interface T2–T4/T6/T5/T7 por outro trabalhador, sequenciais. T6 fecha lacuna ETA26 da revisão; T7 fecha gap de cobertura ETA27/M10 do Verificador independente. Ao final, re-verificação independente por quem não escreveu código/testes.
 
 ## Task Breakdown
 
@@ -126,7 +126,7 @@ Seis tarefas; servidor T1 por trabalhador, interface T2–T4/T6/T5 por outro tra
 **Gate:** build
 **Commit:** test(etapas): verify stage management in the browser
 
-**Fechamento da feature:** após o commit T5, root despacha Verificador novo e executa validate_state antes de declarar feature concluída. O trabalhador da interface não atua como Verificador e encerra as alterações após seu commit.
+**Fechamento da feature:** após o commit da última tarefa (agora T7), root despacha Verificador novo e executa validate_state antes de declarar feature concluída. O trabalhador da interface não atua como Verificador e encerra as alterações após seu commit.
 
 ### T6: Impedir saída global durante mutação de etapas
 
@@ -142,6 +142,21 @@ Seis tarefas; servidor T1 por trabalhador, interface T2–T4/T6/T5 por outro tra
 **Gate:** full
 **Commit:** fix(frontend): prevent logout during stage mutations
 
+### T7: Cobrir respostas de sucesso ilegíveis
+
+**What:** testar POST201/PUT200/DELETE200 com JSON ilegível e truncado, fechando gap V1/M10 sem alterar a produção correta nem adicionar validação de schema.
+**Where:** frontend/src/services/api.test.js
+**Companions:** frontend/src/pages/QuadroEtapas.test.jsx, frontend-evidence.md e spec/tasks; nenhuma alteração nos137 casos anteriores, fontes de produção, relatório do Verificador ou STATE.
+**Depends on:** T5
+**Requirement:** ETA-27/29, com versão/payload de ETA-28.
+**Done when:**
+- [x] Três wrappers rejeitam os dois corpos ilegíveis com mensagem de comunicação exata, status original201/200 e uma requisição, sem inventar sucesso ou retry.
+- [x] Quadro conserva campos/posição noPOST/PUT ou confirmação/coluna noDELETE, alerta acessível exato, cache e colunas originais; refresh manual somenteGET e próximo envio somente manual com versão reconsultada/payload completo.
+- [x] Gate Build passa com todos os137 testes anteriores preservados e novos casos executados; adequação direta/reversa física registrada, commit local e re-verificação independente pendente.
+**Tests:** integration
+**Gate:** build
+**Commit:** test(etapas): cover unreadable successful responses
+
 ## Diagram-Definition Cross-Check
 
 | Task | Depends On | Diagram Shows | Status |
@@ -152,9 +167,12 @@ Seis tarefas; servidor T1 por trabalhador, interface T2–T4/T6/T5 por outro tra
 | T4 | T3 | T3 -> T4 | OK |
 | T6 | T4 | T4 -> T6 | OK |
 | T5 | T6 | T6 -> T5 | OK |
+| T7 | T5 | T5 -> T7 | OK |
 
 ## Execution Evidence
 
 Acrescentar gates, contagens, diffs e adequação de cada tarefa em `evidence.md` (servidor) e `frontend-evidence.md` (interface). Não criar arquivo vazio. Especificação deve registrar tarefas implementadas antes de seus commits; validação independente ao final, sem PASS humano inferido.
 
 T1: verify H2 PASS, 238 testes (134 API etapas, 7 corridas, 6 regressões etapas, outros91), zero falhas/erros/skips. RED anterior à produção:116 testes,95 falhas de outcomes, zero erros/skips. Adequação direta/reversa com assertions físicas em `evidence.md`; nenhum SPEC_DEVIATION. MySQL isolado será verificado pelo root após este commit; T2–T5 e Verificador independente pendentes.
+
+T7: gate local Build PASS em 05/10/2026: 238 Java/H2, 149 Vitest (137 preservados +12 novos), build/lint e 2 E2E Edge. Primeira execução E2E saiu1 por ECONNRESET; trace preservado, causa do socket não determinada. Repetição diagnóstica completa saiu0, sem retries nem alteração de assertions/runner. Adequação direta/reversa e limites em `frontend-evidence.md`. Nenhuma fonte de produção alterada; novo MySQL não necessário. Re-verificação independente e validate_state pendentes.
