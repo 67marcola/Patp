@@ -43,3 +43,45 @@
 
 - Checks A/B/C/D: completos. Valores do DTO/persistência verificados separadamente, além de status/call; nenhum teste raso ou sem requisito. Padrões JUnit/AssertJ/Spring existentes e coding-principles seguidos. Nenhum teste anterior modificado, removido ou ignorado; nenhuma SPEC_DEVIATION.
 - Veredito: AUT-01–05 cobertos dentro dos limites declarados. T1 completo após gate.
+
+## T2: Validar a resposta de autenticação
+
+### Pré-implementação
+
+- Suposições: AUT-06 exige objeto com token original não vazio após trim, id inteiro positivo, nome/email strings e setor string ou null. Campos extras do DTO são preservados aqui; App fará a projeção segura. Erros HTTP/rede/parser já têm ApiError e devem continuar iguais.
+- Arquivos: `frontend/src/services/api.js`, novo `frontend/src/services/ApiAutenticacao.test.js`, evidence/spec/tasks desta feature.
+- Sucesso: ambos os wrappers mantêm rota/POST/body, aceitam contrato válido e setor null, rejeitam os campos inválidos e JSON ilegível com ApiError/status 200/texto exato, sem repetir requisição. Gate npm completo preserva os 149 testes anteriores.
+- Testes antes do código: 52 casos (4 contratos válidos, 36 contratos inválidos, 4 JSON ilegíveis, 6 erros HTTP e 2 erros de rede).
+
+
+### Gate e revisão
+
+- Inicial focal: `npm.cmd test -- --run src/services/ApiAutenticacao.test.js`, 36 falhas esperadas (contratos inválidos aceitos), 16 passes, 52 casos. Log `%TEMP%/autocadastro-t2-red.log`.
+- Implementação: helper de autenticação compartilhado verifica somente contrato exigido, preservando token original e erros existentes. Nenhuma dependência/rota adicional.
+- Gate: `npm.cmd test`, exit 0, 201 passes (149 anteriores + 52), oito arquivos, zero falhas/skips. Log `%TEMP%/autocadastro-t2-gate.log`.
+- Limite: contratos simulados no transporte; valores reais do servidor cobertos por T1. Nenhum teste anterior alterado/removido/ignorado.
+
+**Mapeamento direto (Check A).** Prefixo físico: `frontend/src/services/ApiAutenticacao.test.js`.
+
+| Critério | arquivo:linha + assertion | Resultado da spec | Coberto |
+| --- | --- | --- | --- |
+| AUT-06 objeto e campos | `ApiAutenticacao.test.js:47` `expect(error).toBeInstanceOf(ApiError)` e `:48` `expect(error).toMatchObject({ status: 200, message })`, matriz `:31–41` | 18 classes inválidas em ambos wrappers: objeto/token/id/nome/email/setor recusados; texto exato definido em `:6` | Sim, 36 casos |
+| AUT-06 contrato válido/token original/setor null | `:22` `expect(await run()).toEqual(expected)`, expected `:20` usa os seis valores de session `:5` e setor Campo/null | Sem trim do token, setor null aceito, demais campos preservados | Sim, 4 casos |
+| T2 rota/POST/corpo, transporte AUT-10 | `:23` URL `toBe(...)`; `:24` `expect(fetchMock.mock.calls[0][1]).toEqual({ method: "POST", headers: { "Content-Type": "application/json" }, signal: undefined, body: JSON.stringify(payload) })` | Rotas corretas, email/senha login, quatro campos cadastro com senha original | Sim |
+| AUT-06 JSON ilegível/sem retry | `:56` `expect(error).toBeInstanceOf(ApiError)`; `:57` `expect(error).toMatchObject({ status: 200, message })`; `:58` `expect(fetchMock).toHaveBeenCalledTimes(1)` | HTML e JSON truncado não confirmam sessão, 200 e mensagem exata, uma requisição | Sim, 4 casos |
+| AUT-06 sem retry contrato inválido | `:49` `expect(fetchMock).toHaveBeenCalledTimes(1)` junto ao erro `:47–48` | Uma requisição para cada payload inválido | Sim |
+| T2/AUT-13 erro HTTP | `:69` `expect(error).toBeInstanceOf(ApiError)`; `:70` `expect(error).toMatchObject({ status, message: expected })`; `:71` call times 1 | 400/500 conservam mensagem; 500 ilegível conserva fallback seguro | Sim, 6 casos |
+| T2/AUT-13 rede | `:78` `expect(error).toBeInstanceOf(ApiError)`; `:79` `expect(error).toMatchObject({ status: 0, message })`; `:80` call times 1 | ApiError/status zero/texto existente e nenhuma repetição | Sim, 2 casos |
+
+**Mapeamento reverso (Check C), todos os 52 casos.**
+
+| Teste + assertion física | AC / critério | Manter |
+| --- | --- | --- |
+| `ApiAutenticacao.test.js:18–28`, `:22` objeto exato, `:23–27` rota/POST/payload, `:28` call times 1; dois wrappers × dois setores | AUT-06, transporte AUT-10 e Done-when T2 | Sim, 4 |
+| `:43–49`, `:47–48` tipo/status/mensagem do erro e `:49` call times 1; dois wrappers × 18 payloads | AUT-06 campos inválidos e ausência de retry | Sim, 36 |
+| `:52–58`, `:56–57` tipo/status/mensagem e `:58` call times 1; dois wrappers × dois textos ilegíveis | AUT-06 JSON ilegível | Sim, 4 |
+| `:61–71`, `:69–70` erro exato e `:71` call times 1; dois wrappers × três erros | AUT-13 transporte e preservação T2 | Sim, 6 |
+| `:74–80`, `:78–79` erro zero/texto exato e `:80` call times 1; dois wrappers | AUT-13 rede e preservação T2 | Sim, 2 |
+
+- Checks A/B/C/D: completos. Assertions conferem os valores retornados/enviados e os erros concretos, além da contagem. Cada matriz deriva do contrato ou falha especificados. Segue padrões Vitest/Response existentes e coding-principles; nenhuma SPEC_DEVIATION.
+- Veredito: AUT-06 e transporte T2 cobertos. T2 completo após gate.

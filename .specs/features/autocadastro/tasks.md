@@ -78,8 +78,8 @@ T4 -> T5
 **Depends on:** T1
 **Requirement:** AUT-06, transporte de AUT-10/13.
 **Done when:**
-- [ ] Ambos os wrappers usam rota/corpo corretos, aceitam setor null e rejeitam campos inválidos/JSON ilegível com mensagem/status exatos sem retry.
-- [ ] Erros HTTP e rede preservam ApiError/status/mensagem existentes; gate passa com testes anteriores intactos e adequação registrada.
+- [x] Ambos os wrappers usam rota/corpo corretos, aceitam setor null e rejeitam campos inválidos/JSON ilegível com mensagem/status exatos sem retry.
+- [x] Erros HTTP e rede preservam ApiError/status/mensagem existentes; gate passa com testes anteriores intactos e adequação registrada.
 **Tests:** unit
 **Gate:** quick
 **Commit:** fix(auth): reject incomplete authentication responses

@@ -93,7 +93,7 @@ AUT-01–14 com assertions físicas e gates sem falhas/skips. Preservar todos os
 | AUT-03 | T1 | complete | evidence.md, T1 |
 | AUT-04 | T1 | complete | evidence.md, T1 |
 | AUT-05 | T1 | complete | evidence.md, T1 |
-| AUT-06 | T2 | pending | gate e assertions serão registrados em evidence.md |
+| AUT-06 | T2 | complete | evidence.md, T2 |
 | AUT-07 | T3, T5 | pending | evidence.md |
 | AUT-08 | T3, T4 | pending | evidence.md |
 | AUT-09 | T3, T5 | pending | evidence.md |
