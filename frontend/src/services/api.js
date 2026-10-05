@@ -1,146 +1,79 @@
-const API_URL = "http://localhost:8081/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8081/api";
+const ERRO_COMUNICACAO = "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.";
 
-
-// =========================
-// LOGIN
-// =========================
-
-export async function login(email, senha) {
-
-    const resposta = await fetch(`${API_URL}/usuarios/login`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            email,
-            senha
-        })
-    });
-
-    const dados = await resposta.json();
-
-    if (!resposta.ok) {
-        throw new Error(
-            dados.erro || "E-mail ou senha incorretos."
-        );
+export class ApiError extends Error {
+    constructor(message, status) {
+        super(message);
+        this.name = "ApiError";
+        this.status = status;
     }
-
-    return dados;
 }
 
+async function requisicao(caminho, { token, method = "GET", dados, signal } = {}) {
+    const headers = {};
+    if (token) headers.Authorization = `Bearer ${token}`;
+    if (dados !== undefined) headers["Content-Type"] = "application/json";
 
-// =========================
-// CADASTRO
-// =========================
-
-export async function cadastrarUsuario(usuario) {
-
-    const resposta = await fetch(
-        `${API_URL}/usuarios/cadastro`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(usuario)
-        }
-    );
-
-    const dados = await resposta.json();
-
-    if (!resposta.ok) {
-        throw new Error(
-            dados.erro || "Não foi possível realizar o cadastro."
-        );
+    let resposta;
+    try {
+        resposta = await fetch(`${API_URL}${caminho}`, {
+            method, headers, signal,
+            ...(dados === undefined ? {} : { body: JSON.stringify(dados) })
+        });
+    } catch (error) {
+        if (error.name === "AbortError") throw error;
+        throw new ApiError(ERRO_COMUNICACAO, 0);
     }
 
-    return dados;
+    if (resposta.status === 204) return;
+    let corpo;
+    try {
+        corpo = await resposta.json();
+    } catch {
+        if (resposta.ok) throw new ApiError(ERRO_COMUNICACAO, resposta.status);
+    }
+    if (!resposta.ok) {
+        throw new ApiError(corpo?.erro || "Não foi possível concluir a operação.", resposta.status);
+    }
+    return corpo;
 }
 
-
-// =========================
-// USUÁRIO LOGADO
-// =========================
-
-export async function buscarUsuarioLogado(token) {
-
-    const resposta = await fetch(
-        `${API_URL}/usuarios/me`,
-        {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-    );
-
-    const dados = await resposta.json();
-
-    if (!resposta.ok) {
-        throw new Error(
-            dados.erro || "Sessão inválida."
-        );
-    }
-
-    return dados;
+export function login(email, senha) {
+    return requisicao("/usuarios/login", { method: "POST", dados: { email, senha } });
 }
 
-
-// =========================
-// GERENCIAMENTOS
-// =========================
-
-export async function listarGerenciamentos(token) {
-
-    const resposta = await fetch(
-        `${API_URL}/gerenciamentos`,
-        {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-    );
-
-    const dados = await resposta.json();
-
-    if (!resposta.ok) {
-        throw new Error(
-            dados.erro ||
-            "Não foi possível carregar os gerenciamentos."
-        );
-    }
-
-    return dados;
+export function cadastrarUsuario(usuario) {
+    return requisicao("/usuarios/cadastro", { method: "POST", dados: usuario });
 }
 
+export function buscarUsuarioLogado(token) {
+    return requisicao("/usuarios/me", { token });
+}
 
-export async function criarGerenciamento(
-    token,
-    gerenciamento
-) {
+export function listarGerenciamentos(token, arquivado = false, options = {}) {
+    return requisicao(`/gerenciamentos?arquivado=${arquivado}`, { token, signal: options.signal });
+}
 
-    const resposta = await fetch(
-        `${API_URL}/gerenciamentos`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify(gerenciamento)
-        }
-    );
+export function buscarGerenciamento(token, id, options = {}) {
+    return requisicao(`/gerenciamentos/${id}`, { token, signal: options.signal });
+}
 
-    const dados = await resposta.json();
+export function criarGerenciamento(token, gerenciamento) {
+    return requisicao("/gerenciamentos", { token, method: "POST", dados: gerenciamento });
+}
 
-    if (!resposta.ok) {
-        throw new Error(
-            dados.erro ||
-            "Não foi possível criar o gerenciamento."
-        );
-    }
+export function editarGerenciamento(token, id, dados) {
+    return requisicao(`/gerenciamentos/${id}`, { token, method: "PUT", dados });
+}
 
-    return dados;
+export function arquivarGerenciamento(token, id, versao) {
+    return requisicao(`/gerenciamentos/${id}/arquivar`, { token, method: "PUT", dados: { versao } });
+}
+
+export function restaurarGerenciamento(token, id, versao) {
+    return requisicao(`/gerenciamentos/${id}/restaurar`, { token, method: "PUT", dados: { versao } });
+}
+
+export function listarEtapas(token, id, options = {}) {
+    return requisicao(`/gerenciamentos/${id}/etapas`, { token, signal: options.signal });
 }

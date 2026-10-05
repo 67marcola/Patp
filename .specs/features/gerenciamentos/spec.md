@@ -259,9 +259,9 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | GER-30 | Interface | Specify | Pending |
 | GER-31 | Interface | Execute | In Progress: cancelamento existente verificado em T9; demais fluxos pendentes |
 | GER-32 | Interface | Specify | Pending |
-| GER-33 | Interface | Specify | Pending |
-| GER-34 | Interface | Specify | Pending |
-| GER-35 | Interface | Specify | Pending |
+| GER-33 | Interface | Execute | In Progress: contrato HTTP testado em T10; formulário/lista pendentes |
+| GER-34 | Interface | Execute | In Progress: HTTP 204 testado em T10; recarga pendente |
+| GER-35 | Interface | Execute | In Progress: requests e DTO testados em T10; UI/E2E pendentes |
 | GER-36 | Interface | Specify | Pending |
 | GER-37 | Interface | Specify | Pending |
 | GER-38 | Interface | Specify | Pending |
