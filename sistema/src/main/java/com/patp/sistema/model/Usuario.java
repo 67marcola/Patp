@@ -2,10 +2,13 @@ package com.patp.sistema.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "usuarios")
@@ -23,7 +26,13 @@ public class Usuario {
     private String email;
 
     @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private PapelUsuario papel = PapelUsuario.FUNCIONARIO;
 
     public Usuario() {
     }
@@ -66,5 +75,13 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public PapelUsuario getPapel() {
+        return papel == null ? PapelUsuario.FUNCIONARIO : papel;
+    }
+
+    public void setPapel(PapelUsuario papel) {
+        this.papel = papel;
     }
 }
