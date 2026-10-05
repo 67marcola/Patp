@@ -38,12 +38,24 @@ async function requisicao(caminho, { token, method = "GET", dados, signal } = {}
     return corpo;
 }
 
+async function autenticar(caminho, dados) {
+    const resposta = await requisicao(caminho, { method: "POST", dados });
+    if (!resposta || typeof resposta !== "object" || Array.isArray(resposta)
+        || typeof resposta.token !== "string" || !resposta.token.trim()
+        || !Number.isInteger(resposta.id) || resposta.id <= 0
+        || typeof resposta.nome !== "string" || typeof resposta.email !== "string"
+        || (resposta.setor !== null && typeof resposta.setor !== "string")) {
+        throw new ApiError(ERRO_COMUNICACAO, 200);
+    }
+    return resposta;
+}
+
 export function login(email, senha) {
-    return requisicao("/usuarios/login", { method: "POST", dados: { email, senha } });
+    return autenticar("/usuarios/login", { email, senha });
 }
 
 export function cadastrarUsuario(usuario) {
-    return requisicao("/usuarios/cadastro", { method: "POST", dados: usuario });
+    return autenticar("/usuarios/cadastro", usuario);
 }
 
 export function buscarUsuarioLogado(token) {
