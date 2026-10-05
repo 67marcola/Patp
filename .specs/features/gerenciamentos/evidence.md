@@ -335,3 +335,67 @@ Gate `mvn.cmd -B test`: PASS, 55 testes totais, zero falhas/erros/ignorados. Sei
 | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:134`: `assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(1L);` | private void disputar(boolean arquivoPrimeiro) throws Exception { | Sim |
 
 Adequação: assertions sobre resposta HTTP e/ou estado persistido; sem skip/deleção/enfraquecimento; sem desvio de spec. Nenhuma guideline adicional foi encontrada; aplicada a matriz de tasks.md. Gate e inspeção de suficiência/necessidade aprovados; verificação independente da feature ainda pendente.
+
+## T6
+
+Gate `mvn.cmd -B test`: PASS, 66 testes totais, zero falhas/erros/ignorados. Onze casos T6, onze falhas na rodada vermelha. As seis mutações arquivadas deixam snapshots integrais intactos; ID de POST não substitui registro; relações forjadas são resolvidas pelo vínculo persistido. DELETE ativo já falhava por FK de histórico: mantém 500 genérico com rollback, correção funcional fica para CRUD de demandas.
+
+| Critério / âncora | Evidência e expressão da assertion | Resultado exigido | Coberto? |
+| --- | --- | --- | --- |
+| GER-20/21/22 matriz processos | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:43`: `.andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value(ERRO));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21/22 matriz processos | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:44`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21/22 matriz processos | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:45`: `mvc.perform(get(base).header("Authorization", token(criador))).andExpect(status().isOk())` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21/22 matriz processos | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:46`: `.andExpect(jsonPath("$.id").value(demanda.getId())).andExpect(jsonPath("$.numeroProcesso").value(demanda.getNumeroProcesso()))` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21/22 matriz processos | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:47`: `.andExpect(jsonPath("$.etapa.id").value(origem.getId())).andExpect(jsonPath("$..senha").doesNotExist());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| contrato POST sem update | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:60`: `.andExpect(status().isBadRequest());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| contrato POST sem update | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:61`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| contrato POST sem update | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:62`: `assertThat(processos.count()).isEqualTo(1);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 vínculo persistido | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:77`: `.andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value(ERRO));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 vínculo persistido | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:78`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:91`: `.andExpect(status().isOk()).andExpect(jsonPath("$.etapa.gerenciamento.id").value(quadro.getId()));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:96`: `.andExpect(status().isOk()).andExpect(jsonPath("$.numeroProcesso").value("Editado"));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:97`: `mvc.perform(put(base + "/etapa/" + destino.getId()).header("Authorization", token)).andExpect(status().isOk())` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:98`: `.andExpect(jsonPath("$.etapa.id").value(destino.getId()));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:99`: `mvc.perform(put(base + "/concluir").header("Authorization", token)).andExpect(status().isOk())` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:100`: `.andExpect(jsonPath("$.status").value("Concluido")).andExpect(jsonPath("$.dataConclusao").isNotEmpty());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:102`: `.andExpect(status().isOk()).andExpect(jsonPath("$.status").value("Cancelado"))` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:103`: `.andExpect(jsonPath("$.motivoCancelamento").value("Solicitado")).andExpect(jsonPath("$.dataCancelamento").isNotEmpty());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:105`: `assertThat(salvo.getNumeroProcesso()).isEqualTo("Editado");` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:106`: `assertThat(salvo.getEtapa().getId()).isEqualTo(destino.getId());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:107`: `assertThat(salvo.getStatus()).isEqualTo("Cancelado");` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:108`: `assertThat(salvo.getMotivoCancelamento()).isEqualTo("Solicitado");` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:109`: `assertThat(jdbc.queryForList("select acao from historicos order by id", String.class))` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21/22 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:111`: `assertThat(jdbc.queryForList("select usuario from historicos", String.class)).containsOnly("Outro");` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| consistência GER-22 limite ativo preexistente | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:120`: `.andExpect(status().isInternalServerError()).andExpect(jsonPath("$.erro").value("Não foi possível concluir a operação."));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| consistência GER-22 limite ativo preexistente | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:121`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+
+| Assertion | Âncora | Manter? |
+| --- | --- | --- |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:43`: `.andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value(ERRO));` | GER-20/21/22 matriz processos | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:44`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | GER-20/21/22 matriz processos | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:45`: `mvc.perform(get(base).header("Authorization", token(criador))).andExpect(status().isOk())` | GER-20/21/22 matriz processos | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:46`: `.andExpect(jsonPath("$.id").value(demanda.getId())).andExpect(jsonPath("$.numeroProcesso").value(demanda.getNumeroProcesso()))` | GER-20/21/22 matriz processos | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:47`: `.andExpect(jsonPath("$.etapa.id").value(origem.getId())).andExpect(jsonPath("$..senha").doesNotExist());` | GER-20/21/22 matriz processos | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:60`: `.andExpect(status().isBadRequest());` | contrato POST sem update | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:61`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | contrato POST sem update | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:62`: `assertThat(processos.count()).isEqualTo(1);` | contrato POST sem update | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:77`: `.andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value(ERRO));` | GER-21 vínculo persistido | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:78`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | GER-21 vínculo persistido | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:91`: `.andExpect(status().isOk()).andExpect(jsonPath("$.etapa.gerenciamento.id").value(quadro.getId()));` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:96`: `.andExpect(status().isOk()).andExpect(jsonPath("$.numeroProcesso").value("Editado"));` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:97`: `mvc.perform(put(base + "/etapa/" + destino.getId()).header("Authorization", token)).andExpect(status().isOk())` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:98`: `.andExpect(jsonPath("$.etapa.id").value(destino.getId()));` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:99`: `mvc.perform(put(base + "/concluir").header("Authorization", token)).andExpect(status().isOk())` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:100`: `.andExpect(jsonPath("$.status").value("Concluido")).andExpect(jsonPath("$.dataConclusao").isNotEmpty());` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:102`: `.andExpect(status().isOk()).andExpect(jsonPath("$.status").value("Cancelado"))` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:103`: `.andExpect(jsonPath("$.motivoCancelamento").value("Solicitado")).andExpect(jsonPath("$.dataCancelamento").isNotEmpty());` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:105`: `assertThat(salvo.getNumeroProcesso()).isEqualTo("Editado");` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:106`: `assertThat(salvo.getEtapa().getId()).isEqualTo(destino.getId());` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:107`: `assertThat(salvo.getStatus()).isEqualTo("Cancelado");` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:108`: `assertThat(salvo.getMotivoCancelamento()).isEqualTo("Solicitado");` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:109`: `assertThat(jdbc.queryForList("select acao from historicos order by id", String.class))` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:111`: `assertThat(jdbc.queryForList("select usuario from historicos", String.class)).containsOnly("Outro");` | GER-21/22 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:120`: `.andExpect(status().isInternalServerError()).andExpect(jsonPath("$.erro").value("Não foi possível concluir a operação."));` | consistência GER-22 limite ativo preexistente | Sim |
+| `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:121`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | consistência GER-22 limite ativo preexistente | Sim |
+
+Adequação: assertions sobre resposta HTTP e/ou estado persistido; sem skip/deleção/enfraquecimento; sem desvio de spec. Nenhuma guideline adicional foi encontrada; aplicada a matriz de tasks.md. Gate e inspeção de suficiência/necessidade aprovados; verificação independente da feature ainda pendente.

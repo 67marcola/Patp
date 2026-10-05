@@ -149,9 +149,9 @@ T8 -> T9
 **Depends on:** T5
 **Requirement:** GER-21/22, contrato POST sem update.
 **Done when:**
-- [ ] Criar/editar/mover/concluir/cancelar/excluir em arquivado retorna 409 e não muda registro/histórico.
-- [ ] POST com ID retorna 400, sem atualizar processo existente; guardas usam vínculos persistidos.
-- [ ] Mutação ativa conserva semântica anterior, com transação/lock ordenado; gate passa.
+- [x] Criar/editar/mover/concluir/cancelar/excluir em arquivado retorna 409 e não muda registro/histórico.
+- [x] POST com ID retorna 400, sem atualizar processo existente; guardas usam vínculos persistidos.
+- [x] Mutação ativa conserva semântica anterior, com transação/lock ordenado; gate passa.
 **Tests:** integration
 **Gate:** full
 **Commit:** `fix(processos): enforce archived board write protection`
