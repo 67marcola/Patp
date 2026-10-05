@@ -53,10 +53,10 @@ T8 -> T14
 ### Phase 4: Interface e fluxo em navegador
 
 ```text
-T9 -> T10 -> T11 -> T12 -> T13
+T9 -> T10 -> T11 -> T12 -> T15 -> T13
 ```
 
-Execução sequencial. Lote servidor: fases 1/2 (8 tarefas, T1 executada pelo orquestrador antes do trabalhador T2–T8). Correção técnica T14 executada pelo orquestrador após esse lote. Lote interface: fase 4 (5 tarefas). Verificador novo após o último commit. Consultas/revisões independentes podem ocorrer em paralelo, sem editar os arquivos do trabalhador.
+Execução sequencial. Lote servidor: fases 1/2 (8 tarefas, T1 executada pelo orquestrador antes do trabalhador T2–T8). Correção técnica T14 executada pelo orquestrador após esse lote. Lote interface: fase 4 (6 tarefas, incluindo correção T15 descoberta na revisão de T12). Verificador novo após o último commit. Consultas/revisões independentes podem ocorrer em paralelo, sem editar os arquivos do trabalhador.
 
 Dependências entre fases:
 
@@ -252,12 +252,27 @@ T14 -> T9
 **Gate:** full
 **Commit:** `feat(frontend): manage active and archived boards`
 
+### T15: Preservar navegação durante recarga e confirmação
+
+**What:** corrigir duas sequências observadas na revisão de T12: fechamento indevido de novo formulário por callback anterior e confirmação antiga com origem desmontada.
+**Where:** `frontend/src/pages/Gerenciamentos.jsx`
+**Companions:** testes React das duas sequências e evidências antes/depois; não modificar assertions anteriores.
+**Depends on:** T12
+**Requirement:** GER-31/33/34.
+**Done when:**
+- [x] Formulário salvo continua pendente até encerrar a consulta posterior; não permite abrir outro formulário que o callback antigo possa fechar; erro posterior continua exibindo GER-34 na lista.
+- [x] Navegar para criar/abrir descarta confirmação anterior; nova confirmação devolve foco ao botão atual conectado ao DOM, sem envio de mutação ao cancelar.
+- [x] Três casos novos reproduziram as falhas antes da correção; todos os testes anteriores permanecem; gates frontend passam.
+**Tests:** integration
+**Gate:** full
+**Commit:** `fix(frontend): preserve navigation during board refresh`
+
 ### T13: Entregar consulta arquivada e validar fluxo completo
 
 **What:** completar o contrato de consulta do Quadro e comprovar o fluxo em navegador.
 **Where:** `frontend/src/pages/Quadro.jsx`
 **Companions:** testes React de readonly, testes E2E/configuração necessária e backend de teste isolado para fluxo real.
-**Depends on:** T12
+**Depends on:** T15
 **Requirement:** GER-29/35/38–40; conclusão GER-01–41.
 **Done when:**
 - [ ] Arquivado exibe texto exato e não oferece alteração; consulta/carregamento/erro funcionam com teclado e alerta.
@@ -299,7 +314,8 @@ T14 -> T9
 | T10 | T9 | T9 -> T10 | OK |
 | T11 | T10 | T10 -> T11 | OK |
 | T12 | T11 | T11 -> T12 | OK |
-| T13 | T12 | T12 -> T13 | OK |
+| T15 | T12 | T12 -> T15 | OK |
+| T13 | T15 | T15 -> T13 | OK |
 
 ## Test Co-location Validation
 
@@ -311,6 +327,7 @@ T14 -> T9
 | T9 | Infra React | integration | integration | OK |
 | T10 | Cliente HTTP | unit | unit | OK |
 | T11–T12 | React | integration | integration | OK |
+| T15 | React/navegação | integration | integration | OK |
 | T13 | React/navegador | integration/e2e | integration/e2e | OK |
 
 ## Task Granularity Check
