@@ -98,16 +98,16 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature**: CRUD de etapas de trabalho da Creral.
-- **Phase / Task**: T1–T7 concluídas; validação técnica independente PASS na rodada 2 sobre d067682.
-- **Completed**: gerenciamentos, 41/41 critérios; etapas, 30/30 critérios. Gates atuais: 238 Java/H2, 149 Vitest, build/lint e 2 E2E Edge PASS, zero falhas/erros/skips/retries na execução independente. MySQL temporário 8.0.43, 237 PASS em features/etapas/mysql-validation.md; backend intacto em T7. Sensor atual: 5/5 falhas compiláveis detectadas, incluindo M10 e equivalentes PUT/DELETE. Relatório, assertions e histórico em features/etapas/validation.md. validate_state etapas: zero erros, exit 0.
-- **In-progress**: teste de uso humano de etapas sem resultado, roteiro em docs/OPERACAO.md. Análise somente leitura da próxima entrega concluída: Etapa sem categoria, finalização não move coluna e não limpa estado oposto, botão Criar processo ainda sem handler. Perguntas abaixo aguardam resposta. L-001/L-002 continuam candidates; nenhuma promoção.
-- **Next step**: registrar respostas, especificar etapas finais de AD-011 e as transições relacionadas, depois implementar/testar o próximo requisito separadamente. Definir as regras substitutas com as respostas de negócio antes de adaptar os contratos anteriores.
-- **Blockers**: nenhum no CRUD de etapas entregue. Próximos fluxos dependem das decisões de negócio abaixo; contas administrativas reais continuam para seleção posterior.
-- **Uncommitted files**: após este fechamento, somente artefatos gerados de teste/build já existentes, preservados; nenhum fonte/teste intencional pendente. Staging documental explícito.
-- **Branch**: testes; base 5d8beb9.
+- **Feature**: entrada autom?tica ap?s cadastro, requisito independente j? pedido pelo usu?rio.
+- **Phase / Task**: Specify/Design/Tasks conclu?dos; T1?T5 pendentes em features/autocadastro. validate_spec e validate_tasks PASS, zero erros/warnings.
+- **Completed**: gerenciamentos 41/41 e etapas 30/30 com Verificador independente PASS. Base preservada: 238 Java/H2, 149 Vitest, 2 E2E e build/lint. Fechamento anterior f2e91c5; nenhum fonte/teste intencional pendente ao iniciar.
+- **In-progress**: implementar cadastro que devolve sess?o e entra pela mesma rotina do login. Auditoria somente leitura conclu?da; cadastro atual ignora resposta e exige login adicional. Nenhuma mudan?a de esquema ou pol?tica de cadastro. L-001/L-002 candidates; nenhuma li??o confirmed.
+- **Next step**: T1 servidor, T2 cliente, T3 sess?o comum, T4 formul?rio, T5 navegador real, cada tarefa com gate e commit local. Verificador novo automaticamente ap?s T5; validate_state antes do fechamento.
+- **Blockers**: nenhum para autocadastro. Cinco perguntas de movimenta??o abaixo sem resposta; UAT de gerenciamentos/etapas sem resultado. N?o interpretar continua??es como escolhas ou PASS humano.
+- **Uncommitted files**: documentos de planejamento desta feature antes do commit; artefatos gerados anteriores preservados. Staging expl?cito somente de arquivos intencionais.
+- **Branch**: testes; base hist?rica 5d8beb9, base de autocadastro f2e91c5.
 
-A aplicação normal e o MySQL configurado não foram iniciados pelos agentes. Instância MySQL temporária encerrada; portas 33817/18082/4173 livres ao término dos testes. Scratch da rodada 2 removida e porcelain completo byteigual antes/depois, 3403 linhas. Processos do usuário em 8081/5173 preservados. A primeira falha ECONNRESET do E2E do autor permanece documentada, causa indeterminada; repetição diagnóstica e gate independente PASS. Continuação autorizada em 2026-10-05 não equivale a resultado de UAT.
+Autoriza??o de implementa??o permanece v?lida. N?o iniciar aplica??o normal/MySQL configurado nem reiniciar servi?os do usu?rio. Testes somente H2/helper isolado ou MySQL TEMP fict?cio explicitamente delimitado. N?o push/deploy/alterar contas reais. A falha ECONNRESET anterior de etapas permanece documentada em seu relat?rio, sem causa inventada.
 
 ## Próxima conversa: destinos finais e movimentação
 
