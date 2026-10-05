@@ -4,7 +4,7 @@
 
 Usuário autorizou continuar a implementação, com AD-007–010 confirmadas. Executar uma tarefa por vez: testes derivados de ETA, gate, adequação direta/reversa com arquivo:linha e assertion, status e um Conventional Commit local. Sem push/deploy/MySQL configurado. Nenhuma fase seguinte começa antes do gate/commit anterior. Delegação técnica autorizada pelas instruções da sessão; não solicitar confirmação de rotina.
 
-**Design:** `design.md`. **Status:** T1–T4 concluídas com gate; T5 pendente.
+**Design:** `design.md`. **Status:** T1–T4/T6 concluídas com gate; T5 pendente.
 
 ## Test Coverage Matrix
 
@@ -39,7 +39,7 @@ T1
 ### Phase 2: Controles e fluxo na interface
 
 ```text
-T2 -> T3 -> T4 -> T5
+T2 -> T3 -> T4 -> T6 -> T5
 ```
 
 Dependência entre fases:
@@ -48,7 +48,7 @@ Dependência entre fases:
 T1 -> T2
 ```
 
-Cinco tarefas; servidor T1 por trabalhador, interface T2–T5 por outro trabalhador, sequenciais. Ao final, Verificador fresco que não escreveu código/testes.
+Seis tarefas; servidor T1 por trabalhador, interface T2–T4/T6/T5 por outro trabalhador, sequenciais. T6 fecha lacuna ETA26 apontada pela revisão depois do commit T4. Ao final, Verificador fresco que não escreveu código/testes.
 
 ## Task Breakdown
 
@@ -116,7 +116,7 @@ Cinco tarefas; servidor T1 por trabalhador, interface T2–T5 por outro trabalha
 **What:** E2E real de criação/edição/ordenação/remoção/persistência e arquivo readonly.
 **Where:** frontend/e2e/etapas.spec.js
 **Companions:** configuração de fixture já existente somente se necessária, evidências/screenshots/docs de teste; ajuste de expectativa de versão no E2E anterior se ações existentes exigirem, sem reduzir sua cobertura.
-**Depends on:** T4
+**Depends on:** T6
 **Requirement:** ETA-12/13/15/22/25/28/30 e conclusão ETA-01–30.
 **Done when:**
 - [ ] Edge/H2 real percorre CRUD/reordenação com reload e IDs/campos/ordens persistidos; ações por Tab/Enter e remoção confirmada/cancelada.
@@ -126,6 +126,20 @@ Cinco tarefas; servidor T1 por trabalhador, interface T2–T5 por outro trabalha
 **Gate:** build
 **Commit:** test(etapas): verify stage management in the browser
 
+### T6: Impedir saída global durante mutação de etapas
+
+**What:** propagar a pendência de POST/PUT/DELETE para o botão e handler Sair; liberar sempre no finally, sem bloquear consultas GET.
+**Where:** frontend/src/App.jsx
+**Companions:** prop/callback mínimos em Gerenciamentos/Quadro, teste de integração App.test.jsx, evidência/spec.
+**Depends on:** T4
+**Requirement:** ETA-26.
+**Done when:**
+- [x] Sair e seu handler não descartam formulário/token/usuário durante as três mutações pendentes.
+- [x] Sucesso/erro liberam Sair após o retorno, rascunho permanece em falha, e GET não bloqueia saída; gate e adequação passam.
+**Tests:** integration
+**Gate:** full
+**Commit:** fix(frontend): prevent logout during stage mutations
+
 ## Diagram-Definition Cross-Check
 
 | Task | Depends On | Diagram Shows | Status |
@@ -134,7 +148,8 @@ Cinco tarefas; servidor T1 por trabalhador, interface T2–T5 por outro trabalha
 | T2 | T1 | fase anterior | OK |
 | T3 | T2 | T2 -> T3 | OK |
 | T4 | T3 | T3 -> T4 | OK |
-| T5 | T4 | T4 -> T5 | OK |
+| T6 | T4 | T4 -> T6 | OK |
+| T5 | T6 | T6 -> T5 | OK |
 
 ## Execution Evidence
 

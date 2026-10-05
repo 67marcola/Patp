@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
@@ -21,6 +21,14 @@ function App() {
     const [mostrarCadastro, setMostrarCadastro] =
         useState(false);
 
+    const [etapasOcupadas, setEtapasOcupadas] = useState(false);
+    const operandoEtapas = useRef(false);
+
+    function atualizarPendenciaEtapas(ocupado) {
+        operandoEtapas.current = ocupado;
+        setEtapasOcupadas(ocupado);
+    }
+
 
     function entrar(dados) {
 
@@ -36,6 +44,8 @@ function App() {
 
 
     function sair() {
+
+        if (operandoEtapas.current) return;
 
         localStorage.removeItem("token");
         localStorage.removeItem("usuario");
@@ -123,6 +133,7 @@ function App() {
                     <button
                         onClick={sair}
                         className="btn-sair"
+                        disabled={etapasOcupadas}
                     >
                         Sair
                     </button>
@@ -132,7 +143,7 @@ function App() {
             </header>
 
 
-            <Gerenciamentos />
+            <Gerenciamentos aoOcuparEtapas={atualizarPendenciaEtapas} />
 
         </div>
     );

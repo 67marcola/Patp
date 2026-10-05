@@ -7,7 +7,7 @@ import Quadro from "./Quadro";
 
 const AVISO_RECARGA = "Alteração salva; não foi possível atualizar a lista.";
 
-function Gerenciamentos() {
+function Gerenciamentos({ aoOcuparEtapas } = {}) {
     const [gerenciamentos, setGerenciamentos] = useState([]);
     const [arquivado, setArquivado] = useState(false);
     const [carregando, setCarregando] = useState(true);
@@ -134,7 +134,8 @@ function Gerenciamentos() {
             voltar={() => setTela("lista")} atualizar={formularioSalvo} />;
     }
     if (tela === "quadro") {
-        return <Quadro gerenciamento={selecionado} voltar={() => setTela("lista")} atualizar={quadroAtualizado} />;
+        return <Quadro gerenciamento={selecionado} voltar={() => setTela("lista")} atualizar={quadroAtualizado}
+            aoOcupar={aoOcuparEtapas} />;
     }
 
     return (

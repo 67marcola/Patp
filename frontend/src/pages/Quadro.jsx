@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { buscarConfiguracaoEtapas, criarEtapa, editarEtapa, removerEtapa } from "../services/api";
 import EditorEtapa from "./EditorEtapa";
 
-function Quadro({ gerenciamento, voltar, atualizar }) {
+function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const [configuracao, setConfiguracao] = useState(null);
     const [carregando, setCarregando] = useState(true);
     const [erroConsulta, setErroConsulta] = useState("");
@@ -79,6 +79,7 @@ function Quadro({ gerenciamento, voltar, atualizar }) {
     async function salvar(dados) {
         if (operando.current || bloqueado || !podeConfigurar) return;
         operando.current = true;
+        aoOcupar?.(true);
         setOcupado(true);
         try {
             const token = localStorage.getItem("token");
@@ -90,6 +91,7 @@ function Quadro({ gerenciamento, voltar, atualizar }) {
             setEditor(null);
         } finally {
             operando.current = false;
+            aoOcupar?.(false);
             setOcupado(false);
         }
     }
@@ -97,6 +99,7 @@ function Quadro({ gerenciamento, voltar, atualizar }) {
     async function remover() {
         if (operando.current || bloqueado || !podeConfigurar) return;
         operando.current = true;
+        aoOcupar?.(true);
         setOcupado(true);
         setErroRemocao("");
         try {
@@ -108,6 +111,7 @@ function Quadro({ gerenciamento, voltar, atualizar }) {
             setPrecisaAtualizar(true);
         } finally {
             operando.current = false;
+            aoOcupar?.(false);
             setOcupado(false);
         }
     }

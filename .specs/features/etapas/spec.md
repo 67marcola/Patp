@@ -178,13 +178,13 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 | ETA-23 | Interface | Execute | T3/T4 gate PASS; Verificador pendente |
 | ETA-24 | Interface | Execute | T4 gate PASS; Verificador pendente |
 | ETA-25 | Interface | Execute | T3/T4 gate PASS; Verificador pendente |
-| ETA-26 | Interface | Execute | T3/T4 gate PASS; Verificador pendente |
+| ETA-26 | Interface | Execute | T3/T4/T6 gate PASS, saída global incluída; Verificador pendente |
 | ETA-27 | Interface | Execute | T2–T4 gate PASS; Verificador pendente |
 | ETA-28 | Interface | Execute | T4 gate PASS; E2E/Verificador pendentes |
 | ETA-29 | Interface | Execute | T2/T4 gate PASS; Verificador pendente |
 | ETA-30 | Interface | Execute | T3/T4 gate PASS; E2E/Verificador pendentes |
 
-**Coverage:** 30 requisitos implementados com gates locais em T1–T4; cliente, formulário e quadro validados com130 Vitest. T5/E2E e Verificador independente pendentes.
+**Coverage:** 30 requisitos implementados com gates locais em T1–T4/T6; cliente, formulário, quadro e saída global validados com137 Vitest. T5/E2E e Verificador independente pendentes.
 
 ## Success Criteria
 
