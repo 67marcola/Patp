@@ -4,7 +4,7 @@
 
 Usuário autorizou continuar a implementação, com AD-007–010 confirmadas. Executar uma tarefa por vez: testes derivados de ETA, gate, adequação direta/reversa com arquivo:linha e assertion, status e um Conventional Commit local. Sem push/deploy/MySQL configurado. Nenhuma fase seguinte começa antes do gate/commit anterior. Delegação técnica autorizada pelas instruções da sessão; não solicitar confirmação de rotina.
 
-**Design:** `design.md`. **Status:** T1–T7 concluídas com gates locais; T7 cobre ETA-27/M10. Último relatório independente ainda é FAIL; re-verificação pendente.
+**Design:** `design.md`. **Status:** T1–T7 concluídas e validação técnica independente PASS na rodada 2, 30/30 critérios. T7 fechou ETA-27/M10. UAT humano pendente.
 
 ## Test Coverage Matrix
 
@@ -152,7 +152,7 @@ Sete tarefas; servidor T1 por trabalhador, interface T2–T4/T6/T5/T7 por outro 
 **Done when:**
 - [x] Três wrappers rejeitam os dois corpos ilegíveis com mensagem de comunicação exata, status original201/200 e uma requisição, sem inventar sucesso ou retry.
 - [x] Quadro conserva campos/posição noPOST/PUT ou confirmação/coluna noDELETE, alerta acessível exato, cache e colunas originais; refresh manual somenteGET e próximo envio somente manual com versão reconsultada/payload completo.
-- [x] Gate Build passa com todos os137 testes anteriores preservados e novos casos executados; adequação direta/reversa física registrada, commit local e re-verificação independente pendente.
+- [x] Gate Build passa com todos os 137 testes anteriores preservados e novos casos executados; adequação direta/reversa física registrada e commit local anterior à re-verificação independente.
 **Tests:** integration
 **Gate:** build
 **Commit:** test(etapas): cover unreadable successful responses
@@ -173,6 +173,8 @@ Sete tarefas; servidor T1 por trabalhador, interface T2–T4/T6/T5/T7 por outro 
 
 Acrescentar gates, contagens, diffs e adequação de cada tarefa em `evidence.md` (servidor) e `frontend-evidence.md` (interface). Não criar arquivo vazio. Especificação deve registrar tarefas implementadas antes de seus commits; validação independente ao final, sem PASS humano inferido.
 
-T1: verify H2 PASS, 238 testes (134 API etapas, 7 corridas, 6 regressões etapas, outros91), zero falhas/erros/skips. RED anterior à produção:116 testes,95 falhas de outcomes, zero erros/skips. Adequação direta/reversa com assertions físicas em `evidence.md`; nenhum SPEC_DEVIATION. MySQL isolado será verificado pelo root após este commit; T2–T5 e Verificador independente pendentes.
+T1: verify H2 PASS, 238 testes (134 API etapas, 7 corridas, 6 regressões etapas, outros 91), zero falhas/erros/skips. RED anterior à produção: 116 testes, 95 falhas de outcomes, zero erros/skips. Adequação direta/reversa com assertions físicas em `evidence.md`; nenhum SPEC_DEVIATION. MySQL temporário verificado posteriormente pelo root, 237 testes PASS, em `mysql-validation.md`.
 
-T7: gate local Build PASS em 05/10/2026: 238 Java/H2, 149 Vitest (137 preservados +12 novos), build/lint e 2 E2E Edge. Primeira execução E2E saiu1 por ECONNRESET; trace preservado, causa do socket não determinada. Repetição diagnóstica completa saiu0, sem retries nem alteração de assertions/runner. Adequação direta/reversa e limites em `frontend-evidence.md`. Nenhuma fonte de produção alterada; novo MySQL não necessário. Re-verificação independente e validate_state pendentes.
+T7: gate local Build PASS em 05/10/2026: 238 Java/H2, 149 Vitest (137 preservados +12 novos), build/lint e 2 E2E Edge. Primeira execução E2E saiu 1 por ECONNRESET; trace preservado, causa do socket não determinada. Repetição diagnóstica completa saiu 0, sem retries nem alteração de assertions/runner. Adequação direta/reversa e limites em `frontend-evidence.md`. Nenhuma fonte de produção alterada; novo MySQL não necessário.
+
+Fechamento independente: rodada 2 PASS sobre d067682, 30/30 critérios, os mesmos gates completos e 5/5 falhas compiláveis detectadas. M10 anterior e equivalentes PUT/DELETE agora são discriminados. Isolamento comprovado por comparação byteigual do porcelain antes/depois; `validate_state.py etapas` retornou zero erros, exit 0. Evidências atuais e histórico da primeira rodada em `validation.md`. Teste humano sem resultado.

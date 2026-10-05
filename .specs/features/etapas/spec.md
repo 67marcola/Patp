@@ -1,6 +1,6 @@
 # CRUD de etapas de trabalho da Creral Specification
 
-**Status:** T1–T7 implementadas com gates locais. T7 cobre o gap ETA-27/M10; último relatório independente ainda é FAIL e nova verificação está pendente. Regras AD-007–010 confirmadas; defaults abaixo declarados pelo agente.
+**Status:** validação técnica independente PASS na rodada 2, 30/30 critérios verificados em T1–T7. Regras AD-007–010 confirmadas; defaults abaixo declarados pelo agente. Teste de uso humano pendente.
 **Data:** 2026-10-05.
 **Contexto:** `context.md`, decisões de `.specs/STATE.md` e contratos do CRUD de gerenciamentos já validado.
 
@@ -14,7 +14,7 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 - [x] Demais funcionários consultam; arquivados ficam somente consulta.
 - [x] Posições escolhidas reorganizam automaticamente a estrutura sem perder dados.
 - [x] Remoção ocupada, versões antigas e falhas não causam escrita parcial.
-- [ ] Comprovar o contrato com testes isolados e Verificador independente.
+- [x] Comprovar o contrato com testes isolados e Verificador independente.
 
 ## Out of Scope
 
@@ -154,38 +154,38 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| ETA-01 | Consulta | Execute | T1 gate PASS; Verificador pendente |
-| ETA-02 | Consulta | Execute | T1 gate PASS; Verificador pendente |
-| ETA-03 | Consulta | Execute | T1 gate PASS; Verificador pendente |
-| ETA-04 | Permissões | Execute | T1 gate PASS; Verificador pendente |
-| ETA-05 | Permissões | Execute | T1 gate PASS; Verificador pendente |
-| ETA-06 | Permissões | Execute | T1 gate PASS; Verificador pendente |
-| ETA-07 | Permissões | Execute | T1 gate PASS; Verificador pendente |
-| ETA-08 | Permissões | Execute | T1 gate PASS; Verificador pendente |
-| ETA-09 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
-| ETA-10 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
-| ETA-11 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
-| ETA-12 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
-| ETA-13 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
-| ETA-14 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
-| ETA-15 | Integridade | Execute | T1 gate PASS; Verificador pendente |
-| ETA-16 | Integridade | Execute | T1 gate PASS; Verificador pendente |
-| ETA-17 | Integridade | Execute | T1 gate PASS; Verificador pendente |
-| ETA-18 | Integridade | Execute | T1 gate PASS; Verificador pendente |
-| ETA-19 | Integridade | Execute | T1 gate PASS; Verificador pendente |
-| ETA-20 | Integridade | Execute | T1 gate PASS; Verificador pendente |
-| ETA-21 | Integridade | Execute | T1 gate PASS; Verificador pendente |
-| ETA-22 | Interface | Execute | T4 gate PASS; Verificador pendente |
-| ETA-23 | Interface | Execute | T3/T4 gate PASS; Verificador pendente |
-| ETA-24 | Interface | Execute | T4 gate PASS; Verificador pendente |
-| ETA-25 | Interface | Execute | T3/T4 gate PASS; Verificador pendente |
-| ETA-26 | Interface | Execute | T3/T4/T6 gate PASS, saída global incluída; Verificador pendente |
-| ETA-27 | Interface | Execute | T7 gate local PASS para 2xx ilegível; re-verificação de FAIL parcial/M10 pendente |
-| ETA-28 | Interface | Execute | T4/T5/T7 gate PASS; re-verificação pendente |
-| ETA-29 | Interface | Execute | T2/T4/T7 gate PASS; re-verificação pendente |
-| ETA-30 | Interface | Execute | T3/T4/T5 gate PASS; Verificador pendente |
+| ETA-01 | Consulta | Verified | PASS independente, rodada 2 |
+| ETA-02 | Consulta | Verified | PASS independente, rodada 2 |
+| ETA-03 | Consulta | Verified | PASS independente, rodada 2 |
+| ETA-04 | Permissões | Verified | PASS independente, rodada 2 |
+| ETA-05 | Permissões | Verified | PASS independente, rodada 2 |
+| ETA-06 | Permissões | Verified | PASS independente, rodada 2 |
+| ETA-07 | Permissões | Verified | PASS independente, rodada 2 |
+| ETA-08 | Permissões | Verified | PASS independente, rodada 2 |
+| ETA-09 | Campos/posições | Verified | PASS independente, rodada 2 |
+| ETA-10 | Campos/posições | Verified | PASS independente, rodada 2 |
+| ETA-11 | Campos/posições | Verified | PASS independente, rodada 2 |
+| ETA-12 | Campos/posições | Verified | PASS independente, rodada 2 |
+| ETA-13 | Campos/posições | Verified | PASS independente, rodada 2 |
+| ETA-14 | Campos/posições | Verified | PASS independente, rodada 2 |
+| ETA-15 | Integridade | Verified | PASS independente, rodada 2 |
+| ETA-16 | Integridade | Verified | PASS independente, rodada 2 |
+| ETA-17 | Integridade | Verified | PASS independente, rodada 2 |
+| ETA-18 | Integridade | Verified | PASS independente, rodada 2 |
+| ETA-19 | Integridade | Verified | PASS independente, rodada 2 |
+| ETA-20 | Integridade | Verified | PASS independente, rodada 2 |
+| ETA-21 | Integridade | Verified | PASS independente, rodada 2 |
+| ETA-22 | Interface | Verified | PASS independente, rodada 2 |
+| ETA-23 | Interface | Verified | PASS independente, rodada 2 |
+| ETA-24 | Interface | Verified | PASS independente, rodada 2 |
+| ETA-25 | Interface | Verified | PASS independente, rodada 2 |
+| ETA-26 | Interface | Verified | PASS independente, saída global incluída |
+| ETA-27 | Interface | Verified | PASS independente; T7 detecta M10 e equivalentes PUT/DELETE |
+| ETA-28 | Interface | Verified | PASS independente, rodada 2 |
+| ETA-29 | Interface | Verified | PASS independente, rodada 2 |
+| ETA-30 | Interface | Verified | PASS independente, rodada 2 |
 
-**Coverage:** 30 requisitos implementados com gates locais em T1–T7; 238 Java/H2, 149 Vitest (137 preservados +12 novos), build/lint e 2 E2E Edge PASS. Primeira execução E2E de T7 falhou por ECONNRESET de causa indeterminada; repetição diagnóstica completa PASS, sem retries. MySQL isolado anterior: 237 PASS relatado pelo root, backend intacto em T7. Último Verificador FAIL parcial em ETA-27/M10; re-verificação independente pendente. Nenhum resultado humano presumido.
+**Coverage:** 30/30 critérios verificados independentemente sobre d067682, com 238 Java/H2, 149 Vitest, build/lint e 2 E2E Edge PASS. Sensor atual: 5/5 falhas compiláveis detectadas; ETA-27/M10 corrigido pela cobertura T7. A primeira execução E2E do autor falhou por ECONNRESET de causa indeterminada; a repetição diagnóstica e a execução independente passaram, ambas sem retries. MySQL temporário anterior: 237 PASS, backend intacto em T7. Evidência por assertion e histórico em `validation.md`. Nenhum resultado humano presumido.
 
 ## Success Criteria
 
@@ -193,4 +193,4 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 - [x] Reordenação/deleção conservam dados e recusas não escrevem parcialmente.
 - [x] Toda operação usa versão atual, stale409 e cache atualizado para ações seguintes.
 - [x] Gates isolados passam sem reduzir cobertura anterior legitimamente aplicável.
-- [ ] Verificador novo comprova 30 ACs e sensor expandido; uso humano registrado separadamente.
+- [x] Verificador independente comprova 30 ACs e sensor expandido; uso humano registrado separadamente como pendente.
