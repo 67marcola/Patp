@@ -121,8 +121,8 @@ T4 -> T5
 **Depends on:** T4
 **Requirement:** AUT-07/09/10/14 e conclusão AUT-01–14.
 **Done when:**
-- [ ] Edge/H2 percorre cadastro por teclado, direto para lista sem POSTlogin; ID/role/cache/quadro sobrevivem reload, logout limpa e login manual retorna à mesma conta/quadro.
-- [ ] Gates Java/React/build/lint e três E2E passam sem skip/retry; adequação direta/reversa final e roteiro de UAT registrado.
+- [x] Edge/H2 percorre cadastro por teclado, direto para lista sem POSTlogin; ID/role/cache/quadro sobrevivem reload, logout limpa e login manual retorna à mesma conta/quadro.
+- [x] Gates Java/React/build/lint e três E2E passam sem skip/retry; adequação direta/reversa final e roteiro de UAT registrado.
 **Tests:** e2e
 **Gate:** build
 **Commit:** test(auth): verify direct registration and session persistence

@@ -172,3 +172,63 @@
 
 - Checks A/B/C/D: completos. O caso adicional fecha a assertion de estado do Voltar. Payload e cache verificam valores exatos de cada campo; todo erro preserva valores/controles e nenhuma entrada. Padrões RTL/Vitest e coding-principles seguidos.
 - Veredito: T4 completo. AUT-11/12/13 e AUT-08 concluídos; prova de browser em T5 pendente.
+
+## T5: Fluxo real de cadastro, quadro e sessão
+
+### Pré-implementação
+
+- Suposições: runner existente inicia cada arquivo com H2 novo nas portas 18082/4173, Microsoft Edge headless, workers 1 e retries 0. Novo cenário percorre cadastro com Tab/teclado e faz criação/reload/saída/login na mesma conta fictícia.
+- Arquivos: novo `frontend/e2e/autocadastro.spec.js`, `docs/OPERACAO.md`, evidence/spec/tasks desta feature. Nenhum helper/runner ou E2E anterior será alterado.
+- Sucesso: cadastro entra direto sem POST login, DTO/papel/cache seguros e ID consistente; quadro persiste por reload e login manual; logout limpa os dois caches. Gates Java/React/build/lint e três E2E passam sem skip/retry. UAT humano recebe roteiro separado e não será inferido.
+- Gate build usa saída nova em TEMP (`npm.cmd run build -- --outDir ...`) para preservar `frontend/dist`. Maven e E2E são sequenciais pelo target compartilhado.
+- Teste antes da documentação: um cenário E2E novo derivado de AUT-07/09/10/14, com assertions de DTO, transporte, cache, estado da tela, identidade e quadro persistidos.
+
+### Gate e revisão final
+
+- Focal: `npm.cmd run test:e2e -- autocadastro.spec.js`, exit 0, 1/1 em Edge/H2, sem skip/retry. Log `%TEMP%/autocadastro-t5-focal.log`.
+- Java: `mvn.cmd -B verify`, JAVA_HOME `C:/Program Files/Java/jdk-25.0.2`, exit 0, 247 testes, zero falhas/erros/skips. Log `%TEMP%/autocadastro-t5-java.log`.
+- React: `npm.cmd test`, exit 0, 222 passes em onze arquivos, zero falhas/skips. Log `%TEMP%/autocadastro-t5-react.log`.
+- Build: `npm.cmd run build -- --outDir C:/Users/Marco/AppData/Local/Temp/autocadastro-build-5957ed9ed6bc404c9124013be26376c9`, exit 0. Log `%TEMP%/autocadastro-t5-build.log`. Saída nova em TEMP preservou frontend/dist.
+- Lint: `npm.cmd run lint`, exit 0. Log `%TEMP%/autocadastro-t5-lint.log`.
+- E2E completos após Maven: `npm.cmd run test:e2e`, exit 0, três arquivos isolados sequenciais, 3/3 passes, workers 1/retries 0, nenhum skip/retry. Log `%TEMP%/autocadastro-t5-e2e.log`.
+- Avisos reais: Node informa NO_COLOR ignorado porque FORCE_COLOR está definido; Vite informa outDir externo sem esvaziamento. Nenhum gate final falhou. PowerShell apresentou esses avisos de stderr como NativeCommandError, mantendo exit 0 do comando.
+- Preservação: comparação dos vinte arquivos de testes anteriores com `f2e91c5` encontrou zero alterações. Mantidos 238 Java/H2, 149 Vitest e dois E2E antigos; adicionados 9 Java, 73 Vitest e um E2E. Nenhum helper/runner/schema/dependência alterado.
+- Limites: dados fictícios em H2, sem aplicação normal/banco configurado/contas reais/push/deploy. Sessões do servidor continuam em memória. Roteiro humano registrado em OPERACAO; UAT humano não executado nem inferido. Validação independente será disparada pelo root após este commit.
+
+**Mapeamento direto (Check A).** Prefixo físico `frontend/e2e/autocadastro.spec.js`.
+
+| Critério T5 | arquivo:linha + assertion | Resultado da spec | Coberto |
+| --- | --- | --- | --- |
+| AUT-10/14 cadastro por teclado/DTO/sem login | `autocadastro.spec.js:5` `await expect(controle).toBeVisible()` e `:10` `await expect(controle).toBeFocused()` utilizados para cinco campos/ações; `:45` `expect(cadastro.status()).toBe(200)`; `:47–50` tipo/token/ID positivos; `:52` `expect(entrada).toEqual({ ...usuario, token: entrada.token, papel: "FUNCIONARIO" })`; `:53` heading visível; `:54` `expect(posts).toEqual([{ path: "/api/usuarios/cadastro", body: { nome: "Nova Automática", setor: "Testes", email, senha } }])` | Entrada direta, seis campos seguros, FUNCIONARIO, payload normalizado com senha original e um POST cadastro | Sim |
+| AUT-07 cache/token/papel/identidade | `:55` `expect(await cache(page)).toEqual({ token: entrada.token, usuario })`; `:56` keys `toEqual(["email", "id", "nome", "setor"])`; `:59` me 200; `:60` `expect(await me.json()).toEqual({ ...usuario, papel: "FUNCIONARIO" })` | Cache quatro valores/sem senha/hash/papel, token original utiliza a conta persistida | Sim |
+| AUT-07/14 quadro e reload real | `:71` quadro `toMatchObject({ nome: "Quadro após cadastro", descricao: "Dados fictícios do autocadastro.", criador: { id: usuario.id, nome: usuario.nome } })`; `:74` Abrir visível após reload; `:75` cache exato; `:76` posts só cadastro; `:78` lista 200; `:79` lista `toMatchObject([{ id: quadro.id, nome: ..., descricao: ..., criador: { id: usuario.id, nome: usuario.nome } }])` | Mesmo quadro/autor/conta após recarga, sem novo login | Sim |
+| AUT-09 saída | `:82` Bem-vindo visível; `:83` `expect(await cache(page)).toEqual({ token: null, usuario: null })` | Logout volta ao login e limpa ambas as chaves | Sim |
+| AUT-09/14 login manual/mesma conta/quadro | `:87–88` lista/quadro visíveis; `:89` `expect(posts).toEqual([...cadastro..., { path: "/api/usuarios/login", body: { email, senha } }])`; `:94` `expect(aposLogin.usuario).toEqual(usuario)`; `:95` token não vazio; `:98` me 200; `:99` me `toEqual({ ...usuario, papel: "FUNCIONARIO" })`; `:101` lista 200; `:102` lista com mesmo quadro.id/nome/descrição/criador.id | Uma inscrição e um login manual; mesmo ID, papel e quadro persistidos | Sim |
+
+**Mapeamento reverso (Check C), único cenário novo de T5.**
+
+| Teste + assertion física | AC / caso | Manter |
+| --- | --- | --- |
+| `frontend/e2e/autocadastro.spec.js:25`, `:5/10/45–60` navegação/DTO/cache/sem segundo login, `:68–79` quadro/reload/identidade, `:82–102` saída/login/mesma conta/quadro | AUT-07/09/10/14, Done-when T5 fluxo real | Sim, 1 |
+
+**Fechamento dos critérios AUT-01–14.** Os mapeamentos de cada seção acima incluem todas as expressões e casos aplicáveis; referências principais para inspeção final:
+
+| AC | Assertion física principal + resultado | Estado de implementação |
+| --- | --- | --- |
+| AUT-01 | `sistema/src/test/java/com/patp/sistema/CadastroSessaoTests.java:54` id `isEqualTo(saved.getId())`, `:74` lista 200 | Coberto T1 |
+| AUT-02 | Mesmo arquivo `:98` FUNCIONARIO, `:100` BCrypt matches true, `:59–61` ausência senha/hash | Coberto T1 |
+| AUT-03 | Mesmo arquivo `:80/82/83` 400/mensagem exata/sem token, `:117–123` conta anterior | Coberto T1 |
+| AUT-04 | Mesmo arquivo `:80/82/83` 400 ou 500/textos exatos/sem token, `:117–123` conta anterior | Coberto T1 |
+| AUT-05 | Mesmo arquivo `:58` papel `isEqualTo(saved.getPapel().name())`, `:67–76` sessão manual utilizável | Coberto T1 |
+| AUT-06 | `frontend/src/services/ApiAutenticacao.test.js:48/57` `toMatchObject({ status: 200, message })` em cada contrato/JSON inválido | Coberto T2 |
+| AUT-07 | `frontend/src/AppSessao.test.jsx:38` quatro keys exatas; E2E `:55/75` cache exato e reload | Coberto T3/T5 |
+| AUT-08 | `frontend/src/AppSessao.test.jsx:75/78/79` erro e caches anteriores; `frontend/src/AppAutocadastro.test.jsx:53–64` erro/cadastro/rascunho/uma requisição | Coberto T3/T4 |
+| AUT-09 | `frontend/e2e/autocadastro.spec.js:83` cache null, `:94/99` mesma conta após login | Coberto T3/T5 |
+| AUT-10 | `frontend/src/pages/Cadastro.test.jsx:42` payload exato; E2E `:54` único cadastro e `:53` lista direta | Coberto T4/T5 |
+| AUT-11 | `frontend/src/pages/Cadastro.test.jsx:83–88` sete controles disabled e uma inscrição após duplo submit | Coberto T4 |
+| AUT-12 | Mesmo arquivo `:53` dois textos exatos, `:55` nenhum fetch, `:63–73` validação nativa | Coberto T4 |
+| AUT-13 | Mesmo arquivo `:102/117` alertas exatos e `:29–33` cinco campos/controles preservados | Coberto T4 |
+| AUT-14 | Mesmo arquivo `:64` label associado, E2E `:10` foco por teclado, `:99/102` mesma conta/quadro após login | Coberto T4/T5 |
+
+- Checks A/B/C/D: completos no escopo das cinco tarefas. Nenhum teste raso/sem requisito e nenhuma SPEC_DEVIATION. Valores de cada campo estão verificados, incluindo identidade/cache/payload e quadro; as contagens de requests complementam essas assertions. Padrões JUnit/RTL/Vitest/Playwright existentes e coding-principles seguidos.
+- Veredito: T1–T5 implementados e gates locais completos. Autor aguarda Verificador independente do root antes de declarar a entrega técnica validada.

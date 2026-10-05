@@ -1,6 +1,6 @@
 # Entrada automática após cadastro Specification
 
-**Status:** especificação pronta para implementação local autorizada. Teste humano pendente.
+**Status:** implementação local concluída com gates; validação independente e teste humano pendentes.
 **Data:** 2026-10-05. **Contexto:** `context.md`, AD-004 em `.specs/STATE.md`.
 
 ## Problem Statement
@@ -9,9 +9,9 @@ Cadastrar uma conta exige hoje voltar ao login. O servidor já oferece sessões 
 
 ## Goals
 
-- [ ] Entrar na lista de gerenciamentos imediatamente após cadastro confirmado.
-- [ ] Preservar segurança do cadastro, login manual e cache de sessão existente.
-- [ ] Explicar falhas sem repetir cadastro nem perder os campos preenchidos.
+- [x] Entrar na lista de gerenciamentos imediatamente após cadastro confirmado.
+- [x] Preservar segurança do cadastro, login manual e cache de sessão existente.
+- [x] Explicar falhas sem repetir cadastro nem perder os campos preenchidos.
 - [ ] Verificar o fluxo real com H2 e validação independente.
 
 ## Out of Scope
@@ -94,11 +94,11 @@ AUT-01–14 com assertions físicas e gates sem falhas/skips. Preservar todos os
 | AUT-04 | T1 | complete | evidence.md, T1 |
 | AUT-05 | T1 | complete | evidence.md, T1 |
 | AUT-06 | T2 | complete | evidence.md, T2 |
-| AUT-07 | T3, T5 | partial (T3 complete) | evidence.md, T3 |
+| AUT-07 | T3, T5 | complete | evidence.md, T3/T5 |
 | AUT-08 | T3, T4 | complete | evidence.md, T3/T4 |
-| AUT-09 | T3, T5 | partial (T3 complete) | evidence.md, T3 |
-| AUT-10 | T4, T5 | partial (T4 complete) | evidence.md, T4 |
+| AUT-09 | T3, T5 | complete | evidence.md, T3/T5 |
+| AUT-10 | T4, T5 | complete | evidence.md, T4/T5 |
 | AUT-11 | T4 | complete | evidence.md, T4 |
 | AUT-12 | T4 | complete | evidence.md, T4 |
 | AUT-13 | T4 | complete | evidence.md, T4 |
-| AUT-14 | T4, T5 | partial (T4 complete) | evidence.md, T4 |
+| AUT-14 | T4, T5 | complete | evidence.md, T4/T5 |
