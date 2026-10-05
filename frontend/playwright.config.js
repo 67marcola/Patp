@@ -5,6 +5,14 @@ export default defineConfig({
     fullyParallel: false,
     workers: 1,
     retries: 0,
+    timeout: 60000,
+    webServer: {
+        command: "node scripts/isolated-system.mjs",
+        url: "http://localhost:4173",
+        reuseExistingServer: false,
+        timeout: 180000,
+        gracefulShutdown: { signal: "SIGINT", timeout: 10000 }
+    },
     use: {
         baseURL: "http://localhost:4173",
         channel: "msedge",
