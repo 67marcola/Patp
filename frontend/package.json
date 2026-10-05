@@ -9,7 +9,7 @@
     "lint": "oxlint src e2e scripts vite.config.js vitest.config.js playwright.config.js",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:e2e": "playwright test",
+    "test:e2e": "node scripts/run-e2e.mjs",
     "preview:isolated": "node scripts/isolated-system.mjs"
   },
   "dependencies": {

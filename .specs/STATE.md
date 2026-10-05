@@ -99,15 +99,15 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature**: CRUD de etapas de trabalho da Creral.
-- **Phase / Task**: etapas T1 servidor concluída; T2–T5 interface pendentes.
-- **Completed**: gerenciamentos T1–T16 validado independentemente, 41/41 critérios, 97 Java/H2, 71 Vitest, 1 E2E Edge e MySQL isolado96; `validate_state.py gerenciamentos` PASS. Etapas T1: API transacional ETA01–21, verify H2 PASS com238 testes, zero falhas/erros/skips; RED95 falhas de outcome antes da produção. Adequação e adaptação autorizada de seis casos antigos em `features/etapas/evidence.md`. Spec strict/tasks validadores sem erros/avisos.
-- **In-progress**: interface ainda não implementada nesta entrega; MySQL temporário fictício33817/PID23944 ativo sob responsabilidade do root, regressão desta T1 ainda não executada. AD-011 confirmada para requisito posterior. Teste humano de gerenciamentos permanece sem resultado; “pode continuar” não prova UAT. L-001 permanece candidate.
-- **Next step**: root verifica regressão MySQL isolada; implementar T2–T5 na interface sequencialmente com gates/commits. Verificador novo ao final.
+- **Phase / Task**: etapas T1–T6 implementadas e gates locais concluídos; aguardando Verificador independente.
+- **Completed**: gerenciamentos T1–T16 validado independentemente, 41/41 critérios. Etapas T1 API transacional, 238 Java/H2 PASS; T2 cliente 87489b7; T3 formulário 8074e12; T4 quadro/cache c595509; T6 saída global 14aabe0; T5 E2E/gates neste commit. Final: 238 Java/H2, 137 Vitest, build/lint e 2 E2E Edge PASS, zero falhas/erros/skips. MySQL isolado 8.0.43: 237 PASS conforme relatório do root. Adequação direta/reversa em features/etapas/evidence.md e frontend-evidence.md; nenhuma assertion antiga enfraquecida/ignorada. Oito capturas editor/confirmação/ativo/arquivado desktop/mobile revisadas pelo root com QA visual técnico PASS.
+- **In-progress**: despacho do Verificador fresco pelo root após commit T5 e conclusão de validate_state. MysqlTEMP33817/PID23944 encerrado pelo root; helpers H2/Edge encerrados, portas18082/4173 sem listener após gates. Relatório MySQL documental novo será commit separado do root. AD-011 confirmada para requisito posterior. Teste humano permanece sem resultado; autorização não prova UAT. L-001 permanece candidate.
+- **Next step**: root registra relatório MySQL e despacha Verificador novo para30 ACs/sensor scratch; só apósPASS fechar status da feature/validate_state.
 - **Blockers**: nenhum para CRUD de etapas de trabalho. Destinos finais confirmados em AD-011, para requisito posterior. Contas administrativas reais serão selecionadas posteriormente; testes fictícios isolados.
-- **Uncommitted files**: artefatos gerados de teste/build, alguns previamente rastreados no repositório. Fontes, testes e registros intencionais de T1 são incluídos neste commit; staging explícito exclui os artefatos.
+- **Uncommitted files**: artefatos gerados de teste/build, alguns previamente rastreados no repositório; mysql-validation.md novo do root. Fontes/testes/docs intencionais de T5 neste commit; staging explícito exclui artefatos e relatório MySQL do root.
 - **Branch**: testes; base 5d8beb9.
 
-A aplicação normal não foi iniciada nem o banco MySQL configurado alterado. A instância temporária tem pasta de dados nova em TEMP e só contém dados fictícios. Usar apenas banco isolado durante os testes.
+A aplicação normal não foi iniciada nem o banco MySQL configurado alterado. A instância MySQL temporária foi encerrada e continha apenas dados fictícios; H2 também temporário. Usar apenas banco isolado durante os testes. Capturas finais: C:/Users/Marco/AppData/Local/Temp/creral-etapas-e2e-pQ2UEH. LogJava: C:/Users/Marco/AppData/Local/Temp/creral-etapas-final-java-20261005-074953.log.
 
 ## Próxima conversa: etapas
 

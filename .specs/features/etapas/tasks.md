@@ -4,7 +4,7 @@
 
 Usuário autorizou continuar a implementação, com AD-007–010 confirmadas. Executar uma tarefa por vez: testes derivados de ETA, gate, adequação direta/reversa com arquivo:linha e assertion, status e um Conventional Commit local. Sem push/deploy/MySQL configurado. Nenhuma fase seguinte começa antes do gate/commit anterior. Delegação técnica autorizada pelas instruções da sessão; não solicitar confirmação de rotina.
 
-**Design:** `design.md`. **Status:** T1–T4/T6 concluídas com gate; T5 pendente.
+**Design:** `design.md`. **Status:** T1–T6 concluídas com gates locais; Verificador independente pendente.
 
 ## Test Coverage Matrix
 
@@ -115,16 +115,18 @@ Seis tarefas; servidor T1 por trabalhador, interface T2–T4/T6/T5 por outro tra
 
 **What:** E2E real de criação/edição/ordenação/remoção/persistência e arquivo readonly.
 **Where:** frontend/e2e/etapas.spec.js
-**Companions:** configuração de fixture já existente somente se necessária, evidências/screenshots/docs de teste; ajuste de expectativa de versão no E2E anterior se ações existentes exigirem, sem reduzir sua cobertura.
+**Companions:** scripts/run-e2e.mjs e package.json para H2 novo por arquivo (sem dados compartilhados que invalidem o E2E anterior); helper/configuração existente somente se necessária; evidências/screenshots/docs de teste. Assertions do E2E anterior conservadas.
 **Depends on:** T6
 **Requirement:** ETA-12/13/15/22/25/28/30 e conclusão ETA-01–30.
 **Done when:**
-- [ ] Edge/H2 real percorre CRUD/reordenação com reload e IDs/campos/ordens persistidos; ações por Tab/Enter e remoção confirmada/cancelada.
-- [ ] Voltar à lista e arquivar usa cache/versão atual; snapshot arquivado não oferece configuração; layout desktop/mobile sem corte/overflow.
-- [ ] Gates final Java/React/build/lint/E2E passam sem skip; evidência por outcome registrada; Verificador novo é despachado após commit.
+- [x] Edge/H2 real percorre CRUD/reordenação com reload e IDs/campos/ordens persistidos; ações por Tab/Enter e remoção confirmada/cancelada.
+- [x] Voltar à lista e arquivar usa cache/versão atual; snapshot arquivado não oferece configuração; layout desktop/mobile sem corte/overflow.
+- [x] Gates final Java/React/build/lint/E2E passam sem skip; evidência por outcome registrada.
 **Tests:** e2e
 **Gate:** build
 **Commit:** test(etapas): verify stage management in the browser
+
+**Fechamento da feature:** após o commit T5, root despacha Verificador novo e executa validate_state antes de declarar feature concluída. O trabalhador da interface não atua como Verificador e encerra as alterações após seu commit.
 
 ### T6: Impedir saída global durante mutação de etapas
 

@@ -10,10 +10,10 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 
 ## Goals
 
-- [ ] Criador/admin cria, renomeia, muda setor, ordena e remove etapas vazias pela interface.
-- [ ] Demais funcionários consultam; arquivados ficam somente consulta.
-- [ ] Posições escolhidas reorganizam automaticamente a estrutura sem perder dados.
-- [ ] Remoção ocupada, versões antigas e falhas não causam escrita parcial.
+- [x] Criador/admin cria, renomeia, muda setor, ordena e remove etapas vazias pela interface.
+- [x] Demais funcionários consultam; arquivados ficam somente consulta.
+- [x] Posições escolhidas reorganizam automaticamente a estrutura sem perder dados.
+- [x] Remoção ocupada, versões antigas e falhas não causam escrita parcial.
 - [ ] Comprovar o contrato com testes isolados e Verificador independente.
 
 ## Out of Scope
@@ -180,16 +180,16 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 | ETA-25 | Interface | Execute | T3/T4 gate PASS; Verificador pendente |
 | ETA-26 | Interface | Execute | T3/T4/T6 gate PASS, saída global incluída; Verificador pendente |
 | ETA-27 | Interface | Execute | T2–T4 gate PASS; Verificador pendente |
-| ETA-28 | Interface | Execute | T4 gate PASS; E2E/Verificador pendentes |
+| ETA-28 | Interface | Execute | T4/T5 gate PASS; Verificador pendente |
 | ETA-29 | Interface | Execute | T2/T4 gate PASS; Verificador pendente |
-| ETA-30 | Interface | Execute | T3/T4 gate PASS; E2E/Verificador pendentes |
+| ETA-30 | Interface | Execute | T3/T4/T5 gate PASS; Verificador pendente |
 
-**Coverage:** 30 requisitos implementados com gates locais em T1–T4/T6; cliente, formulário, quadro e saída global validados com137 Vitest. T5/E2E e Verificador independente pendentes.
+**Coverage:** 30 requisitos implementados com gates locais em T1–T6; 238 Java/H2, 137 Vitest, build/lint e 2 E2E Edge PASS. MySQL isolado: 237 PASS relatado pelo root. Verificador independente pendente; nenhum resultado humano presumido.
 
 ## Success Criteria
 
-- [ ] API e UI cumprem matriz de permissões/arquivamento, CRUD e contagens reais.
-- [ ] Reordenação/deleção conservam dados e recusas não escrevem parcialmente.
-- [ ] Toda operação usa versão atual, stale409 e cache atualizado para ações seguintes.
-- [ ] Gates isolados passam sem reduzir cobertura anterior legitimamente aplicável.
+- [x] API e UI cumprem matriz de permissões/arquivamento, CRUD e contagens reais.
+- [x] Reordenação/deleção conservam dados e recusas não escrevem parcialmente.
+- [x] Toda operação usa versão atual, stale409 e cache atualizado para ações seguintes.
+- [x] Gates isolados passam sem reduzir cobertura anterior legitimamente aplicável.
 - [ ] Verificador novo comprova 30 ACs e sensor expandido; uso humano registrado separadamente.
