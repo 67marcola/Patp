@@ -2,6 +2,7 @@ import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test, vi } from "vitest";
 import Gerenciamentos from "./Gerenciamentos";
+import { ativarPorTeclado } from "../test/keyboard";
 
 const quadro = { id: 9, nome: "Instalações", descricao: "Postes", criador: { id: 3, nome: "Ana" }, arquivado: false, versao: 2, podeAdministrar: true };
 const json = (dados, status = 200) => new Response(JSON.stringify(dados), { status });
@@ -163,6 +164,41 @@ test("GER-36/40: falha inicial tem alerta e repetir consulta não envia mutaçã
     await user.click(screen.getByRole("button", { name: "Tentar atualizar" }));
     expect(await screen.findByRole("button", { name: "Abrir Instalações" })).not.toBeNull();
     expect(fetchMock.mock.calls.every(([, request]) => request.method === "GET")).toBe(true);
+});
+
+test.each([false, true])("GER-34/36/38: teclado repete somente a consulta após falha, mutação prévia=%s", async aposMutacao => {
+    const base = servidor();
+    let gravou = false;
+    let falhar = true;
+    const { user, fetchMock } = preparar(async (url, request) => {
+        if (request.method === "PUT") {
+            gravou = true;
+            return base(url, request);
+        }
+        if (falhar && (!aposMutacao || gravou) && url.includes("?arquivado=")) {
+            return json({ erro: "Consulta indisponível" }, 500);
+        }
+        return base(url, request);
+    });
+    if (aposMutacao) {
+        const arquivar = await screen.findByRole("button", { name: "Arquivar Instalações" });
+        await ativarPorTeclado(user, arquivar);
+        await ativarPorTeclado(user, within(screen.getByRole("dialog")).getByRole("button", { name: "Arquivar", exact: true }));
+    }
+    expect((await screen.findByRole("alert")).textContent).toBe(aposMutacao
+        ? "Alteração salva; não foi possível atualizar a lista." : "Consulta indisponível");
+    const chamadasAntes = fetchMock.mock.calls.length;
+    falhar = false;
+    await ativarPorTeclado(user, screen.getByRole("button", { name: "Tentar atualizar" }));
+    if (aposMutacao) {
+        expect((await screen.findByRole("heading", { name: "Nenhum gerenciamento ativo" })).textContent).toBe("Nenhum gerenciamento ativo");
+    } else {
+        expect(await screen.findByRole("button", { name: "Abrir Instalações" })).not.toBeNull();
+    }
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(fetchMock.mock.calls.slice(chamadasAntes).map(([url, request]) => [url, request.method]))
+        .toEqual([["http://localhost:8081/api/gerenciamentos?arquivado=false", "GET"]]);
+    expect(fetchMock.mock.calls.filter(([, request]) => request.method === "PUT")).toHaveLength(aposMutacao ? 1 : 0);
 });
 
 test("GER-28/36: consulta antiga não substitui o filtro já selecionado", async () => {

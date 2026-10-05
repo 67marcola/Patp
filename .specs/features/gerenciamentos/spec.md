@@ -264,12 +264,12 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | GER-35 | Interface | Execute | T10/T11/T12/T13 verificados; persistência E2E real PASS; Verifier pendente |
 | GER-36 | Interface | Execute | T12 verificado; Verifier pendente |
 | GER-37 | Interface | Execute | T12 verificado; Verifier pendente |
-| GER-38 | Interface | Execute | T11/T12/T13 verificados; Tab/Enter no navegador PASS; Verifier pendente |
+| GER-38 | Interface | Execute | Verifier rodada 1 encontrou cobertura parcial; T16 amplia Tab/Enter em remoção/retries; re-verificação pendente |
 | GER-39 | Interface | Execute | T11/T12 verificados; Verifier pendente |
 | GER-40 | Interface | Execute | T10/T11/T12/T13 verificados; Verifier pendente |
 | GER-41 | Interface | Execute | T12 verificado; Verifier pendente |
 
-**Coverage:** 41 requisitos implementados nas tarefas T1–T15 e testados pelo autor. A matriz está em `tasks.md`, as evidências em `evidence.md` / `frontend-evidence.md` e a conferência MySQL em `mysql-validation.md`. A validação independente ainda está pendente.
+**Coverage:** 41 requisitos implementados e testados pelo autor. A primeira rodada independente comprovou 40/41, com lacuna de testes de teclado em GER-38; T16 acrescenta cobertura e aguarda nova verificação. A matriz está em `tasks.md`, as evidências em `evidence.md` / `frontend-evidence.md` e a conferência MySQL em `mysql-validation.md`.
 
 ## Success Criteria
 

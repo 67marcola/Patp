@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "promote_threshold": 2,
+  "window_days": 45,
+  "quarantine_threshold": 2,
+  "next_id": 2,
+  "lessons": [
+    {
+      "id": "L-001",
+      "key": "surviving_mutant::exercite todos os controles do crud com tab confira o foco e ative por enter cliques nao comprovam operacao por teclado",
+      "text": "Exercite todos os controles do CRUD com Tab, confira o foco e ative por Enter; cliques não comprovam operação por teclado.",
+      "signal": "surviving_mutant",
+      "scope": "frontend",
+      "status": "candidate",
+      "features": [
+        "gerenciamentos"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "M9 (frontend)"
+      ],
+      "created": "2026-10-05T04:48:05Z",
+      "last_seen": "2026-10-05T04:48:05Z"
+    }
+  ]
+}

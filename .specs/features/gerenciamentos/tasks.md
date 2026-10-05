@@ -5,7 +5,7 @@
 Executar com a skill `tlc-spec-driven`, uma tarefa por vez: testes derivados da especificação, gate, adequação com evidências, atualização de status/rastreabilidade e um commit local por tarefa. A implementação e os testes foram autorizados pelo usuário em 2026-10-04. Ferramentas: shell PowerShell, Python, Maven, npm e skill já escolhida pelo usuário. A delegação técnica segue as instruções da sessão; não exige outra confirmação de rotina.
 
 **Design:** `design.md`
-**Status:** Implemented; independent Verifier pending
+**Status:** Implemented; T16 testada; nova verificação independente pendente
 
 ## Test Coverage Matrix
 
@@ -53,7 +53,7 @@ T8 -> T14
 ### Phase 4: Interface e fluxo em navegador
 
 ```text
-T9 -> T10 -> T11 -> T12 -> T15 -> T13
+T9 -> T10 -> T11 -> T12 -> T15 -> T13 -> T16
 ```
 
 Execução sequencial. Lote servidor: fases 1/2 (8 tarefas, T1 executada pelo orquestrador antes do trabalhador T2–T8). Correção técnica T14 executada pelo orquestrador após esse lote. Lote interface: fase 4 (6 tarefas, incluindo correção T15 descoberta na revisão de T12). Verificador novo após o último commit. Consultas/revisões independentes podem ocorrer em paralelo, sem editar os arquivos do trabalhador.
@@ -297,6 +297,22 @@ T14 -> T9
 **Gate:** build
 **Commit:** `fix(auth): encode session errors as UTF-8 JSON`
 
+### T16: Comprovar teclado nos controles secundários do CRUD
+
+**What:** fechar a lacuna GER-38 do Verificador: remoção de etapa inicial e repetição de consultas; preservar todos os testes existentes.
+**Where:** `frontend/src/pages/CriarGerenciamento.test.jsx`
+**Companions:** testes de lista/quadro, helper de teclado e E2E de remoção inicial; evidências e rastreabilidade.
+**Depends on:** T13
+**Requirement:** GER-31/34/36/38–40.
+**Done when:**
+- [x] Tab alcança nome/setor de etapa inicial e Remover; Enter remove seus campos antes de salvar; payload não contém a etapa removida.
+- [x] Tab/Enter ativam repetir consulta da lista (erro inicial e após gravação) e do quadro; resultado é carregado, alerta é removido e nenhum retry repete mutação.
+- [x] Voltar/Cancelar no formulário operam por teclado sem mutação; E2E real remove uma etapa inicial por Tab/Enter mantendo as assertions de persistência anteriores.
+- [x] Gates frontend passam; nenhuma assertion anterior removida/enfraquecida; Verificador repetirá mutação sobrevivente em scratch após o commit.
+**Tests:** integration + e2e
+**Gate:** build
+**Commit:** `test(frontend): cover keyboard removal and query retries`
+
 ## Diagram-Definition Cross-Check
 
 | Task | Depends On | Diagram Shows | Status |
@@ -316,6 +332,7 @@ T14 -> T9
 | T12 | T11 | T11 -> T12 | OK |
 | T15 | T12 | T12 -> T15 | OK |
 | T13 | T15 | T15 -> T13 | OK |
+| T16 | T13 | T13 -> T16 | OK |
 
 ## Test Co-location Validation
 
@@ -329,6 +346,7 @@ T14 -> T9
 | T11–T12 | React | integration | integration | OK |
 | T15 | React/navegação | integration | integration | OK |
 | T13 | React/navegador | integration/e2e | integration/e2e | OK |
+| T16 | React/teclado/navegador | integration/e2e | integration/e2e | OK |
 
 ## Task Granularity Check
 

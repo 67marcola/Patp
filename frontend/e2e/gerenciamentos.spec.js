@@ -33,6 +33,12 @@ test("GER-35: CRUD real conserva etapas, estado e campos após recarregar", asyn
     await acionarPorTeclado(page, page.getByRole("button", { name: /Adicionar etapa/ }));
     await page.getByLabel("Nome da etapa 1", { exact: true }).fill("Planejamento");
     await page.getByLabel("Setor responsável da etapa 1", { exact: true }).fill("Técnico");
+    await acionarPorTeclado(page, page.getByRole("button", { name: /Adicionar etapa/ }));
+    await page.getByLabel("Nome da etapa 2", { exact: true }).fill("Etapa temporária");
+    await page.getByLabel("Setor responsável da etapa 2", { exact: true }).fill("Teste");
+    await acionarPorTeclado(page, page.getByRole("button", { name: "Remover etapa 2", exact: true }));
+    await expect(page.getByLabel("Nome da etapa 2", { exact: true })).toHaveCount(0);
+    await expect(page.getByLabel("Setor responsável da etapa 2", { exact: true })).toHaveCount(0);
     await acionarPorTeclado(page, page.getByRole("button", { name: "Salvar gerenciamento", exact: true }));
     await expect(page.getByRole("button", { name: "Abrir Instalação de postes", exact: true })).toBeVisible();
     await page.reload();

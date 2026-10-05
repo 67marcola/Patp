@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test, vi } from "vitest";
 import CriarGerenciamento from "./CriarGerenciamento";
+import { ativarPorTeclado } from "../test/keyboard";
 
 test("GER-31: cancelar o formulário retorna sem enviar mutação", async () => {
     const fetchSpy = vi.fn();
@@ -196,4 +197,43 @@ test("GER-07: nome e setor iniciais com 255 caracteres são aceitos sem truncar"
     await user.click(screen.getByRole("button", { name: "Salvar gerenciamento" }));
     await waitFor(() => expect(atualizar).toHaveBeenCalledWith(quadro));
     expect(JSON.parse(fetchMock.mock.calls[0][1].body).etapas).toEqual([{ nome: "a".repeat(255), setor: "b".repeat(255), ordem: 1 }]);
+});
+
+test("GER-38/39: teclado preenche e remove uma etapa inicial antes de salvar", async () => {
+    const { user, fetchMock, atualizar } = preparar();
+    await user.tab();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: /Voltar/ }));
+    await user.tab();
+    expect(document.activeElement).toBe(screen.getByLabelText("Nome do gerenciamento"));
+    await user.keyboard("Quadro");
+    await user.tab();
+    expect(document.activeElement).toBe(screen.getByLabelText("Descrição"));
+    await user.keyboard("Descrição por teclado");
+    await user.tab();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: /Adicionar etapa/ }));
+    await user.keyboard("{Enter}");
+    await user.tab();
+    expect(document.activeElement).toBe(screen.getByLabelText("Nome da etapa 1"));
+    await user.keyboard("Etapa temporária");
+    expect(screen.getByLabelText("Nome da etapa 1").value).toBe("Etapa temporária");
+    await user.tab();
+    expect(document.activeElement).toBe(screen.getByLabelText("Setor responsável da etapa 1"));
+    await user.keyboard("Técnico");
+    expect(screen.getByLabelText("Setor responsável da etapa 1").value).toBe("Técnico");
+    await user.tab();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Remover etapa 1" }));
+    await user.keyboard("{Enter}");
+    expect(screen.queryByLabelText("Nome da etapa 1")).toBeNull();
+    expect(screen.queryByLabelText("Setor responsável da etapa 1")).toBeNull();
+    expect(fetchMock).not.toHaveBeenCalled();
+    await ativarPorTeclado(user, screen.getByRole("button", { name: "Salvar gerenciamento" }));
+    await waitFor(() => expect(atualizar).toHaveBeenCalledWith(quadro));
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ nome: "Quadro", descricao: "Descrição por teclado", etapas: [] });
+});
+
+test.each([/Voltar/, "Cancelar"])("GER-31/38: sair do formulário por teclado não envia mutação (%s)", async nome => {
+    const { user, fetchMock, voltar } = preparar(quadro);
+    await ativarPorTeclado(user, screen.getByRole("button", { name: nome }));
+    expect(voltar).toHaveBeenCalledTimes(1);
+    expect(fetchMock).not.toHaveBeenCalled();
 });
