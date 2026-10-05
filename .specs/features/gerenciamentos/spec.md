@@ -1,6 +1,6 @@
 # CRUD de gerenciamentos da Creral Specification
 
-**Status:** pronto para revisão do usuário; implementação não iniciada.
+**Status:** confirmado pelo usuário; implementação em andamento, sem conclusão da feature.
 **Data:** 2026-10-04.
 **Escopo:** primeira entrega funcional do sistema, seguindo a implementação de um requisito por vez.
 **Contexto:** `context.md`, decisões AD-001 a AD-006 de `.specs/STATE.md` e artigo PATP resumido em `.specs/REFERENCIA_PATP.md`.
@@ -234,21 +234,21 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | GER-05 | Criar com autoria | Specify | Pending |
 | GER-06 | Criar com autoria | Specify | Pending |
 | GER-07 | Criar com autoria | Specify | Pending |
-| GER-08 | Consultar | Specify | Pending |
-| GER-09 | Consultar | Specify | Pending |
-| GER-10 | Consultar | Specify | Pending |
+| GER-08 | Consultar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
+| GER-09 | Consultar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
+| GER-10 | Consultar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
 | GER-11 | Consultar | Specify | Pending |
 | GER-12 | Editar | Specify | Pending |
 | GER-13 | Editar | Specify | Pending |
 | GER-14 | Editar | Specify | Pending |
 | GER-15 | Editar | Specify | Pending |
-| GER-16 | Editar | Specify | Pending |
-| GER-17 | Arquivar/restaurar | Specify | Pending |
-| GER-18 | Arquivar/restaurar | Specify | Pending |
-| GER-19 | Arquivar/restaurar | Specify | Pending |
-| GER-20 | Arquivar/restaurar | Specify | Pending |
+| GER-16 | Editar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
+| GER-17 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
+| GER-18 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
+| GER-19 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
+| GER-20 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
 | GER-21 | Arquivar/restaurar | Specify | Pending |
-| GER-22 | Arquivar/restaurar | Specify | Pending |
+| GER-22 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
 | GER-23 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
 | GER-24 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
 | GER-25 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |

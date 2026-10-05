@@ -100,10 +100,10 @@ T8 -> T9
 **Depends on:** T2
 **Requirement:** GER-08–10/16–20/22; legado.
 **Done when:**
-- [ ] Novos registros ativos, versão inicial; marcador nulo legado tratado como ativo, criador não inferido.
-- [ ] Filtrar ativos/arquivados preserva valores antigos maiores sem truncar.
-- [ ] Lock e projeções escalares necessários estão definidos e persistência de estado/versão é testada.
-- [ ] Gate passa, sem excluir/ignorar testes.
+- [x] Novos registros ativos, versão inicial; marcador nulo legado tratado como ativo, criador não inferido.
+- [x] Filtrar ativos/arquivados preserva valores antigos maiores sem truncar.
+- [x] Lock e projeções escalares necessários estão definidos e persistência de estado/versão é testada.
+- [x] Gate passa, sem excluir/ignorar testes.
 **Tests:** integration
 **Gate:** full
 **Commit:** `feat(gerenciamentos): persist archive state and version`

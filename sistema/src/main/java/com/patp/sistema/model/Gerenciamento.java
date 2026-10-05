@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 
 @Entity
 @Table(name = "gerenciamentos")
@@ -25,6 +26,13 @@ public class Gerenciamento {
     @ManyToOne
     @JoinColumn(name = "criador_id")
     private Usuario criador;
+
+    @Column(columnDefinition = "boolean default false")
+    private Boolean arquivado = false;
+
+    @Version
+    @Column(columnDefinition = "bigint default 0")
+    private Long versao;
 
     public Gerenciamento() {
     }
@@ -59,5 +67,17 @@ public class Gerenciamento {
 
     public void setCriador(Usuario criador) {
         this.criador = criador;
+    }
+
+    public boolean isArquivado() {
+        return Boolean.TRUE.equals(arquivado);
+    }
+
+    public void setArquivado(Boolean arquivado) {
+        this.arquivado = arquivado;
+    }
+
+    public Long getVersao() {
+        return versao;
     }
 }
