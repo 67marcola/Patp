@@ -92,8 +92,8 @@ T4 -> T5
 **Depends on:** T2
 **Requirement:** AUT-07–09.
 **Done when:**
-- [ ] Entrada grava token e somente quatro campos do usuário antes de mostrar Gerenciamentos; reload/logout/login preservados.
-- [ ] Falha de storage inclusive segunda chave mantém tela/erro exato, tenta restaurar cache anterior e não repete autenticação; gate e testes anteriores passam com adequação registrada.
+- [x] Entrada grava token e somente quatro campos do usuário antes de mostrar Gerenciamentos; reload/logout/login preservados.
+- [x] Falha de storage inclusive segunda chave mantém tela/erro exato, tenta restaurar cache anterior e não repete autenticação; gate e testes anteriores passam com adequação registrada.
 **Tests:** integration
 **Gate:** full
 **Commit:** refactor(auth): share session entry between authentication forms

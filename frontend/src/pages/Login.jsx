@@ -26,23 +26,6 @@ function Login({ onLogin, abrirCadastro }) {
             );
 
 
-            localStorage.setItem(
-                "token",
-                dados.token
-            );
-
-
-            localStorage.setItem(
-                "usuario",
-                JSON.stringify({
-                    id: dados.id,
-                    nome: dados.nome,
-                    setor: dados.setor,
-                    email: dados.email
-                })
-            );
-
-
             onLogin(dados);
 
 
