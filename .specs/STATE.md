@@ -75,12 +75,20 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature**: CRUD de gerenciamentos da Creral.
-- **Phase / Task**: implementação autorizada em 2026-10-04; interface T9–T13.
-- **Completed**: diagnóstico, referência PATP, decisões AD-001 a AD-008, especificação com 41 critérios confirmada, design/tarefas validados; T1–T8 e T14 em commits locais. Servidor: 97 testes H2 e 96 testes de comportamento MySQL, zero falhas/erros/ignorados. Schema antigo temporário preservado nas seis tabelas e após reinicialização; detalhes em `features/gerenciamentos/mysql-validation.md`.
-- **In-progress**: testes e implementação da interface pelo trabalhador do frontend. MySQL temporário separado na porta 33817 usado somente com dados fictícios.
-- **Next step**: concluir interface T9–T13, revisão visual e Verificador independente novo.
-- **Blockers**: nenhum para o primeiro CRUD. Permissões de etapas e remoção de etapa com demandas já respondidas para a próxima entrega. Contas administrativas reais serão selecionadas posteriormente; testes usam contas fictícias.
-- **Uncommitted files**: trabalho frontend e artefatos gerados de teste/build; staging somente das fontes/testes/documentação listados na tarefa.
+- **Phase / Task**: retomada autorizada em 2026-10-05; implementação concluída, verificação independente pendente.
+- **Completed**: diagnóstico, referência PATP, decisões AD-001 a AD-008, especificação com 41 critérios confirmada, design/tarefas validados; T1–T15 em commits locais (última tarefa: `aa981e6`). Servidor: 97 testes H2 e 96 testes de comportamento MySQL, zero falhas/erros/ignorados. Interface: 65 testes, build/lint PASS e um fluxo completo no Edge real com Tab/Enter e recarregamento. Revisão visual desktop/mobile sem cortes. Schema antigo temporário preservado nas seis tabelas e após reinicialização; detalhes em `features/gerenciamentos/mysql-validation.md`.
+- **In-progress**: fechamento dos registros e despacho de um Verificador independente novo. Os serviços temporários de testes e migração foram encerrados.
+- **Next step**: verificação dos 41 critérios e sensor de discriminação em cópia isolada; corrigir eventuais lacunas antes de declarar conclusão técnica. Depois, iniciar avaliação de uso com o usuário e especificar CRUD de etapas.
+- **Blockers**: nenhum para o primeiro CRUD. Permissões de etapas e remoção de etapa com demandas já respondidas para a próxima entrega. Pergunta sobre destinos finais permanece pendente, sem assumir uma resposta. Contas administrativas reais serão selecionadas posteriormente; testes usam contas fictícias.
+- **Uncommitted files**: registros de entrega e artefatos gerados de teste/build; staging somente da documentação intencional. Fontes e testes das 15 tarefas já estão commitados.
 - **Branch**: testes; base 5d8beb9.
 
 A aplicação normal não foi iniciada nem o banco MySQL configurado alterado. A instância temporária tem pasta de dados nova em TEMP e só contém dados fictícios. Usar apenas banco isolado durante os testes.
+
+## Próxima conversa: etapas
+
+Já confirmado: somente criador/administrador configura etapas; remover etapa com demandas é bloqueado (AD-007/008).
+
+Pergunta enviada, aguardando resposta: exatamente duas colunas finais fixas, Concluídos/Cancelados, ou permitir destinos adicionais de cada categoria escolhidos ao finalizar? A proposta de destinos adicionais deve manter as duas etapas obrigatórias pedidas originalmente. Não iniciar a implementação desses destinos por ausência de resposta.
+
+Leitura do código para discussão posterior: `ordem` permite empates/lacunas; proposta é escolher posição e reorganizar automaticamente. `setor` é texto informativo e não controla acesso; ainda esclarecer se deve continuar obrigatório nas etapas de trabalho. O histórico existente referencia a demanda e guarda nomes de etapas em texto; remover uma etapa vazia não precisa apagar registros anteriores nem reescrevê-los após renomear.

@@ -1,6 +1,6 @@
 # CRUD de gerenciamentos da Creral Specification
 
-**Status:** confirmado pelo usuário; implementação em andamento, sem conclusão da feature.
+**Status:** confirmado pelo usuário; implementado e testado pelo autor, com verificação independente pendente.
 **Data:** 2026-10-04.
 **Escopo:** primeira entrega funcional do sistema, seguindo a implementação de um requisito por vez.
 **Contexto:** `context.md`, decisões AD-001 a AD-006 de `.specs/STATE.md` e artigo PATP resumido em `.specs/REFERENCIA_PATP.md`.
@@ -11,10 +11,10 @@ A interface atual permite criar e listar gerenciamentos, mas não editar nem ret
 
 ## Goals
 
-- [ ] Criar, consultar e editar gerenciamentos pela interface com persistência na API.
-- [ ] Arquivar e restaurar sem apagar ou deslocar etapas, demandas, comentários e histórico.
-- [ ] Aplicar as permissões no backend, inclusive para quadros sem criador.
-- [ ] Bloquear as mutações existentes de conteúdo dos quadros arquivados.
+- [x] Criar, consultar e editar gerenciamentos pela interface com persistência na API.
+- [x] Arquivar e restaurar sem apagar ou deslocar etapas, demandas, comentários e histórico.
+- [x] Aplicar as permissões no backend, inclusive para quadros sem criador.
+- [x] Bloquear as mutações existentes de conteúdo dos quadros arquivados.
 - [ ] Comprovar os resultados por testes isolados e verificação independente.
 
 ## Out of Scope
@@ -42,16 +42,16 @@ As respostas expressas estão marcadas como confirmadas. Os padrões propostos f
 | Administradores | Contas escolhidas pelo usuário; demais cadastros são funcionários | Evita administração definida pela ordem dos cadastros | Sim, AD-004 |
 | Arquivados | Apenas consulta até restaurar | Comportamento A escolhido | Sim, AD-005 |
 | Quadros sem criador | Somente administradores editam/arquivam/restauram; todos logados consultam | Política A escolhida, sem inventar autoria | Sim, AD-006 |
-| Restauração de quadro com criador | Criador ou administrador pode restaurar | Mantém a responsabilidade administrativa já escolhida | Proposta explícita para revisão |
-| Campos do quadro | Nome obrigatório com 1–120 caracteres após remover espaços externos; descrição opcional com até 255 caracteres | Mantém nome/descrição atuais e estabelece limites verificáveis sem reduzir colunas legadas | Proposta explícita para revisão |
-| Nomes iguais | Permitidos; identificação e relações são por ID | Modelo atual não exige unicidade e quadros independentes podem ter nomes iguais | Proposta explícita para revisão |
-| Apresentação de arquivados | Filtro Ativos / Arquivados, com Ativos inicialmente | Permite consulta e restauração sem misturar quadros retirados de uso | Proposta explícita para revisão |
+| Restauração de quadro com criador | Criador ou administrador pode restaurar | Mantém a responsabilidade administrativa já escolhida | Sim, proposta aprovada em 2026-10-04 |
+| Campos do quadro | Nome obrigatório com 1–120 caracteres após remover espaços externos; descrição opcional com até 255 caracteres | Mantém nome/descrição atuais e estabelece limites verificáveis sem reduzir colunas legadas | Sim, proposta aprovada em 2026-10-04 |
+| Nomes iguais | Permitidos; identificação e relações são por ID | Modelo atual não exige unicidade e quadros independentes podem ter nomes iguais | Sim, proposta aprovada em 2026-10-04 |
+| Apresentação de arquivados | Filtro Ativos / Arquivados, com Ativos inicialmente | Permite consulta e restauração sem misturar quadros retirados de uso | Sim, proposta aprovada em 2026-10-04 |
 | Contas administrativas específicas | Selecionar contas já cadastradas mediante configuração confiável do servidor; usar contas fictícias nos testes | Implementar regras não exige pedir contas reais ou conceder papel pelo JSON do cadastro | Escolha técnica; contas reais serão indicadas na configuração |
 | Dados existentes | Estado antigo sem marcador de arquivamento equivale a ativo; criador desconhecido continua desconhecido | Preserva dados sem adivinhar autoria nem arquivar registros automaticamente | Padrão técnico explícito |
 | Limites em dados existentes | Aplicar limites às novas gravações sem truncar registros antigos | Preservação foi solicitada; um valor legado maior pode continuar sendo consultado | Padrão técnico explícito |
 | Concorrência | Edição com versão antiga retorna 409; arquivamento e mutações de conteúdo são ordenados atomicamente | Evita sobrescrever alterações e gravar conteúdo depois do arquivamento confirmado | Escolha técnica com resultado testável |
 | Repetição e comunicação | Bloquear duplo envio na interface; não repetir criação automaticamente; arquivar/restaurar repetidos não geram novo efeito | Nomes iguais são permitidos; não usar nome como chave de deduplicação | Padrão técnico explícito |
-| Logs nesta entrega | Preservar históricos atuais e metadados de estado; novo histórico completo de ações e sua interface serão outra entrega | Respeita a execução por requisito e não promete um painel ainda inexistente | Divisão proposta para revisão |
+| Logs nesta entrega | Preservar históricos atuais e metadados de estado; novo histórico completo de ações e sua interface serão outra entrega | Respeita a execução por requisito e não promete um painel ainda inexistente | Sim, divisão aprovada em 2026-10-04 |
 
 **Open questions:** none — decisões respondidas e padrões explicitamente aprovados na revisão antes de implementar. Contas reais são configuração posterior, não lacuna para os testes fictícios.
 
@@ -227,33 +227,33 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| GER-01 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-02 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-01 | Criar com autoria | Execute | T4 verificado; Verifier pendente |
+| GER-02 | Criar com autoria | Execute | T4 verificado; Verifier pendente |
 | GER-03 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
 | GER-04 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
-| GER-05 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-05 | Criar com autoria | Execute | T4 verificado; Verifier pendente |
 | GER-06 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
 | GER-07 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
-| GER-08 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-09 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-10 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-11 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-12 | Editar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-13 | Editar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-14 | Editar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-15 | Editar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-16 | Editar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-17 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-18 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-19 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-20 | Arquivar/restaurar | Execute | T8 verificado; demais tarefas/Verifier pendentes |
-| GER-21 | Arquivar/restaurar | Execute | T8 verificado; demais tarefas/Verifier pendentes |
-| GER-22 | Arquivar/restaurar | Execute | T8 verificado; demais tarefas/Verifier pendentes |
-| GER-23 | Identidade/permissões | Execute | T8/T14 verificados; demais tarefas/Verifier pendentes |
-| GER-24 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
-| GER-25 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
-| GER-26 | Identidade/permissões | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-27 | Identidade/permissões | Execute | T8 verificado; demais tarefas/Verifier pendentes |
+| GER-08 | Consultar | Execute | T4 verificado; Verifier pendente |
+| GER-09 | Consultar | Execute | T4 verificado; Verifier pendente |
+| GER-10 | Consultar | Execute | T4 verificado; Verifier pendente |
+| GER-11 | Consultar | Execute | T4 verificado; Verifier pendente |
+| GER-12 | Editar | Execute | T4 verificado; Verifier pendente |
+| GER-13 | Editar | Execute | T4 verificado; Verifier pendente |
+| GER-14 | Editar | Execute | T4 verificado; Verifier pendente |
+| GER-15 | Editar | Execute | T4 verificado; Verifier pendente |
+| GER-16 | Editar | Execute | T4 verificado; Verifier pendente |
+| GER-17 | Arquivar/restaurar | Execute | T4 verificado; Verifier pendente |
+| GER-18 | Arquivar/restaurar | Execute | T4 verificado; Verifier pendente |
+| GER-19 | Arquivar/restaurar | Execute | T4 verificado; Verifier pendente |
+| GER-20 | Arquivar/restaurar | Execute | T8 verificado; Verifier pendente |
+| GER-21 | Arquivar/restaurar | Execute | T8 verificado; Verifier pendente |
+| GER-22 | Arquivar/restaurar | Execute | T8 verificado; Verifier pendente |
+| GER-23 | Identidade/permissões | Execute | T8/T14 verificados; Verifier pendente |
+| GER-24 | Identidade/permissões | Execute | T2 verificado; Verifier pendente |
+| GER-25 | Identidade/permissões | Execute | T2 verificado; Verifier pendente |
+| GER-26 | Identidade/permissões | Execute | T4 verificado; Verifier pendente |
+| GER-27 | Identidade/permissões | Execute | T8 verificado; Verifier pendente |
 | GER-28 | Interface | Execute | T12 verificado; Verifier pendente |
 | GER-29 | Interface | Execute | T13 verificado; Verifier pendente |
 | GER-30 | Interface | Execute | T12 verificado; Verifier pendente |
@@ -269,20 +269,20 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | GER-40 | Interface | Execute | T10/T11/T12/T13 verificados; Verifier pendente |
 | GER-41 | Interface | Execute | T12 verificado; Verifier pendente |
 
-**Coverage:** 41 requisitos; nenhum implementado nesta fase; tarefas e matriz de testes serão produzidas após a revisão da especificação.
+**Coverage:** 41 requisitos implementados nas tarefas T1–T15 e testados pelo autor. A matriz está em `tasks.md`, as evidências em `evidence.md` / `frontend-evidence.md` e a conferência MySQL em `mysql-validation.md`. A validação independente ainda está pendente.
 
 ## Success Criteria
 
-- [ ] Fluxo criar → editar → arquivar → consultar → restaurar concluído pela interface e confirmado após nova consulta/recarregamento.
-- [ ] Criador, terceiro usuário, administrador e quadro sem criador produzem os resultados da matriz de permissões.
-- [ ] Todos os registros associados permanecem intactos ao arquivar/restaurar.
-- [ ] Todas as rotas da matriz recusam conteúdo válido enquanto arquivado, sem gravação.
-- [ ] Falha parcial, concorrência e tentativas de falsificar autoria/papel são cobertas por testes de resultado.
-- [ ] Testes do requisito passam em ambiente isolado do MySQL configurado; limitações entre banco de teste e MySQL são registradas quando existirem.
+- [x] Fluxo criar → editar → arquivar → consultar → restaurar concluído pela interface e confirmado após nova consulta/recarregamento.
+- [x] Criador, terceiro usuário, administrador e quadro sem criador produzem os resultados da matriz de permissões.
+- [x] Todos os registros associados permanecem intactos ao arquivar/restaurar.
+- [x] Todas as rotas da matriz recusam conteúdo válido enquanto arquivado, sem gravação.
+- [x] Falha parcial, concorrência e tentativas de falsificar autoria/papel são cobertas por testes de resultado.
+- [x] Testes do requisito passam em ambiente isolado do MySQL configurado; limitações entre banco de teste e MySQL são registradas quando existirem.
 - [ ] Verificador independente apresenta evidências por critério e resultado do sensor de discriminação conforme a skill.
 
 ## Review Gate
 
-A revisão confirma os padrões explicitamente propostos, a divisão entre este CRUD e os próximos requisitos e o comportamento testável acima. Não equivale à conclusão da implementação. As mudanças de código, os testes executados e as evidências serão registrados nas fases seguintes.
+A revisão foi aprovada pelo usuário em 2026-10-04, incluindo os padrões propostos e a divisão entre este CRUD e os próximos requisitos. As mudanças e os testes das 15 tarefas estão registrados nos commits locais e nos relatórios de evidências; a conclusão técnica depende do Verificador independente.
 
-Conferência estrutural executada em 2026-10-04: `python .agents/skills/tlc-spec-driven/scripts/validate_spec.py .specs/features/gerenciamentos/spec.md --strict`, resultado zero erros e zero avisos. Duas revisões independentes de leitura apontaram precisões de versão/repetição, precedência de permissões, concorrência e interface; as correções foram incorporadas. Nenhum teste de comportamento da aplicação foi executado nesta fase.
+Conferência estrutural inicial executada em 2026-10-04: `python .agents/skills/tlc-spec-driven/scripts/validate_spec.py .specs/features/gerenciamentos/spec.md --strict`, resultado zero erros e zero avisos. Duas revisões independentes de leitura apontaram precisões de versão/repetição, precedência de permissões, concorrência e interface; as correções foram incorporadas. Naquela fase inicial de especificação ainda não haviam sido executados testes de comportamento.
