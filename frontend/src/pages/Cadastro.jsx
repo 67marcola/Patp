@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { cadastrarUsuario } from "../services/api";
+import { useRef, useState } from "react";
+import { ApiError, cadastrarUsuario } from "../services/api";
 
-function Cadastro({ voltar }) {
+function Cadastro({ voltar, onLogin }) {
 
     const [nome, setNome] = useState("");
     const [setor, setSetor] = useState("");
@@ -10,16 +10,16 @@ function Cadastro({ voltar }) {
     const [confirmarSenha, setConfirmarSenha] = useState("");
 
     const [erro, setErro] = useState("");
-    const [sucesso, setSucesso] = useState("");
     const [carregando, setCarregando] = useState(false);
+    const enviando = useRef(false);
 
 
     async function handleCadastro(event) {
 
         event.preventDefault();
 
+        if (enviando.current) return;
         setErro("");
-        setSucesso("");
 
 
         // Verifica senha
@@ -41,12 +41,13 @@ function Cadastro({ voltar }) {
         }
 
 
+        enviando.current = true;
         setCarregando(true);
 
 
         try {
 
-            await cadastrarUsuario({
+            const dados = await cadastrarUsuario({
                 nome: nome.trim(),
                 setor: setor.trim(),
                 email: email.trim(),
@@ -54,25 +55,19 @@ function Cadastro({ voltar }) {
             });
 
 
-            setSucesso(
-                "Cadastro realizado com sucesso!"
-            );
-
-
-            // Limpa formulário
-            setNome("");
-            setSetor("");
-            setEmail("");
-            setSenha("");
-            setConfirmarSenha("");
+            onLogin(dados);
 
 
         } catch (error) {
 
-            setErro(error.message);
+            setErro(error instanceof ApiError
+                && (error.status === 0 || (error.status >= 200 && error.status < 300))
+                ? "Não foi possível confirmar o cadastro. Se a conta já foi criada, entre pelo login."
+                : error.message);
 
         } finally {
 
+            enviando.current = false;
             setCarregando(false);
 
         }
@@ -108,11 +103,12 @@ function Cadastro({ voltar }) {
 
                     <div className="campo">
 
-                        <label>
+                        <label htmlFor="cadastro-nome">
                             Nome completo
                         </label>
 
                         <input
+                            id="cadastro-nome"
                             type="text"
                             placeholder="Digite seu nome"
                             value={nome}
@@ -120,6 +116,7 @@ function Cadastro({ voltar }) {
                                 setNome(e.target.value)
                             }
                             required
+                            disabled={carregando}
                         />
 
                     </div>
@@ -127,11 +124,12 @@ function Cadastro({ voltar }) {
 
                     <div className="campo">
 
-                        <label>
+                        <label htmlFor="cadastro-setor">
                             Setor
                         </label>
 
                         <input
+                            id="cadastro-setor"
                             type="text"
                             placeholder="Ex.: Comercial"
                             value={setor}
@@ -139,6 +137,7 @@ function Cadastro({ voltar }) {
                                 setSetor(e.target.value)
                             }
                             required
+                            disabled={carregando}
                         />
 
                     </div>
@@ -146,11 +145,12 @@ function Cadastro({ voltar }) {
 
                     <div className="campo">
 
-                        <label>
+                        <label htmlFor="cadastro-email">
                             E-mail
                         </label>
 
                         <input
+                            id="cadastro-email"
                             type="email"
                             placeholder="seu@email.com"
                             value={email}
@@ -158,6 +158,7 @@ function Cadastro({ voltar }) {
                                 setEmail(e.target.value)
                             }
                             required
+                            disabled={carregando}
                         />
 
                     </div>
@@ -165,11 +166,12 @@ function Cadastro({ voltar }) {
 
                     <div className="campo">
 
-                        <label>
+                        <label htmlFor="cadastro-senha">
                             Senha
                         </label>
 
                         <input
+                            id="cadastro-senha"
                             type="password"
                             placeholder="Digite sua senha"
                             value={senha}
@@ -177,6 +179,7 @@ function Cadastro({ voltar }) {
                                 setSenha(e.target.value)
                             }
                             required
+                            disabled={carregando}
                         />
 
                     </div>
@@ -184,11 +187,12 @@ function Cadastro({ voltar }) {
 
                     <div className="campo">
 
-                        <label>
+                        <label htmlFor="cadastro-confirmar-senha">
                             Confirmar senha
                         </label>
 
                         <input
+                            id="cadastro-confirmar-senha"
                             type="password"
                             placeholder="Digite a senha novamente"
                             value={confirmarSenha}
@@ -196,6 +200,7 @@ function Cadastro({ voltar }) {
                                 setConfirmarSenha(e.target.value)
                             }
                             required
+                            disabled={carregando}
                         />
 
                     </div>
@@ -203,17 +208,8 @@ function Cadastro({ voltar }) {
 
                     {erro && (
 
-                        <div className="erro-login">
+                        <div className="erro-login" role="alert">
                             {erro}
-                        </div>
-
-                    )}
-
-
-                    {sucesso && (
-
-                        <div className="sucesso-cadastro">
-                            {sucesso}
                         </div>
 
                     )}
@@ -241,6 +237,7 @@ function Cadastro({ voltar }) {
                     <button
                         type="button"
                         onClick={voltar}
+                        disabled={carregando}
                     >
                         Voltar para login
                     </button>

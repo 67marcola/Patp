@@ -84,6 +84,7 @@ function App() {
         return (
 
             <Cadastro
+                onLogin={entrar}
                 voltar={() =>
                     setMostrarCadastro(false)
                 }
