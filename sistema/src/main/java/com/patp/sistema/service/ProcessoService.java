@@ -3,8 +3,12 @@ package com.patp.sistema.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.patp.sistema.exception.ApiException;
 import com.patp.sistema.model.Etapa;
 import com.patp.sistema.model.Processo;
 import com.patp.sistema.model.Usuario;
@@ -18,25 +22,45 @@ public class ProcessoService {
     private final EtapaRepository etapaRepository;
     private final HistoricoService historicoService;
     private final SessaoService sessaoService;
+    private final GerenciamentoGuard guard;
 
     public ProcessoService(
             ProcessoRepository processoRepository,
             EtapaRepository etapaRepository,
             HistoricoService historicoService,
-            SessaoService sessaoService) {
+            SessaoService sessaoService,
+            GerenciamentoGuard guard) {
 
         this.processoRepository = processoRepository;
         this.etapaRepository = etapaRepository;
         this.historicoService = historicoService;
         this.sessaoService = sessaoService;
+        this.guard = guard;
     }
 
     // Criar processo
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Processo salvar(
             Processo processo,
             String token) {
 
         Usuario usuario = sessaoService.buscarUsuario(token);
+
+        if (processo.getId() != null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "O ID do processo deve ser definido pelo sistema.");
+        }
+        if (processo.getEtapa() == null || processo.getEtapa().getId() == null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Informe uma etapa existente para o processo.");
+        }
+        Long etapaId = processo.getEtapa().getId();
+        Long gerenciamentoId = etapaRepository.buscarGerenciamentoId(etapaId).orElseThrow(() ->
+                new ApiException(HttpStatus.BAD_REQUEST, "Informe uma etapa existente para o processo."));
+        guard.exigirAtivo(gerenciamentoId);
+        Etapa etapaPersistida = etapaRepository.findByIdAndGerenciamentoId(etapaId, gerenciamentoId);
+        if (etapaPersistida == null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Informe uma etapa existente para o processo.");
+        }
+        processo.setEtapa(etapaPersistida);
 
         Processo salvo = processoRepository.save(processo);
 
@@ -86,6 +110,7 @@ public class ProcessoService {
     }
 
     // Editar processo
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Processo editar(
             Long id,
             Processo dados,
@@ -93,7 +118,7 @@ public class ProcessoService {
 
         Usuario usuario = sessaoService.buscarUsuario(token);
 
-        Processo processo = buscarPorId(id);
+        Processo processo = buscarParaAlterar(id);
 
         String descricao = "Processo alterado.";
 
@@ -175,6 +200,7 @@ public class ProcessoService {
     }
 
     // Mudar etapa
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Processo mudarEtapa(
             Long processoId,
             Long etapaId,
@@ -184,7 +210,7 @@ public class ProcessoService {
                 sessaoService.buscarUsuario(token);
 
         Processo processo =
-                buscarPorId(processoId);
+                buscarParaAlterar(processoId);
 
         Long gerenciamentoId =
                 processo.getEtapa()
@@ -226,6 +252,7 @@ public class ProcessoService {
     }
 
     // Concluir
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Processo concluir(
             Long id,
             String token) {
@@ -234,7 +261,7 @@ public class ProcessoService {
                 sessaoService.buscarUsuario(token);
 
         Processo processo =
-                buscarPorId(id);
+                buscarParaAlterar(id);
 
         processo.setStatus("Concluido");
         processo.setDataConclusao(
@@ -255,6 +282,7 @@ public class ProcessoService {
     }
 
     // Cancelar
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Processo cancelar(
             Long id,
             String motivo,
@@ -264,7 +292,7 @@ public class ProcessoService {
                 sessaoService.buscarUsuario(token);
 
         Processo processo =
-                buscarPorId(id);
+                buscarParaAlterar(id);
 
         processo.setStatus("Cancelado");
         processo.setDataCancelamento(
@@ -290,6 +318,7 @@ public class ProcessoService {
     }
 
     // Excluir
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void excluir(
             Long id,
             String token) {
@@ -298,7 +327,7 @@ public class ProcessoService {
                 sessaoService.buscarUsuario(token);
 
         Processo processo =
-                buscarPorId(id);
+                buscarParaAlterar(id);
 
         historicoService.registrar(
                 processo.getId(),
@@ -308,5 +337,12 @@ public class ProcessoService {
         );
 
         processoRepository.deleteById(id);
+    }
+
+    private Processo buscarParaAlterar(Long id) {
+        Long gerenciamentoId = processoRepository.buscarGerenciamentoId(id)
+                .orElseThrow(() -> new RuntimeException("Processo não encontrado."));
+        guard.exigirAtivo(gerenciamentoId);
+        return buscarPorId(id);
     }
 }
