@@ -252,3 +252,44 @@ test("GER-11/33: quadro removido antes de abrir anuncia 404 sem apresentar ediç
     expect(screen.queryByLabelText("Nome do gerenciamento")).toBeNull();
     expect(fetchMock.mock.calls.every(([, request]) => request.method === "GET")).toBe(true);
 });
+
+test("GER-33/34: formulário salvo permanece pendente até encerrar a consulta posterior", async () => {
+    const base = servidor();
+    let salvo = false;
+    let resolverConsulta;
+    const { user, fetchMock } = preparar(async (url, request) => {
+        if (request.method === "PUT") { salvo = true; return base(url, request); }
+        if (salvo && url.includes("?arquivado=")) return new Promise(resolve => { resolverConsulta = resolve; });
+        return base(url, request);
+    });
+    await user.click(await screen.findByRole("button", { name: "Editar Instalações" }));
+    await user.clear(await screen.findByLabelText("Nome do gerenciamento"));
+    await user.type(screen.getByLabelText("Nome do gerenciamento"), "Corrigido");
+    await user.click(screen.getByRole("button", { name: "Salvar alterações" }));
+    await waitFor(() => expect(fetchMock.mock.calls.filter(([url]) => url.includes("?arquivado="))).toHaveLength(2));
+    expect(screen.getByLabelText("Nome do gerenciamento").value).toBe("Corrigido");
+    expect(screen.getByRole("button", { name: "Salvando..." }).disabled).toBe(true);
+    expect(screen.queryByRole("button", { name: /Criar gerenciamento/ })).toBeNull();
+    resolverConsulta(json({ erro: "Indisponível" }, 500));
+    expect((await screen.findByRole("alert")).textContent).toBe("Alteração salva; não foi possível atualizar a lista.");
+    expect(screen.getByRole("button", { name: "Tentar atualizar" })).not.toBeNull();
+});
+
+test.each(["criar", "abrir"])("GER-31: navegar para %s descarta confirmação antiga e restaura foco da nova", async destino => {
+    const { user, fetchMock } = preparar(servidor());
+    await user.click(await screen.findByRole("button", { name: "Arquivar Instalações" }));
+    if (destino === "criar") {
+        await user.click(screen.getByRole("button", { name: /Criar gerenciamento/ }));
+        await user.click(await screen.findByRole("button", { name: "Cancelar" }));
+    } else {
+        await user.click(screen.getByRole("button", { name: "Abrir Instalações" }));
+        await user.click(await screen.findByRole("button", { name: /Voltar/ }));
+    }
+    expect(screen.queryByRole("dialog")).toBeNull();
+    const origem = screen.getByRole("button", { name: "Arquivar Instalações" });
+    await user.click(origem);
+    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Cancelar" }));
+    expect(document.activeElement).toBe(origem);
+    expect(origem.isConnected).toBe(true);
+    expect(fetchMock.mock.calls.filter(([, request]) => request.method === "PUT")).toHaveLength(0);
+});

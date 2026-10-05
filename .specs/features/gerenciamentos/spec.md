@@ -257,10 +257,10 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | GER-28 | Interface | Execute | T12 verificado; Verifier pendente |
 | GER-29 | Interface | Specify | Pending |
 | GER-30 | Interface | Execute | T12 verificado; Verifier pendente |
-| GER-31 | Interface | Execute | T9/T11/T12 verificados; Verifier pendente |
+| GER-31 | Interface | Execute | T9/T11/T12/T15 verificados; Verifier pendente |
 | GER-32 | Interface | Execute | T11/T12 verificados; Verifier pendente |
-| GER-33 | Interface | Execute | T10/T11/T12 verificados; Verifier pendente |
-| GER-34 | Interface | Execute | T10/T12 verificados; Verifier pendente |
+| GER-33 | Interface | Execute | T10/T11/T12/T15 verificados; Verifier pendente |
+| GER-34 | Interface | Execute | T10/T12/T15 verificados; Verifier pendente |
 | GER-35 | Interface | Execute | In Progress: HTTP/UI T10/T11/T12; persistência E2E T13 pendente |
 | GER-36 | Interface | Execute | T12 verificado; Verifier pendente |
 | GER-37 | Interface | Execute | T12 verificado; Verifier pendente |

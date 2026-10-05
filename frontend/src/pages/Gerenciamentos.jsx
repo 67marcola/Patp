@@ -51,7 +51,7 @@ function Gerenciamentos() {
 
     function mudarFiltro(valor) {
         if (valor === arquivado || operando.current) return;
-        setConfirmacao(null);
+        descartarConfirmacao();
         setErroAcao("");
         setGerenciamentos([]);
         setArquivado(valor);
@@ -59,6 +59,7 @@ function Gerenciamentos() {
 
     async function abrir(id, destino) {
         if (operando.current) return;
+        descartarConfirmacao();
         operando.current = true;
         setOcupado(true);
         setErroAcao("");
@@ -90,8 +91,12 @@ function Gerenciamentos() {
             const outros = anteriores.filter(item => item.id !== salvo.id);
             return salvo.arquivado === arquivado ? [salvo, ...outros] : outros;
         });
-        setTela("lista");
         await carregarGerenciamentos(arquivado, true);
+    }
+
+    function descartarConfirmacao() {
+        setConfirmacao(null);
+        origemConfirmacao.current = null;
     }
 
     function cancelarArquivo() {
@@ -134,7 +139,7 @@ function Gerenciamentos() {
                     <p>Quadros compartilhados para acompanhar os processos.</p>
                 </div>
                 <button className="btn-criar" disabled={ocupado}
-                    onClick={() => { setErroAcao(""); setTela("criar"); }}>+ Criar gerenciamento</button>
+                    onClick={() => { descartarConfirmacao(); setErroAcao(""); setTela("criar"); }}>+ Criar gerenciamento</button>
             </div>
             <div className="filtro-gerenciamentos" role="group" aria-label="Situação dos gerenciamentos">
                 <button className="btn-secundario" aria-pressed={!arquivado} disabled={ocupado}

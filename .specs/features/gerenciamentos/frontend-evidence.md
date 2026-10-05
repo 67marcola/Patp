@@ -112,3 +112,21 @@ Gates em 2026-10-05: `npm.cmd test` PASS **57/57** (22 lista, 20 formulário, 15
 | `Gerenciamentos.test.jsx:189/190/192`, nome/descrição/payload/versão | GER-35 | Sim |
 
 Adequação: assertions por resultado renderizado, campos/versão e mensagens; contagens só nas regras explícitas de nenhum/único envio. Nenhum teste modificado, ignorado ou removido. CSS limitado à acomodação das novas ações, confirmação e foco; sem redesign geral. T12 concluída; persistência no navegador e readonly do Quadro pertencem a T13.
+
+## T15: correção de duas sequências de navegação
+
+Revisão independente após T12 apontou: o retorno do formulário anterior podia fechar um novo formulário enquanto o GET posterior estava pendente; confirmação antiga permanecia ao navegar e tinha origem desconectada. Correção dentro do requisito autorizado, sem nova funcionalidade. Premissas: formulário continua desabilitado até callback de consulta terminar; confirmação descartada ao navegar. Arquivos: lista/testes e documentos.
+
+Antes da correção: **3 falhas / 25 casos da lista**, incluindo consulta pendente e navegação criar/abrir com confirmação. Depois: `npm.cmd test` PASS **60/60** (25 lista, 20 formulário, 15 HTTP), build/lint PASS. Todos os casos anteriores e suas assertions preservados.
+
+| Adequação direta: critério | Evidência e assertion | Resultado prescrito | Resultado |
+| --- | --- | --- | --- |
+| GER-33/34, recarga pendente | `frontend/src/pages/Gerenciamentos.test.jsx:269`, consultas `.toHaveLength(2)`; `:270`, campo `.value.toBe("Corrigido")`; `:271`, Salvar `.disabled.toBe(true)`; `:272`, Criar `.toBeNull()`; `:274`, alerta `.toBe("Alteração salva; não foi possível atualizar a lista.")`; `:275`, retry `.not.toBeNull()` | Texto conservado até consulta terminar; aviso posterior visível sem novo formulário concorrente | PASS |
+| GER-31, confirmação ao navegar | `Gerenciamentos.test.jsx:288`, dialog `.toBeNull()`; `:292`, foco `.toBe(origem)`; `:293`, origem `.isConnected.toBe(true)`; `:294`, PUTs `.toHaveLength(0)` | Navegar criar/abrir descarta confirmação; cancelar nova usa botão atual e não grava | PASS |
+
+| Adequação reversa: assertions | Âncora | Manter |
+| --- | --- | --- |
+| `Gerenciamentos.test.jsx:269/270/271/272/274/275`, consultas/rascunho/pendente/ausência de Criar/aviso/retry | GER-33/34 e Done when T15 | Sim |
+| `Gerenciamentos.test.jsx:288/292/293/294`, dialog ausente/foco conectado/zero PUT | GER-31 e Done when T15 | Sim |
+
+Adequação: falhas observadas foram reproduzidas por estado da UI e foco; nenhuma alteração de assertion, skip ou remoção. A lista só é exibida quando a consulta posterior encerra e o formulário conclui seu retorno. T15 concluída.
