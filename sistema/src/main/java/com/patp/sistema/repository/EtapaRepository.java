@@ -13,6 +13,8 @@ public interface EtapaRepository extends JpaRepository<Etapa, Long> {
 
     List<Etapa> findByGerenciamentoIdOrderByOrdem(Long gerenciamentoId);
 
+    List<Etapa> findByGerenciamentoIdOrderByOrdemAscIdAsc(Long gerenciamentoId);
+
     Etapa findByIdAndGerenciamentoId(Long id, Long gerenciamentoId);
 
     @Query("select e.gerenciamento.id from Etapa e where e.id = :id")

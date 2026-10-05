@@ -4,7 +4,7 @@
 
 Usuário autorizou continuar a implementação, com AD-007–010 confirmadas. Executar uma tarefa por vez: testes derivados de ETA, gate, adequação direta/reversa com arquivo:linha e assertion, status e um Conventional Commit local. Sem push/deploy/MySQL configurado. Nenhuma fase seguinte começa antes do gate/commit anterior. Delegação técnica autorizada pelas instruções da sessão; não solicitar confirmação de rotina.
 
-**Design:** `design.md`. **Status:** Ready for Execute.
+**Design:** `design.md`. **Status:** T1 concluída com gate; T2–T5 pendentes.
 
 ## Test Coverage Matrix
 
@@ -60,10 +60,10 @@ Cinco tarefas; servidor T1 por trabalhador, interface T2–T5 por outro trabalha
 **Depends on:** None
 **Requirement:** ETA-01–21.
 **Done when:**
-- [ ] Snapshot/array legado são autenticados, determinísticos e não escrevem; quantidade real/legado conforme spec.
-- [ ] POST/PUT/DELETE cumprem permissão, campos/formatos, posições, ID/quadro, versão e JSON/status exatos; ocupada bloqueia todos os status, vazia remove somente alvo.
-- [ ] Reordenação/renomear preservam vínculos/histórico; falha rollback; concorrência com outra estrutura, arquivo e demanda não causa órfão/sobrescrita.
-- [ ] Todos os casos Java anteriores continuam executados, exceto contratos substituídos explicitamente adaptados; gate passa com adequação direta/reversa.
+- [x] Snapshot/array legado são autenticados, determinísticos e não escrevem; quantidade real/legado conforme spec.
+- [x] POST/PUT/DELETE cumprem permissão, campos/formatos, posições, ID/quadro, versão e JSON/status exatos; ocupada bloqueia todos os status, vazia remove somente alvo.
+- [x] Reordenação/renomear preservam vínculos/histórico; falha rollback; concorrência com outra estrutura, arquivo e demanda não causa órfão/sobrescrita.
+- [x] Todos os casos Java anteriores continuam executados, exceto contratos substituídos explicitamente adaptados; gate passa com adequação direta/reversa.
 **Tests:** integration
 **Gate:** full
 **Commit:** feat(etapas): add transactional stage management API
@@ -139,3 +139,5 @@ Cinco tarefas; servidor T1 por trabalhador, interface T2–T5 por outro trabalha
 ## Execution Evidence
 
 Acrescentar gates, contagens, diffs e adequação de cada tarefa em `evidence.md` (servidor) e `frontend-evidence.md` (interface). Não criar arquivo vazio. Especificação deve registrar tarefas implementadas antes de seus commits; validação independente ao final, sem PASS humano inferido.
+
+T1: verify H2 PASS, 238 testes (134 API etapas, 7 corridas, 6 regressões etapas, outros91), zero falhas/erros/skips. RED anterior à produção:116 testes,95 falhas de outcomes, zero erros/skips. Adequação direta/reversa com assertions físicas em `evidence.md`; nenhum SPEC_DEVIATION. MySQL isolado será verificado pelo root após este commit; T2–T5 e Verificador independente pendentes.

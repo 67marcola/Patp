@@ -52,3 +52,13 @@ UPDATE gerenciamentos SET versao = 0 WHERE versao IS NULL;
 Criador nulo permanece nulo; somente administrador administra esses quadros. O marcador de arquivamento nulo é lido como ativo. As colunas nome/descrição continuam com 255 caracteres, evitando reduzir ou truncar nomes antigos. A API limita novos nomes a 120 caracteres, sem alterar os valores antigos durante consultas.
 
 H2 valida o contrato em memória. MySQL isolado deve verificar atualização de schema e diferenças de collation/locking; nunca usar o banco de dados configurado como instância de teste por suposição.
+
+## Contrato da configuração de etapas
+
+`GET /api/gerenciamentos/{id}/estrutura-etapas` devolve `{gerenciamento,etapas}`. Os metadados do gerenciamento incluem sua versão atual e a permissão `podeAdministrar`. Cada etapa informa ID, nome, setor, ordem e `quantidadeDemandas`, incluindo demandas de todos os status. O GET anterior `/etapas` continua devolvendo um array. Consultas não corrigem ordens ou setores antigos.
+
+Criador/admin pode configurar etapas de quadros ativos. POST `/etapas` responde 201; PUT/DELETE `/etapas/{etapaId}` respondem 200. Todas as mutações retornam o snapshot completo em JSON, inclusive DELETE. POST/PUT recebem `{nome,setor,ordem,versao}`; DELETE recebe `{versao}`. Use a versão retornada na próxima operação e ao editar/arquivar o gerenciamento. Repetir uma mutação com a versão anterior recebe 409; não há retry automático.
+
+Nome e Setor são obrigatórios, normalizados nas bordas e limitados a 255 unidades UTF-16. Setor é informativo. Posição vai de 1 até N+1 na criação e de 1 até N na edição. A próxima configuração reorganiza as ordens antigas em posições consecutivas, sem inventar setor ou alterar demandas/históricos. Etapa com qualquer demanda não pode ser removida; mova as demandas antes. Arquivados ficam somente consulta.
+
+Essa atualização não acrescenta tabela/coluna. A interface de administração será entregue nas próximas tarefas. As etapas finais Concluídos/Cancelados e o destino automático de AD-011 terão requisito próprio.

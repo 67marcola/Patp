@@ -1,6 +1,6 @@
 # CRUD de etapas de trabalho da Creral Specification
 
-**Status:** implementação local autorizada pelo usuário; regras AD-007–010 confirmadas; defaults abaixo declarados pelo agente.
+**Status:** T1 servidor implementada com gate local; T2–T5 e Verificador pendentes. Regras AD-007–010 confirmadas; defaults abaixo declarados pelo agente.
 **Data:** 2026-10-05.
 **Contexto:** `context.md`, decisões de `.specs/STATE.md` e contratos do CRUD de gerenciamentos já validado.
 
@@ -20,7 +20,7 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 
 | Funcionalidade | Encaminhamento |
 | --- | --- |
-| Etapas obrigatórias Concluídos/Cancelados e destinos extras | Próximo requisito; decisão de destinos ainda pendente. Nome não atribui categoria. |
+| Etapas obrigatórias Concluídos/Cancelados | Próximo requisito; AD-011 confirma somente duas finais com destino automático. Nome não atribui categoria nesta entrega. |
 | CRUD de demandas, botões de pular/finalizar/cancelar, reabertura | Entregas posteriores. Somente concorrência/integridade com remoção de etapa pertence aqui. |
 | Comentários laterais, gráficos, painel de logs e login automático | Permanecem no backlog, sem declaração de implementação. |
 | Drag and drop e novos filtros | Posição por campo de seleção, operável por teclado; não acrescentar outra interação. |
@@ -42,7 +42,7 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 | Legado | Consulta conserva campos/ordens antigas; próxima mutação de etapas organiza ordem por ordem antiga e ID | Não inventar autoria/setor nem alterar estrutura por GET | Default explícito |
 | Etapas iniciais do quadro | Contrato inicial de nome/setor/ordem positiva do primeiro CRUD permanece | UI já cria ordens consecutivas; evitar alterar outra criação nesta entrega | Limite de escopo explícito |
 
-**Open questions:** none neste CRUD; destinos finais permanecem pendentes e fora do escopo. Autorização de continuar não será registrada como resultado de teste humano.
+**Open questions:** none neste CRUD; destinos finais confirmados em AD-011 e fora do escopo. Autorização de continuar não será registrada como resultado de teste humano.
 
 ## User Stories
 
@@ -152,27 +152,27 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| ETA-01 | Consulta | Tasks | Pending |
-| ETA-02 | Consulta | Tasks | Pending |
-| ETA-03 | Consulta | Tasks | Pending |
-| ETA-04 | Permissões | Tasks | Pending |
-| ETA-05 | Permissões | Tasks | Pending |
-| ETA-06 | Permissões | Tasks | Pending |
-| ETA-07 | Permissões | Tasks | Pending |
-| ETA-08 | Permissões | Tasks | Pending |
-| ETA-09 | Campos/posições | Tasks | Pending |
-| ETA-10 | Campos/posições | Tasks | Pending |
-| ETA-11 | Campos/posições | Tasks | Pending |
-| ETA-12 | Campos/posições | Tasks | Pending |
-| ETA-13 | Campos/posições | Tasks | Pending |
-| ETA-14 | Campos/posições | Tasks | Pending |
-| ETA-15 | Integridade | Tasks | Pending |
-| ETA-16 | Integridade | Tasks | Pending |
-| ETA-17 | Integridade | Tasks | Pending |
-| ETA-18 | Integridade | Tasks | Pending |
-| ETA-19 | Integridade | Tasks | Pending |
-| ETA-20 | Integridade | Tasks | Pending |
-| ETA-21 | Integridade | Tasks | Pending |
+| ETA-01 | Consulta | Execute | T1 gate PASS; Verificador pendente |
+| ETA-02 | Consulta | Execute | T1 gate PASS; Verificador pendente |
+| ETA-03 | Consulta | Execute | T1 gate PASS; Verificador pendente |
+| ETA-04 | Permissões | Execute | T1 gate PASS; Verificador pendente |
+| ETA-05 | Permissões | Execute | T1 gate PASS; Verificador pendente |
+| ETA-06 | Permissões | Execute | T1 gate PASS; Verificador pendente |
+| ETA-07 | Permissões | Execute | T1 gate PASS; Verificador pendente |
+| ETA-08 | Permissões | Execute | T1 gate PASS; Verificador pendente |
+| ETA-09 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
+| ETA-10 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
+| ETA-11 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
+| ETA-12 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
+| ETA-13 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
+| ETA-14 | Campos/posições | Execute | T1 gate PASS; Verificador pendente |
+| ETA-15 | Integridade | Execute | T1 gate PASS; Verificador pendente |
+| ETA-16 | Integridade | Execute | T1 gate PASS; Verificador pendente |
+| ETA-17 | Integridade | Execute | T1 gate PASS; Verificador pendente |
+| ETA-18 | Integridade | Execute | T1 gate PASS; Verificador pendente |
+| ETA-19 | Integridade | Execute | T1 gate PASS; Verificador pendente |
+| ETA-20 | Integridade | Execute | T1 gate PASS; Verificador pendente |
+| ETA-21 | Integridade | Execute | T1 gate PASS; Verificador pendente |
 | ETA-22 | Interface | Tasks | Pending |
 | ETA-23 | Interface | Tasks | Pending |
 | ETA-24 | Interface | Tasks | Pending |
@@ -183,7 +183,7 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 | ETA-29 | Interface | Tasks | Pending |
 | ETA-30 | Interface | Tasks | Pending |
 
-**Coverage:** 30 requisitos, mapeados às cinco tarefas planejadas; nenhum implementado ainda.
+**Coverage:** 30 requisitos; ETA-01–21 implementados em T1 com gate local. ETA-22–30/interface e Verificador independente pendentes.
 
 ## Success Criteria
 

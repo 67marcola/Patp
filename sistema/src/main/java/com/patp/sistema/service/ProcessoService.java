@@ -54,11 +54,11 @@ public class ProcessoService {
         }
         Long etapaId = processo.getEtapa().getId();
         Long gerenciamentoId = etapaRepository.buscarGerenciamentoId(etapaId).orElseThrow(() ->
-                new ApiException(HttpStatus.BAD_REQUEST, "Informe uma etapa existente para o processo."));
+                new ApiException(HttpStatus.NOT_FOUND, "Etapa não encontrada neste gerenciamento."));
         guard.exigirAtivo(gerenciamentoId);
         Etapa etapaPersistida = etapaRepository.findByIdAndGerenciamentoId(etapaId, gerenciamentoId);
         if (etapaPersistida == null) {
-            throw new ApiException(HttpStatus.BAD_REQUEST, "Informe uma etapa existente para o processo.");
+            throw new ApiException(HttpStatus.NOT_FOUND, "Etapa não encontrada neste gerenciamento.");
         }
         processo.setEtapa(etapaPersistida);
 
@@ -174,7 +174,7 @@ public class ProcessoService {
                     );
 
             if (novaEtapa == null) {
-                throw new RuntimeException(
+                throw new ApiException(HttpStatus.NOT_FOUND,
                         "Etapa não encontrada neste gerenciamento."
                 );
             }
@@ -227,7 +227,7 @@ public class ProcessoService {
                 );
 
         if (novaEtapa == null) {
-            throw new RuntimeException(
+            throw new ApiException(HttpStatus.NOT_FOUND,
                     "Etapa não encontrada neste gerenciamento."
             );
         }
