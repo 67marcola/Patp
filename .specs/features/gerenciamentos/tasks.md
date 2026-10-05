@@ -229,9 +229,9 @@ T14 -> T9
 **Depends on:** T10
 **Requirement:** GER-03/04/06/31–33/38–40.
 **Done when:**
-- [ ] Criar sem etapas/descrição funciona; edição muda só nome/descrição com versão; etapas iniciais opcionais somente ao criar.
-- [ ] Cancelar não muta; duplo clique/envio pendente produz uma request; falhas conservam valores e alerta acessível.
-- [ ] Rótulos/teclado e limites têm testes de comportamento; gate passa.
+- [x] Criar sem etapas/descrição funciona; edição muda só nome/descrição com versão; etapas iniciais opcionais somente ao criar.
+- [x] Cancelar não muta; duplo clique/envio pendente produz uma request; falhas conservam valores e alerta acessível.
+- [x] Rótulos/teclado e limites têm testes de comportamento; gate passa.
 **Tests:** integration
 **Gate:** full
 **Commit:** `feat(frontend): add validated board create and edit form`
