@@ -399,3 +399,43 @@ Gate `mvn.cmd -B test`: PASS, 66 testes totais, zero falhas/erros/ignorados. Onz
 | `sistema/src/test/java/com/patp/sistema/ProcessoArchiveTests.java:121`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | consistência GER-22 limite ativo preexistente | Sim |
 
 Adequação: assertions sobre resposta HTTP e/ou estado persistido; sem skip/deleção/enfraquecimento; sem desvio de spec. Nenhuma guideline adicional foi encontrada; aplicada a matriz de tasks.md. Gate e inspeção de suficiência/necessidade aprovados; verificação independente da feature ainda pendente.
+
+## T7
+
+Gate `mvn.cmd -B test`: PASS, 69 testes totais, zero falhas/erros/ignorados. Três casos T7; duas falhas vermelhas antes da guarda. Comentários arquivados recusados para funcionário/admin com snapshot intacto; leitura mantém texto, pessoa e data. Escrita ativa preserva dois comentários e vínculos sem alterar demanda/quadro. Lock do pai precede carga de entidade.
+
+| Critério / âncora | Evidência e expressão da assertion | Resultado exigido | Coberto? |
+| --- | --- | --- | --- |
+| GER-20/21/22 | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:38`: `.andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value("Gerenciamento arquivado. Restaure-o antes de alterar."));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21/22 | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:39`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21/22 | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:40`: `mvc.perform(get(rota).header("Authorization", token)).andExpect(status().isOk())` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21/22 | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:41`: `.andExpect(jsonPath("$.length()").value(1)).andExpect(jsonPath("$[0].texto").value("Anterior"))` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21/22 | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:42`: `.andExpect(jsonPath("$[0].funcionario").value("Pessoa")).andExpect(jsonPath("$[0].dataHora").isNotEmpty())` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21/22 | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:43`: `.andExpect(jsonPath("$[0].processo.id").value(demanda.getId())).andExpect(jsonPath("$..senha").doesNotExist());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:55`: `.andExpect(status().isOk()).andExpect(jsonPath("$.texto").value("Comentário de " + pessoa))` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:56`: `.andExpect(jsonPath("$.funcionario").value(pessoa)).andExpect(jsonPath("$.dataHora").isNotEmpty())` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:57`: `.andExpect(jsonPath("$.processo.id").value(demanda.getId()));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:59`: `assertThat(jdbc.queryForList("select texto from comentarios order by id", String.class))` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:61`: `assertThat(jdbc.queryForList("select funcionario from comentarios order by id", String.class)).containsExactly("Ana", "Bia");` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:62`: `assertThat(jdbc.queryForObject("select count(*) from comentarios where data_hora is not null and processo_id=?", Long.class, demanda.getId())).isEqualTo(2L);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:63`: `assertThat(processos.findById(demanda.getId()).orElseThrow().getStatus()).isEqualTo("Em andamento");` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:64`: `assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isZero();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+
+| Assertion | Âncora | Manter? |
+| --- | --- | --- |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:38`: `.andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value("Gerenciamento arquivado. Restaure-o antes de alterar."));` | GER-20/21/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:39`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | GER-20/21/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:40`: `mvc.perform(get(rota).header("Authorization", token)).andExpect(status().isOk())` | GER-20/21/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:41`: `.andExpect(jsonPath("$.length()").value(1)).andExpect(jsonPath("$[0].texto").value("Anterior"))` | GER-20/21/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:42`: `.andExpect(jsonPath("$[0].funcionario").value("Pessoa")).andExpect(jsonPath("$[0].dataHora").isNotEmpty())` | GER-20/21/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:43`: `.andExpect(jsonPath("$[0].processo.id").value(demanda.getId())).andExpect(jsonPath("$..senha").doesNotExist());` | GER-20/21/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:55`: `.andExpect(status().isOk()).andExpect(jsonPath("$.texto").value("Comentário de " + pessoa))` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:56`: `.andExpect(jsonPath("$.funcionario").value(pessoa)).andExpect(jsonPath("$.dataHora").isNotEmpty())` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:57`: `.andExpect(jsonPath("$.processo.id").value(demanda.getId()));` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:59`: `assertThat(jdbc.queryForList("select texto from comentarios order by id", String.class))` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:61`: `assertThat(jdbc.queryForList("select funcionario from comentarios order by id", String.class)).containsExactly("Ana", "Bia");` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:62`: `assertThat(jdbc.queryForObject("select count(*) from comentarios where data_hora is not null and processo_id=?", Long.class, demanda.getId())).isEqualTo(2L);` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:63`: `assertThat(processos.findById(demanda.getId()).orElseThrow().getStatus()).isEqualTo("Em andamento");` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/ComentarioArchiveTests.java:64`: `assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isZero();` | GER-21 comportamento ativo | Sim |
+
+Adequação: assertions sobre resposta HTTP e/ou estado persistido; sem skip/deleção/enfraquecimento; sem desvio de spec. Nenhuma guideline adicional foi encontrada; aplicada a matriz de tasks.md. Gate e inspeção de suficiência/necessidade aprovados; verificação independente da feature ainda pendente.
