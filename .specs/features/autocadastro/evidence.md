@@ -123,3 +123,52 @@
 
 - Checks A/B/C/D: completos no escopo T3. Projeção é verificada como objeto exato, com os quatro valores e ausência de extras. Falhas verificam estado final e mensagem, não só chamadas. Padrões RTL/Vitest existentes e coding-principles seguidos.
 - Veredito: T3 completo; ligação do cadastro e navegador seguem T4/T5.
+
+## T4: Cadastro entra e preserva o formulário em falhas
+
+### Pré-implementação
+
+- Suposições: callback de entrada é o mesmo de App/Login, após a API validar a sessão. Somente nome/setor/email recebem trim; senha mantém espaços. ApiError de rede/status 2xx usa orientação específica de cadastro; erro HTTP e erro de storage conservam suas mensagens.
+- Arquivos: `frontend/src/pages/Cadastro.jsx`, wiring mínimo `frontend/src/App.jsx`, novos `frontend/src/pages/Cadastro.test.jsx` e `frontend/src/AppAutocadastro.test.jsx`, evidence/spec/tasks desta feature.
+- Sucesso: sessão confirmada abre lista sem POST login adicional; pending impede envio imediato duplicado e desabilita os sete controles; validação/HTTP/rede/resposta/storage preservam todos os campos e liberam controles. Cinco labels, alert, teclado e validação nativa disponíveis. Gate React preserva 207 casos anteriores.
+- Testes antes do código: 14 casos (12 formulário e 2 integração App), derivados de AUT-07/08/10–14.
+
+### Gate e revisão
+
+- Focal inicial: `npm.cmd test -- --run src/pages/Cadastro.test.jsx src/AppAutocadastro.test.jsx`, 14 casos, 13 falhas esperadas por labels/entrada/pending anteriores e um passe de Voltar. Log `%TEMP%/autocadastro-t4-red.log`.
+- Primeiro gate: 221 passes. A revisão de adequação identificou que Voltar por teclado só conferia callback no formulário. Adicionado um caso em App que confere a tela de login resultante, sem alterar nenhum teste existente. Novo gate: `npm.cmd test`, exit 0, 222 passes (207 anteriores + 15), onze arquivos, zero falhas/skips. Log final `%TEMP%/autocadastro-t4-gate.log`.
+- Implementação: Cadastro recebe entrada compartilhada, preserva campos em erro, mantém ref de envio imediato e disabled nos sete controles, labels associados e role alert. Mensagens seguem as distinções HTTP/rede/resposta/storage da spec. Wiring App usa a mesma função do login.
+- Limites: callback do teste de formulário confirma o DTO entregue; teste App confirma o estado final/cache. Browser com backend real fica para T5. Nenhum teste anterior alterado/removido/ignorado; nenhuma SPEC_DEVIATION.
+
+**Mapeamento direto (Check A).** Prefixos físicos `frontend/src/pages/Cadastro.test.jsx` e `frontend/src/AppAutocadastro.test.jsx`.
+
+| Critério | arquivo:linha + assertion | Resultado da spec | Coberto |
+| --- | --- | --- | --- |
+| AUT-10 payload e seis caracteres/espaços | `Cadastro.test.jsx:40` `expect(onLogin.mock.calls).toEqual([[session]])`; `:41` rotas `toEqual(["/usuarios/cadastro"])`; `:42` `expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ nome: "Ana", setor: "Campo", email: "ana@example.test", senha: " 1234 " })` | DTO confirmado entregue, trim público e senha original, nenhum login | Sim |
+| AUT-07/10 entrada comum real em App | `AppAutocadastro.test.jsx:34` heading `toBe("Gerenciamentos")`; `:35` token `toBe("cadastro-sessao")`; `:36` usuário `toEqual(publicUser)`; `:37` keys `toEqual(["email", "id", "nome", "setor"])`; `:38` URLs `toEqual(["/usuarios/cadastro", "/gerenciamentos?arquivado=false"])`; `:16–18` cache/Authorization no GET | Cadastro abre lista direto com os quatro valores públicos antes da consulta, sem POST login | Sim |
+| AUT-11 pending/duplo submit | `Cadastro.test.jsx:83` cada field disabled `toBe(true)`; `:84` submit disabled; `:85` voltar disabled; `:87` voltar não chamado; `:88` rotas `toEqual(["/usuarios/cadastro"])`; `:89` entrada não chamada após dois submits `:82` | Cinco campos e duas ações bloqueados; uma inscrição | Sim |
+| AUT-11 erro libera e preserva | `Cadastro.test.jsx:91` alerta exato; helper `:29` value `toBe(value)` e `:30` disabled `toBe(false)` para cada um dos cinco campos; `:32–33` ações disabled false; `:94` call times 1 | Sem perda do rascunho, controles liberados e sem retry | Sim |
+| AUT-12 mismatch/cinco caracteres | `Cadastro.test.jsx:53` `expect(screen.getByRole("alert").textContent).toBe(expected)`, expected literal `:46–47`; helper `:29–33`; `:55` fetch não chamado; `:56` entrada não chamada | `As senhas não são iguais.` / `A senha deve possuir pelo menos 6 caracteres.`, sem requisição/perda | Sim, dois casos |
+| AUT-12/14 required/email/labels | `Cadastro.test.jsx:63` `expect(field.required).toBe(true)`; `:64` `expect(field.labels[0].htmlFor).toBe(field.id)`; `:65` checkValidity false, para cinco campos; `:69` email type; `:70` checkValidity false; `:72–73` nenhuma requisição/entrada | Associação de todos os labels e validação nativa mantida | Sim |
+| AUT-13 HTTP | `Cadastro.test.jsx:102` `expect((await screen.findByRole("alert")).textContent).toBe(expected)`, expected `:98` exatos 400/500; `:29–33` rascunho/controles; `:104–105` sem entrada/retry | Mensagem da API conservada, cinco campos preservados | Sim, dois casos |
+| AUT-13 rede/resposta 2xx | `Cadastro.test.jsx:117` `expect((await screen.findByRole("alert")).textContent).toBe(uncertain)`, literal `:9`; `:29–33` rascunho/controles; `:119–120` entrada não chamada e uma requisição | Orientação exata do cadastro incerto, sem retry/login | Sim, rede, sessão incompleta, JSON 200 e 201 ilegíveis |
+| AUT-08/13 storage no cadastro | `AppAutocadastro.test.jsx:53` alerta `toBe(storageMessage)`; `:54` cadastro visível; `:55` lista ausente; `:56–57` caches null; `:59–60` cinco valores/disabled false; `:62–63` duas ações liberadas; `:64` URLs somente cadastro | Erro de storage exato mantém formulário, rascunho e cache anterior vazio sem login | Sim |
+| AUT-14 ações por teclado e alert | `Cadastro.test.jsx:53/91/102/117` getByRole alert; `:40–42` sessão/payload após Enter; `:126` voltar chamado uma vez; `AppAutocadastro.test.jsx:70` Bem-vindo `toBe("Bem-vindo")`; `:71` cadastro `toBeNull()` | Submit e Voltar operam com Tab/Enter; navegação final confirmada | Sim; persistência real T5 pendente |
+
+**Mapeamento reverso (Check C), todos os quinze casos.**
+
+| Teste + assertion física | AC / caso | Manter |
+| --- | --- | --- |
+| `Cadastro.test.jsx:36`, `:40–43` DTO/payload/rota/sem alerta | AUT-10/12/14 seis caracteres, senha com espaços, submit por teclado | Sim, 1 |
+| `:45–56`, `:53` mensagens exatas, `:29–33` estado, `:55–56` ausência de chamada | AUT-12 mismatch e limite cinco caracteres | Sim, 2 |
+| `:59`, `:63–65/69–73` labels/required/email/sem inscrição | AUT-12/14 nativo e labels | Sim, 1 |
+| `:76`, `:83–89` pending/uma inscrição, `:91/29–33/93–94` erro/rascunho/retry | AUT-11/13 duplo envio imediato e liberação | Sim, 1 |
+| `:97–105`, `:102` erro HTTP e `:29–33/104–105` estado/sem entrada/retry | AUT-13 HTTP 400/500 | Sim, 2 |
+| `:108–120`, `:117` orientação incerta e `:29–33/119–120` estado/sem entrada/retry | AUT-13 rede/contrato/JSON 200/201 | Sim, 4 |
+| `:123`, `:126` callback de Voltar via teclado, `:127` nenhum fetch; estado resultante conferido em App `:70–72` | AUT-14 Voltar teclado | Sim, 1 |
+| `AppAutocadastro.test.jsx:31`, `:16–18/34–38` cache/tela/rotas | AUT-07/10 cadastro usando a mesma entrada | Sim, 1 |
+| `:41`, `:53–64` erro/rascunho/cache/tela/uma inscrição | AUT-08/13 falha da segunda gravação | Sim, 1 |
+| `:67`, `:70–72` tela login/cadastro ausente/nenhum fetch | AUT-14 navegação por teclado | Sim, 1 |
+
+- Checks A/B/C/D: completos. O caso adicional fecha a assertion de estado do Voltar. Payload e cache verificam valores exatos de cada campo; todo erro preserva valores/controles e nenhuma entrada. Padrões RTL/Vitest e coding-principles seguidos.
+- Veredito: T4 completo. AUT-11/12/13 e AUT-08 concluídos; prova de browser em T5 pendente.

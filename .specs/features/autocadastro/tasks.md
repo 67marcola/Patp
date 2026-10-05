@@ -106,9 +106,9 @@ T4 -> T5
 **Depends on:** T3
 **Requirement:** AUT-10–14 e integração AUT-07/08.
 **Done when:**
-- [ ] Cadastro confirmado abre Gerenciamentos pela mesma entrada sem segundo login; payload normaliza só nome/setor/email.
-- [ ] Pending impede submit duplicado imediato, desabilita cinco campos e ações; erro libera e mantém campos, com mensagens exatas de validação/HTTP/rede/resposta/storage e sem retry.
-- [ ] Labels/alert/teclado e validação nativa disponíveis; gate e testes anteriores passam com adequação registrada.
+- [x] Cadastro confirmado abre Gerenciamentos pela mesma entrada sem segundo login; payload normaliza só nome/setor/email.
+- [x] Pending impede submit duplicado imediato, desabilita cinco campos e ações; erro libera e mantém campos, com mensagens exatas de validação/HTTP/rede/resposta/storage e sem retry.
+- [x] Labels/alert/teclado e validação nativa disponíveis; gate e testes anteriores passam com adequação registrada.
 **Tests:** integration
 **Gate:** full
 **Commit:** feat(auth): enter the system directly after registration

@@ -95,10 +95,10 @@ AUT-01–14 com assertions físicas e gates sem falhas/skips. Preservar todos os
 | AUT-05 | T1 | complete | evidence.md, T1 |
 | AUT-06 | T2 | complete | evidence.md, T2 |
 | AUT-07 | T3, T5 | partial (T3 complete) | evidence.md, T3 |
-| AUT-08 | T3, T4 | partial (T3 complete) | evidence.md, T3 |
+| AUT-08 | T3, T4 | complete | evidence.md, T3/T4 |
 | AUT-09 | T3, T5 | partial (T3 complete) | evidence.md, T3 |
-| AUT-10 | T4, T5 | pending | evidence.md |
-| AUT-11 | T4 | pending | evidence.md |
-| AUT-12 | T4 | pending | evidence.md |
-| AUT-13 | T4 | pending | evidence.md |
-| AUT-14 | T4, T5 | pending | evidence.md |
+| AUT-10 | T4, T5 | partial (T4 complete) | evidence.md, T4 |
+| AUT-11 | T4 | complete | evidence.md, T4 |
+| AUT-12 | T4 | complete | evidence.md, T4 |
+| AUT-13 | T4 | complete | evidence.md, T4 |
+| AUT-14 | T4, T5 | partial (T4 complete) | evidence.md, T4 |
