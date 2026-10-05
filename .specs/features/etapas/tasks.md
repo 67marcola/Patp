@@ -4,7 +4,7 @@
 
 Usuário autorizou continuar a implementação, com AD-007–010 confirmadas. Executar uma tarefa por vez: testes derivados de ETA, gate, adequação direta/reversa com arquivo:linha e assertion, status e um Conventional Commit local. Sem push/deploy/MySQL configurado. Nenhuma fase seguinte começa antes do gate/commit anterior. Delegação técnica autorizada pelas instruções da sessão; não solicitar confirmação de rotina.
 
-**Design:** `design.md`. **Status:** T1–T2 concluídas com gate; T3–T5 pendentes.
+**Design:** `design.md`. **Status:** T1–T3 concluídas com gate; T4–T5 pendentes.
 
 ## Test Coverage Matrix
 
@@ -90,8 +90,8 @@ Cinco tarefas; servidor T1 por trabalhador, interface T2–T5 por outro trabalha
 **Depends on:** T2
 **Requirement:** ETA-09–11/23/25–27/30.
 **Done when:**
-- [ ] Nome/Setor/Posição rotulados, valores atuais, seleção válida, limites/normalização e erro preservando campos.
-- [ ] Envio único pendente, teclado/alerts/cancelamento e foco conforme callbacks; gate passa.
+- [x] Nome/Setor/Posição rotulados, valores atuais, seleção válida, limites/normalização e erro preservando campos.
+- [x] Envio único pendente, teclado/alerts/cancelamento e foco conforme callbacks; gate passa.
 **Tests:** integration
 **Gate:** full
 **Commit:** feat(frontend): add stage create and edit form

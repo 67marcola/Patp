@@ -1346,6 +1346,57 @@ button:focus-visible {
     color: var(--texto-secundario);
     font-size: 13px;
 }
+
+.editor-etapa {
+    margin-bottom: 22px;
+}
+
+.campos-etapa {
+    display: flex;
+    gap: 16px;
+    margin: 20px 0 10px;
+}
+
+.campos-etapa .campo-form {
+    min-width: 0;
+}
+
+.campo-posicao {
+    flex: 0 0 100px;
+}
+
+.campo-form select {
+    width: 100%;
+    min-height: 43px;
+    padding: 10px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background: white;
+    color: var(--texto);
+    font: inherit;
+}
+
+.campo-form select:focus-visible {
+    outline: 3px solid var(--azul-claro);
+    outline-offset: 3px;
+}
+
+.editor-etapa .acoes-form {
+    margin-top: 20px;
+}
+
+.editor-etapa .erro-login {
+    margin-top: 14px;
+}
+
+@media (max-width: 700px) {
+    .campos-etapa {
+        flex-direction: column;
+    }
+    .campo-posicao {
+        flex-basis: auto;
+    }
+}
 /* =========================
    CADASTRO
    ========================= */
