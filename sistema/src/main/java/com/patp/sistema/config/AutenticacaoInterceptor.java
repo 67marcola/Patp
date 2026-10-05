@@ -47,6 +47,7 @@ public class AutenticacaoInterceptor implements HandlerInterceptor {
                     HttpServletResponse.SC_UNAUTHORIZED
             );
 
+            response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
             response.getWriter().write(
                     "{\"erro\":\"Usuário não autenticado.\"}"
@@ -70,6 +71,7 @@ public class AutenticacaoInterceptor implements HandlerInterceptor {
                     HttpServletResponse.SC_UNAUTHORIZED
             );
 
+            response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
             response.getWriter().write(
                     "{\"erro\":\"Sessão inválida ou expirada.\"}"
