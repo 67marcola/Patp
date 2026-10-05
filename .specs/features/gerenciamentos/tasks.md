@@ -84,10 +84,10 @@ T8 -> T9
 **Depends on:** T1
 **Requirement:** GER-23–27.
 **Done when:**
-- [ ] Cadastro com ID retorna 400 sem substituir conta; campos de papel não concedem administração.
-- [ ] Conta existente promovida por operação confiável é reconhecida; legado sem papel é funcionário.
-- [ ] Todas as respostas de usuário/relações omitem senha/hash; sessão ausente/inválida continua 401.
-- [ ] Testes de resultado cobrem os critérios com pelo menos um cenário por resultado distinto; gate passa.
+- [x] Cadastro com ID retorna 400 sem substituir conta; campos de papel não concedem administração.
+- [x] Conta existente promovida por operação confiável é reconhecida; legado sem papel é funcionário.
+- [x] Todas as respostas de usuário/relações omitem senha/hash; sessão ausente/inválida continua 401.
+- [x] Testes de resultado cobrem os critérios com pelo menos um cenário por resultado distinto; gate passa.
 **Tests:** integration
 **Gate:** full
 **Commit:** `fix(auth): protect registration identity and administrative role`

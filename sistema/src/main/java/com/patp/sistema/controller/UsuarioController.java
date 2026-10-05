@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.patp.sistema.model.Usuario;
+import com.patp.sistema.model.PapelUsuario;
 import com.patp.sistema.service.SessaoService;
 import com.patp.sistema.service.UsuarioService;
 
@@ -52,7 +53,8 @@ public class UsuarioController {
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getSetor(),
-                usuario.getEmail()
+                usuario.getEmail(),
+                usuario.getPapel()
         );
     }
 
@@ -69,7 +71,8 @@ public class UsuarioController {
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getSetor(),
-                usuario.getEmail()
+                usuario.getEmail(),
+                usuario.getPapel()
         );
     }
 
@@ -114,7 +117,8 @@ public class UsuarioController {
             Long id,
             String nome,
             String setor,
-            String email
+            String email,
+            PapelUsuario papel
     ) {}
 
     // Dados seguros do usuário logado
@@ -123,6 +127,7 @@ public class UsuarioController {
             Long id,
             String nome,
             String setor,
-            String email
+            String email,
+            PapelUsuario papel
     ) {}
 }

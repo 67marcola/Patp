@@ -249,11 +249,11 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | GER-20 | Arquivar/restaurar | Specify | Pending |
 | GER-21 | Arquivar/restaurar | Specify | Pending |
 | GER-22 | Arquivar/restaurar | Specify | Pending |
-| GER-23 | Identidade/permissões | Specify | Pending |
-| GER-24 | Identidade/permissões | Specify | Pending |
-| GER-25 | Identidade/permissões | Specify | Pending |
-| GER-26 | Identidade/permissões | Specify | Pending |
-| GER-27 | Identidade/permissões | Specify | Pending |
+| GER-23 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
+| GER-24 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
+| GER-25 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
+| GER-26 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
+| GER-27 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
 | GER-28 | Interface | Specify | Pending |
 | GER-29 | Interface | Specify | Pending |
 | GER-30 | Interface | Specify | Pending |

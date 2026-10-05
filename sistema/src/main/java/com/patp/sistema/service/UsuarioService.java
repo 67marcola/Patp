@@ -2,7 +2,10 @@ package com.patp.sistema.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
 
+import com.patp.sistema.exception.ApiException;
+import com.patp.sistema.model.PapelUsuario;
 import com.patp.sistema.model.Usuario;
 import com.patp.sistema.repository.UsuarioRepository;
 
@@ -19,6 +22,11 @@ public class UsuarioService {
 
     // Cadastrar usuário
     public Usuario cadastrar(Usuario usuario) {
+
+        if (usuario.getId() != null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "O ID do usuário deve ser definido pelo sistema.");
+        }
+        usuario.setPapel(PapelUsuario.FUNCIONARIO);
 
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new RuntimeException(
