@@ -99,20 +99,23 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature**: CRUD de etapas de trabalho da Creral.
-- **Phase / Task**: etapas T1–T6 implementadas e gates locais concluídos; aguardando Verificador independente.
-- **Completed**: gerenciamentos T1–T16 validado independentemente, 41/41 critérios. Etapas T1 API transacional, 238 Java/H2 PASS; T2 cliente 87489b7; T3 formulário 8074e12; T4 quadro/cache c595509; T6 saída global 14aabe0; T5 E2E/gates neste commit. Final: 238 Java/H2, 137 Vitest, build/lint e 2 E2E Edge PASS, zero falhas/erros/skips. MySQL isolado 8.0.43: 237 PASS conforme relatório do root. Adequação direta/reversa em features/etapas/evidence.md e frontend-evidence.md; nenhuma assertion antiga enfraquecida/ignorada. Oito capturas editor/confirmação/ativo/arquivado desktop/mobile revisadas pelo root com QA visual técnico PASS.
-- **In-progress**: despacho do Verificador fresco pelo root após commit T5 e conclusão de validate_state. MysqlTEMP33817/PID23944 encerrado pelo root; helpers H2/Edge encerrados, portas18082/4173 sem listener após gates. Relatório MySQL documental novo será commit separado do root. AD-011 confirmada para requisito posterior. Teste humano permanece sem resultado; autorização não prova UAT. L-001 permanece candidate.
-- **Next step**: root registra relatório MySQL e despacha Verificador novo para30 ACs/sensor scratch; só apósPASS fechar status da feature/validate_state.
-- **Blockers**: nenhum para CRUD de etapas de trabalho. Destinos finais confirmados em AD-011, para requisito posterior. Contas administrativas reais serão selecionadas posteriormente; testes fictícios isolados.
-- **Uncommitted files**: artefatos gerados de teste/build, alguns previamente rastreados no repositório; mysql-validation.md novo do root. Fontes/testes/docs intencionais de T5 neste commit; staging explícito exclui artefatos e relatório MySQL do root.
+- **Phase / Task**: T1–T6 implementadas; T7 reforça cobertura de ETA-27 após FAIL da revisão independente, rodada 1.
+- **Completed**: gerenciamentos T1–T16 validado, 41/41 critérios. Etapas até 9a19344: 238 Java/H2, 137 Vitest, build/lint e 2 E2E Edge PASS; MySQL temporário 8.0.43, 237 PASS em mysql-validation.md. Revisão independente: 29/30 critérios completos, ETA-27 parcial; sensor 10 falhas compiláveis, 9 detectadas e M10 sobrevivente. Produção já trata o erro corretamente. Evidências em features/etapas/validation.md, evidence.md e frontend-evidence.md.
+- **In-progress**: T7 por etapas_frontend cobre POST201/PUT200/DELETE200 com JSON ilegível, preservação de campos/colunas e recuperação somente por GET. Verificador liberou autores após remover scratch e comprovar porcelain byteigual. L-002 registrada pelo script como candidate; L-001 continua candidate. Teste humano permanece sem resultado.
+- **Next step**: gate e commit atômico de T7, depois nova revisão independente; fechar somente após PASS e validate_state exit0.
+- **Blockers**: nenhum para a correção autorizada. Regras futuras de movimentação/reabertura ainda aguardam resposta; destinos finais já confirmados em AD-011. Contas administrativas reais serão selecionadas posteriormente.
+- **Uncommitted files**: artefatos gerados de teste/build já existentes, preservados. Relatório e lições desta rodada entram neste checkpoint documental. Arquivos de T7 pertencem ao trabalhador da interface e ficam fora deste staging.
 - **Branch**: testes; base 5d8beb9.
 
-A aplicação normal não foi iniciada nem o banco MySQL configurado alterado. A instância MySQL temporária foi encerrada e continha apenas dados fictícios; H2 também temporário. Usar apenas banco isolado durante os testes. Capturas finais: C:/Users/Marco/AppData/Local/Temp/creral-etapas-e2e-pQ2UEH. LogJava: C:/Users/Marco/AppData/Local/Temp/creral-etapas-final-java-20261005-074953.log.
+A aplicação normal e o MySQL configurado não foram iniciados. Instância MySQL temporária encerrada; portas 33817/18082/4173 livres ao término dos testes. Preservar artefatos gerados e usar somente bancos fictícios isolados. Continuação autorizada pelo usuário em 2026-10-05 não equivale a resultado de UAT.
 
-## Próxima conversa: etapas
+## Próxima conversa: destinos finais e movimentação
 
-Já confirmado: somente criador/administrador configura etapas; remover etapa com demandas é bloqueado (AD-007/008).
+Confirmado em AD-011: somente Concluídos e Cancelados, com destino automático conforme a ação. Essas colunas e os fluxos de finalizar/cancelar pertencem à próxima entrega.
 
-Resposta recebida em 2026-10-05: somente Concluídos e Cancelados, com destino automático conforme a ação (AD-011). Implementação em entrega posterior, mantendo esta API limitada a etapas de trabalho.
+Perguntas já enviadas, ainda sem resposta; sugestões não são decisões:
 
-Resposta recebida em 2026-10-05: seguir com posição automática e Setor obrigatório, registradas em AD-009/010. Detalhes e defaults menores da próxima entrega em `features/etapas/context.md`.
+- Quem poderá mover, pular etapas, concluir ou cancelar demandas de quadro ativo: todos os autenticados, ou somente criador/admin?
+- Depois de concluir/cancelar, será permitido reabrir a demanda escolhendo uma etapa de trabalho?
+
+CRUD de etapas segue AD-007–010, com detalhes e defaults declarados em `features/etapas/context.md`. Não inferir respostas novas de “pode continuar”.

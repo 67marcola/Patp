@@ -20,6 +20,12 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - evidence: M9 (frontend)
 - last seen: 2026-10-05T04:48:05Z
 
+### L-002 - Em mutações HTTP, teste respostas 2xx com JSON ilegível e exija erro de comunicação, rascunho preservado e nenhum reenvio automático.
+- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `frontend` · harmful: 0
+- features: etapas
+- evidence: .specs/features/etapas/validation.md:M10 / ETA-27 (frontend)
+- last seen: 2026-10-05T11:21:53Z
+
 ## Quarantined (failed when applied - ignore)
 
 A confirmed lesson that recurred alongside failure. Kept for the maintainer to review.
