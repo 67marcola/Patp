@@ -85,3 +85,41 @@
 
 - Checks A/B/C/D: completos. Assertions conferem os valores retornados/enviados e os erros concretos, além da contagem. Cada matriz deriva do contrato ou falha especificados. Segue padrões Vitest/Response existentes e coding-principles; nenhuma SPEC_DEVIATION.
 - Veredito: AUT-06 e transporte T2 cobertos. T2 completo após gate.
+
+## T3: Entrada compartilhada em App
+
+### Pré-implementação
+
+- Suposições: `App.entrar` grava token original e projeção id/nome/setor/email antes de trocar de tela. Cache anterior é restaurado por tentativa independente de cada chave. Boot com cache inválido anterior continua fora do escopo.
+- Arquivos: `frontend/src/App.jsx`, `frontend/src/pages/Login.jsx`, novo `frontend/src/AppSessao.test.jsx`, evidence/spec/tasks desta feature. Callback do cadastro será ligado em T4.
+- Sucesso: login manual passa pelo cache comum, reload mantém sessão e logout remove ambas as chaves. Falha na primeira ou segunda gravação mantém autenticação e mensagem exata, restaura cache anterior quando possível, sem outro POST. Gate React preserva 201 testes já existentes.
+- Testes antes do código: seis casos, um ciclo login/reload/logout/login, quatro falhas de escrita (duas chaves × cache vazio/anterior) e uma recusa também na restauração.
+
+### Gate e revisão
+
+- Focal inicial: `npm.cmd test -- --run src/AppSessao.test.jsx`, 6 casos, 5 falhas esperadas de AUT-08, um passe de lifecycle; log `%TEMP%/autocadastro-t3-red.log`.
+- Gate: `npm.cmd test`, exit 0, 207 passes (201 anteriores + 6), nove arquivos, zero falhas/skips; log `%TEMP%/autocadastro-t3-gate.log`.
+- Implementação: cache movido de Login para App; os dois valores são gravados antes de setUsuario. Cada chave anterior é restaurada independentemente por tentativa. Nenhum teste anterior alterado/removido/ignorado; nenhuma SPEC_DEVIATION.
+- Limites: reload em RTL é remontagem de App usando o mesmo storage. Reload real do navegador fica para T5. Recusa permanente do storage impede garantir restauração, conforme AUT-08.
+
+**Mapeamento direto (Check A).** Prefixo físico `frontend/src/AppSessao.test.jsx`.
+
+| Critério | arquivo:linha + assertion | Resultado da spec | Coberto |
+| --- | --- | --- | --- |
+| AUT-07 token original/cache quatro campos antes da tela | `AppSessao.test.jsx:15` `expect(localStorage.getItem("token")).toBe(session.token)`; `:16` `expect(JSON.parse(localStorage.getItem("usuario"))).toEqual(publicUser)` no handler GET; `:17` `expect(request.headers.Authorization).toBe(...)`; `:38` `expect(Object.keys(JSON.parse(localStorage.getItem("usuario"))).sort()).toEqual(["email", "id", "nome", "setor"])` | Token original, id 3/nome Ana/setor null/email fixture, sem senha/hash/papel, antes da consulta | Sim |
+| AUT-07 abrir lista/reload | `:35` e `:42` heading `toBe("Gerenciamentos")`; `:43` token `toBe(session.token)`; `:44` usuário `toEqual(publicUser)`; `:45` login count `toHaveLength(1)` | Lista direta e remontagem usando a mesma sessão sem nova autenticação | Sim em RTL; T5 navegador pendente |
+| AUT-08 duas escritas/caches | `:75` `expect((await screen.findByText(storageMessage)).textContent).toBe(storageMessage)` (literal `:8`); `:76` heading `toBe("Bem-vindo")`; `:77` lista `toBeNull()`; `:78` token `toBe(oldToken)`; `:79` usuario `toBe(oldUser)`; `:83` URLs `toEqual(["/usuarios/login"])` | Erro exato, tela mantida, restauração de vazio/anterior, uma autenticação | Sim, quatro casos |
+| AUT-08 campos/controle em erro | `:80` email `toBe(publicUser.email)`; `:81` senha `toBe("senha-ficticia")`; `:82` Entrar disabled `toBe(false)` | Rascunho e login utilizável após falha | Sim |
+| AUT-08 restauração recusada | `:92` erro exato; `:93–94` autenticação/lista ausente; `:95` `expect(setItem.mock.calls).toEqual([["token", session.token], ["token", "anterior"], ["usuario", JSON.stringify(publicUser)]])`; `:96–97` valores anteriores; `:98` uma URL | Tenta ambas as chaves mesmo com recusa, mantém tela e erro | Sim |
+| AUT-09 login/logout/login | `:47` Bem-vindo; `:48` `expect(localStorage.getItem("token")).toBeNull()`; `:49` usuario `toBeNull()`; `:51` Gerenciamentos; `:52` usuário `toEqual(publicUser)`; `:53` login count 2 | Saída remove sessão; credenciais válidas entram novamente | Sim |
+
+**Mapeamento reverso (Check C), todos os seis casos.**
+
+| Teste + assertion física | AC / caso | Manter |
+| --- | --- | --- |
+| `AppSessao.test.jsx:32`, `:15–17` cache/GET, `:35–45` lista/cache/reload, `:47–53` logout e novo login | AUT-07/09 lifecycle | Sim, 1 |
+| `:56` token/usuario × vazio/anterior; `:75` erro, `:76–79` tela/cache, `:80–82` rascunho/liberação, `:83` uma requisição | AUT-08 primeira/segunda escrita e cache prévio | Sim, 4 |
+| `:86`, `:92–98` erro/tela/tentativas/cache/requisição, `:99` controle liberado | AUT-08 limite de restauração por tentativa | Sim, 1 |
+
+- Checks A/B/C/D: completos no escopo T3. Projeção é verificada como objeto exato, com os quatro valores e ausência de extras. Falhas verificam estado final e mensagem, não só chamadas. Padrões RTL/Vitest existentes e coding-principles seguidos.
+- Veredito: T3 completo; ligação do cadastro e navegador seguem T4/T5.
