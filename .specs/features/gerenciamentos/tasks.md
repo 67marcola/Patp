@@ -134,9 +134,9 @@ T8 -> T9
 **Depends on:** T4
 **Requirement:** GER-21/22.
 **Done when:**
-- [ ] POST/PUT/DELETE válidos em arquivado retornam 409 exato sem gravar; consultas permanecem possíveis.
-- [ ] Mutações ativas preservam comportamento e usam lock no quadro; ambas as ordens de disputa com arquivamento têm resultado persistido assertado.
-- [ ] Gate passa sem excluir/ignorar testes.
+- [x] POST/PUT/DELETE válidos em arquivado retornam 409 exato sem gravar; consultas permanecem possíveis.
+- [x] Mutações ativas preservam comportamento e usam lock no quadro; ambas as ordens de disputa com arquivamento têm resultado persistido assertado.
+- [x] Gate passa sem excluir/ignorar testes.
 **Tests:** integration
 **Gate:** full
 **Commit:** `fix(etapas): guard archived boards during writes`

@@ -285,3 +285,53 @@ Gate `mvn.cmd -B verify; npm.cmd run build; npm.cmd exec -- oxlint src vite.conf
 | `sistema/src/test/java/com/patp/sistema/GerenciamentoApiTests.java:291`: `mvc.perform(get("/api/gerenciamentos?arquivado=talvez").header("Authorization", token)).andExpect(status().isBadRequest());` | GER-11/23 contratos JSON/filtro | Sim |
 
 Adequação: assertions sobre resposta HTTP e/ou estado persistido; sem skip/deleção/enfraquecimento; sem desvio de spec. Nenhuma guideline adicional foi encontrada; aplicada a matriz de tasks.md. Gate e inspeção de suficiência/necessidade aprovados; verificação independente da feature ainda pendente.
+
+## T5
+
+Gate `mvn.cmd -B test`: PASS, 55 testes totais, zero falhas/erros/ignorados. Seis casos T5: três rotas arquivadas, CRUD ativo por funcionário e duas ordens de concorrência coordenada. Rodada vermelha: cinco falhas; nenhuma assertion modificada. A segunda transação fica pendente até o commit da primeira, e status/conteúdo/estado final são verificados.
+
+| Critério / âncora | Evidência e expressão da assertion | Resultado exigido | Coberto? |
+| --- | --- | --- | --- |
+| GER-20/21 | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:55`: `.andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value(ERRO));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21 | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:56`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21 | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:57`: `mvc.perform(get(base).header("Authorization", token(admin))).andExpect(status().isOk())` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21 | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:58`: `.andExpect(jsonPath("$.length()").value(1)).andExpect(jsonPath("$[0].id").value(etapa.getId()))` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-20/21 | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:59`: `.andExpect(jsonPath("$[0].nome").value("Original"));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:68`: `.andExpect(status().isOk()).andExpect(jsonPath("$.nome").value("Mudada"));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:70`: `assertThat(etapa.getGerenciamento().getId()).isEqualTo(quadro.getId());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:73`: `.andExpect(status().isOk()).andExpect(jsonPath("$.nome").value("Editada")).andExpect(jsonPath("$.ordem").value(3));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:74`: `assertThat(etapas.findById(etapa.getId()).orElseThrow().getNome()).isEqualTo("Editada");` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:75`: `mvc.perform(delete(base + "/" + etapa.getId()).header("Authorization", token)).andExpect(status().isOk());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| GER-21 comportamento ativo | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:76`: `assertThat(etapas.count()).isZero();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| private void disputar(boolean arquivoPrimeiro) throws Exception { | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:111`: `assertThat(primeiraEscrita.await(10, TimeUnit.SECONDS)).isTrue();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| private void disputar(boolean arquivoPrimeiro) throws Exception { | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:120`: `assertThat(segundaIniciada.await(10, TimeUnit.SECONDS)).isTrue();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| private void disputar(boolean arquivoPrimeiro) throws Exception { | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:125`: `assertThat(resposta.getStatus()).isEqualTo(arquivoPrimeiro ? 409 : 204);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| private void disputar(boolean arquivoPrimeiro) throws Exception { | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:127`: `assertThat(resposta.getContentAsString(java.nio.charset.StandardCharsets.UTF_8)).contains(ERRO);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| private void disputar(boolean arquivoPrimeiro) throws Exception { | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:129`: `assertThat(etapas.count()).isEqualTo(arquivoPrimeiro ? 0 : 1);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| private void disputar(boolean arquivoPrimeiro) throws Exception { | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:131`: `assertThat(etapas.findAll().get(0).getNome()).isEqualTo("Concorrente");` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| private void disputar(boolean arquivoPrimeiro) throws Exception { | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:133`: `assertThat(quadros.findById(quadro.getId()).orElseThrow().isArquivado()).isTrue();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| private void disputar(boolean arquivoPrimeiro) throws Exception { | `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:134`: `assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(1L);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+
+| Assertion | Âncora | Manter? |
+| --- | --- | --- |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:55`: `.andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value(ERRO));` | GER-20/21 | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:56`: `assertThat(conteudoPersistido()).isEqualTo(antes);` | GER-20/21 | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:57`: `mvc.perform(get(base).header("Authorization", token(admin))).andExpect(status().isOk())` | GER-20/21 | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:58`: `.andExpect(jsonPath("$.length()").value(1)).andExpect(jsonPath("$[0].id").value(etapa.getId()))` | GER-20/21 | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:59`: `.andExpect(jsonPath("$[0].nome").value("Original"));` | GER-20/21 | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:68`: `.andExpect(status().isOk()).andExpect(jsonPath("$.nome").value("Mudada"));` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:70`: `assertThat(etapa.getGerenciamento().getId()).isEqualTo(quadro.getId());` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:73`: `.andExpect(status().isOk()).andExpect(jsonPath("$.nome").value("Editada")).andExpect(jsonPath("$.ordem").value(3));` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:74`: `assertThat(etapas.findById(etapa.getId()).orElseThrow().getNome()).isEqualTo("Editada");` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:75`: `mvc.perform(delete(base + "/" + etapa.getId()).header("Authorization", token)).andExpect(status().isOk());` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:76`: `assertThat(etapas.count()).isZero();` | GER-21 comportamento ativo | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:111`: `assertThat(primeiraEscrita.await(10, TimeUnit.SECONDS)).isTrue();` | private void disputar(boolean arquivoPrimeiro) throws Exception { | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:120`: `assertThat(segundaIniciada.await(10, TimeUnit.SECONDS)).isTrue();` | private void disputar(boolean arquivoPrimeiro) throws Exception { | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:125`: `assertThat(resposta.getStatus()).isEqualTo(arquivoPrimeiro ? 409 : 204);` | private void disputar(boolean arquivoPrimeiro) throws Exception { | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:127`: `assertThat(resposta.getContentAsString(java.nio.charset.StandardCharsets.UTF_8)).contains(ERRO);` | private void disputar(boolean arquivoPrimeiro) throws Exception { | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:129`: `assertThat(etapas.count()).isEqualTo(arquivoPrimeiro ? 0 : 1);` | private void disputar(boolean arquivoPrimeiro) throws Exception { | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:131`: `assertThat(etapas.findAll().get(0).getNome()).isEqualTo("Concorrente");` | private void disputar(boolean arquivoPrimeiro) throws Exception { | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:133`: `assertThat(quadros.findById(quadro.getId()).orElseThrow().isArquivado()).isTrue();` | private void disputar(boolean arquivoPrimeiro) throws Exception { | Sim |
+| `sistema/src/test/java/com/patp/sistema/EtapaArchiveTests.java:134`: `assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(1L);` | private void disputar(boolean arquivoPrimeiro) throws Exception { | Sim |
+
+Adequação: assertions sobre resposta HTTP e/ou estado persistido; sem skip/deleção/enfraquecimento; sem desvio de spec. Nenhuma guideline adicional foi encontrada; aplicada a matriz de tasks.md. Gate e inspeção de suficiência/necessidade aprovados; verificação independente da feature ainda pendente.

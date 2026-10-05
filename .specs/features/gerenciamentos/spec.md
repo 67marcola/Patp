@@ -247,8 +247,8 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | GER-18 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-19 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-20 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-21 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-22 | Arquivar/restaurar | Execute | T3 verificado; demais tarefas/Verifier pendentes |
+| GER-21 | Arquivar/restaurar | Execute | T5 verificado; demais tarefas/Verifier pendentes |
+| GER-22 | Arquivar/restaurar | Execute | T5 verificado; demais tarefas/Verifier pendentes |
 | GER-23 | Identidade/permissões | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-24 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
 | GER-25 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
