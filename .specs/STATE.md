@@ -56,15 +56,31 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-04
 - **Status**: active
 
+### AD-007
+- **Decision**: somente o criador do gerenciamento ou um administrador poderá criar, renomear, ordenar ou remover etapas de um quadro ativo no próximo CRUD de etapas.
+- **Reason**: resposta explícita do usuário; mantém a definição do fluxo sob responsabilidade de quem administra o quadro.
+- **Trade-off**: demais funcionários acompanham etapas, mas não mudam a estrutura do fluxo.
+- **Scope**: próximo CRUD de etapas e configuração do fluxo; a entrega atual preserva as permissões existentes nas rotas de conteúdo ativo.
+- **Date**: 2026-10-04
+- **Status**: active
+
+### AD-008
+- **Decision**: impedir a remoção de uma etapa que contenha demandas; elas precisam ser movidas para outra etapa antes de removê-la.
+- **Reason**: resposta explícita do usuário; não apagar nem deslocar demandas automaticamente ao remover uma coluna.
+- **Trade-off**: a remoção pode exigir movimentar primeiro as demandas.
+- **Scope**: próximo CRUD de etapas e integridade das relações com demandas.
+- **Date**: 2026-10-04
+- **Status**: active
+
 ## Handoff
 
 - **Feature**: CRUD de gerenciamentos da Creral.
-- **Phase / Task**: implementa??o autorizada em 2026-10-04; T1, isolamento de testes.
-- **Completed**: diagn?stico, refer?ncia PATP, decis?es AD-001?006, especifica??o com 41 crit?rios confirmada; design e tarefas definidos e validados.
-- **In-progress**: isolamento H2 em recursos de teste e teste expl?cito de datasource.
-- **Next step**: concluir gate T1, commit local; executar servidor T2?T8 em ordem, depois interface T9?T13 e verificador independente.
-- **Blockers**: nenhum. Contas administrativas reais ser?o selecionadas posteriormente; testes usam contas fict?cias.
-- **Uncommitted files**: documenta??o .specs e T1; frontend/dist gerado previamente fica fora dos commits.
+- **Phase / Task**: implementação autorizada em 2026-10-04; T4, componente CRUD HTTP.
+- **Completed**: diagnóstico, referência PATP, decisões AD-001 a AD-006, especificação com 41 critérios confirmada, design/tarefas validados; T1 f8235b5, T2 3c0b888 e T3 40dfa37, com 12 testes passando. AD-007/008 recebidas para a próxima entrega.
+- **In-progress**: testes e implementação do CRUD HTTP pelo trabalhador do servidor. MySQL temporário separado na porta 33817 preparado pelo orquestrador para verificação adicional.
+- **Next step**: concluir T4 e guardas T5–T8, depois interface T9–T13 e verificador independente.
+- **Blockers**: nenhum para o primeiro CRUD. Permissões de etapas e remoção de etapa com demandas já respondidas para a próxima entrega. Contas administrativas reais serão selecionadas posteriormente; testes usam contas fictícias.
+- **Uncommitted files**: trabalho T4 e artefatos gerados de teste/build; staging somente das fontes/testes/documentação listados na tarefa.
 - **Branch**: testes; base 5d8beb9.
 
-A aplica??o normal n?o foi iniciada nem o banco MySQL configurado alterado. Usar apenas banco isolado durante os testes.
+A aplicação normal não foi iniciada nem o banco MySQL configurado alterado. A instância temporária tem pasta de dados nova em TEMP e só contém dados fictícios. Usar apenas banco isolado durante os testes.
