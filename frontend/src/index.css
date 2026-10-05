@@ -1099,6 +1099,19 @@ button {
     margin-top: 20px;
 }
 
+.ajuda-campo {
+    margin-top: 6px;
+    color: var(--texto-secundario);
+    font-size: 12px;
+}
+
+.btn-criar:disabled,
+.btn-secundario:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+}
+
 .etapas-titulo {
     display: flex;
     align-items: center;

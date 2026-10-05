@@ -229,11 +229,11 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | --- | --- | --- | --- |
 | GER-01 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-02 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-03 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-04 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-03 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
+| GER-04 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
 | GER-05 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-06 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-07 | Criar com autoria | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-06 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
+| GER-07 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
 | GER-08 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-09 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-10 | Consultar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
@@ -257,16 +257,16 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | GER-28 | Interface | Specify | Pending |
 | GER-29 | Interface | Specify | Pending |
 | GER-30 | Interface | Specify | Pending |
-| GER-31 | Interface | Execute | In Progress: cancelamento existente verificado em T9; demais fluxos pendentes |
-| GER-32 | Interface | Specify | Pending |
-| GER-33 | Interface | Execute | In Progress: contrato HTTP testado em T10; formulário/lista pendentes |
+| GER-31 | Interface | Execute | In Progress: cancelamento de criação/edição T9/T11; confirmação T12 pendente |
+| GER-32 | Interface | Execute | In Progress: formulário T11 verificado; ações da lista pendentes |
+| GER-33 | Interface | Execute | In Progress: HTTP/formulário T10/T11; lista pendente |
 | GER-34 | Interface | Execute | In Progress: HTTP 204 testado em T10; recarga pendente |
 | GER-35 | Interface | Execute | In Progress: requests e DTO testados em T10; UI/E2E pendentes |
 | GER-36 | Interface | Specify | Pending |
 | GER-37 | Interface | Specify | Pending |
-| GER-38 | Interface | Specify | Pending |
-| GER-39 | Interface | Specify | Pending |
-| GER-40 | Interface | Specify | Pending |
+| GER-38 | Interface | Execute | In Progress: formulário T11; lista/quadro pendentes |
+| GER-39 | Interface | Execute | In Progress: campos do formulário T11; demais controles pendentes |
+| GER-40 | Interface | Execute | In Progress: alertas do formulário T11; lista/quadro pendentes |
 | GER-41 | Interface | Specify | Pending |
 
 **Coverage:** 41 requisitos; nenhum implementado nesta fase; tarefas e matriz de testes serão produzidas após a revisão da especificação.
