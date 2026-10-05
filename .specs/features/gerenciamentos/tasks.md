@@ -164,8 +164,8 @@ T8 -> T9
 **Depends on:** T6
 **Requirement:** GER-20/21/22.
 **Done when:**
-- [ ] Adicionar em arquivado retorna 409 e contagem/valores ficam intactos; ativo ainda permite; consultar arquivado funciona.
-- [ ] Lock no quadro ocorre antes de ler entidades do processo; gate passa.
+- [x] Adicionar em arquivado retorna 409 e contagem/valores ficam intactos; ativo ainda permite; consultar arquivado funciona.
+- [x] Lock no quadro ocorre antes de ler entidades do processo; gate passa.
 **Tests:** integration
 **Gate:** full
 **Commit:** `fix(comentarios): reject writes to archived boards`
