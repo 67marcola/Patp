@@ -896,6 +896,53 @@ button {
 
 .card-conteudo {
     flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.card-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.filtro-gerenciamentos {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.filtro-gerenciamentos [aria-pressed="true"] {
+    background: var(--azul);
+    border-color: var(--azul);
+    color: white;
+}
+
+.falha-consulta {
+    margin-bottom: 18px;
+}
+
+.confirmacao-arquivo {
+    margin-top: 22px;
+    background: white;
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    padding: 24px;
+}
+
+.confirmacao-arquivo p {
+    margin: 12px 0 20px;
+    line-height: 1.5;
+}
+
+.card-conteudo .quadro-autoria {
+    font-size: 12px;
+}
+
+button:focus-visible {
+    outline: 3px solid var(--azul-claro);
+    outline-offset: 3px;
 }
 
 .card-conteudo h3 {
@@ -1000,6 +1047,15 @@ button {
 
     .lista-gerenciamentos {
         grid-template-columns: 1fr;
+    }
+
+    .card-gerenciamento {
+        flex-wrap: wrap;
+    }
+
+    .card-acoes {
+        width: 100%;
+        justify-content: flex-start;
     }
 
 }

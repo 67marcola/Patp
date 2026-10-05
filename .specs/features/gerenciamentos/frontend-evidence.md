@@ -77,3 +77,38 @@ Gates: `npm.cmd test` PASS **35/35**, sendo **20** casos de formulário e **15**
 | `CriarGerenciamento.test.jsx:185/186/187/197/198`, alerta/valor preservado/nenhum envio/DTO/payload255 | GER-07, limites de contrato | Sim |
 
 Adequação: saída, campos e todos os valores dos payloads comparados; callbacks são evidência complementar de conclusão/ausência de sucesso, não prova de persistência. Sem assertions modificadas/removidas, skips ou ampliação do CRUD de etapas. Padrões da skill seguidos, sem guidelines locais adicionais. T11 concluída.
+
+## T12: administração na lista
+
+Premissas: permissões do DTO, busca fresca por ID para abrir/editar, filtro preservado e consultas separadas das mutações. Confirmação não modal usa região nomeada e foco em Cancelar; todos os controles são botões nativos. Arquivos: Gerenciamentos.jsx/test, CSS necessário e registros da tarefa.
+
+Gates em 2026-10-05: `npm.cmd test` PASS **57/57** (22 lista, 20 formulário, 15 HTTP); build/lint PASS. Os 18 primeiros testes da lista falharam antes da implementação; as assertions não foram alteradas. Um caso adicional encontrou botões antigos após permissão removida no GET fresco; o cache foi corrigido e o mesmo teste passou.
+
+| Adequação direta: critério | Evidência e assertion | Resultado prescrito | Resultado |
+| --- | --- | --- | --- |
+| GER-28/36, filtro/carregamento/vazio | `frontend/src/pages/Gerenciamentos.test.jsx:44`, status `.toBe("Carregando gerenciamentos...")`; `:45`, aria-pressed `.toBe("true")`; `:46`, URL `.toBe(...?arquivado=false)`; `:48`, heading `.toBe("Nenhum gerenciamento ativo")`; `:49`, status `.toBeNull()` | Ativos inicial; loading não é vazio | PASS |
+| GER-28, abrir/voltar | `Gerenciamentos.test.jsx:57`, heading `.toBe("Instalações")`; `:58`, GET porID `.toBe(true)`; `:60`, filtro `.toBe("true")`; `:61`, Restaurar `.not.toBeNull()` | Consulta fresca; Arquivados mantido no retorno | PASS |
+| GER-30, matriz de controles | `Gerenciamentos.test.jsx:72/73`, presença Editar/Arquivar `.toBe(permitido)`; `:74`, Restaurar `.toBeNull()`; `:82`, Restaurar `.toBe(permitido)`; `:83/84`, Editar/Arquivar `.toBeNull()` | Criador/admin e legado; terceiro não administra; arquivado só restauração | PASS |
+| GER-31/37/38, confirmação/foco | `Gerenciamentos.test.jsx:93`, descrição `.toContain("Os dados e vínculos serão preservados")`; `:94`, foco `.toBe(...Cancelar)`; `:96`, dialog `.toBeNull()`; `:97`, foco `.toBe(origem)`; `:98`, PUTs `.toHaveLength(0)` | Nome/preservação; Enter cancela e devolve foco sem gravar | PASS |
+| GER-41, ciclo dos filtros | `Gerenciamentos.test.jsx:105/109`, heading vazio `.toBe("Nenhum gerenciamento ativo"/"Nenhum gerenciamento arquivado")`; `:106/110`, filtro `.toBe("true")` | Cartão removido de filtro anterior; seleção mantida | PASS |
+| GER-32, pendente | `Gerenciamentos.test.jsx:120`, PUTs `.toHaveLength(1)`; `:121`, botão `.disabled.toBe(true)`; `:123`, dialog `.toBeNull()` | Duplo clique não duplica e sucesso encerra confirmação | PASS |
+| GER-33/40, negado/conflito/rede/404 | `Gerenciamentos.test.jsx:132/241`, alerta `.toBe(mensagem)`; `:133/242`, Abrir `.not.toBeNull()`; `:243`, PUTs `.toHaveLength(1)`; `:251`, alerta `.toBe("Gerenciamento não encontrado.")`; `:252`, campo `.toBeNull()`; `:253`, somente GET `.toBe(true)` | Cartão/consulta preservados sem falso sucesso; erros exatos | PASS |
+| GER-34, sucesso separado de recarga | `Gerenciamentos.test.jsx:147/205`, alerta `.toBe("Alteração salva; não foi possível atualizar a lista.")`; `:148`, Abrir `.toBeNull()`; `:151`, vazio ativo exato; `:152/207`, PUTs `.toHaveLength(1)`; `:153`, alerta `.toBeNull()`; `:206`, retry `.not.toBeNull()` | Arquivamento e edição confirmados; retry apenas GET; aviso visível depois do formulário | PASS |
+| GER-36/40, consulta falhou | `Gerenciamentos.test.jsx:160`, alerta `.toBe("Consulta indisponível")`; `:161`, vazio `.toBeNull()`; `:164`, Abrir `.not.toBeNull()`; `:165`, chamadas GET `.toBe(true)` | Erro não é vazio; repetir consulta não grava | PASS |
+| GER-28/36, resposta fora de ordem | `Gerenciamentos.test.jsx:176`, Abrir ativo `.toBeNull()`; `:177`, Abrir arquivado `.not.toBeNull()`; `:178`, filtro `.toBe("true")` | Resultado antigo não substitui Arquivados | PASS |
+| GER-35, dados salvos | `Gerenciamentos.test.jsx:189`, heading `.toBe("Corrigido")`; `:190`, descrição `.toBe("Postes")`; `:192`, corpo `.toEqual({nome:"Corrigido",descricao:"Postes",versao:7})` | Nome/descrição e versão fresca corretos no formulário, lista e quadro | PASS |
+| GER-30/33, permissão atualizada | `Gerenciamentos.test.jsx:215`, alerta de permissão exato; `:216`, campo `.toBeNull()`; `:225/226`, Editar/Arquivar `.toBeNull()`; `:227`, Abrir `.not.toBeNull()` | GET atualizado impede editar e corrige botões antigos | PASS |
+
+| Adequação reversa: assertions | Âncora | Manter |
+| --- | --- | --- |
+| `Gerenciamentos.test.jsx:44/45/46/48/49/57/58/60/61`, loading/filtro/URL/vazio/heading/GET/Restaurar | GER-28/36 | Sim |
+| `Gerenciamentos.test.jsx:72/73/74/82/83/84/215/216/225/226/227`, controles e permissão atualizada | GER-30/33 | Sim |
+| `Gerenciamentos.test.jsx:93/94/96/97/98`, descrição/foco/dialog/zero PUT | GER-31/37/38 | Sim |
+| `Gerenciamentos.test.jsx:105/106/109/110`, vazios e seleção | GER-41 | Sim |
+| `Gerenciamentos.test.jsx:120/121/123`, um PUT/pendente/dialog fechado | GER-32 | Sim |
+| `Gerenciamentos.test.jsx:132/133/241/242/243/251/252/253`, alertas/cartão/um PUT/404/ausência de edição/GET | GER-11/33/40 | Sim |
+| `Gerenciamentos.test.jsx:147/148/151/152/153/205/206/207`, aviso/cartão retirado/vazio/único PUT/alerta apagado/retry | GER-34/41 | Sim |
+| `Gerenciamentos.test.jsx:160/161/164/165/176/177/178`, erro/vazio/consulta recuperada/filtro correto | GER-28/36/40 | Sim |
+| `Gerenciamentos.test.jsx:189/190/192`, nome/descrição/payload/versão | GER-35 | Sim |
+
+Adequação: assertions por resultado renderizado, campos/versão e mensagens; contagens só nas regras explícitas de nenhum/único envio. Nenhum teste modificado, ignorado ou removido. CSS limitado à acomodação das novas ações, confirmação e foco; sem redesign geral. T12 concluída; persistência no navegador e readonly do Quadro pertencem a T13.
