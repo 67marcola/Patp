@@ -88,11 +88,11 @@ AUT-01–14 com assertions físicas e gates sem falhas/skips. Preservar todos os
 
 | Requirements | Task | Status | Evidence |
 | --- | --- | --- | --- |
-| AUT-01 | T1 | pending | evidence.md |
-| AUT-02 | T1 | pending | evidence.md |
-| AUT-03 | T1 | pending | evidence.md |
-| AUT-04 | T1 | pending | evidence.md |
-| AUT-05 | T1 | pending | evidence.md |
+| AUT-01 | T1 | complete | evidence.md, T1 |
+| AUT-02 | T1 | complete | evidence.md, T1 |
+| AUT-03 | T1 | complete | evidence.md, T1 |
+| AUT-04 | T1 | complete | evidence.md, T1 |
+| AUT-05 | T1 | complete | evidence.md, T1 |
 | AUT-06 | T2 | pending | gate e assertions serão registrados em evidence.md |
 | AUT-07 | T3, T5 | pending | evidence.md |
 | AUT-08 | T3, T4 | pending | evidence.md |
