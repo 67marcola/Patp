@@ -1,7 +1,8 @@
 import { expect, test, vi } from "vitest";
 import {
     arquivarGerenciamento, buscarGerenciamento, criarGerenciamento,
-    editarGerenciamento, listarEtapas, listarGerenciamentos, restaurarGerenciamento
+    editarGerenciamento, listarEtapas, listarGerenciamentos, restaurarGerenciamento,
+    buscarConfiguracaoEtapas, criarEtapa, editarEtapa, removerEtapa
 } from "./api";
 
 const quadro = {
@@ -99,4 +100,51 @@ test("GER-29: consulta etapas pelo contrato central e mantém seus dados", async
     const fetchSpy = resposta(etapas);
     expect(await listarEtapas("sessao", 9)).toEqual(etapas);
     expect(fetchSpy.mock.calls[0][0]).toBe("http://localhost:8081/api/gerenciamentos/9/etapas");
+});
+
+const configuracao = {
+    gerenciamento: { ...quadro, versao: 3 },
+    etapas: [{ id: 4, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 2 }]
+};
+const dadosEtapa = { nome: "Planejamento", setor: "Técnico", ordem: 1, versao: 2 };
+const mutacoesEtapa = [
+    ["POST", "/9/etapas", () => criarEtapa("sessao", 9, dadosEtapa), dadosEtapa, 201],
+    ["PUT", "/9/etapas/4", () => editarEtapa("sessao", 9, 4, dadosEtapa), dadosEtapa, 200],
+    ["DELETE", "/9/etapas/4", () => removerEtapa("sessao", 9, 4, 2), { versao: 2 }, 200]
+];
+
+test("ETA-01/29: GET estrutura envia sessão/signal e retorna snapshot completo", async () => {
+    const fetchSpy = resposta(configuracao);
+    const controller = new AbortController();
+    expect(await buscarConfiguracaoEtapas("sessao", 9, { signal: controller.signal })).toEqual(configuracao);
+    expect(fetchSpy).toHaveBeenCalledWith("http://localhost:8081/api/gerenciamentos/9/estrutura-etapas", {
+        method: "GET", headers: { Authorization: "Bearer sessao" }, signal: controller.signal
+    });
+});
+
+test.each(mutacoesEtapa)("ETA-12/13/15/28: %s envia versão/campos e retorna configuração JSON", async (method, rota, executar, dados, status) => {
+    const fetchSpy = resposta(configuracao, status);
+    expect(await executar()).toEqual(configuracao);
+    expect(fetchSpy.mock.calls[0][0]).toBe(`http://localhost:8081/api/gerenciamentos${rota}`);
+    expect(fetchSpy.mock.calls[0][1]).toEqual({
+        method, headers: { Authorization: "Bearer sessao", "Content-Type": "application/json" },
+        signal: undefined, body: JSON.stringify(dados)
+    });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+});
+
+test.each(mutacoesEtapa)("ETA-27/29: %s conserva erro HTTP e não repete gravação", async (_method, _rota, executar) => {
+    const mensagem = "Gerenciamento alterado por outro usuário. Atualize e tente novamente.";
+    const fetchSpy = resposta({ erro: mensagem }, 409);
+    await expect(executar()).rejects.toMatchObject({ message: mensagem, status: 409 });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+});
+
+test.each(mutacoesEtapa)("ETA-27: %s sem confirmação de rede não anuncia sucesso nem reenvia", async (_method, _rota, executar) => {
+    const fetchSpy = vi.fn().mockRejectedValue(new TypeError("offline"));
+    vi.stubGlobal("fetch", fetchSpy);
+    await expect(executar()).rejects.toMatchObject({
+        message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.", status: 0
+    });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
 });

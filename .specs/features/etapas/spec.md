@@ -183,7 +183,7 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 | ETA-29 | Interface | Tasks | Pending |
 | ETA-30 | Interface | Tasks | Pending |
 
-**Coverage:** 30 requisitos; ETA-01–21 implementados em T1 com gate local. ETA-22–30/interface e Verificador independente pendentes.
+**Coverage:** 30 requisitos; ETA-01–21 implementados em T1 com gate local. Cliente HTTP T2 validado para ETA-01/12/13/15/27–29. ETA-22–30/formulário/quadro e Verificador independente pendentes.
 
 ## Success Criteria
 

@@ -77,3 +77,19 @@ export function restaurarGerenciamento(token, id, versao) {
 export function listarEtapas(token, id, options = {}) {
     return requisicao(`/gerenciamentos/${id}/etapas`, { token, signal: options.signal });
 }
+
+export function buscarConfiguracaoEtapas(token, id, options = {}) {
+    return requisicao(`/gerenciamentos/${id}/estrutura-etapas`, { token, signal: options.signal });
+}
+
+export function criarEtapa(token, id, dados) {
+    return requisicao(`/gerenciamentos/${id}/etapas`, { token, method: "POST", dados });
+}
+
+export function editarEtapa(token, id, etapaId, dados) {
+    return requisicao(`/gerenciamentos/${id}/etapas/${etapaId}`, { token, method: "PUT", dados });
+}
+
+export function removerEtapa(token, id, etapaId, versao) {
+    return requisicao(`/gerenciamentos/${id}/etapas/${etapaId}`, { token, method: "DELETE", dados: { versao } });
+}
