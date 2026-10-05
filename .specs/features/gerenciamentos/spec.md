@@ -32,7 +32,7 @@ A interface atual permite criar e listar gerenciamentos, mas não editar nem ret
 
 ## Assumptions & Open Questions
 
-As respostas expressas estão marcadas como confirmadas. Os padrões propostos estão marcados para revisão; não são respostas atribuídas ao usuário.
+As respostas expressas estão marcadas como confirmadas. Os padrões propostos foram aprovados na revisão da especificação em 2026-10-04; continuam identificados como propostas, sem atribuir ao usuário uma resposta anterior que ele não deu.
 
 | Assumption / decision | Chosen default | Rationale | Confirmed? |
 | --- | --- | --- | --- |
@@ -53,7 +53,7 @@ As respostas expressas estão marcadas como confirmadas. Os padrões propostos e
 | Repetição e comunicação | Bloquear duplo envio na interface; não repetir criação automaticamente; arquivar/restaurar repetidos não geram novo efeito | Nomes iguais são permitidos; não usar nome como chave de deduplicação | Padrão técnico explícito |
 | Logs nesta entrega | Preservar históricos atuais e metadados de estado; novo histórico completo de ações e sua interface serão outra entrega | Respeita a execução por requisito e não promete um painel ainda inexistente | Divisão proposta para revisão |
 
-**Open questions:** none — decisões respondidas ou padrões explicitamente registrados acima. A revisão confirma ou ajusta os padrões antes de implementar. Contas reais são configuração posterior, não lacuna para os testes fictícios.
+**Open questions:** none — decisões respondidas e padrões explicitamente aprovados na revisão antes de implementar. Contas reais são configuração posterior, não lacuna para os testes fictícios.
 
 ## User Stories
 
@@ -246,14 +246,14 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 | GER-17 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-18 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
 | GER-19 | Arquivar/restaurar | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-20 | Arquivar/restaurar | Execute | T7 verificado; demais tarefas/Verifier pendentes |
-| GER-21 | Arquivar/restaurar | Execute | T7 verificado; demais tarefas/Verifier pendentes |
-| GER-22 | Arquivar/restaurar | Execute | T7 verificado; demais tarefas/Verifier pendentes |
-| GER-23 | Identidade/permissões | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-20 | Arquivar/restaurar | Execute | T8 verificado; demais tarefas/Verifier pendentes |
+| GER-21 | Arquivar/restaurar | Execute | T8 verificado; demais tarefas/Verifier pendentes |
+| GER-22 | Arquivar/restaurar | Execute | T8 verificado; demais tarefas/Verifier pendentes |
+| GER-23 | Identidade/permissões | Execute | T8 verificado; demais tarefas/Verifier pendentes |
 | GER-24 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
 | GER-25 | Identidade/permissões | Execute | T2 verificado; demais tarefas/Verifier pendentes |
 | GER-26 | Identidade/permissões | Execute | T4 verificado; demais tarefas/Verifier pendentes |
-| GER-27 | Identidade/permissões | Execute | T4 verificado; demais tarefas/Verifier pendentes |
+| GER-27 | Identidade/permissões | Execute | T8 verificado; demais tarefas/Verifier pendentes |
 | GER-28 | Interface | Specify | Pending |
 | GER-29 | Interface | Specify | Pending |
 | GER-30 | Interface | Specify | Pending |
