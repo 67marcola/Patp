@@ -1,6 +1,6 @@
 # CRUD de gerenciamentos da Creral Specification
 
-**Status:** confirmado pelo usuário; implementado e testado pelo autor, com verificação independente pendente.
+**Status:** implementado e validado tecnicamente; 41/41 critérios comprovados pelo Verificador independente (rodada 2). Avaliação de uso com o usuário pendente.
 **Data:** 2026-10-04.
 **Escopo:** primeira entrega funcional do sistema, seguindo a implementação de um requisito por vez.
 **Contexto:** `context.md`, decisões AD-001 a AD-006 de `.specs/STATE.md` e artigo PATP resumido em `.specs/REFERENCIA_PATP.md`.
@@ -15,7 +15,7 @@ A interface atual permite criar e listar gerenciamentos, mas não editar nem ret
 - [x] Arquivar e restaurar sem apagar ou deslocar etapas, demandas, comentários e histórico.
 - [x] Aplicar as permissões no backend, inclusive para quadros sem criador.
 - [x] Bloquear as mutações existentes de conteúdo dos quadros arquivados.
-- [ ] Comprovar os resultados por testes isolados e verificação independente.
+- [x] Comprovar os resultados por testes isolados e verificação independente.
 
 ## Out of Scope
 
@@ -227,49 +227,49 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| GER-01 | Criar com autoria | Execute | T4 verificado; Verifier pendente |
-| GER-02 | Criar com autoria | Execute | T4 verificado; Verifier pendente |
-| GER-03 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
-| GER-04 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
-| GER-05 | Criar com autoria | Execute | T4 verificado; Verifier pendente |
-| GER-06 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
-| GER-07 | Criar com autoria | Execute | T4 e T11 verificados; Verifier pendente |
-| GER-08 | Consultar | Execute | T4 verificado; Verifier pendente |
-| GER-09 | Consultar | Execute | T4 verificado; Verifier pendente |
-| GER-10 | Consultar | Execute | T4 verificado; Verifier pendente |
-| GER-11 | Consultar | Execute | T4 verificado; Verifier pendente |
-| GER-12 | Editar | Execute | T4 verificado; Verifier pendente |
-| GER-13 | Editar | Execute | T4 verificado; Verifier pendente |
-| GER-14 | Editar | Execute | T4 verificado; Verifier pendente |
-| GER-15 | Editar | Execute | T4 verificado; Verifier pendente |
-| GER-16 | Editar | Execute | T4 verificado; Verifier pendente |
-| GER-17 | Arquivar/restaurar | Execute | T4 verificado; Verifier pendente |
-| GER-18 | Arquivar/restaurar | Execute | T4 verificado; Verifier pendente |
-| GER-19 | Arquivar/restaurar | Execute | T4 verificado; Verifier pendente |
-| GER-20 | Arquivar/restaurar | Execute | T8 verificado; Verifier pendente |
-| GER-21 | Arquivar/restaurar | Execute | T8 verificado; Verifier pendente |
-| GER-22 | Arquivar/restaurar | Execute | T8 verificado; Verifier pendente |
-| GER-23 | Identidade/permissões | Execute | T8/T14 verificados; Verifier pendente |
-| GER-24 | Identidade/permissões | Execute | T2 verificado; Verifier pendente |
-| GER-25 | Identidade/permissões | Execute | T2 verificado; Verifier pendente |
-| GER-26 | Identidade/permissões | Execute | T4 verificado; Verifier pendente |
-| GER-27 | Identidade/permissões | Execute | T8 verificado; Verifier pendente |
-| GER-28 | Interface | Execute | T12 verificado; Verifier pendente |
-| GER-29 | Interface | Execute | T13 verificado; Verifier pendente |
-| GER-30 | Interface | Execute | T12 verificado; Verifier pendente |
-| GER-31 | Interface | Execute | T9/T11/T12/T15 verificados; Verifier pendente |
-| GER-32 | Interface | Execute | T11/T12 verificados; Verifier pendente |
-| GER-33 | Interface | Execute | T10/T11/T12/T15 verificados; Verifier pendente |
-| GER-34 | Interface | Execute | T10/T12/T15 verificados; Verifier pendente |
-| GER-35 | Interface | Execute | T10/T11/T12/T13 verificados; persistência E2E real PASS; Verifier pendente |
-| GER-36 | Interface | Execute | T12 verificado; Verifier pendente |
-| GER-37 | Interface | Execute | T12 verificado; Verifier pendente |
-| GER-38 | Interface | Execute | Verifier rodada 1 encontrou cobertura parcial; T16 amplia Tab/Enter em remoção/retries; re-verificação pendente |
-| GER-39 | Interface | Execute | T11/T12 verificados; Verifier pendente |
-| GER-40 | Interface | Execute | T10/T11/T12/T13 verificados; Verifier pendente |
-| GER-41 | Interface | Execute | T12 verificado; Verifier pendente |
+| GER-01 | Criar com autoria | Execute | Verified (PASS independente, rodada 2) |
+| GER-02 | Criar com autoria | Execute | Verified (PASS independente, rodada 2) |
+| GER-03 | Criar com autoria | Execute | Verified (PASS independente, rodada 2) |
+| GER-04 | Criar com autoria | Execute | Verified (PASS independente, rodada 2) |
+| GER-05 | Criar com autoria | Execute | Verified (PASS independente, rodada 2) |
+| GER-06 | Criar com autoria | Execute | Verified (PASS independente, rodada 2) |
+| GER-07 | Criar com autoria | Execute | Verified (PASS independente, rodada 2) |
+| GER-08 | Consultar | Execute | Verified (PASS independente, rodada 2) |
+| GER-09 | Consultar | Execute | Verified (PASS independente, rodada 2) |
+| GER-10 | Consultar | Execute | Verified (PASS independente, rodada 2) |
+| GER-11 | Consultar | Execute | Verified (PASS independente, rodada 2) |
+| GER-12 | Editar | Execute | Verified (PASS independente, rodada 2) |
+| GER-13 | Editar | Execute | Verified (PASS independente, rodada 2) |
+| GER-14 | Editar | Execute | Verified (PASS independente, rodada 2) |
+| GER-15 | Editar | Execute | Verified (PASS independente, rodada 2) |
+| GER-16 | Editar | Execute | Verified (PASS independente, rodada 2) |
+| GER-17 | Arquivar/restaurar | Execute | Verified (PASS independente, rodada 2) |
+| GER-18 | Arquivar/restaurar | Execute | Verified (PASS independente, rodada 2) |
+| GER-19 | Arquivar/restaurar | Execute | Verified (PASS independente, rodada 2) |
+| GER-20 | Arquivar/restaurar | Execute | Verified (PASS independente, rodada 2) |
+| GER-21 | Arquivar/restaurar | Execute | Verified (PASS independente, rodada 2) |
+| GER-22 | Arquivar/restaurar | Execute | Verified (PASS independente, rodada 2) |
+| GER-23 | Identidade/permissões | Execute | Verified (PASS independente, rodada 2) |
+| GER-24 | Identidade/permissões | Execute | Verified (PASS independente, rodada 2) |
+| GER-25 | Identidade/permissões | Execute | Verified (PASS independente, rodada 2) |
+| GER-26 | Identidade/permissões | Execute | Verified (PASS independente, rodada 2) |
+| GER-27 | Identidade/permissões | Execute | Verified (PASS independente, rodada 2) |
+| GER-28 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-29 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-30 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-31 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-32 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-33 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-34 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-35 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-36 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-37 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-38 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-39 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-40 | Interface | Execute | Verified (PASS independente, rodada 2) |
+| GER-41 | Interface | Execute | Verified (PASS independente, rodada 2) |
 
-**Coverage:** 41 requisitos implementados e testados pelo autor. A primeira rodada independente comprovou 40/41, com lacuna de testes de teclado em GER-38; T16 acrescenta cobertura e aguarda nova verificação. A matriz está em `tasks.md`, as evidências em `evidence.md` / `frontend-evidence.md` e a conferência MySQL em `mysql-validation.md`.
+**Coverage:** 41/41 requisitos verificados independentemente na rodada 2 (`validation.md`, diff até `811842a`). T16 resolveu a lacuna de teclado da rodada 1. Gates: 97 Java, 71 Vitest e 1 E2E real, build/lint PASS; MySQL histórico separado em `mysql-validation.md`. Nenhum teste humano confirmado até este registro.
 
 ## Success Criteria
 
@@ -279,10 +279,10 @@ Restaurar, repetir arquivamento já aplicado e ler dados não são alterações 
 - [x] Todas as rotas da matriz recusam conteúdo válido enquanto arquivado, sem gravação.
 - [x] Falha parcial, concorrência e tentativas de falsificar autoria/papel são cobertas por testes de resultado.
 - [x] Testes do requisito passam em ambiente isolado do MySQL configurado; limitações entre banco de teste e MySQL são registradas quando existirem.
-- [ ] Verificador independente apresenta evidências por critério e resultado do sensor de discriminação conforme a skill.
+- [x] Verificador independente apresenta evidências por critério e resultado do sensor de discriminação conforme a skill.
 
 ## Review Gate
 
-A revisão foi aprovada pelo usuário em 2026-10-04, incluindo os padrões propostos e a divisão entre este CRUD e os próximos requisitos. As mudanças e os testes das 15 tarefas estão registrados nos commits locais e nos relatórios de evidências; a conclusão técnica depende do Verificador independente.
+A revisão foi aprovada pelo usuário em 2026-10-04, incluindo os padrões propostos e a divisão entre este CRUD e os próximos requisitos. As mudanças e os testes das 16 tarefas estão registrados nos commits locais. O Verificador independente aprovou a conclusão técnica em `validation.md`; o teste de uso 1 está aguardando resposta do usuário.
 
 Conferência estrutural inicial executada em 2026-10-04: `python .agents/skills/tlc-spec-driven/scripts/validate_spec.py .specs/features/gerenciamentos/spec.md --strict`, resultado zero erros e zero avisos. Duas revisões independentes de leitura apontaram precisões de versão/repetição, precedência de permissões, concorrência e interface; as correções foram incorporadas. Naquela fase inicial de especificação ainda não haviam sido executados testes de comportamento.

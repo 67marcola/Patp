@@ -5,7 +5,7 @@
 Executar com a skill `tlc-spec-driven`, uma tarefa por vez: testes derivados da especificação, gate, adequação com evidências, atualização de status/rastreabilidade e um commit local por tarefa. A implementação e os testes foram autorizados pelo usuário em 2026-10-04. Ferramentas: shell PowerShell, Python, Maven, npm e skill já escolhida pelo usuário. A delegação técnica segue as instruções da sessão; não exige outra confirmação de rotina.
 
 **Design:** `design.md`
-**Status:** Implemented; T16 testada; nova verificação independente pendente
+**Status:** Complete — implementação e verificação técnica PASS; UAT humano pendente
 
 ## Test Coverage Matrix
 
@@ -308,7 +308,7 @@ T14 -> T9
 - [x] Tab alcança nome/setor de etapa inicial e Remover; Enter remove seus campos antes de salvar; payload não contém a etapa removida.
 - [x] Tab/Enter ativam repetir consulta da lista (erro inicial e após gravação) e do quadro; resultado é carregado, alerta é removido e nenhum retry repete mutação.
 - [x] Voltar/Cancelar no formulário operam por teclado sem mutação; E2E real remove uma etapa inicial por Tab/Enter mantendo as assertions de persistência anteriores.
-- [x] Gates frontend passam; nenhuma assertion anterior removida/enfraquecida; Verificador repetirá mutação sobrevivente em scratch após o commit.
+- [x] Gates frontend passam; nenhuma assertion anterior removida/enfraquecida; Verificador repetiu a mutação sobrevivente e três novos alvos de teclado em scratch após o commit: quatro detectados, zero sobreviventes.
 **Tests:** integration + e2e
 **Gate:** build
 **Commit:** `test(frontend): cover keyboard removal and query retries`
@@ -354,7 +354,7 @@ Cada tarefa entrega um componente/contrato definido. Arquivos acompanhantes são
 
 ## Execution Evidence
 
-Por tarefa, acrescentar resultado real, contagem de testes e tabela bidirecional de adequação com `arquivo:linha` e expressão da assertion antes do commit. Os resultados do servidor estão em `evidence.md`; a interface está em `frontend-evidence.md`. O Verificador independente continua pendente.
+Por tarefa, acrescentar resultado real, contagem de testes e tabela bidirecional de adequação com `arquivo:linha` e expressão da assertion antes do commit. Os resultados do servidor estão em `evidence.md`; a interface está em `frontend-evidence.md`. O Verificador independente aprovou 41/41 critérios e os gates em `validation.md` após T16; avaliação humana ainda não confirmada.
 
 ### T1 concluída
 
