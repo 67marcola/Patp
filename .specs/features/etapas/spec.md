@@ -174,7 +174,7 @@ O quadro mostra colunas, mas não oferece controles de criação/edição/ordena
 | ETA-20 | Integridade | Execute | T1 gate PASS; Verificador pendente |
 | ETA-21 | Integridade | Execute | T1 gate PASS; Verificador pendente |
 | ETA-22 | Interface | Tasks | Pending |
-| ETA-23 | Interface | Tasks | Pending |
+| ETA-23 | Interface | Execute | T3 gate PASS; integração/Verificador pendentes |
 | ETA-24 | Interface | Tasks | Pending |
 | ETA-25 | Interface | Tasks | Pending |
 | ETA-26 | Interface | Tasks | Pending |
