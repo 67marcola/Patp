@@ -72,14 +72,30 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-04
 - **Status**: active
 
+### AD-009
+- **Decision**: ao configurar etapas, escolher a posição da coluna e reorganizar as demais automaticamente.
+- **Reason**: o usuário respondeu “Seguir com essas duas propostas” à pergunta sobre posição automática e Setor obrigatório.
+- **Trade-off**: a interface trabalha com posições consecutivas; números antigos com lacunas/empates serão reorganizados na próxima alteração de etapas do quadro.
+- **Scope**: CRUD de etapas de trabalho.
+- **Date**: 2026-10-05
+- **Status**: active
+
+### AD-010
+- **Decision**: Setor continua obrigatório nas etapas de trabalho; é informativo e não concede permissão de acesso.
+- **Reason**: resposta explícita do usuário às duas propostas.
+- **Trade-off**: editar uma etapa antiga sem setor exige informar o setor; consultas não inventam esse dado.
+- **Scope**: criação/edição de etapas de trabalho; finais terão contrato próprio.
+- **Date**: 2026-10-05
+- **Status**: active
+
 ## Handoff
 
-- **Feature**: CRUD de gerenciamentos da Creral.
-- **Phase / Task**: CRUD de gerenciamentos validado tecnicamente; UAT humano e esclarecimento de etapas em andamento.
+- **Feature**: CRUD de etapas de trabalho da Creral.
+- **Phase / Task**: continuação autorizada; especificação/design/tarefas de etapas em preparação.
 - **Completed**: T1–T16 em commits locais (última tarefa: `811842a`); 41/41 critérios comprovados pelo Verificador independente na rodada 2. Gates repetidos em scratch: 97 Java/H2, 71 Vitest, 1 E2E Edge, build/lint PASS, zero falhas/skips; quatro mutantes de teclado detectados, oito kills anteriores sustentados por hashes de fonte idênticos. MySQL histórico: 96 testes de comportamento e preservação do schema antigo/reinicialização. `validate_state.py gerenciamentos` PASS. Detalhes em `features/gerenciamentos/validation.md` e `mysql-validation.md`.
-- **In-progress**: teste de uso 1 enviado ao usuário: executar preview isolado, cadastrar/entrar, criar Teste Creral sem descrição/etapas e recarregar; aguarda resultado, sem registrar PASS humano por inferência. Perguntas sobre posição das etapas e campo Setor enviadas, aguardando resposta. L-001 é candidate, baseada no sobrevivente da rodada 1; não foi promovida por repetição na mesma feature. Serviços temporários encerrados.
-- **Next step**: interpretar resultado do teste de uso e apresentar teste 2 (edição) se passar; concluir esclarecimento e especificação do CRUD de etapas com decisões já confirmadas e propostas explicitamente marcadas em `features/etapas/context.md`. Não repetir gates aprovados sem nova mudança/falha/preocupação.
-- **Blockers**: nenhum técnico no primeiro CRUD. Perguntas de produto de etapas/finais continuam pendentes, sem assumir respostas. Contas administrativas reais serão selecionadas posteriormente; testes usam contas fictícias.
+- **In-progress**: AD-009/010 confirmadas. Preparar etapas segundo autorização “pode continuar”; propostas menores registradas explicitamente, sem atribuir respostas inexistentes. Teste humano de gerenciamentos permanece sem resultado; “pode continuar” não prova UAT. L-001 permanece candidate; serviços de teste encerrados.
+- **Next step**: validar spec/tarefas de etapas; implementar T1 no servidor e T2–T5 na interface sequencialmente, com gates/commits e Verificador novo ao final.
+- **Blockers**: nenhum para CRUD de etapas de trabalho. Destinos finais continuam sem resposta e não serão implementados nesta entrega. Contas administrativas reais serão selecionadas posteriormente; testes fictícios isolados.
 - **Uncommitted files**: artefatos gerados de teste/build, alguns previamente rastreados no repositório. Fontes, testes e registros intencionais da entrega estão nos commits locais; staging explícito exclui os artefatos.
 - **Branch**: testes; base 5d8beb9.
 
@@ -91,4 +107,4 @@ Já confirmado: somente criador/administrador configura etapas; remover etapa co
 
 Pergunta enviada, aguardando resposta: exatamente duas colunas finais fixas, Concluídos/Cancelados, ou permitir destinos adicionais de cada categoria escolhidos ao finalizar? A proposta de destinos adicionais deve manter as duas etapas obrigatórias pedidas originalmente. Não iniciar a implementação desses destinos por ausência de resposta.
 
-Perguntas enviadas em 2026-10-05, ainda sem resposta: escolher posição com reorganização automática ou digitar ordem manualmente; manter Setor obrigatório nas etapas de trabalho ou torná-lo opcional. As recomendações apresentadas não são respostas do usuário. Detalhes e propostas adicionais em `features/etapas/context.md`.
+Resposta recebida em 2026-10-05: seguir com posição automática e Setor obrigatório, registradas em AD-009/010. Detalhes e defaults menores da próxima entrega em `features/etapas/context.md`.

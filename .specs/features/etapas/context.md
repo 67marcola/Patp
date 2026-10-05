@@ -1,7 +1,7 @@
 # CRUD de etapas: esclarecimento em andamento
 
 **Data:** 2026-10-05.
-**Status:** decisões parciais confirmadas; perguntas/propostas abaixo aguardam resposta ou revisão. Nenhuma implementação deste CRUD foi iniciada.
+**Status:** regras principais confirmadas; continuação/implementação autorizada. Defaults menores identificados abaixo são escolhas do agente, sem respostas atribuídas ao usuário. Finais permanecem pendentes fora deste escopo.
 
 ## Limite desta entrega
 
@@ -14,16 +14,15 @@ Etapas obrigatórias de conclusão/cancelamento e os fluxos de finalizar/pular e
 - AD-007: somente criador do quadro ou administrador configura etapas de um gerenciamento ativo.
 - AD-008: remover etapa com demandas é bloqueado; primeiro elas devem ser movidas para outra etapa.
 - AD-005/006: arquivados somente consulta; quadro sem criador é administrado somente por administrador.
+- AD-009/010: posição escolhida com reorganização automática e Setor obrigatório, confirmados pelo usuário em 2026-10-05.
 
-## Perguntas enviadas, ainda sem resposta
+## Pergunta de outro requisito ainda sem resposta
 
-1. **Ordem:** escolher uma posição e reorganizar automaticamente as demais etapas (recomendação), ou digitar números de ordem manualmente? Exemplo: colocar Verificar local antes de Comprar poste.
-2. **Setor:** continuar obrigatório nas etapas de trabalho (recomendação), ou torná-lo opcional? É um texto identificando a área responsável, como Compras/Engenharia; não define permissão de acesso.
-3. **Destinos finais, pergunta anterior:** exatamente duas colunas finais fixas Concluídos/Cancelados, ou permitir destinos finais adicionais de cada categoria? Em ambas as propostas, as duas etapas obrigatórias originais permanecem. Esta decisão pertence ao requisito das finais e não será inferida de “continue”.
+**Destinos finais:** exatamente duas colunas finais fixas Concluídos/Cancelados, ou permitir destinos finais adicionais de cada categoria? Em ambas as propostas, as duas etapas obrigatórias originais permanecem. Esta decisão pertence ao requisito das finais e não será inferida de “continue”.
 
 Não considerar a opção pré-selecionada no formulário uma resposta. As recomendações acima são propostas do agente.
 
-## Propostas adicionais para a especificação, sem aprovação presumida
+## Defaults locais para esta implementação autorizada
 
 - Permitir nomes repetidos nas etapas de trabalho; destinos identificados por ID, nome, setor e posição. Exemplo: Engenharia no início e no fim do fluxo.
 - Renomear, trocar setor e ordenar uma etapa ocupada preserva suas demandas, responsáveis/status e vínculos. Os históricos conservam o nome registrado na ocasião.
@@ -42,4 +41,4 @@ A migração das etapas finais deverá tratar quadros antigos e arquivados expli
 
 ## Próximo passo
 
-Usar as respostas para fechar requisitos testáveis do CRUD de etapas, registrar as propostas restantes e apresentar a especificação concreta antes de implementar e testar esta entrega.
+Implementar a especificação testável desta entrega com os defaults declarados e as decisões confirmadas. O usuário pode corrigir escolhas menores durante o trabalho. Não implementar os destinos finais por ausência de decisão.
