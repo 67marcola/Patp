@@ -61,3 +61,45 @@ Gate `mvn.cmd -B test`: PASS, 8 testes totais, zero falhas/erros/ignorados. Test
 | `sistema/src/test/java/com/patp/sistema/UsuarioIdentityTests.java:102`: `.andExpect(status().isUnauthorized());` | GER-23 | Sim |
 
 Adequação: assertions sobre resposta HTTP e/ou estado persistido; sem skip/deleção/enfraquecimento; sem desvio de spec. Nenhuma guideline adicional foi encontrada; aplicada a matriz de tasks.md. Gate e inspeção de suficiência/necessidade aprovados; verificação independente da feature ainda pendente.
+
+## T3
+
+Gate `mvn.cmd -B test`: PASS, 12 testes totais, zero falhas/erros/ignorados. Persistencia do modelo e projeções verificadas; contratos HTTP e guarda serão fechados em T4–T8. A versão JPA nasce nula no objeto novo e recebe zero na persistência para preservar detecção de entidade nova.
+
+| Critério / âncora | Evidência e expressão da assertion | Resultado exigido | Coberto? |
+| --- | --- | --- | --- |
+| T3 GER-08/10 legado | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:32`: `assertThat(persistido.isArquivado()).isFalse();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-08/10 legado | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:33`: `assertThat(persistido.getVersao()).isZero();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-08/10 legado | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:34`: `assertThat(persistido.getCriador()).isNull();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-08/09/10 legado | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:47`: `assertThat(quadros.listarPorEstado(false)).extracting(Gerenciamento::getId).containsExactly(legado.getId());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-08/09/10 legado | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:48`: `assertThat(quadros.listarPorEstado(true)).extracting(Gerenciamento::getId).containsExactly(arquivo.getId());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-08/09/10 legado | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:50`: `assertThat(preservado.getNome()).isEqualTo("L".repeat(180));` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-08/09/10 legado | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:51`: `assertThat(preservado.getCriador()).isNull();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-08/09/10 legado | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:52`: `assertThat(preservado.isArquivado()).isFalse();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-16/17/18/22 | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:64`: `assertThat(bloqueado.getVersao()).isEqualTo(1L);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-16/17/18/22 | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:67`: `assertThat(salvo.isArquivado()).isTrue();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-16/17/18/22 | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:68`: `assertThat(salvo.getVersao()).isEqualTo(1L);` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-20/22 guarda | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:86`: `assertThat(etapas.buscarGerenciamentoId(etapa.getId())).contains(quadro.getId());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-20/22 guarda | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:87`: `assertThat(processos.buscarGerenciamentoId(demanda.getId())).contains(quadro.getId());` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-20/22 guarda | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:88`: `assertThat(etapas.buscarGerenciamentoId(-1L)).isEmpty();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+| T3 GER-20/22 guarda | `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:89`: `assertThat(processos.buscarGerenciamentoId(-1L)).isEmpty();` | Valor/estado/status expresso na assertion, derivado da âncora | Sim |
+
+| Assertion | Âncora | Manter? |
+| --- | --- | --- |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:32`: `assertThat(persistido.isArquivado()).isFalse();` | T3 GER-08/10 legado | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:33`: `assertThat(persistido.getVersao()).isZero();` | T3 GER-08/10 legado | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:34`: `assertThat(persistido.getCriador()).isNull();` | T3 GER-08/10 legado | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:47`: `assertThat(quadros.listarPorEstado(false)).extracting(Gerenciamento::getId).containsExactly(legado.getId());` | T3 GER-08/09/10 legado | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:48`: `assertThat(quadros.listarPorEstado(true)).extracting(Gerenciamento::getId).containsExactly(arquivo.getId());` | T3 GER-08/09/10 legado | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:50`: `assertThat(preservado.getNome()).isEqualTo("L".repeat(180));` | T3 GER-08/09/10 legado | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:51`: `assertThat(preservado.getCriador()).isNull();` | T3 GER-08/09/10 legado | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:52`: `assertThat(preservado.isArquivado()).isFalse();` | T3 GER-08/09/10 legado | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:64`: `assertThat(bloqueado.getVersao()).isEqualTo(1L);` | T3 GER-16/17/18/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:67`: `assertThat(salvo.isArquivado()).isTrue();` | T3 GER-16/17/18/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:68`: `assertThat(salvo.getVersao()).isEqualTo(1L);` | T3 GER-16/17/18/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:86`: `assertThat(etapas.buscarGerenciamentoId(etapa.getId())).contains(quadro.getId());` | T3 GER-20/22 guarda | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:87`: `assertThat(processos.buscarGerenciamentoId(demanda.getId())).contains(quadro.getId());` | T3 GER-20/22 guarda | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:88`: `assertThat(etapas.buscarGerenciamentoId(-1L)).isEmpty();` | T3 GER-20/22 guarda | Sim |
+| `sistema/src/test/java/com/patp/sistema/GerenciamentoPersistenceTests.java:89`: `assertThat(processos.buscarGerenciamentoId(-1L)).isEmpty();` | T3 GER-20/22 guarda | Sim |
+
+Adequação: assertions sobre resposta HTTP e/ou estado persistido; sem skip/deleção/enfraquecimento; sem desvio de spec. Nenhuma guideline adicional foi encontrada; aplicada a matriz de tasks.md. Gate e inspeção de suficiência/necessidade aprovados; verificação independente da feature ainda pendente.
