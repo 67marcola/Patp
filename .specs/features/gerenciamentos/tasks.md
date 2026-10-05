@@ -199,9 +199,9 @@ T14 -> T9
 **Depends on:** T14
 **Requirement:** base de GER-28–41.
 **Done when:**
-- [ ] Vitest executa um teste significativo de comportamento existente em DOM e npm build/lint passam.
-- [ ] Playwright usa navegador instalado; não requer dados reais nem banco configurado.
-- [ ] Script de lint se restringe às fontes/configuração, sem varrer node_modules; gate passa.
+- [x] Vitest executa um teste significativo de comportamento existente em DOM e npm build/lint passam.
+- [x] Playwright usa navegador instalado; não requer dados reais nem banco configurado.
+- [x] Script de lint se restringe às fontes/configuração, sem varrer node_modules; gate passa.
 **Tests:** integration
 **Gate:** full
 **Commit:** `test(frontend): configure behavioral UI test runners`
@@ -319,7 +319,7 @@ Cada tarefa entrega um componente/contrato definido. Arquivos acompanhantes são
 
 ## Execution Evidence
 
-Por tarefa, acrescentar resultado real, contagem de testes e tabela bidirecional de adequação com `arquivo:linha` e expressão da assertion antes do commit. Os resultados do servidor estão em `evidence.md`; a interface e o Verificador independente continuam pendentes.
+Por tarefa, acrescentar resultado real, contagem de testes e tabela bidirecional de adequação com `arquivo:linha` e expressão da assertion antes do commit. Os resultados do servidor estão em `evidence.md`; a interface está em `frontend-evidence.md`. O Verificador independente continua pendente.
 
 ### T1 concluída
 
