@@ -244,10 +244,10 @@ T14 -> T9
 **Depends on:** T11
 **Requirement:** GER-28/30–41.
 **Done when:**
-- [ ] Ativos inicialmente; troca/abrir/voltar mantém filtro; botões seguem podeAdministrar; confirmação nome/preservação/Cancelar/Arquivar e foco devolvido.
-- [ ] Carregando/vazio/erro/retry são distintos; consultas antigas não trocam filtro atual; envio duplicado bloqueado.
-- [ ] Sucesso seguido de erro GET mostra GER-34 e retry apenas GET; arquivar/restaurar remove cartão do filtro preservado.
-- [ ] Valores editados e selecionados atualizados; erros alertados, teclado operável; gate passa.
+- [x] Ativos inicialmente; troca/abrir/voltar mantém filtro; botões seguem podeAdministrar; confirmação nome/preservação/Cancelar/Arquivar e foco devolvido.
+- [x] Carregando/vazio/erro/retry são distintos; consultas antigas não trocam filtro atual; envio duplicado bloqueado.
+- [x] Sucesso seguido de erro GET mostra GER-34 e retry apenas GET; arquivar/restaurar remove cartão do filtro preservado.
+- [x] Valores editados e selecionados atualizados; erros alertados, teclado operável; gate passa.
 **Tests:** integration
 **Gate:** full
 **Commit:** `feat(frontend): manage active and archived boards`
