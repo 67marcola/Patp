@@ -75,12 +75,12 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature**: CRUD de gerenciamentos da Creral.
-- **Phase / Task**: implementação autorizada em 2026-10-04; T4, componente CRUD HTTP.
-- **Completed**: diagnóstico, referência PATP, decisões AD-001 a AD-006, especificação com 41 critérios confirmada, design/tarefas validados; T1 f8235b5, T2 3c0b888 e T3 40dfa37, com 12 testes passando. AD-007/008 recebidas para a próxima entrega.
-- **In-progress**: testes e implementação do CRUD HTTP pelo trabalhador do servidor. MySQL temporário separado na porta 33817 preparado pelo orquestrador para verificação adicional.
-- **Next step**: concluir T4 e guardas T5–T8, depois interface T9–T13 e verificador independente.
+- **Phase / Task**: implementação autorizada em 2026-10-04; interface T9–T13.
+- **Completed**: diagnóstico, referência PATP, decisões AD-001 a AD-008, especificação com 41 critérios confirmada, design/tarefas validados; T1–T8 e T14 em commits locais. Servidor: 97 testes H2 e 96 testes de comportamento MySQL, zero falhas/erros/ignorados. Schema antigo temporário preservado nas seis tabelas e após reinicialização; detalhes em `features/gerenciamentos/mysql-validation.md`.
+- **In-progress**: testes e implementação da interface pelo trabalhador do frontend. MySQL temporário separado na porta 33817 usado somente com dados fictícios.
+- **Next step**: concluir interface T9–T13, revisão visual e Verificador independente novo.
 - **Blockers**: nenhum para o primeiro CRUD. Permissões de etapas e remoção de etapa com demandas já respondidas para a próxima entrega. Contas administrativas reais serão selecionadas posteriormente; testes usam contas fictícias.
-- **Uncommitted files**: trabalho T4 e artefatos gerados de teste/build; staging somente das fontes/testes/documentação listados na tarefa.
+- **Uncommitted files**: trabalho frontend e artefatos gerados de teste/build; staging somente das fontes/testes/documentação listados na tarefa.
 - **Branch**: testes; base 5d8beb9.
 
 A aplicação normal não foi iniciada nem o banco MySQL configurado alterado. A instância temporária tem pasta de dados nova em TEMP e só contém dados fictícios. Usar apenas banco isolado durante os testes.
