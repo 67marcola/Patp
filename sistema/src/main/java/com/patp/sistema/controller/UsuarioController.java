@@ -30,10 +30,10 @@ public class UsuarioController {
 
     // Cadastro
     @PostMapping("/cadastro")
-    public Usuario cadastrar(
+    public LoginResponse cadastrar(
             @RequestBody Usuario usuario) {
 
-        return usuarioService.cadastrar(usuario);
+        return criarRespostaDeEntrada(usuarioService.cadastrar(usuario));
     }
 
     // Login
@@ -45,6 +45,11 @@ public class UsuarioController {
                 request.email(),
                 request.senha()
         );
+
+        return criarRespostaDeEntrada(usuario);
+    }
+
+    private LoginResponse criarRespostaDeEntrada(Usuario usuario) {
 
         String token = sessaoService.criarSessao(usuario);
 

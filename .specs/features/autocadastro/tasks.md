@@ -63,9 +63,9 @@ T4 -> T5
 **Depends on:** None
 **Requirement:** AUT-01–05.
 **Done when:**
-- [ ] Cadastro200 devolve todos os campos seguros, token funciona em me/gerenciamentos; conta salva é FUNCIONARIO e BCrypt sem senha na resposta.
-- [ ] ID recebido/JSON inválido/duplicidade/save falhando têm status/mensagens da spec, sem novos registros ou token; login manual preservado.
-- [ ] Todos os testes Java anteriores executam e gate passa; adequação direta/reversa registrada.
+- [x] Cadastro200 devolve todos os campos seguros, token funciona em me/gerenciamentos; conta salva é FUNCIONARIO e BCrypt sem senha na resposta.
+- [x] ID recebido/JSON inválido/duplicidade/save falhando têm status/mensagens da spec, sem novos registros ou token; login manual preservado.
+- [x] Todos os testes Java anteriores executam e gate passa; adequação direta/reversa registrada.
 **Tests:** integration
 **Gate:** full
 **Commit:** feat(auth): return a session after registration
