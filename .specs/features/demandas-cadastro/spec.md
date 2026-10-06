@@ -123,15 +123,15 @@ Quadro só com finais, legado sem criador, trabalho homônimo de final/categoria
 | Requirement | Task | Status |
 | --- | --- | --- |
 | CAD-01 | T2, T5, T6 | Complete T2; Pending T5, T6 |
-| CAD-02 | T2, T4 | Complete T2; Pending T4 |
-| CAD-03 | T2, T4 | Complete T2; Pending T4 |
-| CAD-04 | T2, T4 | Complete T2; Pending T4 |
+| CAD-02 | T2, T4 | Complete T2, T4 |
+| CAD-03 | T2, T4 | Complete T2, T4 |
+| CAD-04 | T2, T4 | Complete T2, T4 |
 | CAD-05 | T2, T6 | Complete T2; Pending T6 |
 | CAD-06 | T2 | Complete T2 |
 | CAD-07 | T2, T5 | Complete T2; Pending T5 |
 | CAD-08 | T2, T5 | Complete T2; Pending T5 |
 | CAD-09 | T2 | Complete T2 |
-| CAD-10 | T2, T4 | Complete T2; Pending T4 |
+| CAD-10 | T2, T4 | Complete T2, T4 |
 | CAD-11 | T2 | Complete T2 |
 | CAD-12 | T2 | Complete T2 |
 | CAD-13 | T2, T6 | Complete T2; Pending T6 |
@@ -149,19 +149,19 @@ Quadro só com finais, legado sem criador, trabalho homônimo de final/categoria
 | CAD-25 | T1 | Complete T1 |
 | CAD-26 | T5 | Pending |
 | CAD-27 | T5 | Pending |
-| CAD-28 | T4 | Pending |
-| CAD-29 | T4 | Pending |
-| CAD-30 | T3, T4, T5 | Complete T3; Pending T4, T5 |
-| CAD-31 | T4, T5 | Pending |
+| CAD-28 | T4 | Complete T4 |
+| CAD-29 | T4 | Complete T4 |
+| CAD-30 | T3, T4, T5 | Complete T3, T4; Pending T5 |
+| CAD-31 | T4, T5 | Complete T4; Pending T5 |
 | CAD-32 | T5 | Pending |
-| CAD-33 | T3, T4, T5 | Complete T3; Pending T4, T5 |
+| CAD-33 | T3, T4, T5 | Complete T3, T4; Pending T5 |
 | CAD-34 | T5 | Pending |
 | CAD-35 | T5 | Pending |
 | CAD-36 | T3 | Complete T3 |
 | CAD-37 | T5 | Pending |
 | CAD-38 | T5 | Pending |
 | CAD-39 | T5 | Pending |
-| CAD-40 | T4, T5 | Pending |
+| CAD-40 | T4, T5 | Complete T4; Pending T5 |
 | CAD-41 | T6 | Pending |
 
 ## Success Criteria
