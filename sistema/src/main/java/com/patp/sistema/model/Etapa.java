@@ -1,5 +1,8 @@
 package com.patp.sistema.model;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,6 +28,8 @@ public class Etapa {
     private String setor;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(length = 20, nullable = true)
     private CategoriaEtapa categoria = CategoriaEtapa.TRABALHO;
 
     @Column(nullable = false)
