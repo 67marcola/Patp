@@ -62,7 +62,7 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 **Gate:** Full
 **Commit:** feat(etapas): guarantee the required final stage pair
 **Done when:**
-- [ ] Par possui nomes/categorias/IDs/campos corretos; repetição não duplica; ordenação preserva trabalhos; duplicidade explícita é rejeitada; gate/adequação PASS.
+- [x] Par possui nomes/categorias/IDs/campos corretos; repetição não duplica; ordenação preserva trabalhos; duplicidade explícita é rejeitada; gate/adequação PASS.
 
 ### T3: Criação atômica de novos quadros
 
