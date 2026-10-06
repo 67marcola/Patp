@@ -102,7 +102,7 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 **Tests:** unit
 **Gate:** Quick
 **Done when:**
-- [ ] Critérios mapeados têm assertions de valores e estado em file:line, gate verde sem perdas de testes, mapas AC→assertion e assertion→AC em evidence.md, task e trace atualizados antes do commit local.
+- [x] AcaoDemanda acessível com destino/motivo/confirmação,28casos novos; gate630Vitest PASS,602anteriores preservados. Mapas em evidence.md T5; integração global segueT6.
 
 ### T6: Ações e cache no quadro
 
