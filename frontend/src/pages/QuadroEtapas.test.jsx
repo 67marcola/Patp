@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test, vi } from "vitest";
 import Quadro from "./Quadro";
@@ -6,9 +6,16 @@ import Gerenciamentos from "./Gerenciamentos";
 import { ativarPorTeclado } from "../test/keyboard";
 
 const quadro = { id: 9, nome: "Instalações", descricao: "Postes", criador: { id: 3, nome: "Ana" }, arquivado: false, versao: 0, podeAdministrar: true };
-const a = { id: 4, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 2 };
-const b = { id: 5, nome: "Execução", setor: "Campo", ordem: 2, quantidadeDemandas: 0 };
-const snapshot = (etapas = [a, b], metadados = {}) => ({ gerenciamento: { ...quadro, ...metadados }, etapas });
+const a = { id: 4, nome: "Planejamento", setor: "Técnico", ordem: 1, categoria: "TRABALHO", quantidadeDemandas: 2 };
+const b = { id: 5, nome: "Execução", setor: "Campo", ordem: 2, categoria: "TRABALHO", quantidadeDemandas: 0 };
+const finais = [
+    { id: 20, nome: "Concluídos", setor: null, categoria: "CONCLUIDA", quantidadeDemandas: 3 },
+    { id: 21, nome: "Cancelados", setor: null, categoria: "CANCELADA", quantidadeDemandas: 1 }
+];
+const snapshot = (etapas = [a, b], metadados = {}, incluirFinais = true) => ({
+    gerenciamento: { ...quadro, ...metadados },
+    etapas: incluirFinais ? [...etapas, ...finais.map((etapa, index) => ({ ...etapa, ordem: etapas.length + index + 1 }))] : etapas
+});
 const json = (dados, status = 200) => new Response(JSON.stringify(dados), { status });
 const endpoint = "http://localhost:8081/api/gerenciamentos/9";
 
@@ -34,8 +41,21 @@ async function preencher(user, nome, setor, ordem = "1") {
     await user.selectOptions(screen.getByLabelText("Posição"), ordem);
 }
 
+function conferirFinais(esperadas = finais) {
+    for (const etapa of esperadas) {
+        const coluna = screen.getByRole("region", { name: etapa.nome, exact: true });
+        expect(within(coluna).getByRole("heading").id).toBe(`etapa-titulo-${etapa.id}`);
+        expect(within(coluna).getByText("Etapa final obrigatória").textContent).toBe("Etapa final obrigatória");
+        expect(within(coluna).queryByText(/Setor responsável:/)).toBeNull();
+        expect(within(coluna).queryByText(/^Posição /)).toBeNull();
+        expect(within(coluna).queryByRole("button")).toBeNull();
+        expect(within(coluna).getByText(`${etapa.quantidadeDemandas} ${etapa.quantidadeDemandas === 1 ? "demanda" : "demandas"}`).textContent)
+            .toBe(`${etapa.quantidadeDemandas} ${etapa.quantidadeDemandas === 1 ? "demanda" : "demandas"}`);
+    }
+}
+
 test("ETA-12/13/15/19/28/30: CRUD por teclado usa snapshots/IDs/versões e reordena o quadro sem GETextra", async () => {
-    const c = { id: 6, nome: "Análise", setor: "Engenharia", ordem: 2, quantidadeDemandas: 0 };
+    const c = { id: 6, nome: "Análise", setor: "Engenharia", ordem: 2, categoria: "TRABALHO", quantidadeDemandas: 0 };
     const editada = { ...b, nome: "Entrega", setor: "Operação", ordem: 1 };
     const respostas = [
         snapshot([a, c, { ...b, ordem: 3 }], { versao: 1 }),
@@ -48,7 +68,8 @@ test("ETA-12/13/15/19/28/30: CRUD por teclado usa snapshots/IDs/versões e reord
     await preencher(user, "Análise", "Engenharia", "2");
     await ativarPorTeclado(user, screen.getByRole("button", { name: "Salvar etapa" }));
     await screen.findByRole("heading", { name: "Análise", exact: true });
-    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent)).toEqual(["Planejamento", "Análise", "Execução"]);
+    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent)).toEqual(["Planejamento", "Análise", "Execução", "Concluídos", "Cancelados"]);
+    conferirFinais();
     await abrirEditor(user, "Editar etapa 3: Execução");
     expect(screen.getByLabelText("Nome da etapa").value).toBe("Execução");
     expect(screen.getByLabelText("Setor responsável").value).toBe("Campo");
@@ -56,11 +77,13 @@ test("ETA-12/13/15/19/28/30: CRUD por teclado usa snapshots/IDs/versões e reord
     await preencher(user, "Entrega", "Operação", "1");
     await ativarPorTeclado(user, screen.getByRole("button", { name: "Salvar etapa" }));
     await screen.findByRole("heading", { name: "Entrega", exact: true });
-    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent)).toEqual(["Entrega", "Planejamento", "Análise"]);
+    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent)).toEqual(["Entrega", "Planejamento", "Análise", "Concluídos", "Cancelados"]);
+    conferirFinais();
     await abrirEditor(user, "Remover etapa 3: Análise");
     await ativarPorTeclado(user, within(screen.getByRole("dialog")).getByRole("button", { name: "Remover", exact: true }));
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent)).toEqual(["Entrega", "Planejamento"]);
+    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent)).toEqual(["Entrega", "Planejamento", "Concluídos", "Cancelados"]);
+    conferirFinais();
     expect(fetchMock.mock.calls.map(([url, request]) => [url, request.method, request.body && JSON.parse(request.body)])).toEqual([
         [`${endpoint}/estrutura-etapas`, "GET", undefined],
         [`${endpoint}/etapas`, "POST", { nome: "Análise", setor: "Engenharia", ordem: 2, versao: 0 }],
@@ -164,6 +187,7 @@ test.each([
         if (falhar) return status === 0 ? Promise.reject(new TypeError("offline")) : json({ erro: mensagem }, status);
         return json(snapshot([a, { ...b, nome: "Rascunho", setor: "Engenharia", ordem: 2 }], { versao: versao + 1 }));
     });
+
     await abrirEditor(user, "Editar etapa 2: Execução");
     await preencher(user, "Rascunho", "Engenharia", "2");
     await ativarPorTeclado(user, screen.getByRole("button", { name: "Salvar etapa" }));
@@ -228,7 +252,7 @@ test("ETA-27/29/30: GET de atualização falho conserva quadro/rascunho e repeti
     expect(screen.getByLabelText("Posição").value).toBe("2");
     expect(screen.getByRole("button", { name: "Salvar etapa" }).disabled).toBe(true);
     expect(screen.getByRole("region", { name: "Execução" })).not.toBeNull();
-    expect(screen.queryByRole("heading", { name: "Nenhuma etapa cadastrada" })).toBeNull();
+    expect(screen.queryByRole("heading", { name: "Nenhuma etapa de trabalho cadastrada" })).toBeNull();
     await ativarPorTeclado(user, screen.getByRole("button", { name: "Tentar novamente" }));
     await waitFor(() => expect(screen.queryByText("Consulta indisponível")).toBeNull());
     expect(screen.getByRole("button", { name: "Salvar etapa" }).disabled).toBe(false);
@@ -250,7 +274,8 @@ test("ETA-14/22/28: nomes iguais mantêm setores/posições e editar escolhe ID 
     await user.type(screen.getByLabelText("Nome da etapa"), "Revisão");
     await ativarPorTeclado(user, screen.getByRole("button", { name: "Salvar etapa" }));
     await screen.findByRole("region", { name: "Revisão" });
-    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent)).toEqual(["Planejamento", "Revisão"]);
+    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent)).toEqual(["Planejamento", "Revisão", "Concluídos", "Cancelados"]);
+    conferirFinais();
     expect(fetchMock.mock.calls.find(([, request]) => request.method === "PUT")[0]).toBe(`${endpoint}/etapas/5`);
 });
 
@@ -293,7 +318,9 @@ test("ETA-15/29: última etapa removida apresenta vazio sem GETextra", async () 
         ? snapshot([b]) : snapshot([], { versao: 1 })));
     await abrirEditor(user, "Remover etapa 1: Execução");
     await ativarPorTeclado(user, screen.getByRole("button", { name: "Remover", exact: true }));
-    expect((await screen.findByRole("heading", { name: "Nenhuma etapa cadastrada" })).textContent).toBe("Nenhuma etapa cadastrada");
+    expect((await screen.findByRole("heading", { name: "Nenhuma etapa de trabalho cadastrada" })).textContent).toBe("Nenhuma etapa de trabalho cadastrada");
+    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent)).toEqual(["Concluídos", "Cancelados"]);
+    conferirFinais();
     expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET", "DELETE"]);
 });
 
@@ -321,7 +348,8 @@ test("ETA-28: voltar do quadro arquiva com versão retornada pelo CRUD sem recar
     await ativarPorTeclado(user, await screen.findByRole("button", { name: "Abrir Instalações" }));
     await abrirEditor(user, "Remover etapa 1: Execução");
     await ativarPorTeclado(user, screen.getByRole("button", { name: "Remover", exact: true }));
-    await screen.findByRole("heading", { name: "Nenhuma etapa cadastrada" });
+    await screen.findByRole("heading", { name: "Nenhuma etapa de trabalho cadastrada" });
+    conferirFinais();
     await ativarPorTeclado(user, screen.getByRole("button", { name: /Voltar/ }));
     await ativarPorTeclado(user, screen.getByRole("button", { name: "Arquivar Instalações" }));
     await ativarPorTeclado(user, screen.getByRole("button", { name: "Arquivar", exact: true }));
@@ -359,12 +387,13 @@ test.each([["POST", 201], ["PUT", 200], ["DELETE", 200]].flatMap(([metodo, statu
         expect((await screen.findByRole("alert")).textContent)
             .toBe("Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.");
         expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent))
-            .toEqual(["Planejamento", "Execução"]);
+            .toEqual(["Planejamento", "Execução", "Concluídos", "Cancelados"]);
+        conferirFinais();
         expect(screen.getByText("Setor responsável: Técnico").textContent).toBe("Setor responsável: Técnico");
         expect(screen.getByText("Setor responsável: Campo").textContent).toBe("Setor responsável: Campo");
         expect(screen.getByText("2 demandas").textContent).toBe("2 demandas");
         expect(screen.getByText("0 demandas").textContent).toBe("0 demandas");
-        expect(screen.queryByRole("heading", { name: "Nenhuma etapa cadastrada" })).toBeNull();
+        expect(screen.queryByRole("heading", { name: "Nenhuma etapa de trabalho cadastrada" })).toBeNull();
         expect(atualizar.mock.calls.map(([registro]) => registro)).toEqual([quadro]);
         if (remover) expect(screen.getByRole("dialog", { name: "Remover Execução?" })).not.toBeNull();
         else {
@@ -396,11 +425,131 @@ test.each([["POST", 201], ["PUT", 200], ["DELETE", 200]].flatMap(([metodo, statu
         expect(screen.queryByLabelText("Nome da etapa")).toBeNull();
         expect(screen.queryByRole("dialog")).toBeNull();
         expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent))
-            .toEqual(metodo === "DELETE" ? ["Planejamento"] : metodo === "PUT" ? ["Planejamento", "Rascunho"] : ["Planejamento", "Rascunho", "Execução"]);
+            .toEqual(metodo === "DELETE" ? ["Planejamento", "Concluídos", "Cancelados"] : metodo === "PUT" ? ["Planejamento", "Rascunho", "Concluídos", "Cancelados"] : ["Planejamento", "Rascunho", "Execução", "Concluídos", "Cancelados"]);
+        conferirFinais();
         const payload = remover ? {} : { nome: "Rascunho", setor: "Engenharia", ordem: 2 };
         const rota = metodo === "POST" ? `${endpoint}/etapas` : `${endpoint}/etapas/5`;
         expect(fetchMock.mock.calls.filter(([, request]) => request.method === metodo)
             .map(([url, request]) => [url, request.method, JSON.parse(request.body)]))
             .toEqual([[rota, metodo, { ...payload, versao: 0 }], [rota, metodo, { ...payload, versao: 7 }]]);
         expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET", metodo, "GET", metodo]);
+    });
+
+test.each([{ arquivado: false, podeAdministrar: true }, { arquivado: true }, { podeAdministrar: false }])
+    ("FIN-15/17/19: quadro somente com finais reais mantém identificação, contagens e proteção%s", async flags => {
+        const { fetchMock } = preparar(() => json(snapshot([], flags)));
+        expect((await screen.findByRole("heading", { name: "Nenhuma etapa de trabalho cadastrada" })).textContent)
+            .toBe("Nenhuma etapa de trabalho cadastrada");
+        expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent))
+            .toEqual(["Concluídos", "Cancelados"]);
+        conferirFinais();
+        expect(screen.queryByRole("button", { name: /Editar etapa|Remover etapa/ })).toBeNull();
+        expect(screen.queryByRole("button", { name: "+ Nova etapa" }) !== null)
+            .toBe(flags.arquivado !== true && flags.podeAdministrar !== false);
+        expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET"]);
+    });
+
+test("FIN-16/17: criar no quadro só com finais oferece posição1 e mantém Nome/Setor obrigatórios", async () => {
+    const { user, fetchMock } = preparar(() => json(snapshot([])));
+    await abrirEditor(user);
+    expect([...screen.getByLabelText("Posição").options].map(option => option.value)).toEqual(["1"]);
+    expect(screen.getByLabelText("Posição").value).toBe("1");
+    await ativarPorTeclado(user, screen.getByRole("button", { name: "Salvar etapa" }));
+    expect(screen.getByRole("alert").textContent).toBe("Informe um nome de etapa entre 1 e 255 caracteres.");
+    await user.type(screen.getByLabelText("Nome da etapa"), "Trabalho");
+    await ativarPorTeclado(user, screen.getByRole("button", { name: "Salvar etapa" }));
+    expect(screen.getByRole("alert").textContent).toBe("Informe um setor entre 1 e 255 caracteres.");
+    expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET"]);
+    conferirFinais();
+});
+
+test("FIN-15: finais vazias também permanecem protegidas", async () => {
+    const vazias = finais.map((etapa, index) => ({ ...etapa, ordem: index + 1, quantidadeDemandas: 0 }));
+    const { fetchMock } = preparar(() => json(snapshot(vazias, {}, false)));
+    await screen.findByRole("region", { name: "Concluídos" });
+    conferirFinais(vazias);
+    expect(screen.getAllByRole("region")).toHaveLength(2);
+    expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET"]);
+});
+
+test("FIN-16: finais não contam nos intervalos de criação/edição nem nas posições de trabalho", async () => {
+    const { user, fetchMock } = preparar();
+    await abrirEditor(user);
+    expect([...screen.getByLabelText("Posição").options].map(option => option.value)).toEqual(["1", "2", "3"]);
+    expect(screen.getByLabelText("Posição").value).toBe("3");
+    await ativarPorTeclado(user, screen.getByRole("button", { name: "Cancelar" }));
+    await abrirEditor(user, "Editar etapa 2: Execução");
+    expect([...screen.getByLabelText("Posição").options].map(option => option.value)).toEqual(["1", "2"]);
+    expect(screen.getByLabelText("Posição").value).toBe("2");
+    expect(within(screen.getByRole("region", { name: "Planejamento" })).getByText("Posição 1").textContent).toBe("Posição 1");
+    expect(within(screen.getByRole("region", { name: "Execução" })).getByText("Posição 2").textContent).toBe("Posição 2");
+    conferirFinais();
+    expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET"]);
+});
+
+test("FIN-14/15/16: trabalhos homônimos mantêm edição/setor/posição ao lado das finais oficiais", async () => {
+    const trabalhos = [{ ...a, nome: "Concluídos" }, { ...b, nome: "Cancelados", categoria: null }];
+    const { user, fetchMock } = preparar(() => json(snapshot(trabalhos)));
+    await screen.findByRole("button", { name: "Editar etapa 1: Concluídos" });
+    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").textContent))
+        .toEqual(["Concluídos", "Cancelados", "Concluídos", "Cancelados"]);
+    for (const [index, etapa] of trabalhos.entries()) {
+        const coluna = document.getElementById(`etapa-titulo-${etapa.id}`).closest("section");
+        expect(within(coluna).queryByText("Etapa final obrigatória")).toBeNull();
+        expect(within(coluna).getByText(`Setor responsável: ${etapa.setor}`).textContent).toBe(`Setor responsável: ${etapa.setor}`);
+        expect(within(coluna).getByText(`Posição ${index + 1}`).textContent).toBe(`Posição ${index + 1}`);
+        expect(within(coluna).getByRole("button", { name: `Remover etapa ${index + 1}: ${etapa.nome}` })).not.toBeNull();
+        await abrirEditor(user, `Editar etapa ${index + 1}: ${etapa.nome}`);
+        expect(screen.getByLabelText("Nome da etapa").value).toBe(etapa.nome);
+        expect(screen.getByLabelText("Setor responsável").value).toBe(etapa.setor);
+        expect([...screen.getByLabelText("Posição").options].map(option => option.value)).toEqual(["1", "2"]);
+        await ativarPorTeclado(user, screen.getByRole("button", { name: "Cancelar" }));
+    }
+    for (const etapa of finais) {
+        const coluna = document.getElementById(`etapa-titulo-${etapa.id}`).closest("section");
+        expect(within(coluna).getByText("Etapa final obrigatória").textContent).toBe("Etapa final obrigatória");
+        expect(within(coluna).queryByRole("button")).toBeNull();
+    }
+    expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET"]);
+});
+
+test("FIN-15/29: consulta de legado não inventa finais nem classifica trabalho pelo nome", async () => {
+    const legado = [{ ...a, nome: "Concluídos", categoria: undefined }, { ...b, nome: "Cancelados", categoria: null }];
+    const { fetchMock } = preparar(() => json(snapshot(legado, {}, false)));
+    await screen.findByRole("button", { name: "Editar etapa 1: Concluídos" });
+    expect(screen.getAllByRole("region").map(item => within(item).getByRole("heading").id)).toEqual(["etapa-titulo-4", "etapa-titulo-5"]);
+    expect(screen.queryByText("Etapa final obrigatória")).toBeNull();
+    expect(screen.getByRole("button", { name: "Remover etapa 2: Cancelados" })).not.toBeNull();
+    expect(screen.getByText("Setor responsável: Campo").textContent).toBe("Setor responsável: Campo");
+    expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET"]);
+});
+
+test.each(["PUT", "DELETE"].flatMap(metodo => ["CONCLUIDA", "CANCELADA"].map(categoria => [metodo, categoria])))
+    ("FIN-15/19: alvo em cache de%s que passa a%s no refresh não permite nova alteração", async (metodo, categoria) => {
+        let consultas = 0;
+        const finalAtual = { ...finais.find(etapa => etapa.categoria === categoria), id: b.id };
+        const outraFinal = finais.find(etapa => etapa.categoria !== categoria);
+        const { user, fetchMock } = preparar((_url, request) => {
+            if (request.method !== "GET") return json({ erro: "Gerenciamento alterado por outro usuário. Atualize e tente novamente." }, 409);
+            consultas += 1;
+            return json(consultas === 1 ? snapshot() : snapshot([a, finalAtual, outraFinal], { versao: 7 }, false));
+        });
+        await abrirEditor(user, `${metodo === "PUT" ? "Editar" : "Remover"} etapa 2: Execução`);
+        const acao = metodo === "PUT" ? "Salvar etapa" : "Remover";
+        await ativarPorTeclado(user, screen.getByRole("button", { name: acao, exact: true }));
+        await screen.findByRole("alert");
+        await ativarPorTeclado(user, screen.getByRole("button", { name: "Atualizar quadro" }));
+        await screen.findByRole("region", { name: finalAtual.nome });
+        expect(screen.getByRole("button", { name: acao, exact: true }).disabled).toBe(true);
+        if (metodo === "PUT") {
+            expect(screen.getByLabelText("Posição").disabled).toBe(true);
+            fireEvent.submit(screen.getByRole("button", { name: acao }).closest("form"));
+        } else fireEvent.click(screen.getByRole("button", { name: acao, exact: true }));
+        expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET", metodo, "GET"]);
+        const coluna = screen.getByRole("region", { name: finalAtual.nome });
+        expect(within(coluna).getByText("Etapa final obrigatória").textContent).toBe("Etapa final obrigatória");
+        expect(within(coluna).queryByText(/Setor responsável:|^Posição /)).toBeNull();
+        expect(within(coluna).queryByRole("button")).toBeNull();
+        await ativarPorTeclado(user, screen.getByRole("button", { name: "Cancelar" }));
+        expect(document.activeElement).toBe(screen.getByRole("button", { name: "+ Nova etapa" }));
     });

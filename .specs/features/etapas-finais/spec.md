@@ -126,11 +126,11 @@ Homônimos e ordem antiga com lacunas/empates permanecem trabalho (FIN-06/14/24)
 | FIN-12 | T4 | T4 complete |
 | FIN-13 | T4 | T4 complete |
 | FIN-14 | T2, T4 | T2/T4 complete |
-| FIN-15 | T6, T7 | Pending |
-| FIN-16 | T6, T7 | Pending |
-| FIN-17 | T6, T7 | Pending |
-| FIN-18 | T6, T7 | Pending |
-| FIN-19 | T4, T6, T7 | T4 complete; T6/T7 pending |
+| FIN-15 | T6, T7 | T6 complete; T7 pending |
+| FIN-16 | T6, T7 | T6 complete; T7 pending |
+| FIN-17 | T6, T7 | T6 complete; T7 pending |
+| FIN-18 | T6, T7 | T6 complete; T7 pending |
+| FIN-19 | T4, T6, T7 | T4/T6 complete; T7 pending |
 | FIN-20 | T5 | T5 complete; MySQL TEMP feature gate pending |
 | FIN-21 | T5 | T5 complete; MySQL TEMP feature gate pending |
 | FIN-22 | T5 | T5 complete; MySQL TEMP feature gate pending |

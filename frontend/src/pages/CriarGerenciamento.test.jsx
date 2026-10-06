@@ -40,11 +40,36 @@ function preparar(gerenciamento = null, fetchMock = vi.fn().mockResolvedValue(js
 
 test("GER-06: criar sem descrição ou etapas envia nome normalizado e mostra conclusão", async () => {
     const { user, fetchMock, atualizar, voltar } = preparar();
+    expect(screen.getByText("As etapas finais Concluídos e Cancelados são criadas automaticamente.").textContent)
+        .toBe("As etapas finais Concluídos e Cancelados são criadas automaticamente.");
     await user.type(screen.getByLabelText("Nome do gerenciamento"), "  Instalações  ");
     await user.click(screen.getByRole("button", { name: "Salvar gerenciamento" }));
     await waitFor(() => expect(voltar).toHaveBeenCalledTimes(1));
     expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ nome: "Instalações", descricao: "", etapas: [] });
     expect(atualizar).toHaveBeenCalledWith(quadro);
+});
+
+test("FIN-18: criação explica finais automáticas e envia somente trabalhos mesmo com nomes homônimos", async () => {
+    const { user, fetchMock, atualizar } = preparar();
+    expect(screen.getByRole("heading", { name: "Etapas de trabalho iniciais" }).textContent).toBe("Etapas de trabalho iniciais");
+    expect(screen.getByText("Opcional. Você pode criar o quadro sem etapas de trabalho.").textContent)
+        .toBe("Opcional. Você pode criar o quadro sem etapas de trabalho.");
+    expect(screen.getByText("As etapas finais Concluídos e Cancelados são criadas automaticamente.").textContent)
+        .toBe("As etapas finais Concluídos e Cancelados são criadas automaticamente.");
+    expect(screen.queryByLabelText("Nome da etapa 1")).toBeNull();
+    await user.type(screen.getByLabelText("Nome do gerenciamento"), "Quadro");
+    for (const [index, nome] of ["Concluídos", "Cancelados"].entries()) {
+        await ativarPorTeclado(user, screen.getByRole("button", { name: /Adicionar etapa/ }));
+        await user.type(screen.getByLabelText(`Nome da etapa ${index + 1}`), ` ${nome} `);
+        await user.type(screen.getByLabelText(`Setor responsável da etapa ${index + 1}`), " Técnico ");
+    }
+    expect(screen.queryByLabelText("Nome da etapa 3")).toBeNull();
+    await ativarPorTeclado(user, screen.getByRole("button", { name: "Salvar gerenciamento" }));
+    await waitFor(() => expect(atualizar).toHaveBeenCalledWith(quadro));
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ nome: "Quadro", descricao: "", etapas: [
+        { nome: "Concluídos", setor: "Técnico", ordem: 1 },
+        { nome: "Cancelados", setor: "Técnico", ordem: 2 }
+    ] });
 });
 
 test("GER-15/35: editar preenche campos e envia somente nome, descrição e versão", async () => {
