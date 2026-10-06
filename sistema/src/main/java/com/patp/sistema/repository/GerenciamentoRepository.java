@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GerenciamentoRepository extends JpaRepository<Gerenciamento, Long> {
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    Optional<Gerenciamento> findFirstByOrderByIdAsc();
+
     @Query("select g.id from Gerenciamento g order by g.id")
     List<Long> listarIds();
 

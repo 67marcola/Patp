@@ -11,6 +11,8 @@ import com.patp.sistema.model.Processo;
 
 public interface ProcessoRepository extends JpaRepository<Processo, Long> {
 
+    boolean existsByNumeroProcessoIgnoreCase(String numeroProcesso);
+
     List<Processo> findByNumeroProcessoContainingIgnoreCase(String numeroProcesso);
 
     List<Processo> findByPessoaContainingIgnoreCase(String pessoa);
