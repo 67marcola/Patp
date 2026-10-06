@@ -18,6 +18,8 @@ O teste de uso humano permanece sem resultado; autorização para continuar não
 
 Para a próxima entrega de criação/leitura de demandas, todos os usuários autenticados poderão criar em quadro ativo (AD-017), começando automaticamente na primeira etapa de trabalho (AD-018). Se não houver trabalho, criador/admin deverá cadastrar uma etapa antes. Aguardam resposta as perguntas já apresentadas sobre o número identificador e os campos obrigatórios; não assumir que os defaults atuais do schema são regras aprovadas. Edição e exclusão terão escolhas próprias antes da implementação.
 
+O levantamento de cadastro/leitura está em `features/demandas-cadastro/context.md`: regras confirmadas, duas escolhas abertas, evidências atuais, proposta do contrato e roteiro de testes. Nenhum código de aplicação ou teste foi alterado nesse levantamento; a especificação será fechada depois das respostas.
+
 As tabelas e linhas de código abaixo registram o diagnóstico da base `5d8beb9`; não descrevem como pendentes os reparos já comprovados nos relatórios atuais.
 
 ## Escopo solicitado
