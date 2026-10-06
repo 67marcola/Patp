@@ -47,15 +47,6 @@ function Login({ onLogin, abrirCadastro }) {
 
             <div className="login-card">
 
-                <div className="login-logo">
-
-                    <span>
-                        PM
-                    </span>
-
-                </div>
-
-
                 <h1>
                     Bem-vindo
                 </h1>
