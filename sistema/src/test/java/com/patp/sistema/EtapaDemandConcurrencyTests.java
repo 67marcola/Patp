@@ -50,7 +50,7 @@ class EtapaDemandConcurrencyTests extends ApiIntegrationSupport {
                 if (removerPrimeiro) {
                     etapaService.excluir(dono.substring(7), quadro.getId(), destino.getId(), 0L);
                 } else if (mover) {
-                    processoService.mudarEtapa(existente.getId(), destino.getId(), colaborador.substring(7));
+                    processoService.mudarEtapa(existente.getId(), destino.getId(), dono.substring(7));
                 } else {
                     Processo novo = new Processo(); novo.setNumeroProcesso("Concorrente"); novo.setPessoa("Pessoa"); novo.setStatus("Em andamento");
                     Etapa referencia = new Etapa(); referencia.setId(destino.getId()); novo.setEtapa(referencia);
@@ -64,10 +64,10 @@ class EtapaDemandConcurrencyTests extends ApiIntegrationSupport {
                 iniciada.countDown();
                 if (!removerPrimeiro) {
                     return mvc.perform(delete(base(quadro.getId()) + "/" + destino.getId()).header("Authorization", dono)
-                            .contentType(MediaType.APPLICATION_JSON).content("{\"versao\":0}")).andReturn();
+                            .contentType(MediaType.APPLICATION_JSON).content("{\"versao\":" + (mover ? 1 : 0) + "}")).andReturn();
                 }
                 return mover
-                        ? mvc.perform(put("/api/processos/" + existente.getId() + "/etapa/" + destino.getId()).header("Authorization", colaborador)).andReturn()
+                        ? mvc.perform(put("/api/processos/" + existente.getId() + "/etapa/" + destino.getId()).header("Authorization", dono)).andReturn()
                         : mvc.perform(post("/api/processos").header("Authorization", colaborador).contentType(MediaType.APPLICATION_JSON)
                                 .content("{\"numeroProcesso\":\"Concorrente\",\"pessoa\":\"Pessoa\",\"status\":\"Em andamento\",\"etapa\":{\"id\":" + destino.getId() + "}}")).andReturn();
             });
@@ -85,7 +85,7 @@ class EtapaDemandConcurrencyTests extends ApiIntegrationSupport {
                 assertThat(etapas.findAll().subList(1, 3)).extracting("nome").containsExactly("Concluídos", "Cancelados");
                 assertThat(etapas.findAll().subList(1, 3)).extracting("categoria").containsExactly(com.patp.sistema.model.CategoriaEtapa.CONCLUIDA, com.patp.sistema.model.CategoriaEtapa.CANCELADA);
             }
-            assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(removerPrimeiro ? 1L : 0L);
+            assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(removerPrimeiro || mover ? 1L : 0L);
             assertThat(jdbc.queryForObject("select count(*) from processos p left join etapas e on e.id=p.etapa_id where e.id is null", Long.class)).isZero();
             assertThat(jdbc.queryForObject("select count(*) from historicos", Long.class)).isEqualTo(removerPrimeiro ? 0L : 1L);
             assertThat(processos.count()).isEqualTo(removerPrimeiro && !mover ? 0 : 1);
@@ -164,9 +164,12 @@ class EtapaDemandConcurrencyTests extends ApiIntegrationSupport {
         mvc.perform(delete(base(quadro.getId()) + "/" + destino.getId()).header("Authorization", bearer)
                 .contentType(MediaType.APPLICATION_JSON).content("{\"versao\":0}")).andExpect(status().isOk());
         var antes = conteudoPersistido();
+        mvc.perform(put("/api/processos/" + processo.getId() + "/etapa/" + destino.getId()).header("Authorization", bearer))
+                .andExpect(status().isNotFound()).andExpect(jsonPath("$.erro").value("Etapa não encontrada neste gerenciamento."));
+        assertThat(conteudoPersistido()).isEqualTo(antes);
         mvc.perform(put("/api/processos/" + processo.getId()).header("Authorization", token(usuario("Outro"))).contentType(MediaType.APPLICATION_JSON)
                 .content("{\"numeroProcesso\":\"Mudado\",\"pessoa\":\"Outra\",\"etapa\":{\"id\":" + destino.getId() + "}}"))
-                .andExpect(status().isNotFound()).andExpect(jsonPath("$.erro").value("Etapa não encontrada neste gerenciamento."));
+                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.erro").value("Use as ações de mover, concluir, cancelar ou reabrir para alterar o ciclo da demanda."));
         assertThat(conteudoPersistido()).isEqualTo(antes);
         assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(1L);
     }

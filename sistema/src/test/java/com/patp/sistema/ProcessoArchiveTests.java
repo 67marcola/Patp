@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 @SpringBootTest
 @AutoConfigureMockMvc
 class ProcessoArchiveTests extends ApiIntegrationSupport {
+    @org.springframework.beans.factory.annotation.Autowired com.patp.sistema.service.ProcessoService transicoes;
     private static final String ERRO = "Gerenciamento arquivado. Restaure-o antes de alterar.";
 
     @ParameterizedTest
@@ -80,9 +81,14 @@ class ProcessoArchiveTests extends ApiIntegrationSupport {
 
     @Test
     void ativoConservaCriacaoEdicaoMovimentoFinalizacaoEHistoricosAutomaticos() throws Exception { // GER-21/22 comportamento ativo
-        var quadro = quadro(usuario("Criador"));
+        var criador = usuario("Criador");
+        var quadro = quadro(criador);
         var origem = etapa(quadro, "Origem", 1);
         var destino = etapa(quadro, "Destino", 3);
+        var concluida = etapa(quadro, "Concluídos", 99);
+        concluida.setCategoria(com.patp.sistema.model.CategoriaEtapa.CONCLUIDA); etapas.saveAndFlush(concluida);
+        var cancelada = etapa(quadro, "Cancelados", 100);
+        cancelada.setCategoria(com.patp.sistema.model.CategoriaEtapa.CANCELADA); etapas.saveAndFlush(cancelada);
         var forjado = quadro(null);
         String token = token(usuario("Outro"));
         mvc.perform(post("/api/processos").header("Authorization", token).contentType(MediaType.APPLICATION_JSON)
@@ -94,21 +100,23 @@ class ProcessoArchiveTests extends ApiIntegrationSupport {
         mvc.perform(put(base).header("Authorization", token).contentType(MediaType.APPLICATION_JSON)
                 .content("{\"numeroProcesso\":\"Editado\",\"pessoa\":\"Outra\",\"status\":\"Em andamento\",\"observacoes\":\"Observada\"}"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.numeroProcesso").value("Editado"));
-        mvc.perform(put(base + "/etapa/" + destino.getId()).header("Authorization", token)).andExpect(status().isOk())
+        mvc.perform(put(base + "/etapa/" + destino.getId()).header("Authorization", token(criador))).andExpect(status().isOk())
                 .andExpect(jsonPath("$.etapa.id").value(destino.getId()));
-        mvc.perform(put(base + "/concluir").header("Authorization", token)).andExpect(status().isOk())
+        mvc.perform(put(base + "/concluir").header("Authorization", token(criador))).andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("Concluido")).andExpect(jsonPath("$.dataConclusao").isNotEmpty());
-        mvc.perform(put(base + "/cancelar").header("Authorization", token).contentType(MediaType.APPLICATION_JSON).content("{\"motivo\":\"Solicitado\"}"))
+        transicoes.transicionar(token(criador).substring(7), quadro.getId(), demanda.getId(),
+                com.patp.sistema.service.ProcessoService.Acao.REABRIR, destino.getId(), null, 2L);
+        mvc.perform(put(base + "/cancelar").header("Authorization", token(criador)).contentType(MediaType.APPLICATION_JSON).content("{\"motivo\":\"Solicitado\"}"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("Cancelado"))
                 .andExpect(jsonPath("$.motivoCancelamento").value("Solicitado")).andExpect(jsonPath("$.dataCancelamento").isNotEmpty());
         var salvo = processos.findById(demanda.getId()).orElseThrow();
         assertThat(salvo.getNumeroProcesso()).isEqualTo("Editado");
-        assertThat(salvo.getEtapa().getId()).isEqualTo(destino.getId());
+        assertThat(salvo.getEtapa().getId()).isEqualTo(cancelada.getId());
         assertThat(salvo.getStatus()).isEqualTo("Cancelado");
         assertThat(salvo.getMotivoCancelamento()).isEqualTo("Solicitado");
         assertThat(jdbc.queryForList("select acao from historicos order by id", String.class))
-                .containsExactly("CRIACAO", "EDICAO", "MUDANCA_ETAPA", "CONCLUSAO", "CANCELAMENTO");
-        assertThat(jdbc.queryForList("select usuario from historicos", String.class)).containsOnly("Outro");
+                .containsExactly("CRIACAO", "EDICAO", "MUDANCA_ETAPA", "CONCLUSAO", "REABERTURA", "CANCELAMENTO");
+        assertThat(jdbc.queryForList("select usuario from historicos order by id", String.class)).containsExactly("Outro", "Outro", "Criador", "Criador", "Criador", "Criador");
     }
 
     @Test
