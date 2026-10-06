@@ -22,6 +22,12 @@ public class GerenciamentoGuard {
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
+    public void bloquearCadastros() {
+        // Boards are never deleted. The first row serializes global demand numbers until commit.
+        gerenciamentos.findFirstByOrderByIdAsc();
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
     public Gerenciamento bloquear(Long id) {
         return gerenciamentos.buscarComLock(id).orElseThrow(() ->
                 new ApiException(HttpStatus.NOT_FOUND, "Gerenciamento não encontrado."));

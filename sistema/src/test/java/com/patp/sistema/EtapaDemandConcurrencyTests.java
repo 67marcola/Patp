@@ -40,7 +40,7 @@ class EtapaDemandConcurrencyTests extends ApiIntegrationSupport {
     @MethodSource("disputas")
     void removerDisputaComCriarOuMoverSemOrfaoEHistoricoParcial(boolean removerPrimeiro, boolean mover) throws Exception { // ETA-21
         var criador = usuario("Criador"); var quadro = quadro(criador);
-        var origem = etapa(quadro, "Origem", 1); var destino = etapa(quadro, "Destino", 2);
+        var origem = etapa(quadro, "Origem", mover ? 1 : 3); var destino = etapa(quadro, "Destino", 2);
         var existente = mover ? demanda(origem) : null;
         String dono = token(criador); String colaborador = token(usuario("Outro"));
         var escrita = new CountDownLatch(1); var liberar = new CountDownLatch(1); var iniciada = new CountDownLatch(1);

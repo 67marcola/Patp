@@ -30,7 +30,7 @@ Criar processo não tem ação e o quadro mostra contagens sem carregar demandas
 | Estado/datas finais | Em andamento; encerramento/motivo null | Cadastro não executa ações finais | Default técnico declarado |
 | Texto/bounds | Trim, 1..255 obrigatórios, opcionais255/obs10000, vazios opcionaisnull | Schema existente e formulário consistente | Default técnico declarado |
 | Prioridade/datas | Texto livre; datas ISO opcionais sem default/ordem relativa exigida | Não inventar taxonomia ou prazos | Default técnico declarado |
-| Duplicidade | Ignorar caixa, preservar grafia; restrição/collation existentes | Identificador não deve se repetir por troca de caixa; sem alterar legados/schema | Default técnico declarado |
+| Duplicidade | Ignorar caixa, preservar grafia; lock global→alvo, precheckIgnoreCase e índice existente | Serializar cadastros entre quadros garante caixa mesmo no H2 VARCHAR; sem alterar legados/schema/collation | Default técnico declarado |
 | Snapshot | Ampliar estrutura existente com demandas flat, counts derivados da mesma lista sob lock | Evitar consultas/estados misturados | Default técnico declarado |
 | Compatibilidade POST antigo | Manter200/entidade/sem versão, exigir primeira etapa persistida e estado inicial válido | Fechar cadastro alternativo sem quebrar contratos das ações fora do corte | Default técnico declarado |
 | Versão | Novo endpoint exige/incrementa1; legado e demais ações antigas mantêm contrato atual | Versionar novo fluxo sem inventar revisão geral de demandas | Default técnico declarado |
@@ -122,26 +122,26 @@ Quadro só com finais, legado sem criador, trabalho homônimo de final/categoria
 
 | Requirement | Task | Status |
 | --- | --- | --- |
-| CAD-01 | T2, T5, T6 | Pending |
-| CAD-02 | T2, T4 | Pending |
-| CAD-03 | T2, T4 | Pending |
-| CAD-04 | T2, T4 | Pending |
-| CAD-05 | T2, T6 | Pending |
-| CAD-06 | T2 | Pending |
-| CAD-07 | T2, T5 | Pending |
-| CAD-08 | T2, T5 | Pending |
-| CAD-09 | T2 | Pending |
-| CAD-10 | T2, T4 | Pending |
-| CAD-11 | T2 | Pending |
-| CAD-12 | T2 | Pending |
-| CAD-13 | T2, T6 | Pending |
-| CAD-14 | T2 | Pending |
-| CAD-15 | T2 | Pending |
-| CAD-16 | T2 | Pending |
-| CAD-17 | T2 | Pending |
-| CAD-18 | T2 | Pending |
-| CAD-19 | T2 | Pending |
-| CAD-20 | T2 | Pending |
+| CAD-01 | T2, T5, T6 | Complete T2; Pending T5, T6 |
+| CAD-02 | T2, T4 | Complete T2; Pending T4 |
+| CAD-03 | T2, T4 | Complete T2; Pending T4 |
+| CAD-04 | T2, T4 | Complete T2; Pending T4 |
+| CAD-05 | T2, T6 | Complete T2; Pending T6 |
+| CAD-06 | T2 | Complete T2 |
+| CAD-07 | T2, T5 | Complete T2; Pending T5 |
+| CAD-08 | T2, T5 | Complete T2; Pending T5 |
+| CAD-09 | T2 | Complete T2 |
+| CAD-10 | T2, T4 | Complete T2; Pending T4 |
+| CAD-11 | T2 | Complete T2 |
+| CAD-12 | T2 | Complete T2 |
+| CAD-13 | T2, T6 | Complete T2; Pending T6 |
+| CAD-14 | T2 | Complete T2 |
+| CAD-15 | T2 | Complete T2 |
+| CAD-16 | T2 | Complete T2 |
+| CAD-17 | T2 | Complete T2 |
+| CAD-18 | T2 | Complete T2 |
+| CAD-19 | T2 | Complete T2 |
+| CAD-20 | T2 | Complete T2 |
 | CAD-21 | T1 | Complete T1 |
 | CAD-22 | T1 | Complete T1 |
 | CAD-23 | T1 | Complete T1 |

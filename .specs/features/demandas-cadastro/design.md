@@ -6,14 +6,14 @@
 
 Ampliar ConfiguracaoEtapasResponse com demandas. O snapshot sob o lock existente atende GET, CRUD de etapas e cadastro, com contagens calculadas da mesma lista. Reutilizar Quadro/EditorEtapa para pendência/foco/cache e o interceptor/guard/transações existentes. Alternativas avaliadas: buscar demandas em GET separado exigiria reconciliar duas versões; novo serviço de snapshot duplicaria a composição existente. A ampliação preserva rotas/campos anteriores e evita essa coordenação adicional.
 
-Fluxo: Quadro → EditorDemanda → criarDemanda → DemandaController → ProcessoService.criar → lock ativo/versão/primeiro trabalho → demanda+histórico → incremento → EtapaService.resposta. Nenhuma preparação implícita de finais ou migração.
+Fluxo: Quadro → EditorDemanda → criarDemanda → DemandaController → ProcessoService.criar → lock global de cadastro → lock ativo/versão/primeiro trabalho → demanda+histórico → incremento → EtapaService.resposta. Nenhuma preparação implícita de finais ou migração.
 
 ## Code Reuse Analysis
 
 | Componente | Uso |
 | --- | --- |
-| GerenciamentoGuard/SessaoService | Lock, ativo,404, sessão/autoria, sem exigência de dono para criar |
-| EtapasFinaisService.trabalhos | Compatibilidade SQLnull, ordem/ID, categorias oficiais |
+| GerenciamentoGuard/SessaoService | Lock global de cadastro antes do alvo, ativo,404, sessão/autoria, sem exigência de dono para criar |
+| EtapaRepository.findByGerenciamentoIdOrderByOrdemAscIdAsc + getCategoria TRABALHO | Compatibilidade SQLnull e primeira etapa por ordem/ID; sem helper novo |
 | EtapaService.resposta | Tornar package-private; snapshot comum, consulta única das demandas |
 | HistoricoService.registrar | Um CRIACAO transacional com autor confiável |
 | VersaoDeserializer/ApiExceptionHandler | Versão estrita, erros JSON400 e domínio |
@@ -25,7 +25,7 @@ Fluxo: Quadro → EditorDemanda → criarDemanda → DemandaController → Proce
 - DemandaResponse.java: DTO flat, fábrica do Processo persistido.
 - ConfiguracaoEtapasResponse.java: acrescenta List<DemandaResponse> demandas; consumidores antigos de gerenciamento/etapas continuam válidos.
 - EtapaService.resposta: lê findByEtapaGerenciamentoIdOrderByIdAsc, calcula counts por etapaId e DTOs da mesma lista. Mantém categorias/ordenação/podeAdministrar.
-- DemandaController.java: POST /api/gerenciamentos/{gerenciamentoId}/demandas,201,snapshot. Request record com campos de cadastro e versao usando deserializer existente. Rejeitar propriedades desconhecidas via JsonAnySetter ou mecanismo local equivalente que resulte no formato400 existente; sem mudar ObjectMapper global.
+- DemandaController.java: POST /api/gerenciamentos/{gerenciamentoId}/demandas,201,snapshot. CriarDemandaRequest record com campos de cadastro e versao usando deserializer existente. JsonAnySetter rejeita propriedades desconhecidas com o formato400 existente. DataDemandaDeserializer local exige string ISO válida ou null para cada uma das três datas; array/número/booleano/texto vazio são400. Sem mudar ObjectMapper global. APIs confirmadas nos JARs Jackson3.1.5/Hibernate7.4.5.
 - ProcessoService.criar: exige versão no fluxo novo, valida/salva entidade nova contendo apenas campos de cadastro, registra histórico, flush/incrementa1 e monta snapshot. Uso do EntityManager e EtapaService sem ciclo de dependência.
 - ProcessoService.salvar legado: mantém assinatura/HTTP200/entidade e sem versão estrutural; resolve quadro pela etapa persistida, exige que ela seja primeiraTRABALHO. ID continua rejeitado; status só ausente/Em andamento, final dates/motivo rejeitados. Reutiliza validação/defaults/salvar+histórico, sem alterar métodos de edição/movimento/finais/exclusão.
 - EditorDemanda.jsx: componente de formulário com props salvar/cancelar/bloqueado/aoErro; oito campos visíveis e dados normalizados.
@@ -39,7 +39,9 @@ DemandaResponse, exatamente14 campos: {id,numeroProcesso,pessoa,responsavel,stat
 
 Snapshot: {gerenciamento:GerenciamentoResponse,etapas:EtapaResponse[],demandas:DemandaResponse[]}. Inclui zero demandas como[]. IDs das demandas únicos; cada etapaId pertence a etapas; contagem de cada etapa igual à lista desse snapshot. Ler campos antigos extensos sem aplicar retroativamente os limites de criação.
 
-Unicidade: existsByNumeroProcessoIgnoreCase para erro amigável antes de gravar e índice único existente como garantia final de corrida entre quadros. SQL23505(H2)/1062(MySQL) ou classificação UNIQUE disponível no Hibernate distinguem duplicidade; falhas de CHECK/FK/histórico continuam500/rollback, não são mascaradas como409. Confirmar pelo código/JAR/testes reais; não inventar API.
+Unicidade: ambos cadastros adquirem PESSIMISTIC_WRITE na primeira linha de gerenciamento persistida antes de bloquear o quadro alvo. Essa linha permanece estável porque gerenciamentos são arquivados/restaurados, não excluídos. Só bloquear, sem exigir ativo/admin nem alterar dados/versão do quadro global quando ele não é o alvo. Depois executar existsByNumeroProcessoIgnoreCase sob esse lock até o commit. Assim grafias com caixa diferente também disputam entre quadros mesmo com índice VARCHAR case-sensitive no H2. A ordem fixa global→alvo não cria ciclos nos endpoints atuais, cujas demais mutações bloqueiam somente o alvo; preparação percorre IDs em ordem. Tradeoff aceito: cadastros de quadros diferentes são serializados. Nenhum schema, collation, geração ou alteração da grafia é introduzido. O índice único existente permanece garantia física adicional. SQL23505(H2)/1062(MySQL) ou ConstraintViolationException.getKind()==UNIQUE confirmado no Hibernate7.4.5 distinguem duplicidade somente durante o INSERT de processos; falhas de CHECK/FK/histórico continuam500/rollback, não são mascaradas como409.
+
+Diagnóstico inicial T2-diagnostic.log: a corrida Igual/igual falhou sob H2 VARCHAR, enquanto Igual/Igual e os demais102casos passaram. A implementação do lock global corrige o comportamento mantendo CAD-13/17; testes não foram enfraquecidos e a URL H2 permanece inalterada.
 
 ## Error Handling Strategy
 
@@ -75,7 +77,7 @@ Validação frontend do snapshot aplicada a GET/configuração/criação: gerenc
 | Local | Risco | Mitigação |
 | --- | --- | --- |
 | ProcessoController.java:32 | Via alternativa cria com estado/etapa escolhidos | CAD-18–20 mesma validação/primeirotrabalho, preservar200 |
-| ProcessoService.java:49–76 | Corrida/global unique e histórico parcial | Índice+transação+tratamento apenas UNIQUE, gates de falha/race |
+| ProcessoService.java:49–76 | Corrida/global unique e histórico parcial | Lock global→alvo até commit, precheckIgnoreCase+índice+transação+tratamento apenas UNIQUE, gates de falha/race |
 | EtapaService.java:152–158 | Snapshots de configuração apagarem cartões | Ampliar composição comum; nenhum GET separado após CRUD |
 | Quadro.jsx:44/89 | Cache/refresh/rascunhos e resposta atrasada | Unificar aplicarConfiguracao validado e exclusividade dos formulários, AbortSignal |
 | EtapaDemandConcurrencyTests.java:43–88 | Fixture cria na segunda etapa | Ordenar Destino primeiro apenas em casos de criação; manter todos cenários/assertions/versão legado |

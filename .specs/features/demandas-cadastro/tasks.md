@@ -56,12 +56,12 @@ T1 → T2 → T3 → T4 → T5 → T6
 **Depends on:** T1
 **Reuses:** guard/sessão/primeirotrabalho/histórico/snapshot/transação/versão existentes.
 **Requirement:** CAD-01–20
-**Related files:** controller/DemandaController.java, dto/CriarDemandaRequest.java se não recordnoController, ProcessoRepository.java; DemandaCadastroTests.java/DemandaCadastroConcurrencyTests.java; ProcessoArchiveTests/HistoricoArchiveTests/EtapaDemandConcurrencyTests para preservação e fixtureprimeiraetapaautorizada.
+**Related files:** controller/DemandaController.java, dto/CriarDemandaRequest.java, dto/DataDemandaDeserializer.java, ProcessoRepository.java, GerenciamentoRepository.java/GerenciamentoGuard.java para lock global de cadastro; DemandaCadastroTests.java/DemandaCadastroConcurrencyTests.java; ProcessoArchiveTests/HistoricoArchiveTests/EtapaDemandConcurrencyTests para preservação e fixtureprimeiraetapaautorizada; design/context/spec/evidence para correção do helper inexistente, APIs/datas estritas e decisão de serialização global sem schema novo.
 **Tests:** integration
 **Gate:** Full
 **Commit:** feat(demandas): create validated demands in the first work stage
 **Done when:**
-- [ ] Novo201 e legado200 cumpremcampos/defaults/auth/arquivo/primeiratrabalho; versionnovo+1/legadosame; duplicidade409globalrace e rollback real demanda/histórico; todosACs01–20 mapeados, gate/adequação PASS sem enfraquecer ações fora do corte.
+- [x] Novo201 e legado200 cumpremcampos/defaults/auth/arquivo/primeiratrabalho; versionnovo+1/legadosame; duplicidade409globalrace e rollback real demanda/histórico; todosACs01–20 mapeados, gate/adequação PASS sem enfraquecer ações fora do corte. Gate390/390 H2,106casosT2; dois mapas e handoffMySQL em evidence.md T2.
 
 ### T3: Contrato frontend do snapshot e POST
 
