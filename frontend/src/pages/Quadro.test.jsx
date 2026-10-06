@@ -5,7 +5,7 @@ import Quadro from "./Quadro";
 import { ativarPorTeclado } from "../test/keyboard";
 
 const quadro = { id: 9, nome: "Instalações", descricao: "Postes", arquivado: true, versao: 3, podeAdministrar: true };
-const etapas = [{ id: 4, nome: "Planejamento", setor: "Técnico", ordem: 1 }];
+const etapas = [{ id: 4, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 0 }];
 const json = (dados, status = 200) => new Response(JSON.stringify(dados), { status });
 
 function preparar(handler) {
@@ -30,7 +30,7 @@ test("GER-29/38: arquivado indica consulta durante carregamento e permite voltar
 });
 
 test("GER-29: consulta arquivada preserva nome, descrição, etapas e setor sem mutação", async () => {
-    const { fetchMock } = preparar(() => json({ gerenciamento: quadro, etapas }));
+    const { fetchMock } = preparar(() => json({ gerenciamento: quadro, etapas, demandas: [] }));
     expect((await screen.findByRole("heading", { name: "Planejamento" })).textContent).toBe("Planejamento");
     expect(screen.getByRole("heading", { name: "Instalações" }).textContent).toBe("Instalações");
     expect(screen.getByText("Postes").textContent).toBe("Postes");
@@ -47,7 +47,7 @@ test.each([
 ])("GER-40: erro %s é anunciado e repetir carrega somente as etapas", async (status, mensagem) => {
     let falhar = true;
     const { user, fetchMock } = preparar(() => {
-        if (!falhar) return json({ gerenciamento: quadro, etapas });
+        if (!falhar) return json({ gerenciamento: quadro, etapas, demandas: [] });
         return status === 0 ? Promise.reject(new TypeError("offline")) : json({ erro: mensagem }, status);
     });
     expect((await screen.findByRole("alert")).textContent).toBe(mensagem);
@@ -63,7 +63,7 @@ test.each([
 test("GER-38/40: teclado repete consulta do quadro sem mutação", async () => {
     let falhar = true;
     const { user, fetchMock } = preparar(() => falhar
-        ? json({ erro: "Não foi possível consultar as etapas." }, 500) : json({ gerenciamento: quadro, etapas }));
+        ? json({ erro: "Não foi possível consultar as etapas." }, 500) : json({ gerenciamento: quadro, etapas, demandas: [] }));
     expect((await screen.findByRole("alert")).textContent).toBe("Não foi possível consultar as etapas.");
     falhar = false;
     await ativarPorTeclado(user, screen.getByRole("button", { name: "Tentar novamente" }));

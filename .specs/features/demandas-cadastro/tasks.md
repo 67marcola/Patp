@@ -75,7 +75,7 @@ T1 → T2 → T3 → T4 → T5 → T6
 **Gate:** Quick
 **Commit:** feat(api): validate demand snapshots and creation responses
 **Done when:**
-- [ ] Payload/rota/Bearer e snapshot íntegro/inseguro/204/abort/errors/no-retry comprovados; fixtures testonly, todos235 preservados, gate/adequação PASS.
+- [x] Payload/rota/Bearer e snapshot íntegro/inseguro/204/abort/errors/no-retry comprovados; fixtures testonly, todos235 preservados, gate/adequação PASS. Gate377/377 Vitest,142casos novos; dois mapas em evidence.md T3.
 
 ### T4: Formulário de criação de demanda
 

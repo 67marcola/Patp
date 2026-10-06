@@ -1,5 +1,40 @@
 # Cadastro e leitura de demandas: evidências
 
+## T3: contrato frontend de snapshot e cadastro
+
+PASS. Gate `frontend npm.cmd test`:377 testes em11arquivos, zero falhas/skips;235anteriores preservados e142novos. Gate repetido após fortalecer mensagens das assertions de campos incompletos, com377/377 novamente. Nenhum Maven/E2E/build ou artefato anterior alterado por esta tarefa.
+
+Assumptions: validação comum nas cinco rotas de snapshot;14campos exatos, opcionaisnull/status desconhecido/texto antigo longo permitidos. Files: api.js/api.test.js e fixtures de Quadro.test/QuadroEtapas.test/App.test/Gerenciamentos.test, além de status/evidência. Success: rota/Bearer/novecampos, saída inteira/incompleta/inconsistente/204, erros/abort sem retry e baseline preservada.
+
+### Check A: resultados e suficiência
+
+Prefixo: `frontend/src/services/`; A=api.test.js. Os objetos comparados por `toEqual` contêm valores explícitos dos14campos em A:108–111, e dosnovecampos de cadastro em A:173–175.
+
+| AC / critério | file:line e assertion | Resultado da spec | Coberto |
+| --- | --- | --- | --- |
+| CAD-30 rota/Bearer/novecampos | A:183 `expect(await criarDemanda("sessao", 9, dadosDemanda)).toEqual(configuracao)`; A:184 `expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(...)` com URL demanda,POST,Bearer e `body: JSON.stringify(dadosDemanda)` | UmPOST com novecampos e snapshot integral | Sim |
+| CAD-36 todasrotas/snapshot completo/legados/vazio | A:196 `expect(await executar()).toEqual(legado)`; A:199 `expect(await executar()).toEqual(vazio)` nascinco rotas | Preservar14campos, datasISO/status desconhecido/texto10001, arraysvazios | Sim |
+| CAD-36 metadata/listas/IDs/vínculo/counts/flat | A:226 `await expect(executar()).rejects.toMatchObject({ name: "ApiError", status, message: ... })`; A:228 `expect(fetchSpy).toHaveBeenCalledTimes(1)` |19 formas inseguras rejeitadas nascinco rotas, mensagemERRO_COMUNICACAO exata e sem retry | Sim |
+| CAD-36 presença/tipo de todos14campos | A:235/A:248 `await expect(buscarConfiguracaoEtapas("sessao", 9)).rejects.toMatchObject({ status: 200, message: ... })` para14ausentes e14tipos/datas inválidos | Campos incompletos, IDs string e datas impossíveis não confirmam sucesso | Sim |
+| CAD-33/36 HTTP204 | A:255 `await expect(executar()).rejects.toMatchObject({ status: 204, message: ... })`; A:257 chamadaúnica |204 não confirma nenhuma dascinco rotas | Sim |
+| CAD-33 HTTP/rede/JSON | A:262 `rejects.toMatchObject({ message: "Mensagem do servidor", status })`; A:270 `rejects.toMatchObject({ status: falha === "rede" ? 0 : 201, message: ... })`; A:263/A:272 chamadaúnica |400/401/404/409/500 preservados; rede0/JSON201 incertos semPOST repetido | Sim |
+| Abort/isolation infraestruturaCAD-35 | A:280 `rejects.toBe(erro)`; A:281 `expect(fetchSpy.mock.calls[0][1].signal).toBe(controller.signal)`; A:282 chamadaúnica |AbortError original e AbortSignal preservados, semretry | Sim |
+| Fixtures/baseline | api.test.js:108 array comduas demandas; QuadroEtapas.test.jsx:19 `demandas: colunas.flatMap(...)`; App/Quadro/Gerenciamentos fixtures vazios |Counts2/3/1 correspondem aos cartões de fixtures testonly;235cenários/assertions anteriores preservados | Sim |
+
+### Check C: necessidade
+
+| file:line e assertion | AC / critério | Manter |
+| --- | --- | --- |
+| A:183 snapshot `toEqual`; A:184 POST completo `toHaveBeenCalledExactlyOnceWith` | CAD-30 contratoemitido/retornado | Sim |
+| A:196 legado `toEqual`; A:199 vazio `toEqual` | CAD-36 validade sem limites retroativos | Sim |
+| A:226 `rejects.toMatchObject`; A:228 chamadaúnica,19casos×5rotas | CAD-36 integridade eCAD-33 noretry | Sim |
+| A:235/A:248 `rejects.toMatchObject` | CAD-36 todos14campos/types/datas | Sim |
+| A:255 erro204; A:257 chamadaúnica | CAD-33/36 ausência de confirmação | Sim |
+| A:262 mensagem/status; A:270 statusrede/JSON; A:263/A:272 chamadaúnica | CAD-33 erros semretry | Sim |
+| A:280 `rejects.toBe(erro)`; A:281 signal; A:282 chamadaúnica | CAD-35 abort eCAD-36 contrato GET | Sim |
+
+Adequação PASS: cadacritério T3 temresultado/assertion/localização; `toEqual` confere cada valor do payload/snapshot, não apenas chamada. Testes inversos detectam contratos incorretos; nenhum teste semrequisito, assertion prévia enfraquecida ou cenário removido. Convenções de localização/nome/runner existentes seguidas. Sem SPEC_DEVIATION. Resumo de contagem anterior preservado para T5.
+
 ## T1: snapshot com demandas persistidas
 
 PASS. Gate `sistema mvn.cmd -B verify`, JDK25.0.2: 284 testes, zero falhas/erros/skips. Baseline278 preservada e seis casos novos em DemandaConsultaTests. Log: `C:/Users/Marco/AppData/Local/Temp/creral-demandas-backend-20261006/T1-verify.log`. Nenhum banco configurado operado. Não houve alteração dos testes anteriores.

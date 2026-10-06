@@ -24,7 +24,7 @@ test.each(["POST", "PUT", "DELETE"].flatMap(metodo => [[metodo, true], [metodo, 
         const { user, fetchMock } = preparar((url, request) => {
             if (request.method !== "GET") return new Promise(resolve => { resolver = resolve; });
             if (url.includes("?arquivado=")) return json([quadro]);
-            if (url.endsWith("/estrutura-etapas")) return json({ gerenciamento: quadro, etapas: [etapa] });
+            if (url.endsWith("/estrutura-etapas")) return json({ gerenciamento: quadro, etapas: [etapa], demandas: [] });
             return json(quadro);
         });
         await ativarPorTeclado(user, await screen.findByRole("button", { name: "Abrir Instalações" }));
@@ -45,7 +45,7 @@ test.each(["POST", "PUT", "DELETE"].flatMap(metodo => [[metodo, true], [metodo, 
         if (metodo === "DELETE") expect(screen.getByRole("dialog", { name: "Remover Execução?" })).not.toBeNull();
         else expect(screen.getByLabelText("Nome da etapa").value).toBe(metodo === "POST" ? "Nova" : "Execução");
         expect(fetchMock.mock.calls.filter(([, request]) => request.method === metodo)).toHaveLength(1);
-        const salvo = { gerenciamento: { ...quadro, versao: 1 }, etapas: metodo === "DELETE" ? [] : [etapa] };
+        const salvo = { gerenciamento: { ...quadro, versao: 1 }, etapas: metodo === "DELETE" ? [] : [etapa], demandas: [] };
         await act(async () => resolver(sucesso ? json(salvo, metodo === "POST" ? 201 : 200)
             : json({ erro: "Não foi possível concluir a operação." }, 500)));
         await waitFor(() => expect(screen.getByRole("button", { name: "Sair" }).disabled).toBe(false));
