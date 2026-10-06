@@ -49,6 +49,8 @@ class HistoricoArchiveTests extends ApiIntegrationSupport {
         var criador = usuario("Criador");
         var quadro = quadro(criador);
         var demanda = demanda(etapa(quadro, "Inicial", 1));
+        var concluida = etapa(quadro, "Concluídos", 99);
+        concluida.setCategoria(com.patp.sistema.model.CategoriaEtapa.CONCLUIDA); etapas.saveAndFlush(concluida);
         String token = token(usuario("Outro"));
         String base = "/api/processos/" + demanda.getId();
         mvc.perform(post(base + "/historico").header("Authorization", token).contentType(MediaType.APPLICATION_JSON)
@@ -56,14 +58,14 @@ class HistoricoArchiveTests extends ApiIntegrationSupport {
                 .andExpect(status().isOk()).andExpect(jsonPath("$.acao").value("MANUAL"))
                 .andExpect(jsonPath("$.descricao").value("Observação")).andExpect(jsonPath("$.usuario").value("Informado"))
                 .andExpect(jsonPath("$.dataHora").isNotEmpty()).andExpect(jsonPath("$.processo.id").value(demanda.getId()));
-        mvc.perform(put(base + "/concluir").header("Authorization", token)).andExpect(status().isOk())
+        mvc.perform(put(base + "/concluir").header("Authorization", token(criador))).andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("Concluido"));
         assertThat(jdbc.queryForList("select acao from historicos order by id", String.class)).containsExactly("MANUAL", "CONCLUSAO");
-        assertThat(jdbc.queryForList("select usuario from historicos order by id", String.class)).containsExactly("Informado", "Outro");
+        assertThat(jdbc.queryForList("select usuario from historicos order by id", String.class)).containsExactly("Informado", "Criador");
         assertThat(jdbc.queryForObject("select count(*) from historicos where data_hora is not null and processo_id=?", Long.class, demanda.getId())).isEqualTo(2L);
         var antes = conteudoPersistido();
         mvc.perform(put("/api/gerenciamentos/" + quadro.getId() + "/arquivar").header("Authorization", token(criador))
-                .contentType(MediaType.APPLICATION_JSON).content("{\"versao\":0}")).andExpect(status().isNoContent());
+                .contentType(MediaType.APPLICATION_JSON).content("{\"versao\":1}")).andExpect(status().isNoContent());
         mvc.perform(get(base + "/historico").header("Authorization", token)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2)).andExpect(jsonPath("$[0].acao").value("MANUAL"))
                 .andExpect(jsonPath("$[1].acao").value("CONCLUSAO"));

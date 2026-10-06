@@ -130,37 +130,39 @@ As APIs antigas permitem movimentar e encerrar demandas sem a permissão combina
 
 Cobertos por MOV-01–27: autorização negada, quadro sem criador/arquivado, destinos externos/finais/iguais, ausência de finais, versões antigas, concorrência, falha de persistência e campos antigos preservados. MOV-35 cobre os status legados desconhecidos, sem normalização ou migração automática.
 
+IF uma demanda Em andamento estiver incoerentemente em coluna final THEN o servidor SHALL recusar movimentação/conclusão/cancelamento com409 sem normalizar o registro; informar Estado da demanda incompatível com a etapa atual. Solicite a correção do registro. Esse edge preserva a precondição de trabalho em MOV-05/10/11.
+
 ## Requirement Traceability
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| MOV-01 | P1: Permissões | Specify | Pending |
-| MOV-02 | P1: Permissões | Specify | Pending |
-| MOV-03 | P1: Permissões | Specify | Pending |
-| MOV-04 | P1: Permissões | Specify | Pending |
-| MOV-05 | P1: Movimentação | Specify | Pending |
-| MOV-06 | P1: Movimentação | Specify | Pending |
-| MOV-07 | P1: Movimentação | Specify | Pending |
-| MOV-08 | P1: Movimentação | Specify | Pending |
-| MOV-09 | P1: Movimentação | Specify | Pending |
-| MOV-10 | P1: Encerramento | Specify | Pending |
-| MOV-11 | P1: Encerramento | Specify | Pending |
-| MOV-12 | P1: Encerramento | Specify | Pending |
-| MOV-13 | P1: Encerramento | Specify | Pending |
-| MOV-14 | P1: Encerramento | Specify | Pending |
-| MOV-15 | P1: Reabertura | Specify | Pending |
-| MOV-16 | P1: Reabertura | Specify | Pending |
-| MOV-17 | P1: Reabertura | Specify | Pending |
-| MOV-18 | P1: Reabertura | Specify | Pending |
-| MOV-19 | P1: Integridade | Specify | Pending |
-| MOV-20 | P1: Integridade | Specify | Pending |
-| MOV-21 | P1: Integridade | Specify | Pending |
-| MOV-22 | P1: Integridade | Specify | Pending |
-| MOV-23 | P1: Integridade | Specify | Pending |
-| MOV-24 | P1: Integridade | Specify | Pending |
-| MOV-25 | P1: Integridade | Specify | Pending |
-| MOV-26 | P1: Integridade | Specify | Pending |
-| MOV-27 | P1: Integridade | Specify | Pending |
+| MOV-01 | P1: Permissões | Execute | Implementing |
+| MOV-02 | P1: Permissões | Execute | Implementing |
+| MOV-03 | P1: Permissões | Execute | Implementing |
+| MOV-04 | P1: Permissões | Execute | Implementing |
+| MOV-05 | P1: Movimentação | Execute | Implementing |
+| MOV-06 | P1: Movimentação | Execute | Implementing |
+| MOV-07 | P1: Movimentação | Execute | Implementing |
+| MOV-08 | P1: Movimentação | Execute | Implementing |
+| MOV-09 | P1: Movimentação | Execute | Implementing |
+| MOV-10 | P1: Encerramento | Execute | Implementing |
+| MOV-11 | P1: Encerramento | Execute | Implementing |
+| MOV-12 | P1: Encerramento | Execute | Implementing |
+| MOV-13 | P1: Encerramento | Execute | Implementing |
+| MOV-14 | P1: Encerramento | Execute | Implementing |
+| MOV-15 | P1: Reabertura | Execute | Implementing |
+| MOV-16 | P1: Reabertura | Execute | Implementing |
+| MOV-17 | P1: Reabertura | Execute | Implementing |
+| MOV-18 | P1: Reabertura | Execute | Implementing |
+| MOV-19 | P1: Integridade | Execute | Implementing |
+| MOV-20 | P1: Integridade | Execute | Implementing |
+| MOV-21 | P1: Integridade | Execute | Implementing |
+| MOV-22 | P1: Integridade | Execute | Implementing |
+| MOV-23 | P1: Integridade | Execute | Implementing |
+| MOV-24 | P1: Integridade | Execute | Implementing |
+| MOV-25 | P1: Integridade | Execute | Implementing |
+| MOV-26 | P1: Integridade | Execute | Implementing |
+| MOV-27 | P1: Integridade | Execute | Implementing |
 | MOV-28 | P1: Interface | Specify | Pending |
 | MOV-29 | P1: Interface | Specify | Pending |
 | MOV-30 | P1: Interface | Specify | Pending |

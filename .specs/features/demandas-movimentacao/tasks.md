@@ -60,7 +60,7 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 **Tests:** integration
 **Gate:** Full
 **Done when:**
-- [ ] Critérios mapeados têm assertions de valores e estado em file:line, gate verde sem perdas de testes, mapas AC→assertion e assertion→AC em evidence.md, task e trace atualizados antes do commit local.
+- [x] Serviço compartilhado e guard da edição implementados;40casos novos,432Java/H2 PASS; adequação e regressões traceadas em evidence.md T2. Rotas tipadas/DTOs e suas provas HTTP sãoT3; corridas adicionaisT7.
 
 ### T3: API tipada das ações
 

@@ -3,6 +3,8 @@ package com.patp.sistema.service;
 import java.time.LocalDate;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.LinkedHashMap;
+import tools.jackson.databind.ObjectMapper;
 import java.util.Objects;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -35,6 +37,7 @@ public class ProcessoService {
     private final GerenciamentoGuard guard;
     private final EtapaService etapas;
     private final EntityManager entityManager;
+    private final ObjectMapper json;
 
     public ProcessoService(
             ProcessoRepository processoRepository,
@@ -43,7 +46,8 @@ public class ProcessoService {
             SessaoService sessaoService,
             GerenciamentoGuard guard,
             EtapaService etapas,
-            EntityManager entityManager) {
+            EntityManager entityManager,
+            ObjectMapper json) {
 
         this.processoRepository = processoRepository;
         this.etapaRepository = etapaRepository;
@@ -52,6 +56,7 @@ public class ProcessoService {
         this.guard = guard;
         this.etapas = etapas;
         this.entityManager = entityManager;
+        this.json = json;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -210,6 +215,14 @@ public class ProcessoService {
 
         Processo processo = buscarParaAlterar(id);
 
+        if (dados.getStatus() != null && !Objects.equals(dados.getStatus(), processo.getStatus())
+                || dados.getEtapa() != null && !Objects.equals(dados.getEtapa().getId(), processo.getEtapa().getId())
+                || dados.getDataConclusao() != null && !Objects.equals(dados.getDataConclusao(), processo.getDataConclusao())
+                || dados.getDataCancelamento() != null && !Objects.equals(dados.getDataCancelamento(), processo.getDataCancelamento())
+                || dados.getMotivoCancelamento() != null && !Objects.equals(dados.getMotivoCancelamento(), processo.getMotivoCancelamento())) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Use as ações de mover, concluir, cancelar ou reabrir para alterar o ciclo da demanda.");
+        }
+
         String descricao = "Processo alterado.";
 
         processo.setNumeroProcesso(
@@ -222,10 +235,6 @@ public class ProcessoService {
 
         processo.setResponsavel(
                 dados.getResponsavel()
-        );
-
-        processo.setStatus(
-                dados.getStatus()
         );
 
         processo.setPrioridade(
@@ -248,34 +257,6 @@ public class ProcessoService {
                 dados.getObservacoes()
         );
 
-        // Alteração da etapa
-        if (dados.getEtapa() != null &&
-                dados.getEtapa().getId() != null) {
-
-            Long gerenciamentoId =
-                    processo.getEtapa()
-                            .getGerenciamento()
-                            .getId();
-
-            Etapa novaEtapa =
-                    etapaRepository.findByIdAndGerenciamentoId(
-                            dados.getEtapa().getId(),
-                            gerenciamentoId
-                    );
-
-            if (novaEtapa == null) {
-                throw new ApiException(HttpStatus.NOT_FOUND,
-                        "Etapa não encontrada neste gerenciamento."
-                );
-            }
-
-            processo.setEtapa(novaEtapa);
-
-            descricao =
-                    "Processo alterado e etapa definida como: "
-                    + novaEtapa.getNome();
-        }
-
         Processo salvo =
                 processoRepository.save(processo);
 
@@ -289,121 +270,112 @@ public class ProcessoService {
         return salvo;
     }
 
-    // Mudar etapa
+    public enum Acao { MOVER, CONCLUIR, CANCELAR, REABRIR }
+
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Processo mudarEtapa(
-            Long processoId,
-            Long etapaId,
-            String token) {
+    public ConfiguracaoEtapasResponse transicionar(String token, Long gerenciamentoId, Long demandaId,
+            Acao acao, Long etapaId, String motivo, Long versao) {
+        Usuario usuario = sessaoService.buscarUsuario(token);
+        Processo processo = executarTransicao(usuario, gerenciamentoId, demandaId, acao, etapaId, motivo, versao, true);
+        return etapas.resposta(processo.getEtapa().getGerenciamento(), usuario);
+    }
 
-        Usuario usuario =
-                sessaoService.buscarUsuario(token);
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Processo mudarEtapa(Long processoId, Long etapaId, String token) {
+        return executarTransicao(sessaoService.buscarUsuario(token), null, processoId, Acao.MOVER, etapaId, null, null, false);
+    }
 
-        Processo processo =
-                buscarParaAlterar(processoId);
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Processo concluir(Long id, String token) {
+        return executarTransicao(sessaoService.buscarUsuario(token), null, id, Acao.CONCLUIR, null, null, null, false);
+    }
 
-        Long gerenciamentoId =
-                processo.getEtapa()
-                        .getGerenciamento()
-                        .getId();
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Processo cancelar(Long id, String motivo, String token) {
+        return executarTransicao(sessaoService.buscarUsuario(token), null, id, Acao.CANCELAR, null, motivo, null, false);
+    }
 
-        Etapa etapaAnterior =
-                processo.getEtapa();
-
-        Etapa novaEtapa =
-                etapaRepository.findByIdAndGerenciamentoId(
-                        etapaId,
-                        gerenciamentoId
-                );
-
-        if (novaEtapa == null) {
-            throw new ApiException(HttpStatus.NOT_FOUND,
-                    "Etapa não encontrada neste gerenciamento."
-            );
+    private Processo executarTransicao(Usuario usuario, Long quadroId, Long id, Acao acao,
+            Long destinoId, String motivo, Long versao, boolean exigeVersao) {
+        Long persistido = processoRepository.buscarGerenciamentoId(id).orElseThrow(() ->
+                new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento."));
+        if (quadroId != null && !Objects.equals(quadroId, persistido)) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento.");
         }
-
-        processo.setEtapa(novaEtapa);
-
-        Processo salvo =
-                processoRepository.save(processo);
-
-        historicoService.registrar(
-                salvo.getId(),
-                "MUDANCA_ETAPA",
-                "Etapa alterada de '"
-                        + etapaAnterior.getNome()
-                        + "' para '"
-                        + novaEtapa.getNome()
-                        + "'.",
-                usuario.getNome()
-        );
-
-        return salvo;
-    }
-
-    // Concluir
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Processo concluir(
-            Long id,
-            String token) {
-
-        Usuario usuario =
-                sessaoService.buscarUsuario(token);
-
-        Processo processo =
-                buscarParaAlterar(id);
-
-        processo.setStatus("Concluido");
-        processo.setDataConclusao(
-                LocalDate.now()
-        );
-
-        Processo salvo =
-                processoRepository.save(processo);
-
-        historicoService.registrar(
-                salvo.getId(),
-                "CONCLUSAO",
-                "Processo concluído.",
-                usuario.getNome()
-        );
-
-        return salvo;
-    }
-
-    // Cancelar
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Processo cancelar(
-            Long id,
-            String motivo,
-            String token) {
-
-        Usuario usuario =
-                sessaoService.buscarUsuario(token);
-
-        Processo processo =
-                buscarParaAlterar(id);
-
-        processo.setStatus("Cancelado");
-        processo.setDataCancelamento(
-                LocalDate.now()
-        );
-
-        processo.setMotivoCancelamento(
-                motivo
-        );
-
-        Processo salvo =
-                processoRepository.save(processo);
-
-        historicoService.registrar(
-                salvo.getId(),
-                "CANCELAMENTO",
-                "Processo cancelado. Motivo: "
-                        + motivo,
-                usuario.getNome()
-        );
-
+        Gerenciamento quadro = guard.exigirAtivo(persistido);
+        guard.exigirAdministracao(quadro, usuario);
+        if (exigeVersao) { validarVersao(quadro, versao); }
+        Processo processo = processoRepository.findById(id).orElseThrow(() ->
+                new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento."));
+        String status = processo.getStatus();
+        boolean andamento = "Em andamento".equals(status);
+        boolean encerrada = "Concluido".equals(status) || "Cancelado".equals(status);
+        if (!andamento && !encerrada) {
+            throw new ApiException(HttpStatus.CONFLICT, "Status antigo não reconhecido. Solicite a correção do registro.");
+        }
+        if (acao == Acao.REABRIR ? !encerrada : !andamento) {
+            throw new ApiException(HttpStatus.CONFLICT, "Esta ação não é permitida no estado atual da demanda. Use a reabertura para iniciar um novo ciclo.");
+        }
+        Etapa anterior = processo.getEtapa();
+        if (andamento && anterior.getCategoria() != CategoriaEtapa.TRABALHO) {
+            throw new ApiException(HttpStatus.CONFLICT, "Estado da demanda incompatível com a etapa atual. Solicite a correção do registro.");
+        }
+        Etapa destino;
+        String evento;
+        String descricao;
+        if (acao == Acao.MOVER || acao == Acao.REABRIR) {
+            if (destinoId == null || destinoId <= 0) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "Informe uma etapa de trabalho válida.");
+            }
+            destino = etapaRepository.findByIdAndGerenciamentoId(destinoId, persistido);
+            if (destino == null) { throw new ApiException(HttpStatus.NOT_FOUND, "Etapa não encontrada neste gerenciamento."); }
+            if (destino.getCategoria() != CategoriaEtapa.TRABALHO) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "Escolha uma etapa de trabalho; etapas finais usam as ações de concluir e cancelar.");
+            }
+            if (acao == Acao.MOVER && Objects.equals(anterior.getId(), destino.getId())) {
+                throw new ApiException(HttpStatus.CONFLICT, "A demanda já está nesta etapa.");
+            }
+            evento = acao == Acao.MOVER ? "MUDANCA_ETAPA" : "REABERTURA";
+            if (acao == Acao.REABRIR) {
+                var anteriores = new LinkedHashMap<String, Object>();
+                anteriores.put("statusAnterior", status);
+                anteriores.put("etapaAnteriorId", anterior.getId());
+                anteriores.put("etapaDestinoId", destino.getId());
+                anteriores.put("dataConclusao", processo.getDataConclusao() == null ? null : processo.getDataConclusao().toString());
+                anteriores.put("dataCancelamento", processo.getDataCancelamento() == null ? null : processo.getDataCancelamento().toString());
+                anteriores.put("motivoCancelamento", processo.getMotivoCancelamento());
+                descricao = json.writeValueAsString(anteriores);
+                processo.setStatus("Em andamento");
+                processo.setDataConclusao(null); processo.setDataCancelamento(null); processo.setMotivoCancelamento(null);
+            } else {
+                descricao = "Etapa alterada de '" + anterior.getNome() + "' para '" + destino.getNome() + "'.";
+            }
+        } else {
+            String normalizado = acao == Acao.CANCELAR ? opcional(motivo, 10000, "Informe um motivo de cancelamento entre 1 e 10000 caracteres.") : null;
+            if (acao == Acao.CANCELAR && normalizado == null) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "Informe um motivo de cancelamento entre 1 e 10000 caracteres.");
+            }
+            CategoriaEtapa categoria = acao == Acao.CONCLUIR ? CategoriaEtapa.CONCLUIDA : CategoriaEtapa.CANCELADA;
+            var finais = etapaRepository.findByGerenciamentoIdOrderByOrdemAscIdAsc(persistido).stream()
+                    .filter(etapa -> etapa.getCategoria() == categoria).toList();
+            if (finais.size() != 1) {
+                throw new ApiException(HttpStatus.CONFLICT, "Prepare as etapas finais deste gerenciamento antes de encerrar demandas.");
+            }
+            destino = finais.get(0);
+            boolean concluir = acao == Acao.CONCLUIR;
+            processo.setStatus(concluir ? "Concluido" : "Cancelado");
+            processo.setDataConclusao(concluir ? LocalDate.now() : null);
+            processo.setDataCancelamento(concluir ? null : LocalDate.now());
+            processo.setMotivoCancelamento(normalizado);
+            evento = concluir ? "CONCLUSAO" : "CANCELAMENTO";
+            descricao = concluir ? "Processo concluído." : "Processo cancelado. Motivo: " + normalizado;
+        }
+        processo.setEtapa(destino);
+        Processo salvo = processoRepository.save(processo);
+        historicoService.registrar(id, evento, descricao, usuario.getNome());
+        entityManager.flush();
+        entityManager.lock(quadro, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        entityManager.flush();
         return salvo;
     }
 
