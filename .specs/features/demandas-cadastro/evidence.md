@@ -1,5 +1,59 @@
 # Cadastro e leitura de demandas: evidências
 
+## T6: fluxo real e roteiro operacional
+
+PASS no gate do autor. A revisão independente da feature continua obrigatória. O teste e o roteiro operacional foram incorporados pelo commit do usuário `11e1307`, depois de T5 `f134fcb`; esta retomada preserva esse commit e registra adequação/status em um commit próprio, sem reescrever o histórico.
+
+Assumptions: usar funcionário autenticado que não criou o quadro, dados fictícios e somente helper H2/Edge. Files: frontend/e2e/demandas.spec.js, docs/OPERACAO.md e evidência/spec/tasks. Success: cadastro mínimo/completo persistido, número global duplicado, pendência, recarga, arquivo, teclado e QA desktop/mobile. Nenhuma mudança de fonte ou de assertion foi necessária nesta conclusão.
+
+Gate: `npm.cmd test` 440/440 em13arquivos; build Vite em pasta TEMP nova; `npm.cmd run lint` exit0; `npm.cmd run test:e2e` quatro testes Edge/H2 PASS, zero falhas/skips/retries. Autocadastro, etapas e gerenciamentos anteriores permanecem intactos. Logs completos em `C:/Users/Marco/AppData/Local/Temp/creral-demandas-frontend-6f5009ddd35e4cc59860034d2acf8c67`: vitest-final.log, build.log, lint.log, e2e-final.log. Build em subpasta `build`, sem remover dist. O gate Java anterior permanece390/390 H2; MySQL é uma seleção própria de145/145, não390.
+
+### Check A: resultados e suficiência
+
+Prefixo E=`frontend/e2e/demandas.spec.js`. Os valores mínimo/completo são definidos em E:93/95; as comparações integrais abaixo conferem valores de cada campo, IDs, etapa, estado e datas finais. O teste usa HTTP real, sem fabricar resposta do servidor; a interceptação de E:116 apenas suspende e depois continua a requisição real.
+
+| AC / critério | file:line e assertion | Resultado da spec | Coberto |
+| --- | --- | --- | --- |
+| CAD-01/05/21 cadastro mínimo | E:129 `expect(minimaResponse.status()).toBe(201)`; E:135 `expect(minimoSalvo.demandas).toEqual([{ ...minimo, id: minimaId, etapaId: primeiraId, status: "Em andamento", dataConclusao: null, dataCancelamento: null, motivoCancelamento: null }])` | Persistência201,14campos flat, primeira etapa e estado inicial obrigatório | Sim |
+| CAD-01/05/21 cadastro completo | E:156 status201; E:162 `expect(completoSalvo.demandas).toEqual([...minimoSalvo.demandas, { ...completo, id: completaId, etapaId: primeiraId, status: "Em andamento", dataConclusao: null, dataCancelamento: null, motivoCancelamento: null }])`; E:161 IDmaior | Todos campos persistidos e demandas ordenadas por ID | Sim |
+| CAD-22/32 contagens e versão | E:137 versão1; E:138 counts `[1, 0, 0, 0]`; E:164 versão2; E:165 counts `[2, 0, 0, 0]`; E:218 payloadarquivo `{ versao: 2 }` | Um incremento por cadastro, cards/counts coerentes e versão aplicada ao cache real | Sim |
+| CAD-26 funcionário não criador | E:102 `expect(inicial.gerenciamento).toMatchObject({ id: quadro.id, versao: 0, podeAdministrar: false, arquivado: false })`; E:107 Novaetapacount0; E:129 status201 | Criar permitido independentemente de podeAdministrar | Sim |
+| CAD-28/40 formulário e foco | E:81 Númerofocused; E:82 ajuda inicialexata visível; E:83 comboboxcount0; E:150 preenche os oito labels; E:140/206 focoCriar | Campos definidos, etapa automática, teclado/foco e cancelamento sem cadastro | Sim |
+| CAD-30 payload | E:126 `expect(posts).toEqual([{ path: ... , dados: { ...minimo, versao: 0 } }])`; E:157 `expect(completaResponse.request().postDataJSON()).toEqual({ ...completo, versao: 1 })`; E:238 lista completa dos três payloads | Exatamente oito campos e versão corrente, trim/opcionaisnull | Sim |
+| CAD-31 pendência | E:121 oito camposdisabled; E:122 Cancelar/Sair/Criardisabled; E:123 Voltardisabled; E:124 Criandodisabled; E:126 payloadúnico apósEnter | Somente um POST, campos e navegação bloqueados | Sim |
+| CAD-32 atualização confirmada | E:139 formulário count0; E:140 focoCriar; E:142 IDcard; E:143 articlecount1; E:218 arquivo usa versão2 | Fecharform, aplicar snapshot/card/cache e devolver foco | Sim |
+| CAD-37 cartões reais | E:142/167 data-demanda-id; E:143 vínculo Comprarposte; E:144 status Em andamento; E:170 `toHaveText(valor)` com responsável/prioridade/datas DD/MM/YYYY/observações; E:173/174 buttons/headingscount0 | Exibir campos literais na etapa certa, sem controles de alteração | Sim |
+| CAD-13/41 duplicidade global | E:189 status409; E:190 corpo `{ erro: "Já existe uma demanda com esse número." }`; E:191 alertliteral; E:197 versão0; E:198 demandas[]; E:199 countszeros; E:200 quadro originaligual | Outro quadro/caixa diferente recebe409 sem dados parciais | Sim |
+| CAD-41 recarga | E:147 cardIDigual; E:148 `expect((await consultar(quadro.id)).demandas).toEqual(minimoSalvo.demandas)`; E:178/179 IDsiguais; E:180 snapshotinteiroigual | Mínimo/completo e identidade/etapa/counts persistem apósreload | Sim |
+| CAD-41 erro preservado | E:192/193 `toHaveValue` dos campos; E:194 Criardisabled; E:195/204 postslength3; E:202 enabled apósrefresh; E:203 númeroigual | Mensagem/rascunho preservados, refreshmanual e nenhum POST extra | Sim |
+| CAD-39 consulta arquivada | E:221 Criarcount0; E:222 avisoarquivo; E:223/224 IDs; E:228 `expect(arquivado.demandas).toEqual(completoSalvo.demandas)`; E:229 counts `[2,0,0,0]`; E:236 controlescount0; E:237 snapshotigual apósreload | Mesmos cartões arquivados somente leitura | Sim |
+| T6 desktop/mobile | E:31 `expect(...scrollWidth <= ...clientWidth).toBe(true)`; E:32/35 todos limitesdosboxesinsideviewporttrue; E:152/175/230 fotografar | Formulário/cartões/arquivo sem corte horizontal em1280/375px | Sim |
+
+### Check C: necessidade
+
+| file:line e assertion | AC / critério | Manter |
+| --- | --- | --- |
+| E:13 foco; E:46 cadastro200; E:58 quadro201; E:65 consulta200; E:72/76/77 visibilidade | Pré-condições reais do fluxo CAD-41, teclado CAD-40 e regressões preservadas | Sim |
+| E:81 foco, E:82 ajuda, E:83 ausência de seleção | CAD-28/40 formulário automático | Sim |
+| E:102 permissão/versão; E:103 demandas[]; E:104 zeros; E:106 primeiraTRABALHO; E:107 semNovaetapa | CAD-26/41 funcionário inicia quadro real | Sim |
+| E:121–126 disabled e payload exato único | CAD-30/31 pendência/normalização | Sim |
+| E:129/133/134/135 status/ID/14campos; E:137/138 versão/counts; E:139/140 form/foco; E:142/143/144 card/vínculo/status | CAD-01/05/21/22/32/37/40 mínimo | Sim |
+| E:147/148 ID/demandas apósreload | CAD-41 persistência mínima | Sim |
+| E:156/157 status/payload; E:160/161 ID/ordem; E:162/164/165 campos/versão/counts; E:167/170 valores; E:172 HTMLliteral; E:173/174 semcontroles | CAD-01/05/21/22/30/32/37/41 completo e texto literal CAD-38 | Sim |
+| E:178/179/180 IDs/snapshot apósreload | CAD-41 persistência completa | Sim |
+| E:189/190/191 código/corpo/mensagem; E:192/193 campos; E:194/195 bloqueio/postslength; E:197/198/199/200 estado; E:202/203/204 refresh/draft/POSTs | CAD-13/33/34/41 erro global sem falso sucesso/retry | Sim |
+| E:206 foco; E:208 logout; E:211 cardpermanece | CAD-40/41 cancelamento e troca de sessão do fluxo real | Sim |
+| E:217/218 arquivo204/versão; E:221–229 controles/cards/estado/counts; E:234–239 IDs/ausência/snapshot/payloads | CAD-32/39/41 cache e consulta arquivada apósreload | Sim |
+| E:31/35 nos três paresdesktop/mobile | T6 QAvisual e responsividade | Sim |
+
+Adequação PASS: valores/campos/estado são assertados, não apenas chamadas. Cada assertion serve a um critério do corte ou pré-condição do E2E. Nenhum teste existente foi reduzido, removido ou desabilitado. Segue a matriz de tasks.md e o helper operacional existente; não há limiar adicional em AGENTS/CONTRIBUTING. Os casos HTTP de erro/formato/rollback/concorrência são aprofundados em T1/T2, e os estados de formulário/API em T3–T5; T6 comprova a integração real definida, sem replicar toda a suíte em navegador.
+
+### QA visual e MySQL
+
+O root inspecionou as seis capturas em `C:/Users/Marco/AppData/Local/Temp/creral-demandas-e2e-BcRvBD`: formulario-desktop/mobile, cartoes-desktop/mobile e arquivado-desktop/mobile. PASS: duas colunas no formulário desktop, uma no mobile; rótulos/ações legíveis sem sobreposição; números longos quebram linha; cartões exibem datas DD/MM/YYYY, texto com tags literalmente e observações com linhas; arquivo mantém cartões e aviso somente consulta. Campo date usa apresentação nativa do navegador, sem impor texto de data do cartão. As verificações DOM E:31/35 confirmam limites nas seis capturas. Teste humano permanece pendente.
+
+MySQL TEMP8.0.43:145/145 selecionados PASS em `C:/Users/Marco/AppData/Local/Temp/creral-demandas-mysql-70e509769b814ba59a5a557b6b39cdd3/mysql-evidence.md` e `mysql-selected-verify-2.log`. Inclui UNIQUE1062 nas duas rotas, CHECK/500/rollback e corridas reais; fonte Java e24ce17 inalterada. Primeira tentativa falhou no bootstrap por URL truncada pelo cmd e não conta como prova funcional. URL via ambiente corrigiu a invocação. Instância fictícia33817 foi encerrada com proveniência conferida; serviços/banco configurado e contas reais preservados. T6 não fez limpeza de artefatos.
+
 ## T5: cartões e cadastro no quadro
 
 PASS. Gate `frontend npm.cmd test`:440testes em13arquivos, zero falhas/skips.235anteriores/142T3/29T4 preservados,34casosT5 novos. Primeirogate439/439 antecedeu o caso adicional de cache real e ajuste CSS de observações/motivo emlargura completa; gatefinal440/440 depois dessas alterações. Nenhum Maven/E2E/build/serviço normal foi iniciado pelo worker.

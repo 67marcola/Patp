@@ -4,7 +4,7 @@
 
 Usar tlc-spec-driven escolhido pelo usuário; autorização da sessão e respostas1A/2A cobrem implementação/testes/commits locais. Uma tarefa, gate, adequação e commit por vez. Verificador fresco obrigatório depois de T6. Skills/ferramentas locais já autorizadas; nenhuma nova pergunta técnica de aprovação. Não operar MySQL configurado/contas reais/push/deploy. Preservar target/dist/node_modules e scratchs recusadas.
 
-**Design:** design.md. **Status:** pronto para execução; seis tarefas em sequência. Base28b8c88; baseline278 Java,235Vitest,3E2E.
+**Design:** design.md. **Status:** seis tarefas implementadas; aguarda Verificador independente. Base28b8c88; baseline278 Java,235Vitest,3E2E.
 
 ## Test Coverage Matrix
 
@@ -117,7 +117,7 @@ T1 → T2 → T3 → T4 → T5 → T6
 **Gate:** Build
 **Commit:** test(demandas): verify creation and persisted cards in the browser
 **Done when:**
-- [ ] QuatroEdge/H2PASS mínimo/completo/dedupentrequadros/reload/arquivo/keyboard, fullVitest/buildTEMP/lint e MySQLTEMP documentados; QAvisualdesktop/mobile, adequação PASS; despachar Verificador fresco apóscommit.
+- [x] QuatroEdge/H2PASS mínimo/completo/dedupentrequadros/reload/arquivo/keyboard;440Vitest/buildTEMP/lint e145MySQLTEMP selecionados documentados; seis capturas desktop/mobile QArootPASS e dois mapas em evidence.md T6. Teste/roteiro incorporados no commit do usuário11e1307, preservado; esta retomada fecha status/adequação antes de despachar Verificador fresco.
 
 ## Diagram-Definition Cross-Check
 
