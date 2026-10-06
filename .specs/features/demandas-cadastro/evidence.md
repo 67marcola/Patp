@@ -1,5 +1,62 @@
 # Cadastro e leitura de demandas: evidências
 
+## T5: cartões e cadastro no quadro
+
+PASS. Gate `frontend npm.cmd test`:440testes em13arquivos, zero falhas/skips.235anteriores/142T3/29T4 preservados,34casosT5 novos. Primeirogate439/439 antecedeu o caso adicional de cache real e ajuste CSS de observações/motivo emlargura completa; gatefinal440/440 depois dessas alterações. Nenhum Maven/E2E/build/serviço normal foi iniciado pelo worker.
+
+Assumptions: criar independe de podeAdministrar e exige snapshot ativo com trabalho. Snapshot de mesmoquadro permanece visível no refresh e draft não é remontado; trocaid elimina estado anterior e ignora resposta tardia. Files: Quadro.jsx, QuadroDemandas.test.jsx, index.css responsivo de cartões, status/evidência. Success: permissão, zeroWorks, cadastro/cache/foco/erro/pending, isolamento, cartões14dados/literais/arquivo e controles anteriores.
+
+### Check A: resultados e suficiência
+
+Prefixo `frontend/src/pages/`; Q=QuadroDemandas.test.jsx. Payload emitido contém os oito valores explícitos Q:21–23 eversão0/7 nascomparações integrais. `conferirRascunho` Q:54 confere separadamente cada campo. Os14campos retornados são validados emT3 e exibidos/vinculados aqui.
+
+| AC / critério | file:line e assertion | Resultado da spec | Coberto |
+| --- | --- | --- | --- |
+| CAD-01/08/26 qualquerautenticado | Q:69 `expect(cartao.dataset.demandaId).toBe("42")`; Q:70 vínculo4; Q:74 `expect(fetchMock.mock.calls.map(...)).toEqual([[...GET...],[...POST..., { ...dados, versao: 0 }]])` |Criador/admin/terceiro/semcriador autenticado cadastra sem exigiradmin | Sim |
+| CAD-07/27 zeroWorks | Q:82 Criarprocessodisabledtrue; Q:83 mensagemexata conforme podeAdministrar; Q:85 Novaetapapresença; Q:87 formnull; Q:88 métodosGET |Sófinais impede cadastro e orienta criador/admin vsfuncionário | Sim |
+| CAD-26/33 consulta pendente/erro | Q:94 botão disabledtrue; Q:96 campoa usente; Q:97 métodosGET |Carregamento/erro não abreformnemgrava | Sim |
+| CAD-30 novecampos/versioncorrente | Q:74 payloadintegralcomversao0; Q:212 `expect(fetchMock.mock.calls.filter(...).map(...)).toEqual([{ ...dados, versao: 0 }, { ...dados, versao: 7 }])` |Somente8camposform+versãovigente emPOSTmanual | Sim |
+| CAD-31 POSTúnico e bloqueios | Q:144 oitocamposdisabled; Q:146 controlesdisabled; Q:148 Voltardisabled; Q:151 voltarnãochamado; Q:152 payloadúnico; Q:154/Q:157 aoOcupartrue/false |POST único, navegação/Cancelar/etapas bloqueados atéresposta | Sim |
+| CAD-31 Sairreal | Q:344 Sairdisabledtrue; Q:346 tokenpreservado; Q:347 usuáriopreservado; Q:350 Sairenabled; Q:352 login; Q:353 tokennull |App impede saída durantePOST e libera apóssucesso/erro | Sim |
+| CAD-32 snapshot/cache/foco | Q:69 ID42; Q:71 formnull; Q:73 `expect(atualizar.mock.calls.map(([registro]) => registro)).toEqual([...versao0,...versao1])`; Q:76 focoCriar; Q:210 count2 |Fecharform, aplicarID/counts/metadata/versão, focoCriar semGETextra | Sim |
+| CAD-32 cache real da lista | Q:387 Nenhumgerenciamentoativo; Q:388 mutações `toEqual([[...POST...,versao0],[...arquivar...,versao1]])`; Q:393 ID42; Q:396 consultas2 |Voltar usa versão retornada do cadastro paraarquivo e mantémcard naconsulta | Sim |
+| CAD-33 erro/inseguro/draft/refreshexigido | Q:195 alertmensagem; Q:54 todosvalores; Q:197 anteriorvisível; Q:198 novoausente; Q:199 cacheversão0; Q:200 Criardisabled; Q:202 GET/POST |400/401/404/409/500/rede0/incompleto201/204 mantêmstate sem falso sucesso ouretry | Sim |
+| CAD-33/34 refreshmanual/draft/version | Q:206 métodosGET/POST/GET; Q:207 cache0/7; Q:54 draft; Q:210 count2; Q:211 cache0/7/8; Q:212 payloadsversão0/7 |GETmanual preservadraft, aplica nova versão, sóPOSTmanual reenvia | Sim |
+| CAD-34 arquivo/zeroWork/adminfalse | Q:229 Criardisabledigualbloqueado; Q:230 oitocamposdisabledigualbloqueado; Q:54 draft; Q:232 métodosGET/POST/GET |Arquivo/zerotrabalho impedemsubmitforçado; perdaadmin mantémcadastropermitido | Sim |
+| CAD-33/34 refreshGETfalho | Q:247 antigoID42visível; Q:248 Criardisabledtrue; Q:249 cache0; Q:253 cache0/8; Q:254 métodosGET/POST/GET/GET; Q:54 draft |FalhaGETconservastate e repetiçãoGETsemretryPOST | Sim |
+| CAD-24 pósCRUDetapas | Q:271 ID42; Q:272 `expect(...getByText("1 demanda").textContent).toBe("1 demanda")`; Q:273 métodosGET/metodo |POST/PUT/DELETE etapas mantêmcardID/countsemGETextra | Sim |
+| CAD-35 trocaid semghost | Q:283 cardanteriornull; Q:284 títuloOutro; Q:286 artigosausentes; Q:287 cacheIDs9/10 |Cardantigo removido imediatamente antes denovoGETconfirmar | Sim |
+| CAD-35 GETantigo/unmount | Q:298/Q:308 signalabortedtrue; Q:300 cardantigonull; Q:301 cacheIDs10; Q:310 atualizarsemchamada |Abort/ignore evita cache/cards de quadroanterior e apósunmount | Sim |
+| CAD-35 POSTantigo | Q:324 cardantigonull; Q:325 `expect(atualizar.mock.calls.map(...)).toEqual([[9,0],[10,0]])` |Respostatardia de cadastro anterior não altera novoquadro/cache | Sim |
+| CAD-37/38 id/numero/pessoa/etapa | Q:104 articlelookup comnomeexato D-42 — Maria; Q:105 ID42; Q:106 etapa20; Q:107 semartigoemPlanejamento |14camposflat preservam identidade e etapaId correta; strongsemheading | Sim |
+| CAD-37/38 status/responsável/prioridade | Q:111 `expect(valorCartao(cartao, label)).toBe(valor)` com Status=Situação desconhecida,Responsável=Ana,Prioridade=Prioridade livre |Valores literais, inclusive status desconhecido | Sim |
+| CAD-37/38 cinco datas | Q:111 com29/02/2020,01/01/2019,01/01/2018,04/03/2021,06/05/2022 |DatasISO exibidasDD/MM/YYYY porstring semfuso, sem alterarcontradiçãoantiga | Sim |
+| CAD-37/38 observações/motivo | Q:111 comUma\nOutra/Motivo antigo; Q:130 obsHTML+10001porvalorexato; Q:132 motivausente |Texto/linhas preservados, motivo somente seexistente | Sim |
+| CAD-37/38 ausências/escape/controles | Q:128 `expect(valorCartao(cartao, label)).toBe("Não informado")` paraoitolabels; Q:131 tagsnull; Q:133 tagSTRONG; Q:113 headingnull; Q:114 buttonnull; Q:115 stageheadings completos |Nullsindicamausência, textoHTML escapado, cartõesreadonly e únicoheading porstage | Sim |
+| CAD-39 arquivo | Q:117 Criarausenteigualarquivado; Q:118 somenteGET; Q:393 ID42; Q:394 Criarnull; Q:395 avisoarquivo |Mesmoscards arquivados readonly | Sim |
+| CAD-40 teclado/cancel/exclusividade/regressão | Q:46 focoNúmero; Q:166 focoCriar; Q:165 formfecha; Q:168 CriardisabledcomEditoretapa; Q:170 etapaexistente; Q:171 demandaformausente; Q:172 somenteGET; QuadroEtapas.test.jsx:135 resumopositivoexato |Tab/Enter/cancelarsemwrite e controles/formularios anteri orespreservados | Sim |
+
+### Check C: necessidade
+
+| file:line e assertion | AC / critério | Manter |
+| --- | --- | --- |
+| Q:69/70 identidade/vínculo; Q:73 metadata; Q:74 payload; Q:76 foco | CAD-01/08/26/30/32/40 trêsatores | Sim |
+| Q:82/83/85 orientação/disabled/presença; Q:87 formnull; Q:88 métodosGET | CAD-07/27 quadro sófinais | Sim |
+| Q:94/96/97 disabled/formausente/sóGET | CAD-26/33 GETpendente/erro | Sim |
+| Q:105/106 IDs; Q:111 camposliteral; Q:113/114 semheading/botão; Q:115 stageheadings; Q:117/118 arquivo/GET | CAD-37/38/39 leitura ativa/arquivo | Sim |
+| Q:128 ausências; Q:130 obser vação; Q:131 tagsnull; Q:132 motivonull; Q:133 strong | CAD-38 HTML/legados/ausências | Sim |
+| Q:144/146/148 disabled; Q:151 nogo; Q:152 payloadúnico; Q:154/157 ocupação | CAD-31 pendência | Sim |
+| Q:165/166 formfecha/foco; Q:168/170/171 exclusividade; Q:172 sóGET | CAD-40 cancel/controlesanteriores | Sim |
+| Q:195 mensagem; Q:54 todosdraft; Q:197/198 cards; Q:199/207/211 cache; Q:200/202 bloqueio; Q:206 métodos; Q:210 count; Q:212 payloads | CAD-33/34 oitoerros, refreshmanual ePOSTatualizado | Sim |
+| Q:229/230 disabledporflags; Q:54 draft; Q:232 métodos | CAD-34 arquivo/zeroWorks/perdaadmin | Sim |
+| Q:247 card; Q:248 disabled; Q:249/253 cache; Q:254 métodos | CAD-33/34 falhaGETrefresh | Sim |
+| Q:271 cardID42; Q:272 count1; Q:273 métodos | CAD-24 trêsCRUDetapas | Sim |
+| Q:283/284/286/287 cardausente/título/cache; Q:298/300/301 abort/cards/cache; Q:308/310 unmount; Q:324/325 POSTantigo | CAD-35 quatrocenários deisolamento | Sim |
+| Q:344/346/347 Sair/cache; Q:350/352/353 retorno | CAD-31 Appsucesso/erro | Sim |
+| Q:387 Nenhumativo; Q:388 payloadarquivo1; Q:393 cardID42; Q:394/395 readonly; Q:396 consultas2 | CAD-32/39 cache realGerenciamentos | Sim |
+
+Adequação PASS: cadaAC/critério/edge T5 tem estado/payload literal/assertion efile:line. Campos/novevalores emitidos/14dados de leitura conferidos; cache é provado também pelo fluxo real da lista, além do callback. Todos34casos têm requisito;235testes anteriores e assertions preservados, inclusive resumos/finais/teclado/foco/cache/arquivo. Datas usam somente manipulação de string; JSXescapa texto; CSS cobrelayout mobile, QAvisualreal pertenceT6. Nenhum SPEC_DEVIATION.
+
 ## T4: formulário de demanda
 
 PASS. Gate `frontend npm.cmd test`:406testes em12arquivos, zero falhas/skips,235anteriores e142T3preservados,29casosT4 novos. Assumptions: EditorDemanda envia oito campos; Quadro acrescentará versão atual emT5. Datas são inputdate e nenhuma data é gerada. Files: EditorDemanda.jsx/test.jsx e index.css para grid responsivo dos oito campos, além de status/evidência. Success: campos/regras/payload/foco/pending/erro/rascunho sem controles do servidor.
