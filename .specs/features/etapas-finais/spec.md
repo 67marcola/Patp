@@ -8,9 +8,9 @@ Quadros não possuem as duas colunas finais obrigatórias nem distinguem trabalh
 
 ## Goals
 
-- [ ] Todo novo quadro tem exatamente uma coluna oficial Concluídos e uma Cancelados.
-- [ ] CRUD e interface preservam finais e posições de trabalho.
-- [ ] Preparar e testar correção idempotente em ativos/arquivados preservando os dados antigos.
+- [x] Todo novo quadro tem exatamente uma coluna oficial Concluídos e uma Cancelados.
+- [x] CRUD e interface preservam finais e posições de trabalho.
+- [x] Preparar e testar correção idempotente em ativos/arquivados preservando os dados antigos.
 
 ## Out of Scope
 
@@ -112,35 +112,35 @@ Homônimos e ordem antiga com lacunas/empates permanecem trabalho (FIN-06/14/24)
 
 | Requirement | Task | Status |
 | --- | --- | --- |
-| FIN-01 | T2, T3, T7 | T3 complete; remaining tasks pending |
-| FIN-02 | T3, T7 | T3 complete; remaining tasks pending |
-| FIN-03 | T2, T3, T7 | T3 complete; remaining tasks pending |
+| FIN-01 | T2, T3, T7 | T2/T3/T7 complete |
+| FIN-02 | T3, T7 | T3/T7 complete |
+| FIN-03 | T2, T3, T7 | T2/T3/T7 complete |
 | FIN-04 | T3 | T3 complete |
 | FIN-05 | T3 | T3 complete |
 | FIN-06 | T1, T8 | T1/T8 complete |
-| FIN-07 | T1, T8, T4, T7 | T1/T8/T4 complete; T7 pending |
-| FIN-08 | T2, T4, T7 | T2/T4 complete; T7 pending |
+| FIN-07 | T1, T8, T4, T7 | T1/T8/T4/T7 complete |
+| FIN-08 | T2, T4, T7 | T2/T4/T7 complete |
 | FIN-09 | T4 | T4 complete |
 | FIN-10 | T4 | T4 complete |
-| FIN-11 | T2, T4, T7 | T2/T4 complete; T7 pending |
+| FIN-11 | T2, T4, T7 | T2/T4/T7 complete |
 | FIN-12 | T4 | T4 complete |
 | FIN-13 | T4 | T4 complete |
 | FIN-14 | T2, T4 | T2/T4 complete |
-| FIN-15 | T6, T7 | T6 complete; T7 pending |
-| FIN-16 | T6, T7 | T6 complete; T7 pending |
-| FIN-17 | T6, T7 | T6 complete; T7 pending |
-| FIN-18 | T6, T7 | T6 complete; T7 pending |
-| FIN-19 | T4, T6, T7 | T4/T6 complete; T7 pending |
-| FIN-20 | T5 | T5 complete; MySQL TEMP feature gate pending |
-| FIN-21 | T5 | T5 complete; MySQL TEMP feature gate pending |
-| FIN-22 | T5 | T5 complete; MySQL TEMP feature gate pending |
-| FIN-23 | T5 | T5 complete; MySQL TEMP feature gate pending |
-| FIN-24 | T5 | T5 complete; MySQL TEMP feature gate pending |
-| FIN-25 | T5 | T5 complete; MySQL TEMP feature gate pending |
-| FIN-26 | T2, T5 | T2/T5 complete; MySQL TEMP feature gate pending |
-| FIN-27 | T2, T5 | T2/T5 complete; MySQL TEMP feature gate pending |
-| FIN-28 | T5 | T5 complete; MySQL TEMP feature gate pending |
-| FIN-29 | T4, T5, T7 | T4/T5 complete; T7 pending |
+| FIN-15 | T6, T7 | T6/T7 complete |
+| FIN-16 | T6, T7 | T6/T7 complete |
+| FIN-17 | T6, T7 | T6/T7 complete |
+| FIN-18 | T6, T7 | T6/T7 complete |
+| FIN-19 | T4, T6, T7 | T4/T6/T7 complete |
+| FIN-20 | T5 | T5 complete; MySQL TEMP PASS |
+| FIN-21 | T5 | T5 complete; MySQL TEMP PASS |
+| FIN-22 | T5 | T5 complete; MySQL TEMP PASS |
+| FIN-23 | T5 | T5 complete; MySQL TEMP PASS |
+| FIN-24 | T5 | T5 complete; MySQL TEMP PASS |
+| FIN-25 | T5 | T5 complete; MySQL TEMP PASS |
+| FIN-26 | T2, T5 | T2/T5 complete; MySQL TEMP PASS |
+| FIN-27 | T2, T5 | T2/T5 complete; MySQL TEMP PASS |
+| FIN-28 | T5 | T5 complete; MySQL TEMP PASS |
+| FIN-29 | T4, T5, T7 | T4/T5/T7 complete |
 | FIN-30 | T5 | T5 complete |
 
 ## Success Criteria

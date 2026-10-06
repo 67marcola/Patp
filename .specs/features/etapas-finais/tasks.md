@@ -4,7 +4,7 @@
 
 Usar tlc-spec-driven já escolhido pelo usuário. Uma tarefa, gate, adequação e commit local por vez. Testes derivados de spec.md, sem exclusão/skip/enfraquecimento. Verificador novo automático ao final. Ferramentas locais de edição/shell, H2 e MySQL TEMP fictício; nenhum DB configurado, push/deploy ou reinício de serviços do usuário.
 
-**Design:** design.md. **Status:** In Progress. Oito tarefas em um lote, incluindo T8 corretiva de schema; execução sequencial. A autorização anterior cobre implementação e testes locais das escolhas confirmadas.
+**Design:** design.md. **Status:** implementação concluída; Verificador independente pendente. Oito tarefas em um lote, incluindo T8 corretiva de schema; execução sequencial. A autorização anterior cobre implementação e testes locais das escolhas confirmadas.
 
 ## Test Coverage Matrix
 
@@ -76,7 +76,7 @@ T1 → T2 → T8 → T3 → T4 → T5 → T6 → T7
 **Gate:** Full
 **Commit:** fix(etapas): use nullable varchar for stage categories
 **Done when:**
-- [x] INFORMATION_SCHEMA H2 confirma VARCHAR20 nullable e suíte completa PASS; MySQL TEMP físico ainda será verificado no fechamento da feature.
+- [x] INFORMATION_SCHEMA H2 e MySQL TEMP confirmam VARCHAR20 nullable; suíte Java completa e verificação física PASS.
 
 Commit corretivo a06550f concluído antes da formalização administrativa de T8, incorporada à próxima tarefa sem reescrita de histórico. Evidência/gate e pré-plano estavam no mesmo commit corretivo.
 
@@ -120,7 +120,7 @@ Commit corretivo a06550f concluído antes da formalização administrativa de T8
 **Gate:** Full
 **Commit:** feat(etapas): prepare legacy final stage references explicitly
 **Done when:**
-- [x] Plano sem escrita; ativos/arquivados/sem criador; somente etapa_id de status exatos muda; snapshot integral preservado; repetição zero efeitos; falha/duplicidade rollback; versão uma vez por quadro; main inválido recusa antes do contexto; nunca startup/GET; H2/adequação PASS. MySQL TEMP permanece gate antes do encerramento da feature.
+- [x] Plano sem escrita; ativos/arquivados/sem criador; somente etapa_id de status exatos muda; snapshot integral preservado; repetição zero efeitos; falha/duplicidade rollback; versão uma vez por quadro; main inválido recusa antes do contexto; nunca startup/GET; H2/MySQL TEMP/adequação PASS.
 
 ### T6: Apresentação e editor somente de trabalhos
 
@@ -143,12 +143,12 @@ Commit corretivo a06550f concluído antes da formalização administrativa de T8
 **Depends on:** T6
 **Reuses:** H2/Edge/helper com zero retries e cenários existentes.
 **Requirement:** FIN-01/02/03/07/08/11/15/16/17/18/19/29
-**Related files:** gerenciamentos.spec.js, autocadastro.spec.js e docs/OPERACAO.md; evidência física em TEMP.
+**Related files:** gerenciamentos.spec.js, autocadastro.spec.js, docs/OPERACAO.md e design.md (contagem administrativa de oito tarefas, incluindo T8); evidência física em TEMP.
 **Tests:** e2e
 **Gate:** Build
 **Commit:** test(etapas): verify final columns across board workflows
 **Done when:**
-- [ ] Três cenários existentes preservados, listas/categorias/IDs finais exatos em criação/reload/arquivo; 3/3 Edge PASS, Vitest/build TEMP/lint PASS; testes MySQL TEMP documentados; adequação PASS; despachar Verificador novo após commit, sem declarar UAT humano aprovado.
+- [x] Três cenários existentes preservados, listas/categorias/IDs finais exatos em criação/reload/arquivo; 3/3 Edge PASS, 235 Vitest/build TEMP/lint PASS; testes MySQL TEMP documentados; adequação PASS. Orquestrador despacha Verificador novo imediatamente após este commit; verificação independente e UAT humano ainda pendentes.
 
 ## Diagram-Definition Cross-Check
 

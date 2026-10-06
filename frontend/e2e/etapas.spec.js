@@ -73,15 +73,42 @@ test("ETA-12/13/15/22/25/28/30: CRUD real com teclado, posições, IDs, reload e
         await acionar(page, page.getByRole("button", { name: "Abrir Fluxo de instalação", exact: true }));
         await expect(page.getByRole("heading", { name: "Fluxo de instalação", exact: true })).toBeVisible();
     }
-    async function criar(nome, setor, posicao) {
+    async function criar(nome, setor, posicao, quantidadeTrabalhos) {
         await acionar(page, page.getByRole("button", { name: "+ Nova etapa", exact: true }));
+        await expect(page.getByLabel("Posição", { exact: true }).locator("option"))
+            .toHaveText(Array.from({ length: quantidadeTrabalhos + 1 }, (_, index) => String(index + 1)));
         await preencher(page, page.getByLabel("Nome da etapa", { exact: true }), nome);
         await preencher(page, page.getByLabel("Setor responsável", { exact: true }), setor);
         await selecionarPosicao(page, posicao);
         await acionar(page, page.getByRole("button", { name: "Salvar etapa", exact: true }));
         await expect(page.getByRole("heading", { name: nome, exact: true })).toBeVisible();
     }
-    const campos = ({ id, nome, setor, ordem, quantidadeDemandas }) => ({ id, nome, setor, ordem, quantidadeDemandas });
+    const campos = ({ id, nome, setor, ordem, quantidadeDemandas, categoria }) => ({ id, nome, setor, ordem, quantidadeDemandas, categoria });
+    const semTrabalhos = await consultar();
+    expect(semTrabalhos.etapas).toHaveLength(2);
+    const concluidaId = semTrabalhos.etapas[0].id;
+    const canceladaId = semTrabalhos.etapas[1].id;
+    expect(Number.isInteger(concluidaId)).toBe(true);
+    expect(Number.isInteger(canceladaId)).toBe(true);
+    expect(concluidaId).toBeGreaterThan(0);
+    expect(canceladaId).toBeGreaterThan(0);
+    expect(canceladaId).not.toBe(concluidaId);
+    const finaisEsperadas = [
+        { id: concluidaId, nome: "Concluídos", setor: null, ordem: 1, quantidadeDemandas: 0, categoria: "CONCLUIDA" },
+        { id: canceladaId, nome: "Cancelados", setor: null, ordem: 2, quantidadeDemandas: 0, categoria: "CANCELADA" }
+    ];
+    expect(semTrabalhos.etapas.map(campos)).toEqual(finaisEsperadas);
+    async function conferirFinaisNaTela() {
+        for (const final of finaisEsperadas) {
+            const coluna = page.getByRole("region", { name: final.nome, exact: true });
+            await expect(coluna.getByRole("heading")).toHaveAttribute("id", `etapa-titulo-${final.id}`);
+            await expect(coluna.getByText("Etapa final obrigatória", { exact: true })).toBeVisible();
+            await expect(coluna.getByText("0 demandas", { exact: true })).toBeVisible();
+            await expect(coluna.getByText(/Setor responsável:/)).toHaveCount(0);
+            await expect(coluna.getByText(/^Posição /)).toHaveCount(0);
+            await expect(coluna.getByRole("button")).toHaveCount(0);
+        }
+    }
     const gravacoes = [];
     page.on("request", requisicao => {
         if (requisicao.method() !== "GET" && requisicao.url().includes(`/gerenciamentos/${quadro.id}/etapas`)) {
@@ -91,70 +118,86 @@ test("ETA-12/13/15/22/25/28/30: CRUD real com teclado, posições, IDs, reload e
     const imagens = await mkdtemp(join(tmpdir(), "creral-etapas-e2e-"));
     await page.reload();
     await abrir();
-    await expect(page.getByRole("heading", { name: "Nenhuma etapa cadastrada", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Nenhuma etapa de trabalho cadastrada", exact: true })).toBeVisible();
+    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Concluídos", "Cancelados"]);
+    await conferirFinaisNaTela();
+    await fotografar(page, imagens, "finais");
 
     const nova = page.getByRole("button", { name: "+ Nova etapa", exact: true });
     await acionar(page, nova);
+    await expect(page.getByLabel("Posição", { exact: true }).locator("option")).toHaveText(["1"]);
     await preencher(page, page.getByLabel("Nome da etapa", { exact: true }), "Rascunho descartado");
     await acionar(page, page.getByRole("button", { name: "Cancelar", exact: true }));
     await expect(nova).toBeFocused();
-    expect(await consultar()).toMatchObject({ gerenciamento: { versao: 0 }, etapas: [] });
+    expect(await consultar()).toMatchObject({ gerenciamento: { versao: 0 }, etapas: finaisEsperadas });
     expect(gravacoes).toEqual([]);
 
-    await criar("Planejamento", "Técnico", 1);
+    await criar("Planejamento", "Técnico", 1, 0);
     const inicial = await consultar();
     expect(inicial.gerenciamento.versao).toBe(1);
-    expect(inicial.etapas).toMatchObject([{ nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 0 }]);
+    expect(inicial.etapas.map(campos)).toEqual([
+        { id: inicial.etapas[0].id, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        ...finaisEsperadas
+    ]);
     const planejamentoId = inicial.etapas[0].id;
     expect(planejamentoId).toBeGreaterThan(0);
-    await criar("Execução", "Campo", 2);
+    await criar("Execução", "Campo", 2, 1);
     const dupla = await consultar();
     expect(dupla.gerenciamento.versao).toBe(2);
-    expect(dupla.etapas).toMatchObject([{ id: planejamentoId, nome: "Planejamento", ordem: 1 }, { nome: "Execução", setor: "Campo", ordem: 2, quantidadeDemandas: 0 }]);
+    expect(dupla.etapas.map(campos)).toEqual([
+        { id: planejamentoId, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        { id: dupla.etapas[1].id, nome: "Execução", setor: "Campo", ordem: 2, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        ...finaisEsperadas
+    ]);
     const execucaoId = dupla.etapas[1].id;
     expect(execucaoId).toBeGreaterThan(0);
-    await criar("Análise", "Engenharia", 2);
+    await criar("Análise", "Engenharia", 2, 2);
     const tripla = await consultar();
     expect(tripla.gerenciamento.versao).toBe(3);
     const analiseId = tripla.etapas[1].id;
     expect(analiseId).toBeGreaterThan(0);
     expect(new Set([planejamentoId, execucaoId, analiseId]).size).toBe(3);
     expect(tripla.etapas.map(campos)).toEqual([
-        { id: planejamentoId, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 0 },
-        { id: analiseId, nome: "Análise", setor: "Engenharia", ordem: 2, quantidadeDemandas: 0 },
-        { id: execucaoId, nome: "Execução", setor: "Campo", ordem: 3, quantidadeDemandas: 0 }
+        { id: planejamentoId, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        { id: analiseId, nome: "Análise", setor: "Engenharia", ordem: 2, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        { id: execucaoId, nome: "Execução", setor: "Campo", ordem: 3, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        ...finaisEsperadas
     ]);
     await page.reload();
     await abrir();
-    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Planejamento", "Análise", "Execução"]);
+    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Planejamento", "Análise", "Execução", "Concluídos", "Cancelados"]);
+    await conferirFinaisNaTela();
     expect((await consultar()).etapas.map(campos)).toEqual(tripla.etapas.map(campos));
 
     await acionar(page, page.getByRole("button", { name: "Editar etapa 3: Execução", exact: true }));
     await expect(page.getByLabel("Nome da etapa", { exact: true })).toHaveValue("Execução");
     await expect(page.getByLabel("Setor responsável", { exact: true })).toHaveValue("Campo");
     await expect(page.getByLabel("Posição", { exact: true })).toHaveValue("3");
+    await expect(page.getByLabel("Posição", { exact: true }).locator("option")).toHaveText(["1", "2", "3"]);
     await preencher(page, page.getByLabel("Nome da etapa", { exact: true }), "Entrega");
     await preencher(page, page.getByLabel("Setor responsável", { exact: true }), "Operação");
     await selecionarPosicao(page, 1);
     await acionar(page, page.getByRole("button", { name: "Salvar etapa", exact: true }));
-    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Entrega", "Planejamento", "Análise"]);
+    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Entrega", "Planejamento", "Análise", "Concluídos", "Cancelados"]);
     const movidaInicio = await consultar();
     expect(movidaInicio.gerenciamento.versao).toBe(4);
     expect(movidaInicio.etapas.map(campos)).toEqual([
-        { id: execucaoId, nome: "Entrega", setor: "Operação", ordem: 1, quantidadeDemandas: 0 },
-        { id: planejamentoId, nome: "Planejamento", setor: "Técnico", ordem: 2, quantidadeDemandas: 0 },
-        { id: analiseId, nome: "Análise", setor: "Engenharia", ordem: 3, quantidadeDemandas: 0 }
+        { id: execucaoId, nome: "Entrega", setor: "Operação", ordem: 1, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        { id: planejamentoId, nome: "Planejamento", setor: "Técnico", ordem: 2, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        { id: analiseId, nome: "Análise", setor: "Engenharia", ordem: 3, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        ...finaisEsperadas
     ]);
     await acionar(page, page.getByRole("button", { name: "Editar etapa 1: Entrega", exact: true }));
     await selecionarPosicao(page, 3);
     await acionar(page, page.getByRole("button", { name: "Salvar etapa", exact: true }));
-    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Planejamento", "Análise", "Entrega"]);
+    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Planejamento", "Análise", "Entrega", "Concluídos", "Cancelados"]);
     const movidaFim = await consultar();
     expect(movidaFim.gerenciamento.versao).toBe(5);
     expect(movidaFim.etapas.map(campos)).toEqual([
-        { id: planejamentoId, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 0 },
-        { id: analiseId, nome: "Análise", setor: "Engenharia", ordem: 2, quantidadeDemandas: 0 },
-        { id: execucaoId, nome: "Entrega", setor: "Operação", ordem: 3, quantidadeDemandas: 0 }
+        { id: planejamentoId, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        { id: analiseId, nome: "Análise", setor: "Engenharia", ordem: 2, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        { id: execucaoId, nome: "Entrega", setor: "Operação", ordem: 3, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        ...finaisEsperadas
     ]);
 
     const editarAnalise = page.getByRole("button", { name: "Editar etapa 2: Análise", exact: true });
@@ -175,13 +218,15 @@ test("ETA-12/13/15/22/25/28/30: CRUD real com teclado, posições, IDs, reload e
     expect((await consultar()).gerenciamento.versao).toBe(5);
     await acionar(page, removerAnalise);
     await acionar(page, dialogo.getByRole("button", { name: "Remover", exact: true }));
-    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Planejamento", "Entrega"]);
+    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Planejamento", "Entrega", "Concluídos", "Cancelados"]);
+    await conferirFinaisNaTela();
     const removida = await consultar();
     expect(removida.gerenciamento.versao).toBe(6);
     expect(gravacoes).toEqual(["POST", "POST", "POST", "PUT", "PUT", "DELETE"]);
     expect(removida.etapas.map(campos)).toEqual([
-        { id: planejamentoId, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 0 },
-        { id: execucaoId, nome: "Entrega", setor: "Operação", ordem: 2, quantidadeDemandas: 0 }
+        { id: planejamentoId, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        { id: execucaoId, nome: "Entrega", setor: "Operação", ordem: 2, quantidadeDemandas: 0, categoria: "TRABALHO" },
+        ...finaisEsperadas
     ]);
     await fotografar(page, imagens, "ativo");
 
@@ -198,6 +243,7 @@ test("ETA-12/13/15/22/25/28/30: CRUD real com teclado, posições, IDs, reload e
     await expect(page.getByRole("button", { name: /Editar etapa \d/ })).toHaveCount(0);
     await expect(page.getByRole("button", { name: /Remover etapa \d/ })).toHaveCount(0);
     await expect(page.getByRole("button", { name: /Criar processo/ })).toHaveCount(0);
+    await conferirFinaisNaTela();
     await fotografar(page, imagens, "arquivado");
     const arquivada = await consultar();
     expect(arquivada.gerenciamento).toMatchObject({ id: quadro.id, nome: quadro.nome, descricao: quadro.descricao, criador: quadro.criador, podeAdministrar: true, arquivado: true, versao: 7 });
@@ -205,7 +251,8 @@ test("ETA-12/13/15/22/25/28/30: CRUD real com teclado, posições, IDs, reload e
     await page.reload();
     await acionar(page, page.getByRole("button", { name: "Arquivados", exact: true }));
     await abrir();
-    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Planejamento", "Entrega"]);
+    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Planejamento", "Entrega", "Concluídos", "Cancelados"]);
+    await conferirFinaisNaTela();
     await expect(page.getByText("Setor responsável: Operação", { exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: /Nova etapa|Editar etapa \d|Remover etapa \d/ })).toHaveCount(0);
     expect((await consultar()).etapas.map(campos)).toEqual(removida.etapas.map(campos));

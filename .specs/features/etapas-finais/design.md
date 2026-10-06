@@ -1,6 +1,6 @@
 # Etapas finais Design
 
-**Spec:** spec.md. **Status:** escopo autorizado; escolhas técnicas locais declaradas. Profundidade média, sete tarefas, sem novo framework de migração.
+**Spec:** spec.md. **Status:** escopo autorizado; escolhas técnicas locais declaradas. Profundidade média, oito tarefas incluindo T8 corretiva de schema, sem novo framework de migração.
 
 ## Architecture Overview
 

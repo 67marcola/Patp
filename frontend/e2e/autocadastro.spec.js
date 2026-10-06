@@ -60,23 +60,59 @@ test("AUT-07/09/10/14: cadastro por teclado entra direto, preserva conta/quadro 
     expect(await me.json()).toEqual({ ...usuario, papel: "FUNCIONARIO" });
 
     await acionarPorTeclado(page, page.getByRole("button", { name: /Criar gerenciamento/ }));
+    await expect(page.getByText("As etapas finais Concluídos e Cancelados são criadas automaticamente.", { exact: true })).toBeVisible();
     await page.getByLabel("Nome do gerenciamento").fill("Quadro após cadastro");
     await page.getByLabel("Descrição", { exact: true }).fill("Dados fictícios do autocadastro.");
     const respostaQuadro = page.waitForResponse(resposta => resposta.url().endsWith("/api/gerenciamentos") && resposta.request().method() === "POST");
     await acionarPorTeclado(page, page.getByRole("button", { name: "Salvar gerenciamento", exact: true }));
     const criacao = await respostaQuadro;
     expect(criacao.status()).toBe(201);
+    expect(criacao.request().postDataJSON()).toEqual({
+        nome: "Quadro após cadastro", descricao: "Dados fictícios do autocadastro.", etapas: []
+    });
     const quadro = await criacao.json();
     expect(quadro.id).toBeGreaterThan(0);
     expect(quadro).toMatchObject({ nome: "Quadro após cadastro", descricao: "Dados fictícios do autocadastro.", criador: { id: usuario.id, nome: usuario.nome } });
+    async function estrutura(autorizacao = headers) {
+        const resposta = await request.get(`/api/gerenciamentos/${quadro.id}/estrutura-etapas`, { headers: autorizacao });
+        expect(resposta.status()).toBe(200);
+        return resposta.json();
+    }
+    const etapasIniciais = (await estrutura()).etapas;
+    expect(etapasIniciais).toHaveLength(2);
+    for (const etapa of etapasIniciais) {
+        expect(Number.isInteger(etapa.id)).toBe(true);
+        expect(etapa.id).toBeGreaterThan(0);
+    }
+    expect(etapasIniciais[0].id).not.toBe(etapasIniciais[1].id);
+    const finaisEsperadas = [
+        { id: etapasIniciais[0].id, nome: "Concluídos", setor: null, ordem: 1, quantidadeDemandas: 0, categoria: "CONCLUIDA" },
+        { id: etapasIniciais[1].id, nome: "Cancelados", setor: null, ordem: 2, quantidadeDemandas: 0, categoria: "CANCELADA" }
+    ];
+    expect(etapasIniciais).toEqual(finaisEsperadas);
+    async function abrirConferirFinais() {
+        await acionarPorTeclado(page, page.getByRole("button", { name: "Abrir Quadro após cadastro", exact: true }));
+        await expect(page.getByRole("heading", { name: "Nenhuma etapa de trabalho cadastrada", exact: true })).toBeVisible();
+        await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Concluídos", "Cancelados"]);
+        for (const final of finaisEsperadas) {
+            const coluna = page.getByRole("region", { name: final.nome, exact: true });
+            await expect(coluna.getByRole("heading")).toHaveAttribute("id", `etapa-titulo-${final.id}`);
+            await expect(coluna.getByText("Etapa final obrigatória", { exact: true })).toBeVisible();
+            await expect(coluna.getByText(/Setor responsável:|^Posição /)).toHaveCount(0);
+            await expect(coluna.getByRole("button")).toHaveCount(0);
+        }
+    }
     await expect(page.getByRole("button", { name: "Abrir Quadro após cadastro", exact: true })).toBeVisible();
     await page.reload();
     await expect(page.getByRole("button", { name: "Abrir Quadro após cadastro", exact: true })).toBeVisible();
     expect(await cache(page)).toEqual({ token: entrada.token, usuario });
+    expect((await estrutura()).etapas).toEqual(finaisEsperadas);
     expect(posts.map(post => post.path)).toEqual(["/api/usuarios/cadastro"]);
     const lista = await request.get("/api/gerenciamentos", { headers });
     expect(lista.status()).toBe(200);
     expect(await lista.json()).toMatchObject([{ id: quadro.id, nome: "Quadro após cadastro", descricao: "Dados fictícios do autocadastro.", criador: { id: usuario.id, nome: usuario.nome } }]);
+    await abrirConferirFinais();
+    await acionarPorTeclado(page, page.getByRole("button", { name: /Voltar/ }));
 
     await acionarPorTeclado(page, page.getByRole("button", { name: "Sair", exact: true }));
     await expect(page.getByRole("heading", { name: "Bem-vindo", exact: true })).toBeVisible();
@@ -100,4 +136,6 @@ test("AUT-07/09/10/14: cadastro por teclado entra direto, preserva conta/quadro 
     const listaLogin = await request.get("/api/gerenciamentos", { headers: headersLogin });
     expect(listaLogin.status()).toBe(200);
     expect(await listaLogin.json()).toMatchObject([{ id: quadro.id, nome: "Quadro após cadastro", descricao: "Dados fictícios do autocadastro.", criador: { id: usuario.id, nome: usuario.nome } }]);
+    expect((await estrutura(headersLogin)).etapas).toEqual(finaisEsperadas);
+    await abrirConferirFinais();
 });

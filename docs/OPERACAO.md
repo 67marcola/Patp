@@ -10,7 +10,7 @@ Abra um terminal na pasta `frontend/` e execute:
 npm.cmd run preview:isolated
 ```
 
-O comando prepara o Java e abre o sistema em `http://localhost:4173`. Cadastre uma conta fictícia e use a lista de gerenciamentos que abre diretamente após a confirmação. Experimente criar, editar, arquivar, consultar e restaurar gerenciamentos. No quadro criado, use Nova etapa e os controles Editar/Remover para configurar colunas.
+O comando prepara o Java e abre o sistema em `http://localhost:4173`. Cadastre uma conta fictícia e use a lista de gerenciamentos que abre diretamente após a confirmação. Experimente criar, editar, arquivar, consultar e restaurar gerenciamentos. O quadro já abre com Concluídos e Cancelados. Use Nova etapa e os controles Editar/Remover para configurar trabalhos.
 
 Requer as dependências npm instaladas, Maven no PATH e `JAVA_HOME` apontando para o JDK. As portas 4173 e 18082 precisam estar livres. O helper inicia diretamente o executável Java desse JDK, com URL, driver, usuário, senha e `create-drop` de H2 explícitos; não inicia o MySQL configurado.
 
@@ -73,7 +73,9 @@ Nome e Setor são obrigatórios nas etapas de trabalho, normalizados nas bordas 
 
 Cada novo gerenciamento recebe as finais oficiais CONCLUIDA/Concluídos e CANCELADA/Cancelados, com IDs próprios e Setor nulo. O snapshot ordena trabalhos por ordem/ID, depois CONCLUIDA e CANCELADA. Essas finais não podem ser editadas, removidas nem reposicionadas; PUT/DELETE respondem 409 com `Etapas finais obrigatórias não podem ser alteradas.` mesmo quando vazias. Nomes iguais em etapas antigas ou de categoria TRABALHO continuam trabalhos. Categoria SQL nula é lida como TRABALHO, sem gravar essa classificação.
 
-A interface oferece Nova etapa, edição de Nome/Setor/Posição e remoção com confirmação. Campos são preservados em falha; Atualizar quadro consulta os dados sem repetir gravação. Enquanto uma gravação está pendente, Voltar, Cancelar e Sair ficam bloqueados. O destino automático das ações de concluir/cancelar e a reabertura de demandas serão conectados em entrega posterior. A preparação abaixo corrige explicitamente referências antigas e não garante ainda coerência permanente nas APIs anteriores de demandas.
+A interface informa no formulário que Concluídos e Cancelados são criados automaticamente. Ao abrir o quadro, as duas colunas oficiais mostram Etapa final obrigatória, sem Setor, posição ou Editar/Remover. Nova etapa e edição oferecem somente posições entre trabalhos. Ao remover o último trabalho, as finais permanecem e aparece Nenhuma etapa de trabalho cadastrada. Nomes homônimos de trabalho mantêm seu Setor e controles; a indicação distingue as oficiais.
+
+Campos são preservados em falha; Atualizar quadro consulta os dados sem repetir gravação. Enquanto uma gravação está pendente, Voltar, Cancelar e Sair ficam bloqueados. O destino automático das ações de concluir/cancelar e a reabertura de demandas serão conectados em entrega posterior. A preparação abaixo corrige explicitamente referências antigas e não garante ainda coerência permanente nas APIs anteriores de demandas.
 
 ## Preparar etapas finais de quadros legados
 
@@ -122,6 +124,6 @@ $env:Path = "$env:JAVA_HOME\bin;$env:Path"
 npm.cmd run preview:isolated
 ```
 
-Com o ambiente isolado acima aberto, cadastre/entre com uma conta fictícia e crie um gerenciamento de teste sem etapas iniciais. Abra o quadro e selecione Nova etapa. Preencha Nome da etapa com `Comprar poste`, Setor responsável com `Almoxarifado` e Posição com `1`. Salve e recarregue a página.
+Com o ambiente isolado acima aberto, cadastre/entre com uma conta fictícia e crie um gerenciamento de teste sem etapas de trabalho iniciais. O formulário informa que as finais são automáticas. Abra o quadro: Concluídos e Cancelados já devem aparecer, identificados como Etapa final obrigatória e sem controles de configuração, junto do aviso Nenhuma etapa de trabalho cadastrada. Selecione Nova etapa. Preencha Nome da etapa com `Comprar poste`, Setor responsável com `Almoxarifado` e Posição com `1`. A seleção deve oferecer somente `1`, pois as finais não entram na contagem. Salve e recarregue a página.
 
-Resultado esperado: uma coluna Comprar poste, setor Almoxarifado, posição 1 e zero demandas; os mesmos dados permanecem após recarga. Informe se funcionou ou descreva o problema observado. Esse resultado humano será registrado separadamente dos testes automáticos. Criar processo ainda será conectado no requisito de demandas.
+Resultado esperado: Comprar poste, setor Almoxarifado, posição 1 e zero demandas, seguido de Concluídos e Cancelados; os mesmos dados e as duas finais permanecem após recarga. Se remover Comprar poste enquanto vazio, somente o trabalho desaparece; as duas finais permanecem e o aviso de ausência de trabalho reaparece. Informe se funcionou ou descreva o problema observado. Esse resultado humano será registrado separadamente dos testes automáticos. Criar processo ainda será conectado no requisito de demandas.

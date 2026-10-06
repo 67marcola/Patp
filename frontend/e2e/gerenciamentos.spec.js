@@ -28,6 +28,7 @@ test("GER-35: CRUD real conserva etapas, estado e campos após recarregar", asyn
     await acionarPorTeclado(page, page.getByRole("button", { name: "Entrar", exact: true }));
     await expect(page.getByRole("heading", { name: "Gerenciamentos", exact: true })).toBeVisible();
     await acionarPorTeclado(page, page.getByRole("button", { name: /Criar gerenciamento/ }));
+    await expect(page.getByText("As etapas finais Concluídos e Cancelados são criadas automaticamente.", { exact: true })).toBeVisible();
     await page.getByLabel("Nome do gerenciamento").fill("Instalação de postes");
     await page.getByLabel("Descrição", { exact: true }).fill("Quadro fictício para teste do CRUD.");
     await acionarPorTeclado(page, page.getByRole("button", { name: /Adicionar etapa/ }));
@@ -39,7 +40,12 @@ test("GER-35: CRUD real conserva etapas, estado e campos após recarregar", asyn
     await acionarPorTeclado(page, page.getByRole("button", { name: "Remover etapa 2", exact: true }));
     await expect(page.getByLabel("Nome da etapa 2", { exact: true })).toHaveCount(0);
     await expect(page.getByLabel("Setor responsável da etapa 2", { exact: true })).toHaveCount(0);
+    const envioCriacao = page.waitForRequest(requisicao => requisicao.url().endsWith("/api/gerenciamentos") && requisicao.method() === "POST");
     await acionarPorTeclado(page, page.getByRole("button", { name: "Salvar gerenciamento", exact: true }));
+    expect((await envioCriacao).postDataJSON()).toEqual({
+        nome: "Instalação de postes", descricao: "Quadro fictício para teste do CRUD.",
+        etapas: [{ nome: "Planejamento", setor: "Técnico", ordem: 1 }]
+    });
     await expect(page.getByRole("button", { name: "Abrir Instalação de postes", exact: true })).toBeVisible();
     await page.reload();
     await expect(page.getByRole("button", { name: "Abrir Instalação de postes", exact: true })).toBeVisible();
@@ -54,7 +60,27 @@ test("GER-35: CRUD real conserva etapas, estado e campos após recarregar", asyn
     const etapasResponse = await request.get(`/api/gerenciamentos/${criado.id}/etapas`, { headers });
     expect(etapasResponse.status()).toBe(200);
     const etapasIniciais = await etapasResponse.json();
-    expect(etapasIniciais).toMatchObject([{ nome: "Planejamento", setor: "Técnico", ordem: 1 }]);
+    const campos = ({ id, nome, setor, ordem, categoria, quantidadeDemandas }) => ({ id, nome, setor, ordem, categoria, quantidadeDemandas });
+    expect(etapasIniciais).toHaveLength(3);
+    expect(new Set(etapasIniciais.map(etapa => etapa.id)).size).toBe(3);
+    for (const etapa of etapasIniciais) {
+        expect(Number.isInteger(etapa.id)).toBe(true);
+        expect(etapa.id).toBeGreaterThan(0);
+    }
+    expect(etapasIniciais.map(campos)).toEqual([
+        { id: etapasIniciais[0].id, nome: "Planejamento", setor: "Técnico", ordem: 1, categoria: "TRABALHO", quantidadeDemandas: 0 },
+        { id: etapasIniciais[1].id, nome: "Concluídos", setor: null, ordem: 2, categoria: "CONCLUIDA", quantidadeDemandas: 0 },
+        { id: etapasIniciais[2].id, nome: "Cancelados", setor: null, ordem: 3, categoria: "CANCELADA", quantidadeDemandas: 0 }
+    ]);
+    async function conferirFinaisNaTela() {
+        for (const final of etapasIniciais.slice(1)) {
+            const coluna = page.getByRole("region", { name: final.nome, exact: true });
+            await expect(coluna.getByRole("heading")).toHaveAttribute("id", `etapa-titulo-${final.id}`);
+            await expect(coluna.getByText("Etapa final obrigatória", { exact: true })).toBeVisible();
+            await expect(coluna.getByText(/Setor responsável:|^Posição /)).toHaveCount(0);
+            await expect(coluna.getByRole("button")).toHaveCount(0);
+        }
+    }
 
     await acionarPorTeclado(page, page.getByRole("button", { name: "Editar Instalação de postes", exact: true }));
     await expect(page.getByLabel("Nome do gerenciamento")).toHaveValue("Instalação de postes");
@@ -89,6 +115,11 @@ test("GER-35: CRUD real conserva etapas, estado e campos após recarregar", asyn
     await expect(page.getByRole("heading", { name: "Planejamento", exact: true })).toBeVisible();
     await expect(page.getByText("Setor responsável: Técnico", { exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: /Criar processo/ })).toHaveCount(0);
+    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Planejamento", "Concluídos", "Cancelados"]);
+    await conferirFinaisNaTela();
+    const etapasArquivadasResponse = await request.get(`/api/gerenciamentos/${criado.id}/etapas`, { headers });
+    expect(etapasArquivadasResponse.status()).toBe(200);
+    expect((await etapasArquivadasResponse.json()).map(campos)).toEqual(etapasIniciais.map(campos));
     await page.screenshot({ path: join(imagens, "arquivado-desktop.png"), fullPage: true });
     await page.setViewportSize({ width: 375, height: 812 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
@@ -115,6 +146,27 @@ test("GER-35: CRUD real conserva etapas, estado e campos após recarregar", asyn
     const etapasRestauradasResponse = await request.get(`/api/gerenciamentos/${criado.id}/etapas`, { headers });
     expect(etapasRestauradasResponse.status()).toBe(200);
     const etapasRestauradas = await etapasRestauradasResponse.json();
-    const campos = ({ id, nome, setor, ordem }) => ({ id, nome, setor, ordem });
     expect(etapasRestauradas.map(campos)).toEqual(etapasIniciais.map(campos));
+    await acionarPorTeclado(page, page.getByRole("button", { name: "Abrir Postes em acompanhamento", exact: true }));
+    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Planejamento", "Concluídos", "Cancelados"]);
+    await conferirFinaisNaTela();
+
+    await acionarPorTeclado(page, page.getByRole("button", { name: "Remover etapa 1: Planejamento", exact: true }));
+    await acionarPorTeclado(page, page.getByRole("dialog", { name: "Remover Planejamento?", exact: true })
+        .getByRole("button", { name: "Remover", exact: true }));
+    await expect(page.getByRole("heading", { name: "Nenhuma etapa de trabalho cadastrada", exact: true })).toBeVisible();
+    await expect(page.getByRole("region").getByRole("heading")).toHaveText(["Concluídos", "Cancelados"]);
+    await conferirFinaisNaTela();
+    const semTrabalhoResponse = await request.get(`/api/gerenciamentos/${criado.id}/estrutura-etapas`, { headers });
+    expect(semTrabalhoResponse.status()).toBe(200);
+    const semTrabalho = await semTrabalhoResponse.json();
+    expect(semTrabalho.gerenciamento).toMatchObject({ id: criado.id, nome: "Postes em acompanhamento", descricao: "Descrição corrigida e persistida.", criador: { id: usuario.id, nome: "Teste Creral" }, arquivado: false, versao: 4, podeAdministrar: true });
+    expect(semTrabalho.etapas.map(campos)).toEqual(etapasIniciais.slice(1).map(campos));
+    await page.reload();
+    await acionarPorTeclado(page, page.getByRole("button", { name: "Abrir Postes em acompanhamento", exact: true }));
+    await expect(page.getByRole("heading", { name: "Nenhuma etapa de trabalho cadastrada", exact: true })).toBeVisible();
+    await conferirFinaisNaTela();
+    const semTrabalhoReload = await request.get(`/api/gerenciamentos/${criado.id}/estrutura-etapas`, { headers });
+    expect(semTrabalhoReload.status()).toBe(200);
+    expect(await semTrabalhoReload.json()).toEqual(semTrabalho);
 });
