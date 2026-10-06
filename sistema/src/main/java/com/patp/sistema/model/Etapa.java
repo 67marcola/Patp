@@ -2,6 +2,8 @@ package com.patp.sistema.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,6 +23,9 @@ public class Etapa {
     private String nome;
 
     private String setor;
+
+    @Enumerated(EnumType.STRING)
+    private CategoriaEtapa categoria = CategoriaEtapa.TRABALHO;
 
     @Column(nullable = false)
     private Integer ordem;
@@ -50,6 +55,14 @@ public class Etapa {
 
     public String getSetor() {
         return setor;
+    }
+
+    public CategoriaEtapa getCategoria() {
+        return categoria == null ? CategoriaEtapa.TRABALHO : categoria;
+    }
+
+    public void setCategoria(CategoriaEtapa categoria) {
+        this.categoria = categoria;
     }
 
     public void setSetor(String setor) {

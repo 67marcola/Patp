@@ -139,7 +139,7 @@ public class EtapaService {
         Map<Long, Long> quantidades = processos.contarPorEtapa(gerenciamento.getId()).stream()
                 .collect(Collectors.toMap(ProcessoRepository.ContagemEtapa::getEtapaId, ProcessoRepository.ContagemEtapa::getQuantidade));
         List<EtapaResponse> resumos = sequencia(gerenciamento.getId()).stream()
-                .map(e -> new EtapaResponse(e.getId(), e.getNome(), e.getSetor(), e.getOrdem(), quantidades.getOrDefault(e.getId(), 0L)))
+                .map(e -> new EtapaResponse(e.getId(), e.getNome(), e.getSetor(), e.getOrdem(), quantidades.getOrDefault(e.getId(), 0L), e.getCategoria()))
                 .toList();
         return new ConfiguracaoEtapasResponse(gerenciamentos.resposta(gerenciamento, usuario), resumos);
     }

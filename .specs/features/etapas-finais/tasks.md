@@ -48,7 +48,7 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 **Gate:** Full
 **Commit:** feat(etapas): persist explicit stage categories
 **Done when:**
-- [ ] Categoria enum/string é persistida e devolvida; legado null/homônimo retorna TRABALHO sem escrita; gate Java completo e adequação PASS.
+- [x] Categoria enum/string é persistida e devolvida; legado null/homônimo retorna TRABALHO sem escrita; gate Java completo e adequação PASS.
 
 ### T2: Garantia e ordenação do par oficial
 
