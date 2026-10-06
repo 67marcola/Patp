@@ -85,8 +85,9 @@ function CriarGerenciamento({ voltar, atualizar, gerenciamento = null }) {
                     <section className="form-card">
                         <div className="etapas-titulo">
                             <div>
-                                <h3>Etapas iniciais</h3>
-                                <p>Opcional. Você pode criar o quadro sem etapas.</p>
+                                <h3>Etapas de trabalho iniciais</h3>
+                                <p>Opcional. Você pode criar o quadro sem etapas de trabalho.</p>
+                                <p>As etapas finais Concluídos e Cancelados são criadas automaticamente.</p>
                             </div>
                             <button type="button" className="btn-secundario" disabled={salvando}
                                 onClick={() => setEtapas([...etapas, { nome: "", setor: "" }])}>

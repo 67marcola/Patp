@@ -134,7 +134,7 @@ Commit corretivo a06550f concluído antes da formalização administrativa de T8
 **Gate:** Quick
 **Commit:** feat(ui): display protected final columns in boards
 **Done when:**
-- [ ] Finais vêm do servidor, indicação obrigatória, sem Setor/ações; handlers também guardados; intervalos só trabalho; homônimos editáveis; arquivo/erros/foco preservados; baseline 222 + casos novos PASS, adequação PASS.
+- [x] Finais vêm do servidor, indicação obrigatória, sem Setor/ações; handlers também guardados; intervalos só trabalho; homônimos editáveis; arquivo/erros/foco preservados; baseline 222 + 13 casos novos (235) PASS, adequação PASS.
 
 ### T7: Integração de navegador e encerramento operacional
 

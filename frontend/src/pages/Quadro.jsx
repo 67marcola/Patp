@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { buscarConfiguracaoEtapas, criarEtapa, editarEtapa, removerEtapa } from "../services/api";
 import EditorEtapa from "./EditorEtapa";
 
+function etapaFinal(etapa) {
+    return etapa?.categoria === "CONCLUIDA" || etapa?.categoria === "CANCELADA";
+}
+
 function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const [configuracao, setConfiguracao] = useState(null);
     const [carregando, setCarregando] = useState(true);
@@ -18,8 +22,13 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const novaEtapa = useRef(null);
     const quadro = configuracao?.gerenciamento || gerenciamento;
     const etapas = configuracao?.etapas || [];
+    const trabalhos = etapas.filter(etapa => !etapaFinal(etapa));
     const podeConfigurar = !!configuracao && quadro.podeAdministrar && !quadro.arquivado;
     const bloqueado = ocupado || carregando || precisaAtualizar;
+
+    function finalNoSnapshot(etapa) {
+        return etapaFinal(etapa) || etapaFinal(etapas.find(atual => atual.id === etapa?.id));
+    }
 
     function aplicarConfiguracao(dados) {
         setConfiguracao(dados);
@@ -56,14 +65,14 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     }, [editor, confirmacao]);
 
     function abrirEditor(event, etapa = null) {
-        if (bloqueado || editor || confirmacao || !podeConfigurar) return;
+        if (bloqueado || editor || confirmacao || !podeConfigurar || finalNoSnapshot(etapa)) return;
         origem.current = event.currentTarget;
         setErroRemocao("");
         setEditor({ etapa });
     }
 
     function abrirRemocao(event, etapa) {
-        if (bloqueado || editor || confirmacao || !podeConfigurar) return;
+        if (bloqueado || editor || confirmacao || !podeConfigurar || finalNoSnapshot(etapa)) return;
         origem.current = event.currentTarget;
         setErroRemocao("");
         setConfirmacao(etapa);
@@ -77,7 +86,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     }
 
     async function salvar(dados) {
-        if (operando.current || bloqueado || !podeConfigurar) return;
+        if (operando.current || bloqueado || !podeConfigurar || !editor || finalNoSnapshot(editor.etapa)) return;
         operando.current = true;
         aoOcupar?.(true);
         setOcupado(true);
@@ -97,7 +106,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     }
 
     async function remover() {
-        if (operando.current || bloqueado || !podeConfigurar) return;
+        if (operando.current || bloqueado || !podeConfigurar || !confirmacao || finalNoSnapshot(confirmacao)) return;
         operando.current = true;
         aoOcupar?.(true);
         setOcupado(true);
@@ -142,8 +151,8 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                 <button className="btn-secundario" disabled={ocupado || carregando}
                     onClick={() => setTentativa(valor => valor + 1)}>Atualizar quadro</button>
             </div>}
-            {editor && <EditorEtapa etapa={editor.etapa} quantidadeEtapas={etapas.length}
-                salvar={salvar} cancelar={cancelar} bloqueado={bloqueado || !podeConfigurar}
+            {editor && <EditorEtapa etapa={editor.etapa} quantidadeEtapas={trabalhos.length}
+                salvar={salvar} cancelar={cancelar} bloqueado={bloqueado || !podeConfigurar || finalNoSnapshot(editor.etapa)}
                 aoErro={() => setPrecisaAtualizar(true)} />}
             {confirmacao && <section className="confirmacao-arquivo confirmacao-etapa" role="dialog"
                 aria-labelledby="remover-etapa-titulo" aria-describedby="remover-etapa-descricao">
@@ -152,35 +161,39 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                 {erroRemocao && <div className="erro-login" role="alert">{erroRemocao}</div>}
                 <div className="acoes-form">
                     <button className="btn-secundario" ref={cancelarConfirmacao} disabled={ocupado} onClick={cancelar}>Cancelar</button>
-                    <button className="btn-criar" disabled={bloqueado || !podeConfigurar} onClick={remover}>
+                    <button className="btn-criar" disabled={bloqueado || !podeConfigurar || finalNoSnapshot(confirmacao)} onClick={remover}>
                         {ocupado ? "Removendo..." : "Remover"}
                     </button>
                 </div>
             </section>}
-            {!carregando && !erroConsulta && etapas.length === 0 && <div className="vazio">
-                <h3>Nenhuma etapa cadastrada</h3>
-                <p>Este gerenciamento ainda não possui etapas.</p>
+            {!carregando && !erroConsulta && trabalhos.length === 0 && <div className="vazio">
+                <h3>Nenhuma etapa de trabalho cadastrada</h3>
+                <p>Este gerenciamento ainda não possui etapas de trabalho.</p>
             </div>}
             {configuracao && <div className="etapas-quadro">
-                {etapas.map((etapa, index) => {
+                {etapas.map(etapa => {
                     const quantidade = etapa.quantidadeDemandas || 0;
+                    const final = etapaFinal(etapa);
+                    const posicao = trabalhos.indexOf(etapa) + 1;
                     return <section className="etapa" key={etapa.id} aria-labelledby={`etapa-titulo-${etapa.id}`}>
                         <div className="etapa-cabecalho">
                             <div className="titulo-etapa">
                                 <span className="indicador verde"></span>
                                 <div>
                                     <h2 id={`etapa-titulo-${etapa.id}`}>{etapa.nome}</h2>
-                                    <p>Setor responsável: {etapa.setor || "Não informado"}</p>
-                                    <p>Posição {index + 1}</p>
+                                    {final ? <p>Etapa final obrigatória</p> : <>
+                                        <p>Setor responsável: {etapa.setor || "Não informado"}</p>
+                                        <p>Posição {posicao}</p>
+                                    </>}
                                 </div>
                             </div>
                             <span className="quantidade">{quantidade} {quantidade === 1 ? "demanda" : "demandas"}</span>
-                            {podeConfigurar && <div className="etapa-acoes">
+                            {podeConfigurar && !final && <div className="etapa-acoes">
                                 <button className="btn-secundario" disabled={bloqueado || !!editor || !!confirmacao}
-                                    aria-label={`Editar etapa ${index + 1}: ${etapa.nome}`}
-                                    onClick={event => abrirEditor(event, { ...etapa, ordem: index + 1 })}>Editar</button>
+                                    aria-label={`Editar etapa ${posicao}: ${etapa.nome}`}
+                                    onClick={event => abrirEditor(event, { ...etapa, ordem: posicao })}>Editar</button>
                                 <button className="btn-secundario" disabled={bloqueado || !!editor || !!confirmacao}
-                                    aria-label={`Remover etapa ${index + 1}: ${etapa.nome}`}
+                                    aria-label={`Remover etapa ${posicao}: ${etapa.nome}`}
                                     onClick={event => abrirRemocao(event, etapa)}>Remover</button>
                             </div>}
                         </div>
