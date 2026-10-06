@@ -1,7 +1,7 @@
 # Movimentação de demandas Context
 
 **Gathered:** 2026-10-06
-**Status:** aguardando somente a escolha sobre status legados desconhecidos.
+**Status:** regras fechadas; implementação local autorizada.
 
 ## Feature Boundary
 
@@ -17,7 +17,7 @@ Mover/pular entre etapas de trabalho, encerrar em Concluídos/Cancelados e reabr
 
 ## Declined / Undiscussed Gray Areas → Assumptions
 
-Defaults técnicos explícitos em spec.md: repetição409, motivo10000, nova API com versão, snapshot, rollback e histórico longo. Não são apresentados como novas escolhas do usuário. Status desconhecido depende da resposta à pergunta enviada; nenhuma normalização presumida.
+Defaults técnicos explícitos em spec.md: repetição409, motivo10000, nova API com versão, snapshot, rollback e histórico longo. Não são apresentados como novas escolhas do usuário. AD-022: resposta A recebida, manter consulta e bloquear transições de status desconhecido até correção explícita. Nenhuma normalização automática.
 
 ## Specific References
 

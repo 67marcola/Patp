@@ -1,6 +1,6 @@
 # Movimentação de demandas Design
 
-**Spec:** spec.md. **Status:** Draft; regra de status desconhecido depende da resposta enviada.
+**Spec:** spec.md. **Status:** definido conforme autorização persistente e AD-022.
 
 ## Architecture Overview
 
@@ -43,7 +43,7 @@ A descrição de REABERTURA inclui status anterior, etapa anterior, etapa destin
 | Destino inválido/final e motivo inválido | 404 / 400; nenhuma escrita | Corrigir a seleção ou o motivo. |
 | Falha na gravação | Rollback integral e erro500 existente | Nenhum sucesso parcial ou retry automático. |
 | Resposta2xx incorreta | ApiError; manter diálogo e exigir GET manual | Não ocultar falha com fechamento prematuro. |
-| Status desconhecido | Pendente | Contrato final depende da escolha enviada. |
+| Status desconhecido |409 sem efeitos | Manter consulta, informar correção explícita. |
 
 ## Risks & Concerns
 
@@ -54,7 +54,7 @@ A descrição de REABERTURA inclui status anterior, etapa anterior, etapa destin
 | Histórico limitado a255 | Historico.java:25 | Falha ou perda de motivo/nome longo | LONGTEXT, teste integral e operação documentada. |
 | Testes antigos aceitam movimento de terceiro | ProcessoArchiveTests.java:87, HistoricoArchiveTests.java:52, EtapaDemandConcurrencyTests.java:45 | Contradizem AD-012 | Adaptar cenários às escolhas explícitas, manter asserts de integridade e acrescentar403 sem efeitos; sem skip/delete. |
 | API retorna2xx sem confirmar ação | api.js:16 | Fecha diálogo apesar de resultado incorreto | Confirmação correlacionada a payload e assertions de valores. |
-| Legado com status desconhecido | PreparacaoEtapasFinaisService.java | Classificação sem escolha do usuário | Pergunta pendente, leitura preservada, nenhuma decisão inferida. |
+| Legado com status desconhecido | PreparacaoEtapasFinaisService.java | Classificação sem escolha do usuário | AD-022: bloquear transições, leitura preservada, nenhuma classificação automática. |
 
 ## Tech Decisions
 
