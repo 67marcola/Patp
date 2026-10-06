@@ -13,6 +13,7 @@ import com.patp.sistema.dto.GerenciamentoResponse;
 import com.patp.sistema.dto.GerenciamentoResponse.CriadorResponse;
 import com.patp.sistema.exception.ApiException;
 import com.patp.sistema.model.Etapa;
+import com.patp.sistema.model.CategoriaEtapa;
 import com.patp.sistema.model.Gerenciamento;
 import com.patp.sistema.model.Usuario;
 import com.patp.sistema.repository.EtapaRepository;
@@ -32,14 +33,16 @@ public class GerenciamentoService {
     private final SessaoService sessoes;
     private final GerenciamentoGuard guard;
     private final EntityManager entityManager;
+    private final EtapasFinaisService finais;
 
     public GerenciamentoService(GerenciamentoRepository gerenciamentos, EtapaRepository etapas,
-            SessaoService sessoes, GerenciamentoGuard guard, EntityManager entityManager) {
+            SessaoService sessoes, GerenciamentoGuard guard, EntityManager entityManager, EtapasFinaisService finais) {
         this.gerenciamentos = gerenciamentos;
         this.etapas = etapas;
         this.sessoes = sessoes;
         this.guard = guard;
         this.entityManager = entityManager;
+        this.finais = finais;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -50,7 +53,8 @@ public class GerenciamentoService {
         String descricaoValida = validarDescricao(descricao);
         if (iniciais != null) {
             for (Etapa etapa : iniciais) {
-                if (etapa == null || normalizar(etapa.getNome()).isEmpty()
+                if (etapa == null || etapa.getId() != null || etapa.getCategoria() != CategoriaEtapa.TRABALHO
+                        || normalizar(etapa.getNome()).isEmpty()
                         || normalizar(etapa.getNome()).length() > 255
                         || normalizar(etapa.getSetor()).isEmpty()
                         || normalizar(etapa.getSetor()).length() > 255
@@ -73,6 +77,7 @@ public class GerenciamentoService {
                 etapas.save(etapa);
             }
         }
+        finais.garantirPar(gerenciamento);
         gerenciamentos.flush();
         return resposta(gerenciamento, usuario);
     }

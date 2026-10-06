@@ -43,7 +43,7 @@ Gate Full H2 PASS: **253 testes, 0 falhas/erros/skips**, log TEMP/etapas-finais-
 
 Adequação PASS: quatro testes de integração, campos reais e rejeição sem efeitos; padrões existentes, sem alterações em testes anteriores, sem SPEC_DEVIATION.
 
-## T1a: tipo físico VARCHAR explícito
+## T8: tipo físico VARCHAR explícito
 
 Pré-plano corretivo: a inspeção bytecode local `MySQLDialect.getEnumTypeDeclaration` mostra `enum (` como tipo nativo. Fixar mapeamento VARCHAR(20) nullable para cumprir design, mantendo enum STRING. Arquivos: Etapa.java, EtapaCategoriaTests.java e evidence.md. Sucesso: assertion física INFORMATION_SCHEMA VARCHAR nullable/comprimento20 e Full H2. Verificação física MySQL TEMP será feita pelo root depois de T5.
 
@@ -58,4 +58,26 @@ Gate Full H2 PASS, 253 testes sem falhas/erros/skips; log T1a-verify.log no mesm
 | EtapaCategoriaTests.java:23 INFORMATION_SCHEMA | T1 done when/design modelo VARCHAR nullable | Sim |
 
 Adequação PASS, assertion adicional de schema sem enfraquecer as existentes. Não há SPEC_DEVIATION.
+
+## T3: criação atômica
+
+Pré-plano: garantir par na transação inicial depois dos trabalhos; validar IDs/categorias antes do primeiro save. Arquivos: GerenciamentoService.java, GerenciamentoController.java (DTO atualmente descarta ID/categoria, precisa repassá-los), GerenciamentoApiTests.java (somente contagens/listas autorizadas, assertions finais extras), GerenciamentoFinaisTests.java, spec/tasks/evidence. Sucesso: HTTP cria par próprio em dois quadros, preserva N trabalhos, rejeita entradas finais/ID com400 sem efeitos; constraint H2 na segunda final demonstra rollback depois de quadro/trabalho/primeira final persistidos. Full H2.
+
+Gate Full H2 PASS: **258 testes, zero falhas/erros/skips**, log T3-verify.log no TEMP anterior; validate_spec/tasks PASS, zero erros/warnings.
+
+| AC/done when | Evidência + assertion em `sistema/src/test/java/com/patp/sistema/GerenciamentoFinaisTests.java` | Resultado | Cobertura |
+| --- | --- | --- | --- |
+| FIN-01/02 sem/com trabalhos | :26 `isCreated()`/versão0; :32 `hasSize(2)`; :33 `hasSize(4)`; :34–37 `containsExactly("Concluídos", "Cancelados")`, setores Campo/Projeto, ordens3/7, categorias TRABALHO | trabalhos preservados + par | Sim |
+| FIN-01/03 finais e vínculos/IDs próprios | :39 nomes exatos; :40 categorias exatas; :41 `containsExactly(null, null)`; :42 IDs distintos; :43 vínculos respectivos; :45 `doesNotContainAnyElementsOf(...)`; :48/49 categorias HTTP | par persistido próprio | Sim |
+| FIN-04 rejeição ID/categoria | :62 `isBadRequest()`; :63 `isEqualTo(antes)`; :64 `isEqualTo(quadrosAntes)` |400 sem efeitos | Sim |
+| FIN-05 falha segunda final | :73 `isInternalServerError()`/erro exato; :74/75 `isZero()` |rollback quadro/trabalho/primeira final | Sim |
+
+| Assertion (arquivo/linha acima) | Requisito | Manter |
+| --- | --- | --- |
+| :26/:29/:32–45/:47–49 | FIN-01/02/03 | Sim |
+| :62–64 | FIN-04 | Sim |
+| :73–75 | FIN-05 | Sim |
+| GerenciamentoApiTests listas atualizadas + todos os campos de trabalho anteriores | FIN-01/02 e regressão autorizada contexto | Sim |
+
+Adequação PASS: cinco casos novos (1 criação,3 rejeição,1 falha parcial); testes antigos conservados. Somente cardinalidades/listas afetadas atualizadas, assertions finais exatas acrescentadas. Padrões de teste existentes seguidos; sem SPEC_DEVIATION.
 
