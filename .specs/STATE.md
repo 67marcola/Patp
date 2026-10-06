@@ -128,16 +128,24 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-05
 - **Status**: active
 
+### AD-016
+- **Decision**: preparar a correção das demandas antigas concluídas/canceladas em todos os gerenciamentos, inclusive arquivados, direcionando-as à etapa final correspondente do mesmo quadro.
+- **Reason**: o usuário respondeu A à escolha entre todos os quadros e somente os ativos.
+- **Trade-off**: a preparação inclui uma exceção de manutenção dos dados antigos de quadros arquivados; as ações normais desses quadros continuam somente consulta conforme AD-005.
+- **Scope**: ferramenta explícita de preparação/correção de legados, preservando IDs, comentários, histórico, campos e datas existentes. Não inventar motivos ou datas ausentes. Esta escolha define o comportamento a implementar e testar com dados fictícios; não autoriza executar migração no banco real.
+- **Date**: 2026-10-06
+- **Status**: active
+
 ## Handoff
 
-- **Feature**: esclarecimento das etapas finais obrigatórias e dos fluxos de movimentação/finalização da Creral.
-- **Phase / Task**: discussão de regras de negócio, antes da especificação e implementação. AD-011–014 confirmam destinos automáticos, criador/admin, reabertura e qualquer etapa de trabalho inclusive anterior; justificativa obrigatória confirmada agora em AD-015. Retirada de PM encerrada tecnicamente em f4321c3/b0ea20a, MAR-01–04, 4/4 PASS, validate_state PASS.
+- **Feature**: etapas finais obrigatórias, em features/etapas-finais; fluxos de demandas em entrega posterior.
+- **Phase / Task**: especificação e plano das colunas Concluídos/Cancelados, proteção e preparação explícita de legados. AD-011–016 resolvem este bloco de escolhas; início da implementação após gates estruturais.
 - **Completed**: gerenciamentos 41/41, etapas 30/30, autocadastro 14/14 e retirada de PM 4/4 com Verificadores independentes. Gates próprios desta remoção visual: 222 Vitest, build/lint e 3 E2E Edge/H2, zero falhas/skips. Quatro inspeções desktop/mobile PASS; sensor visual 3/3 falhas detectadas e 3/3 controles originais PASS. Os últimos 247 Java/H2 e nove casos MySQL TEMP pertencem à entrega de autocadastro; não foram repetidos nesta alteração de apresentação. Cadastro continua FUNCIONARIO.
-- **In-progress**: uma decisão deste bloco ainda aberta: alcance da correção de demandas antigas com status final em etapa de trabalho. UAT humano dos requisitos entregues sem resultado; roteiro do cadastro em docs/OPERACAO.md:21. L-001/L-002 continuam candidates, nenhuma promoção.
-- **Next step**: esclarecer tratamento de legados; então especificar Concluídos/Cancelados antes dos fluxos dependentes. Não inferir escolhas ou PASS humano de continuações.
-- **Blockers**: regras de negócio ainda em discussão, sem implementação dependente iniciada. Rejeição histórica de limpeza de autocadastro documentada abaixo, sem nova tentativa. Contas administrativas reais pendentes.
-- **Uncommitted files**: nenhuma alteração de aplicação nesta conversa. Apenas registro da decisão AD-015 e progresso no DIAGNOSTICO; staging explícito desses dois documentos. Artefatos anteriores preservados.
-- **Branch**: testes; base desta rodada 9cc0a04, base histórica 5d8beb9, base de marca-login 39ea59c.
+- **In-progress**: artefatos da próxima entrega; nenhuma coluna/ação nova já declarada pronta. UAT humano anterior sem resultado. L-001/L-002 continuam candidates, nenhuma promoção.
+- **Next step**: validar spec/tasks e executar uma tarefa atômica por vez, com testes; finalizar com Verificador independente. Depois conectar fluxos e CRUD de demandas, esclarecendo campos/permissões que ainda faltarem.
+- **Blockers**: nenhum para o escopo de colunas e preparação explícita definido. Rejeição histórica de limpeza preservada abaixo, sem nova tentativa. Contas administrativas reais pendentes.
+- **Uncommitted files**: registro AD-016, DIAGNOSTICO e artefatos de etapas-finais; staging explícito por tarefa. Artefatos anteriores preservados.
+- **Branch**: testes; base de etapas-finais a118606, base histórica 5d8beb9.
 
 Autorização de implementação permanece válida. Não iniciar aplicação normal/MySQL configurado nem reiniciar serviços do usuário. Testes somente H2/helper isolado ou MySQL TEMP fictício explicitamente delimitado. Não push/deploy/alterar contas reais. A falha ECONNRESET anterior de etapas permanece documentada em seu relatório, sem causa inventada.
 
@@ -161,8 +169,8 @@ Auditoria somente leitura: `GerenciamentoGuard.java:44–54` já oferece a verif
 
 A criação recebe entidade completa e salva status/datas enviados (`ProcessoController.java:32`, `ProcessoService.java:49–65`); estado/etapa iniciais serão definidos no contrato de demandas. Não restringir indiscriminadamente o helper compartilhado com edição de campos e exclusão, cujas permissões ainda não foram decididas. Testes antigos que aceitam terceiro movendo/finalizando precisarão refletir AD-012 e verificar bloqueio sem efeitos: `ProcessoArchiveTests.java:82–111`, `HistoricoArchiveTests.java:52–62`, `EtapaDemandConcurrencyTests.java:45–70/157–159`. Nenhum desses testes foi alterado nesta conversa.
 
-Perguntas já enviadas, ainda sem resposta; sugestões não são decisões:
+Confirmado em AD-016: preparar correção para todos os quadros, inclusive arquivados. Nenhuma migração real autorizada/executada. Este bloco de cinco perguntas está resolvido.
 
-- Demandas antigas com status final e coluna de trabalho serão corrigidas numa migração explícita em todos os quadros, inclusive arquivados, ou somente ativos, com revisão manual dos arquivados após restauração? Preservar IDs, comentários, histórico e datas existentes; não inventar datas. Nenhuma migração real autorizada/executada.
+Próxima entrega delimitada: categorias explícitas, criação/proteção das duas colunas oficiais, interface e preparação idempotente de legados. Não promete ainda coerência permanente de status/etapa nas APIs antigas de demandas; esses fluxos, a permissão de AD-012, reabertura e justificativa pertencem à entrega seguinte. Testes desses fluxos existentes permanecem nesta primeira entrega.
 
 CRUD de etapas segue AD-007–010, com detalhes e defaults declarados em `features/etapas/context.md`. Não inferir respostas novas de “pode continuar”.
