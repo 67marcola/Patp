@@ -104,16 +104,24 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-05
 - **Status**: active
 
+### AD-013
+- **Decision**: permitir reabrir uma demanda concluída ou cancelada, somente pelo criador do gerenciamento ou por um administrador, escolhendo uma etapa de trabalho do mesmo quadro ativo.
+- **Reason**: o usuário respondeu A à proposta de reabertura para corrigir encerramentos por engano.
+- **Trade-off**: conclusão e cancelamento não são irreversíveis; o sistema precisa distinguir reabrir de uma movimentação comum e manter o registro dos encerramentos anteriores.
+- **Scope**: reabertura após conclusão/cancelamento e autorização na interface/servidor. Continua valendo AD-005: quadro arquivado precisa ser restaurado antes da ação. A escolha não decide se movimentos comuns podem voltar para etapas anteriores.
+- **Date**: 2026-10-05
+- **Status**: active
+
 ## Handoff
 
 - **Feature**: esclarecimento das etapas finais obrigatórias e dos fluxos de movimentação/finalização da Creral.
-- **Phase / Task**: discussão de regras de negócio, antes da especificação e implementação. Destinos automáticos confirmados em AD-011; permissão para mover/pular/concluir/cancelar confirmada agora em AD-012. Retirada de PM encerrada tecnicamente em f4321c3/b0ea20a, MAR-01–04, 4/4 PASS, validate_state PASS.
+- **Phase / Task**: discussão de regras de negócio, antes da especificação e implementação. Destinos automáticos confirmados em AD-011; permissão para mover/pular/concluir/cancelar em AD-012; reabertura por criador/admin confirmada agora em AD-013. Retirada de PM encerrada tecnicamente em f4321c3/b0ea20a, MAR-01–04, 4/4 PASS, validate_state PASS.
 - **Completed**: gerenciamentos 41/41, etapas 30/30, autocadastro 14/14 e retirada de PM 4/4 com Verificadores independentes. Gates próprios desta remoção visual: 222 Vitest, build/lint e 3 E2E Edge/H2, zero falhas/skips. Quatro inspeções desktop/mobile PASS; sensor visual 3/3 falhas detectadas e 3/3 controles originais PASS. Os últimos 247 Java/H2 e nove casos MySQL TEMP pertencem à entrega de autocadastro; não foram repetidos nesta alteração de apresentação. Cadastro continua FUNCIONARIO.
-- **In-progress**: quatro decisões abaixo ainda abertas; próxima pergunta trata de reabrir demanda concluída/cancelada. UAT humano dos requisitos entregues sem resultado; roteiro do cadastro em docs/OPERACAO.md:21. L-001/L-002 continuam candidates, nenhuma promoção.
-- **Next step**: esclarecer reabertura e demais regras pendentes; então especificar Concluídos/Cancelados antes dos fluxos dependentes. Não inferir escolhas ou PASS humano de continuações.
+- **In-progress**: três decisões abaixo ainda abertas; próxima pergunta trata de escolher qualquer etapa de trabalho ou somente uma posterior ao pular. UAT humano dos requisitos entregues sem resultado; roteiro do cadastro em docs/OPERACAO.md:21. L-001/L-002 continuam candidates, nenhuma promoção.
+- **Next step**: esclarecer retorno para etapas anteriores, justificativa de cancelamento e tratamento de legados; então especificar Concluídos/Cancelados antes dos fluxos dependentes. Não inferir escolhas ou PASS humano de continuações.
 - **Blockers**: regras de negócio ainda em discussão, sem implementação dependente iniciada. Rejeição histórica de limpeza de autocadastro documentada abaixo, sem nova tentativa. Contas administrativas reais pendentes.
-- **Uncommitted files**: nenhuma alteração de aplicação nesta conversa. Apenas registro da decisão AD-012 e progresso no DIAGNOSTICO; staging explícito desses dois documentos. Artefatos anteriores preservados.
-- **Branch**: testes; base desta discussão b0ea20a, base histórica 5d8beb9, base de marca-login 39ea59c.
+- **Uncommitted files**: nenhuma alteração de aplicação nesta conversa. Apenas registro da decisão AD-013 e progresso no DIAGNOSTICO; staging explícito desses dois documentos. Artefatos anteriores preservados.
+- **Branch**: testes; base desta rodada 4ff7caa, base histórica 5d8beb9, base de marca-login 39ea59c.
 
 Autorização de implementação permanece válida. Não iniciar aplicação normal/MySQL configurado nem reiniciar serviços do usuário. Testes somente H2/helper isolado ou MySQL TEMP fictício explicitamente delimitado. Não push/deploy/alterar contas reais. A falha ECONNRESET anterior de etapas permanece documentada em seu relatório, sem causa inventada.
 
@@ -127,13 +135,14 @@ Confirmado em AD-011: somente Concluídos e Cancelados, com destino automático 
 
 Confirmado em AD-012: somente o criador do gerenciamento e administradores poderão mover, pular etapas, concluir e cancelar demandas de quadro ativo. A resposta B não decide reabertura nem permissões para criar/editar/excluir demandas.
 
+Confirmado agora em AD-013: criador do gerenciamento e administradores também poderão reabrir demandas concluídas/canceladas, escolhendo uma etapa de trabalho do mesmo quadro. Quadros arquivados precisam ser restaurados antes. Reabertura ainda não foi implementada; o contrato de status/datas e preservação do histórico será explicitado na especificação, sem inventar datas de eventos antigos.
+
 Auditoria somente leitura: `GerenciamentoGuard.java:44–54` já oferece a verificação criador/admin; criador nulo deixa apenas admin autorizado. `ProcessoService.java:204/256/286` ainda protege somente o estado ativo nas ações dedicadas. A edição genérica também altera status (:137) e etapa (:161–187); esses caminhos precisarão obedecer à mesma regra quando executarem as ações de AD-012. Não basta ocultar botões. Nenhuma alteração de código ou teste executado nesta rodada de decisões.
 
 A criação recebe entidade completa e salva status/datas enviados (`ProcessoController.java:32`, `ProcessoService.java:49–65`); estado/etapa iniciais serão definidos no contrato de demandas. Não restringir indiscriminadamente o helper compartilhado com edição de campos e exclusão, cujas permissões ainda não foram decididas. Testes antigos que aceitam terceiro movendo/finalizando precisarão refletir AD-012 e verificar bloqueio sem efeitos: `ProcessoArchiveTests.java:82–111`, `HistoricoArchiveTests.java:52–62`, `EtapaDemandConcurrencyTests.java:45–70/157–159`. Nenhum desses testes foi alterado nesta conversa.
 
 Perguntas já enviadas, ainda sem resposta; sugestões não são decisões:
 
-- Depois de concluir/cancelar, será permitido reabrir a demanda escolhendo uma etapa de trabalho?
 - Pular permite escolher qualquer etapa de trabalho, inclusive anterior, ou somente uma posterior?
 - Cancelar exige justificativa ou aceita motivo vazio?
 - Demandas antigas com status final e coluna de trabalho serão corrigidas numa migração explícita em todos os quadros, inclusive arquivados, ou somente ativos, com revisão manual dos arquivados após restauração? Preservar IDs, comentários, histórico e datas existentes; não inventar datas. Nenhuma migração real autorizada/executada.
