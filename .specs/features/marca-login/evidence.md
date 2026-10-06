@@ -53,4 +53,12 @@ Prefixo visual físico: `C:/Users/Marco/AppData/Local/Temp/creral-marca-login-b6
 
 Checks A/B/C/D: resultados concretos, não apenas chamadas; todos os novos checks visuais têm critério, nenhum teste novo de implementação. Suítes anteriores são regressões de funcionalidades já entregues, preservadas integralmente. Princípios da skill e padrões do projeto seguidos. Veredito de adequação do autor: MAR-01–04 atendidos no gate e inspeção, sem gap encontrado.
 
-**Status T1:** complete após gate e adequação, antes do commit. Validação independente ainda pendente; Verificador novo automático após commit.
+**Status T1:** complete após gate e adequação. Implementação e evidências do autor no commit local `f4321c3`.
+
+## Encerramento técnico
+
+O Verificador independente confirmou MAR-01–04, 4/4 PASS, com relatório físico em `validation.md`. Seus próprios gates passaram: 222 Vitest em 11 arquivos, build em TEMP, lint e 3 E2E Edge/H2, sem falhas ou skips. As quatro combinações de tela e viewport foram medidas e inspecionadas em capturas próprias.
+
+O sensor detectou 3/3 falhas visuais compiláveis: PM recolocado no login, PM recolocado no cadastro e bloco vazio antes do título. As cópias do JavaScript foram executadas em memória, sem alterar arquivos do projeto; os três controles originais voltaram a PASS. Comparação integral do porcelain antes/depois: 231250 bytes, 3406 linhas, SHA256 `7c00fa1801471477c0d988eb7155679c872148517310389fa817ecf86dec84d6`, byteigual. Contextos e preview próprios encerrados; serviços do usuário preservados. Nenhuma nova lição ou tarefa de correção encontrada.
+
+`validate_state.py marca-login` passou na execução independente e na conferência do autor. UAT humano continua pendente e não é inferido da autorização para continuar. As perguntas de movimentação/finalização permanecem abertas em `STATE.md`.

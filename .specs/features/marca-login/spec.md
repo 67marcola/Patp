@@ -1,6 +1,6 @@
 # Retirar PM da autenticação Specification
 
-**Status:** T1 implementada e gate/inspeção PASS; Verificador independente e UAT pendentes. **Base:** 39ea59c. **Data:** 2026-10-05.
+**Status:** T1 implementada e verificada independentemente, 4/4 critérios PASS; UAT humano pendente. **Base:** 39ea59c. **Data:** 2026-10-05.
 
 ## Problem Statement
 
@@ -53,7 +53,7 @@ Uma alteração atômica nos três arquivos de apresentação. Gate frontend: np
 
 | Requirement | Task | Status | Evidence |
 | --- | --- | --- | --- |
-| MAR-01 | T1 | implemented | evidence.md |
-| MAR-02 | T1 | implemented | evidence.md |
-| MAR-03 | T1 | implemented | evidence.md |
-| MAR-04 | T1 | implemented | evidence.md |
+| MAR-01 | T1 | verified | validation.md; evidence.md |
+| MAR-02 | T1 | verified | validation.md; evidence.md |
+| MAR-03 | T1 | verified | validation.md; evidence.md |
+| MAR-04 | T1 | verified | validation.md; evidence.md |
