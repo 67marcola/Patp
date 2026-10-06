@@ -1,6 +1,6 @@
 # Movimentação e encerramento de demandas Specification
 
-**Status:** preparação; escolha sobre status legados desconhecidos ainda pendente. Implementação local autorizada pelo usuário; não iniciar o contrato desses registros antes da resposta.
+**Status:** regras fechadas pelas decisões AD-011–015/021/022 e autorização persistente de implementação local. Em execução.
 
 ## Problem Statement
 
@@ -24,7 +24,7 @@ As APIs antigas permitem movimentar e encerrar demandas sem a permissão combina
 | Assumption / decision | Chosen default | Rationale | Confirmed? |
 | --- | --- | --- | --- |
 | Permissão, destinos e reabertura | AD-005/006/011–015/021 | Escolhas explícitas do usuário; reabertura limpa campos atuais e guarda encerramentos antigos. | sim |
-| Status legado vazio ou desconhecido | Sem classificação automática enquanto a resposta estiver pendente | O usuário deve escolher consulta com bloqueio ou tratá-lo como Em andamento; não inferir escolha. | pendente |
+| Status legado vazio ou desconhecido | Consulta preservada; transições bloqueadas com409 | AD-022, resposta A do usuário. Não classificar automaticamente. | sim |
 | Repetição e mesmo destino | HTTP 409 sem evento ou versão | Evitar histórico fictício e repetição de encerramento; novo ciclo requer reabrir. | default técnico explícito |
 | Motivo novo | Normalizar com helper existente; 1..10000 UTF-16 | Mesmo teto das observações; antigos motivos permanecem completos, sem limite retroativo. | default técnico explícito |
 | Datas | LocalDate.now do servidor; não inventar datas legadas | Compatibilidade com modelo existente; timestamps de reabertura são do novo evento. | default técnico explícito |
@@ -32,7 +32,7 @@ As APIs antigas permitem movimentar e encerrar demandas sem a permissão combina
 | Quadros antigos sem finais | Recusar fechamento e orientar preparação explícita | AD-016 já oferece ferramenta; ação normal não migra dados. | default técnico explícito |
 | API e cache | Nova API tipada por quadro + versão; legado compartilha serviço e incrementa versão | Preservar formato legado sem desvio das regras e invalidar snapshots antigos. | default técnico explícito |
 
-**Open questions:** status vazio/desconhecido, pergunta enviada nesta retomada. Não está aprovado nem resolvido por ausência de resposta. Todos os demais pontos estão resolvidos ou registrados acima.
+**Open questions:** none; todas resolvidas ou defaults técnicos explícitos acima.
 
 ## User Stories
 
@@ -124,9 +124,11 @@ As APIs antigas permitem movimentar e encerrar demandas sem a permissão combina
 
 **Independent Test:** executar cenários correspondentes com contas e quadros fictícios e comparar estado completo antes/depois.
 
+35. IF o status persistido for null, vazio ou diferente dos três estados reconhecidos THEN o servidor SHALL responder HTTP 409 em qualquer transição sem efeitos, mantendo consulta e valores antigos; a interface não oferece ações e informa Status antigo não reconhecido. Solicite a correção do registro. <!-- MOV-35 -->
+
 ## Edge Cases
 
-Cobertos por MOV-01–27: autorização negada, quadro sem criador/arquivado, destinos externos/finais/iguais, ausência de finais, versões antigas, concorrência, falha de persistência e campos antigos preservados. Status legado desconhecido tem decisão pendente e receberá critério próprio após a resposta.
+Cobertos por MOV-01–27: autorização negada, quadro sem criador/arquivado, destinos externos/finais/iguais, ausência de finais, versões antigas, concorrência, falha de persistência e campos antigos preservados. MOV-35 cobre os status legados desconhecidos, sem normalização ou migração automática.
 
 ## Requirement Traceability
 
@@ -167,7 +169,9 @@ Cobertos por MOV-01–27: autorização negada, quadro sem criador/arquivado, de
 | MOV-33 | P1: Interface | Specify | Pending |
 | MOV-34 | P1: Interface | Specify | Pending |
 
-**Coverage:** 34 critérios definidos; mapeamento a tarefas na próxima fase. Critério de status desconhecido ainda pendente.
+| MOV-35 | P1: Integridade | Tasks | Pending |
+
+**Coverage:** 35 critérios mapeados nas tarefas T1–T7.
 
 ## Success Criteria
 

@@ -22,7 +22,7 @@ public class Historico {
     @Column(nullable = false)
     private String acao;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String descricao;
 
     @Column(nullable = false)

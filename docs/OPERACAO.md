@@ -1,5 +1,15 @@
 # Operação local do sistema Creral
 
+## Histórico integral das movimentações
+
+A próxima entrega das transições usa `historicos.descricao LONGTEXT NOT NULL` para guardar motivos e os dados anteriores de encerramento sem truncamento. A alteração abaixo é somente documentação. Não foi executada no banco configurado; conferir backup, schema e tipo atual antes de uma atualização autorizada no ambiente escolhido:
+
+```sql
+ALTER TABLE historicos MODIFY COLUMN descricao LONGTEXT NOT NULL;
+```
+
+Testes usam bancos fictícios. A aplicação normal não deve ser iniciada para aplicar essa alteração por suposição. Datas ou motivos ausentes em registros antigos continuam ausentes; a reabertura registra somente os valores efetivamente encontrados.
+
 Os testes Maven usam H2 em memória pelo classpath de teste. Execute `mvn.cmd -B verify` em `sistema/`. A aplicação normal continua usando MySQL. Não execute o perfil normal para verificar testes.
 
 ## Experimentar o CRUD com dados fictícios

@@ -176,6 +176,14 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-06
 - **Status**: active
 
+### AD-022
+- **Decision**: demandas antigas com status vazio, nulo ou diferente de Em andamento, Concluido e Cancelado permanecem consultáveis, mas não podem mover, concluir, cancelar ou reabrir até a correção do registro.
+- **Reason**: o usuário respondeu A à escolha entre bloquear ações ou tratar automaticamente status desconhecido como Em andamento.
+- **Trade-off**: registros inconsistentes exigem correção explícita antes de voltar ao fluxo; nenhuma normalização automática presume o estado do trabalho.
+- **Scope**: transições de demandas, rotas alternativas e interface; preservar dados legados durante consultas. O mecanismo de correção fica fora deste corte.
+- **Date**: 2026-10-06
+- **Status**: active
+
 ## Handoff
 
 - **Feature**: cadastro e leitura de demandas, levantamento em features/demandas-cadastro/context.md.
