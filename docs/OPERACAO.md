@@ -65,13 +65,51 @@ H2 valida o contrato em memória. MySQL isolado deve verificar atualização de 
 
 ## Contrato da configuração de etapas
 
-`GET /api/gerenciamentos/{id}/estrutura-etapas` devolve `{gerenciamento,etapas}`. Os metadados do gerenciamento incluem sua versão atual e a permissão `podeAdministrar`. Cada etapa informa ID, nome, setor, ordem e `quantidadeDemandas`, incluindo demandas de todos os status. O GET anterior `/etapas` continua devolvendo um array. Consultas não corrigem ordens ou setores antigos.
+`GET /api/gerenciamentos/{id}/estrutura-etapas` devolve `{gerenciamento,etapas}`. Os metadados do gerenciamento incluem sua versão atual e a permissão `podeAdministrar`. Cada etapa informa ID, nome, setor, ordem, categoria e `quantidadeDemandas`, incluindo demandas de todos os status. O GET anterior `/etapas` continua devolvendo um array. Consultas não corrigem ordens, setores ou referências antigas nem preparam quadros legados.
 
 Criador/admin pode configurar etapas de quadros ativos. POST `/etapas` responde 201; PUT/DELETE `/etapas/{etapaId}` respondem 200. Todas as mutações retornam o snapshot completo em JSON, inclusive DELETE. POST/PUT recebem `{nome,setor,ordem,versao}`; DELETE recebe `{versao}`. Use a versão retornada na próxima operação e ao editar/arquivar o gerenciamento. Repetir uma mutação com a versão anterior recebe 409; não há retry automático.
 
-Nome e Setor são obrigatórios, normalizados nas bordas e limitados a 255 unidades UTF-16. Setor é informativo. Posição vai de 1 até N+1 na criação e de 1 até N na edição. A próxima configuração reorganiza as ordens antigas em posições consecutivas, sem inventar setor ou alterar demandas/históricos. Etapa com qualquer demanda não pode ser removida; mova as demandas antes. Arquivados ficam somente consulta.
+Nome e Setor são obrigatórios nas etapas de trabalho, normalizados nas bordas e limitados a 255 unidades UTF-16. Setor é informativo. Posição vai de 1 até N+1 na criação e de 1 até N na edição, contando somente trabalhos. A próxima configuração reorganiza as ordens antigas de trabalho em posições consecutivas, sem inventar setor ou alterar demandas/históricos. Trabalho com qualquer demanda não pode ser removido; mova as demandas antes. Arquivados ficam somente consulta.
 
-Essa atualização não acrescenta tabela/coluna. A interface oferece Nova etapa, edição de Nome/Setor/Posição e remoção com confirmação. Campos são preservados em falha; Atualizar quadro consulta os dados sem repetir gravação. Enquanto uma gravação está pendente, Voltar, Cancelar e Sair ficam bloqueados. As etapas finais Concluídos/Cancelados e o destino automático de AD-011 terão requisito próprio.
+Cada novo gerenciamento recebe as finais oficiais CONCLUIDA/Concluídos e CANCELADA/Cancelados, com IDs próprios e Setor nulo. O snapshot ordena trabalhos por ordem/ID, depois CONCLUIDA e CANCELADA. Essas finais não podem ser editadas, removidas nem reposicionadas; PUT/DELETE respondem 409 com `Etapas finais obrigatórias não podem ser alteradas.` mesmo quando vazias. Nomes iguais em etapas antigas ou de categoria TRABALHO continuam trabalhos. Categoria SQL nula é lida como TRABALHO, sem gravar essa classificação.
+
+A interface oferece Nova etapa, edição de Nome/Setor/Posição e remoção com confirmação. Campos são preservados em falha; Atualizar quadro consulta os dados sem repetir gravação. Enquanto uma gravação está pendente, Voltar, Cancelar e Sair ficam bloqueados. O destino automático das ações de concluir/cancelar e a reabertura de demandas serão conectados em entrega posterior. A preparação abaixo corrige explicitamente referências antigas e não garante ainda coerência permanente nas APIs anteriores de demandas.
+
+## Preparar etapas finais de quadros legados
+
+A coluna nova é `etapas.categoria VARCHAR(20) NULL`. Antes de usar o comando, revisar backup/schema no ambiente escolhido e acrescentar a coluna somente se ausente. Não classificar etapas antigas pelo nome nem executar atualização global de categoria:
+
+```sql
+ALTER TABLE etapas ADD COLUMN categoria VARCHAR(20) NULL;
+```
+
+Plano e aplicação são comandos explícitos de operador, sem endpoint público, runner ou execução pelo startup/GET normal. A ferramenta sempre usa `ddl-auto=validate`; assim, plano não acrescenta/ajusta schema. Schema incompatível interrompe o contexto. Concluir a manutenção de schema separadamente antes de pedir o plano.
+
+O exemplo PowerShell abaixo usa um MySQL fictício separado, porta 33817 e schema `etapas_finais_teste`. A instância e o schema precisam existir e conter somente dados de teste; esses nomes/porta não autorizam usar outro banco. Execute na pasta `sistema/`, com o JDK configurado e o jar já construído por `mvn.cmd -B verify`:
+
+```powershell
+$preparacaoArgs = @(
+    '--spring.datasource.url=jdbc:mysql://127.0.0.1:33817/etapas_finais_teste',
+    '--spring.datasource.username=operador_teste',
+    '--spring.datasource.password=senha_ficticia',
+    '--spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver',
+    '--spring.jpa.hibernate.ddl-auto=validate',
+    '--spring.jpa.show-sql=false'
+)
+java '-Dloader.main=com.patp.sistema.PrepararEtapasFinais' -cp 'target/sistema-0.0.1-SNAPSHOT.jar' org.springframework.boot.loader.launch.PropertiesLauncher plano @preparacaoArgs
+```
+
+Conferir o relatório: cada quadro informa ID/nome/arquivo/criador, `finaisAusentes`, status e quantidades com os valores exatos, `referenciasAjustar` e versão. Status nulo aparece como null. No plano, `finaisCriadas` e `referenciasAlteradas` são zero; nada é gravado. A ação deve ser exatamente `plano` ou `aplicar` como primeiro argumento; qualquer outra ação é recusada antes de abrir contexto/conectar banco.
+
+Depois de revisar o plano do ambiente fictício, executar o mesmo comando trocando somente a ação:
+
+```powershell
+java '-Dloader.main=com.patp.sistema.PrepararEtapasFinais' -cp 'target/sistema-0.0.1-SNAPSHOT.jar' org.springframework.boot.loader.launch.PropertiesLauncher aplicar @preparacaoArgs
+```
+
+A aplicação bloqueia os quadros em ordem de ID e usa uma única transação para toda a execução. Cria apenas as finais ausentes de todos os quadros, inclusive arquivados e sem criador. Para status exatamente `Concluido` ou `Cancelado`, troca somente `etapa_id` pela final do mesmo quadro. Demais valores, inclusive null, espaços, acentos ou diferenças de caixa, são inventariados e preservados. IDs, campos/status/datas/motivos das demandas, trabalhos, comentários e históricos permanecem intactos; nenhum motivo, data ou evento de negócio é criado. Campos do quadro ficam iguais, com versão incrementada uma vez somente se houve criação ou mudança de referência.
+
+Finais duplicadas para a mesma categoria ou qualquer falha abortam e revertem integralmente a execução, inclusive quadros já processados. Não tentar corrigir automaticamente a duplicidade. Uma segunda aplicação sobre dados já preparados retorna zero criações/movimentos e preserva IDs/dados/versões. O relatório informa contagens por quadro e totais; conservar plano, resultado e backup para revisão operacional. Operar o banco configurado exige autorização própria e não foi feito nesta entrega.
 
 ## Primeiro teste de uso das etapas
 
