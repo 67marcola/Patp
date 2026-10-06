@@ -1,5 +1,44 @@
 # Cadastro e leitura de demandas: evidências
 
+## T7: confirmar a demanda antes de fechar o formulário
+
+PASS no gate do autor. O Verificador inicial encontrou CAD-33: a API aceitava201 estruturalmente válido sem a demanda solicitada. T7 corrige esse resultado sem alterar leitura/configuração, fonte Java ou layout. Arquivos: frontend/src/services/api.js, api.test.js e pages/QuadroDemandas.test.jsx. A nova validação confirma201, quadro ativo, versão enviada+1, um único registro correspondente aos oito campos normalizados, estado Em andamento/finaisnull e primeira TRABALHO por ordem/ID. Se não confirmar, usa o ApiError existente; o tratamento de erro do quadro preserva o rascunho/cache e exige atualização manual.
+
+Testes foram escritos antes da correção: gate dirigido RED242 casos,210PASS/32falhas de assertion, exit1; depois implementação, suíte completa475/475 em13arquivos, exit0. São35 novos casos (32API/3quadro), todos440 anteriores preservados. Fixtures POST novas passaram a representar criação real do número solicitado; a expectativa incorreta de aceitar POST vazio foi fortalecida para rejeição, conforme CAD-33. GET/configuração continuam aceitando snapshots vazios/legados, com suas assertions anteriores. A matriz estrutural POST começa agora de uma resposta realmente confirmada.
+
+Gate Build PASS:475Vitest, buildTEMP24módulos, lint sem diagnósticos e quatro Edge/H2, todos exit0 e nenhum skip/retry. Evidências completas em `C:/Users/Marco/AppData/Local/Temp/creral-demandas-t7-6c7dc2c6d8024f5bbc0828be3a88a5f0`: vitest-red.log/exit, vitest.log/exit, build.log/exit, lint.log/exit, e2e-final.log/exit. Primeiro E2E sob sandbox falhou antes de iniciar por EPERM ao resolver java.exe; e2e.log/exit preservados como tentativa ambiental, sem prova funcional. Execução local autorizada automaticamente passou os quatro fluxos. Java390H2 e145MySQL selecionados continuam evidências independentes da fonte inalterada; não foram repetidos nesta correção exclusivamente frontend. Nenhum serviço normal/banco real ou limpeza de artefatos.
+
+### Check A: suficiência e resultados da especificação
+
+A=`frontend/src/services/api.test.js`; Q=`frontend/src/pages/QuadroDemandas.test.jsx`. O snapshot positivo contém D-3 e todos14campos em A:175–183, com versão3 após pedido2. Os oito campos enviados estão definidos separadamente em A:172–174.
+
+| Critério / AC | file:line e assertion | Resultado especificado | Coberto |
+| --- | --- | --- | --- |
+| CAD-01/05/30/32/33 confirmação positiva | A:189 `expect(await criarDemanda("sessao", 9, dadosDemanda)).toEqual(configuracaoCriada)`; A:190 fetch exato com JSON.stringify(dadosDemanda) | Retornar201 completo, dados solicitados/defaults/versão+1 e exatamente nove campos enviados | Sim |
+| CAD-03/05/30/33 mínimo/trim/vazios | A:221 `expect(await criarDemanda("sessao", 9, enviados)).toEqual(confirmado)`; A:222 body igual a enviados; A:223 fetch once; três casos A:212–217 | Opcionais ausentes/vaziosnull, textos aparados e estado inicial confirmados sem reenvio | Sim |
+| CAD-06/33 primeira etapa | A:234 igualdade integral `confirmado`; A:227–231 array não ordenado, finais anteriores e trabalhos homônimos com empate por ID | Confirmar vínculo da primeira TRABALHO por ordem/ID, sem inferir nome ou posição do array | Sim |
+| CAD-01/05/06/15/30/33 resultado errado | A:276 `await expect(criarDemanda(...)).rejects.toMatchObject({ name: "ApiError", status: 201, message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente." })`; A:278 fetch once; casos A:239–270 | Rejeitar ausência/cada um dos oito campos diferente/status/finais/versão antiga ou+2/arquivo/trabalho ausente ou posterior/final/desempate/duas correspondentes; contagens continuam coerentes | Sim |
+| CAD-01/33 código errado | A:283 rejects com status/message literal; A:285 fetch once; status200/202 | Dados completos sem201 não confirmam cadastro | Sim |
+| CAD-33/36 vazio e legado | A:202 igualdade integral legado; A:206 POSTvazio rejects message/status201; A:208 demais rotas `.toEqual(vazio)` | Legados antigos de outros cartões continuam literais; vazio é válido para GET/configuração e não confirma criação | Sim |
+| CAD-32/33 rascunho/cache preservados | Q:236 alertliteral; Q:54 compara cada campo, invocado Q:237; Q:239 ID40/Q:240 observação anterior/Q:241 count1; Q:242 novo cardnull; Q:243 cache `[quadro]`; Q:244 submitdisabled; Q:246 métodos `["GET","POST"]` |201 sem demanda/observação diferente/versão antiga mantém os oito valores brutos, cartão/cache anteriores, mensagem e bloqueio sem POST automático | Sim |
+| CAD-32/33/34 recuperação manual | Q:249 todos oito campos iguais; Q:250 métodos `["GET","POST","GET"]`; Q:251 versões `[0,7]`; Q:253 ID42/Q:254 formnull/Q:255 count2/Q:256 versões `[0,7,8]`; Q:258 payloads `[{...dados,versao:0},{...dados,versao:7}]` | Somente GET manual libera reenvio; POST manual usa versão corrente, normaliza campos e aplica confirmação real | Sim |
+| CAD-36 regressão estrutural | A:312–314 rejects ApiError/status/message e fetch once partindo de fixture confirmada para POST | Cada corrupção estrutural mantém significado e rejeição próprios; não fica coberta apenas por ausência da demanda solicitada | Sim |
+
+### Check C: necessidade
+
+| file:line e assertion | Critério / AC | Manter |
+| --- | --- | --- |
+| A:189/190 resposta/payload integral; A:202/206/208 legado/POSTvazio/GETvazio | CAD-01/30/33/36; fixtures corrigidas preservam os casos existentes | Sim |
+| A:221/222/223 nos três casos mínimo/trim/vazios | CAD-03/05/30/33 normalização e confirmação sem retry | Sim |
+| A:234/235 no caso com lacuna/empate/homônimos/finais | CAD-06/33 escolha automática persistida | Sim |
+| A:276/278 nos26 inversos de negócio listados individualmente A:239–270 | CAD-01/05/06/15/30/33, cada campo/estado/vínculo/versionamento do resultado | Sim |
+| A:283/285 nos dois códigos200/202 | CAD-01/33 confirmação exige201 | Sim |
+| Q:236/54/239–246 nos três inversos201 | CAD-32/33 rascunho completo, cache/cartões, bloqueio e ausência de envio automático | Sim |
+| Q:54/250/251/253–258 nos mesmos três fluxos | CAD-32/33/34 GET e reenvio manuais, payload vigente, sucesso/foco/cache | Sim |
+| A:312–314 matriz estrutural existente com fixture positiva POST correta | CAD-36 mantém a profundidade e as assertions anteriores | Sim |
+
+Adequação PASS: cada campo e estado possui comparação de valor; não há sucesso provado somente por chamadas. Novos35 casos são todos do corte; não houve redução de contagem, skip, enfraquecimento de regressões ou mudança em testes Java. Padrão de testes segue a matriz de tasks.md. Nenhum SPEC_DEVIATION. A re-verificação independente após o commit inclui uma falha em RAM no novo guard frontend e comparação integral de porcelain após encerrar processos. Relatório inicial preservado também em TEMP/demandas-independent-76066364c9b17/validation-initial.md; L-003 permanece candidate.
+
 ## T6: fluxo real e roteiro operacional
 
 PASS no gate do autor. A revisão independente da feature continua obrigatória. O teste e o roteiro operacional foram incorporados pelo commit do usuário `11e1307`, depois de T5 `f134fcb`; esta retomada preserva esse commit e registra adequação/status em um commit próprio, sem reescrever o histórico.

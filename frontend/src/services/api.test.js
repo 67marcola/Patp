@@ -172,6 +172,12 @@ test.each(mutacoesEtapa.flatMap(([method, _rota, executar, _dados, status]) =>
 const dadosDemanda = { versao: 2, numeroProcesso: "D-3", pessoa: "Maria", responsavel: "Ana",
     prioridade: "Livre", dataEmissao: "2020-02-29", prazoEtapa: "2019-01-01", prazoGeral: "2018-01-01",
     observacoes: "Primeira\nSegunda" };
+const demandaCriada = { id: 3, numeroProcesso: "D-3", pessoa: "Maria", responsavel: "Ana", status: "Em andamento",
+    prioridade: "Livre", dataEmissao: "2020-02-29", prazoEtapa: "2019-01-01", prazoGeral: "2018-01-01",
+    dataConclusao: null, dataCancelamento: null, motivoCancelamento: null, observacoes: "Primeira\nSegunda", etapaId: 4 };
+const configuracaoCriada = { ...configuracao,
+    etapas: [{ ...configuracao.etapas[0], categoria: "TRABALHO", quantidadeDemandas: 3 }],
+    demandas: [...configuracao.demandas, demandaCriada] };
 const rotasSnapshot = [
     ["GET", () => buscarConfiguracaoEtapas("sessao", 9), 200],
     ...mutacoesEtapa.map(([metodo, _rota, executar, _dados, status]) => [metodo, executar, status]),
@@ -179,16 +185,16 @@ const rotasSnapshot = [
 ];
 
 test("CAD-30: POST demanda envia somente nove campos e retorna o snapshot completo", async () => {
-    const fetchSpy = resposta(configuracao, 201);
-    expect(await criarDemanda("sessao", 9, dadosDemanda)).toEqual(configuracao);
+    const fetchSpy = resposta(configuracaoCriada, 201);
+    expect(await criarDemanda("sessao", 9, dadosDemanda)).toEqual(configuracaoCriada);
     expect(fetchSpy).toHaveBeenCalledExactlyOnceWith("http://localhost:8081/api/gerenciamentos/9/demandas", {
         method: "POST", headers: { Authorization: "Bearer sessao", "Content-Type": "application/json" },
         signal: undefined, body: JSON.stringify(dadosDemanda)
     });
 });
 
-test.each(rotasSnapshot)("CAD-36: %s aceita vazio e valores antigos completos sem limites retroativos", async (_rota, executar, status) => {
-    const legado = structuredClone(configuracao);
+test.each(rotasSnapshot)("CAD-33/36: %s preserva valores antigos e exige confirmação somente no cadastro", async (rota, executar, status) => {
+    const legado = structuredClone(rota === "POST demanda" ? configuracaoCriada : configuracao);
     Object.assign(legado.demandas[0], { status: "Desconhecido antigo", observacoes: "x".repeat(10001),
         dataEmissao: "2020-02-29", prazoEtapa: "2019-01-01", prazoGeral: "2018-01-01",
         dataConclusao: "2021-03-04", dataCancelamento: "2022-05-06", motivoCancelamento: "Legado" });
@@ -196,7 +202,87 @@ test.each(rotasSnapshot)("CAD-36: %s aceita vazio e valores antigos completos se
     expect(await executar()).toEqual(legado);
     const vazio = { gerenciamento: quadro, etapas: [], demandas: [] };
     resposta(vazio, status);
-    expect(await executar()).toEqual(vazio);
+    if (rota === "POST demanda") {
+        await expect(executar()).rejects.toMatchObject({ status: 201,
+            message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente." });
+    } else expect(await executar()).toEqual(vazio);
+});
+
+test.each([
+    ["mínimo", { versao: 2, numeroProcesso: "D-3", pessoa: "Maria" }, { responsavel: null, prioridade: null,
+        dataEmissao: null, prazoEtapa: null, prazoGeral: null, observacoes: null }],
+    ["textos aparados", { ...dadosDemanda, numeroProcesso: " D-3 ", pessoa: " Maria ", responsavel: " Ana ",
+        prioridade: " Livre ", observacoes: " Primeira\nSegunda " }, {}],
+    ["opcionais vazios", { ...dadosDemanda, responsavel: " \t ", prioridade: "\n", observacoes: " \n " },
+        { responsavel: null, prioridade: null, observacoes: null }]
+])("CAD-01/03/05/30/33: cadastro %s confirma os valores normalizados e defaults", async (_caso, enviados, campos) => {
+    const confirmado = { ...configuracaoCriada, demandas: [...configuracao.demandas, { ...demandaCriada, ...campos }] };
+    const fetchSpy = resposta(confirmado, 201);
+    expect(await criarDemanda("sessao", 9, enviados)).toEqual(confirmado);
+    expect(JSON.parse(fetchSpy.mock.calls[0][1].body)).toEqual(enviados);
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+});
+
+test("CAD-06/33: confirmação escolhe primeiro trabalho por ordem/ID sem depender da ordem do array ou do nome", async () => {
+    const confirmado = { ...configuracaoCriada, etapas: [
+        { id: 20, nome: "Concluídos", ordem: 0, categoria: "CONCLUIDA", quantidadeDemandas: 0 },
+        { id: 9, nome: "Trabalho posterior", ordem: 7, categoria: "TRABALHO", quantidadeDemandas: 0 },
+        { id: 5, nome: "Concluídos", ordem: 3, categoria: "TRABALHO", quantidadeDemandas: 0 },
+        { ...configuracaoCriada.etapas[0], nome: "Cancelados", ordem: 3 }
+    ] };
+    const fetchSpy = resposta(confirmado, 201);
+    expect(await criarDemanda("sessao", 9, dadosDemanda)).toEqual(confirmado);
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+});
+
+const confirmacoesInvalidas = [
+    ["sem demandas", dado => { dado.demandas = []; dado.etapas[0].quantidadeDemandas = 0; }],
+    ["sem demanda solicitada", dado => { dado.demandas.pop(); dado.etapas[0].quantidadeDemandas = 2; }],
+    ...[
+        ["numeroProcesso", "D-OUTRA"], ["pessoa", "Outra pessoa"], ["responsavel", "Outro responsável"],
+        ["prioridade", "Outra prioridade"], ["dataEmissao", "2020-02-28"], ["prazoEtapa", "2019-01-02"],
+        ["prazoGeral", "2018-01-02"], ["observacoes", "Outras observações"], ["status", "Concluido"],
+        ["dataConclusao", "2020-02-29"], ["dataCancelamento", "2020-02-29"], ["motivoCancelamento", "Motivo indevido"]
+    ].map(([campo, valor]) => [campo, dado => { dado.demandas[2][campo] = valor; }]),
+    ["status ausente", dado => { dado.demandas[2].status = null; }],
+    ["versão antiga", dado => { dado.gerenciamento.versao = 2; }],
+    ["versão incrementada duas vezes", dado => { dado.gerenciamento.versao = 4; }],
+    ["quadro arquivado", dado => { dado.gerenciamento.arquivado = true; }],
+    ["sem trabalho", dado => { dado.etapas[0].categoria = "CONCLUIDA"; }],
+    ["categoria não informada", dado => { delete dado.etapas[0].categoria; }],
+    ["ordem inválida", dado => { dado.etapas[0].ordem = "1"; }],
+    ["trabalho posterior", dado => {
+        dado.etapas[0].quantidadeDemandas = 2;
+        dado.etapas.push({ id: 5, nome: "Posterior", ordem: 2, categoria: "TRABALHO", quantidadeDemandas: 1 });
+        dado.demandas[2].etapaId = 5;
+    }],
+    ["etapa final", dado => {
+        dado.etapas[0].quantidadeDemandas = 2;
+        dado.etapas.push({ id: 20, nome: "Concluídos", ordem: 2, categoria: "CONCLUIDA", quantidadeDemandas: 1 });
+        dado.demandas[2].etapaId = 20;
+    }],
+    ["trabalho anterior por ordem", dado => {
+        dado.etapas.push({ id: 5, nome: "Anterior", ordem: 0, categoria: "TRABALHO", quantidadeDemandas: 0 });
+    }],
+    ["desempate por ID", dado => {
+        dado.etapas.push({ id: 2, nome: "Anterior por ID", ordem: 1, categoria: "TRABALHO", quantidadeDemandas: 0 });
+    }],
+    ["duas demandas correspondentes", dado => { dado.demandas[1] = { ...demandaCriada, id: 2 }; }]
+];
+test.each(confirmacoesInvalidas)("CAD-01/05/06/15/30/33: 201 com %s não confirma cadastro nem repete POST", async (_caso, invalidar) => {
+    const incorreto = structuredClone(configuracaoCriada);
+    invalidar(incorreto);
+    const fetchSpy = resposta(incorreto, 201);
+    await expect(criarDemanda("sessao", 9, dadosDemanda)).rejects.toMatchObject({ name: "ApiError", status: 201,
+        message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente." });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+});
+
+test.each([200, 202])("CAD-01/33: HTTP%s não confirma cadastro mesmo com todos os dados esperados", async status => {
+    const fetchSpy = resposta(configuracaoCriada, status);
+    await expect(criarDemanda("sessao", 9, dadosDemanda)).rejects.toMatchObject({ status,
+        message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente." });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
 });
 
 const snapshotsInvalidos = [
@@ -221,8 +307,8 @@ const snapshotsInvalidos = [
 ];
 test.each(rotasSnapshot.flatMap(([rota, executar, status]) => snapshotsInvalidos.map(([caso, invalidar]) =>
     [rota, caso, executar, status, invalidar])))
-    ("CAD-36: %s rejeita snapshot %s sem retry", async (_rota, _caso, executar, status, invalidar) => {
-        const fetchSpy = resposta(invalidar(structuredClone(configuracao)), status);
+    ("CAD-36: %s rejeita snapshot %s sem retry", async (rota, _caso, executar, status, invalidar) => {
+        const fetchSpy = resposta(invalidar(structuredClone(rota === "POST demanda" ? configuracaoCriada : configuracao)), status);
         await expect(executar()).rejects.toMatchObject({ name: "ApiError", status,
             message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente." });
         expect(fetchSpy).toHaveBeenCalledTimes(1);

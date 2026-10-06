@@ -213,6 +213,51 @@ test.each(falhas)("CAD-33/34: erro%s conserva snapshot/draft e exige refresh man
         .toEqual([{ ...dados, versao: 0 }, { ...dados, versao: 7 }]);
 });
 
+test.each([
+    ["demanda ausente", dado => { dado.demandas.pop(); dado.etapas[0].quantidadeDemandas = 1; }],
+    ["observações diferentes", dado => { dado.demandas[1].observacoes = "Outra observação"; }],
+    ["versão antiga", dado => { dado.gerenciamento.versao = 0; }]
+])("CAD-32/33/34: 201 com %s preserva oito campos/cache e exige atualização e reenvio manuais", async (_caso, invalidar) => {
+    let consultas = 0;
+    let mutacoes = 0;
+    const existente = { ...demanda, id: 40, numeroProcesso: "Anterior", pessoa: "Cliente anterior" };
+    const rascunho = { ...dados, numeroProcesso: " D-42 ", pessoa: " Maria ", responsavel: " Ana ",
+        prioridade: " Prioridade livre ", observacoes: " Uma\nOutra " };
+    const { user, fetchMock, atualizar } = preparar((_url, request) => {
+        if (request.method === "GET") return json(snapshot([existente], { versao: ++consultas === 1 ? 0 : 7 }));
+        if (++mutacoes === 2) return json(snapshot([existente, demanda], { versao: 8 }), 201);
+        const incorreto = structuredClone(snapshot([existente, demanda], { versao: 1 }));
+        invalidar(incorreto);
+        return json(incorreto, 201);
+    });
+    await abrir(user);
+    preencher(rascunho);
+    await ativarPorTeclado(user, screen.getByRole("button", { name: "Criar demanda" }));
+    expect((await screen.findByRole("alert")).textContent).toBe(erroComunicacao);
+    conferirRascunho(rascunho);
+    const cartaoAnterior = screen.getByRole("article", { name: "Anterior — Cliente anterior" });
+    expect(cartaoAnterior.dataset.demandaId).toBe("40");
+    expect(valorCartao(cartaoAnterior, "Observações")).toBe(existente.observacoes);
+    expect(screen.getByText("1 demanda").textContent).toBe("1 demanda");
+    expect(screen.queryByRole("article", { name: "D-42 — Maria" })).toBeNull();
+    expect(atualizar.mock.calls.map(([registro]) => registro)).toEqual([quadro]);
+    expect(screen.getByRole("button", { name: "Criar demanda" }).disabled).toBe(true);
+    fireEvent.submit(screen.getByRole("form", { name: "Novo processo" }));
+    expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET", "POST"]);
+    await ativarPorTeclado(user, screen.getByRole("button", { name: "Atualizar quadro" }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "Criar demanda" }).disabled).toBe(false));
+    conferirRascunho(rascunho);
+    expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET", "POST", "GET"]);
+    expect(atualizar.mock.calls.map(([registro]) => registro.versao)).toEqual([0, 7]);
+    await ativarPorTeclado(user, screen.getByRole("button", { name: "Criar demanda" }));
+    expect((await screen.findByRole("article", { name: "D-42 — Maria" })).dataset.demandaId).toBe("42");
+    expect(screen.queryByRole("form", { name: "Novo processo" })).toBeNull();
+    expect(screen.getByText("2 demandas").textContent).toBe("2 demandas");
+    expect(atualizar.mock.calls.map(([registro]) => registro.versao)).toEqual([0, 7, 8]);
+    expect(fetchMock.mock.calls.filter(([, request]) => request.method === "POST").map(([, request]) => JSON.parse(request.body)))
+        .toEqual([{ ...dados, versao: 0 }, { ...dados, versao: 7 }]);
+});
+
 test.each([[{ arquivado: true }, etapas, true], [{}, etapas.slice(2), true], [{ podeAdministrar: false }, etapas, false]])
     ("CAD-34: refresh aplica arquivo/trabalhos/permissões sem perder draft%s", async (flags, colunas, bloqueado) => {
         let consultas = 0;
