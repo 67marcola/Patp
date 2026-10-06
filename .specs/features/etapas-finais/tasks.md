@@ -4,7 +4,7 @@
 
 Usar tlc-spec-driven já escolhido pelo usuário. Uma tarefa, gate, adequação e commit local por vez. Testes derivados de spec.md, sem exclusão/skip/enfraquecimento. Verificador novo automático ao final. Ferramentas locais de edição/shell, H2 e MySQL TEMP fictício; nenhum DB configurado, push/deploy ou reinício de serviços do usuário.
 
-**Design:** design.md. **Status:** implementação concluída; Verificador independente pendente. Oito tarefas em um lote, incluindo T8 corretiva de schema; execução sequencial. A autorização anterior cobre implementação e testes locais das escolhas confirmadas.
+**Design:** design.md. **Status:** oito tarefas concluídas e verificadas independentemente, 30/30 critérios; UAT humano pendente. Relatório em validation.md. Oito tarefas em um lote, incluindo T8 corretiva de schema; execução sequencial. A autorização anterior cobre implementação e testes locais das escolhas confirmadas.
 
 ## Test Coverage Matrix
 
@@ -148,7 +148,7 @@ Commit corretivo a06550f concluído antes da formalização administrativa de T8
 **Gate:** Build
 **Commit:** test(etapas): verify final columns across board workflows
 **Done when:**
-- [x] Três cenários existentes preservados, listas/categorias/IDs finais exatos em criação/reload/arquivo; 3/3 Edge PASS, 235 Vitest/build TEMP/lint PASS; testes MySQL TEMP documentados; adequação PASS. Orquestrador despacha Verificador novo imediatamente após este commit; verificação independente e UAT humano ainda pendentes.
+- [x] Três cenários existentes preservados, listas/categorias/IDs finais exatos em criação/reload/arquivo; 3/3 Edge PASS, 235 Vitest/build TEMP/lint PASS; testes MySQL TEMP documentados; adequação PASS. Verificador novo despachado após o commit d1f5e47: 30/30 critérios, gates independentes e sensor em memória 7/7 PASS, registrados em validation.md. UAT humano pendente.
 
 ## Diagram-Definition Cross-Check
 
