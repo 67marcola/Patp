@@ -1,7 +1,7 @@
 # Cadastro e leitura de demandas — contexto
 
-**Base:** 8679933, branch testes. **Data:** 2026-10-06.
-**Status:** levantamento concluído; duas decisões de produto aguardam resposta. A especificação e a implementação serão fechadas depois dessas respostas.
+**Base de implementação:** 28b8c88, branch testes. **Data:** 2026-10-06.
+**Status:** regras de produto confirmadas por 1A e 2A, além das autorizações anteriores de implementação/testes. Contrato técnico fixado em spec.md/design.md.
 
 ## Entrega delimitada
 
@@ -18,14 +18,14 @@ Exemplo fictício: no gerenciamento Instalações de postes, cadastrar o serviç
 - AD-007: criar etapas é tarefa do criador do quadro ou de um administrador. Um funcionário comum, diante de quadro sem trabalho, precisa receber orientação para solicitar a configuração a essas pessoas.
 - AD-012/013: criar uma demanda não concede permissão para movê-la, concluir, cancelar ou reabrir.
 
-## Duas decisões aguardando resposta
+## Decisões de cadastro confirmadas
 
-1. **Número identificador:** digitado pelo usuário, único em todo o sistema, ou gerado pelo sistema. A recomendação apresentada é manual e único globalmente, preservando o uso de um identificador de serviço fornecido pela empresa. Se for automático, seu formato será esclarecido antes de implementar a geração.
-2. **Campos obrigatórios:** número e cliente/solicitante, com os demais opcionais, ou exigir também responsável e prazo geral. A recomendação apresentada é exigir número e cliente/solicitante; responsável, prioridade, data de emissão, prazo da etapa, prazo geral e observações ficam opcionais. Com geração automática, o número pertence ao registro, mas não é digitado no formulário.
+1. **Número identificador:** digitado pelo usuário, único em todo o sistema. Escolha explícita 1A, registrada em AD-019. Não gerar números automaticamente nem reutilizá-los entre quadros.
+2. **Campos obrigatórios:** número e cliente/solicitante. Responsável, prioridade, data de emissão, prazo da etapa, prazo geral e observações ficam opcionais. Escolha explícita 2A, registrada em AD-020.
 
-As perguntas foram apresentadas por formulário de resposta. “Pode continuar” mantém a autorização de trabalho; não seleciona nenhuma das alternativas. Nenhuma resposta foi inferida.
+O usuário respondeu literalmente “1A e 2A”. As duas escolhas estão encerradas; não precisam ser perguntadas novamente.
 
-## Comportamentos técnicos propostos para a especificação
+## Defaults técnicos declarados
 
 - Estado inicial Em andamento, definido pelo servidor. ID, etapa, status, datas de encerramento e motivo de cancelamento não serão escolhidos no cadastro.
 - Primeira etapa determinada por categoria TRABALHO, ordem e ID; categoria SQL nula conserva a compatibilidade já entregue, sem escrita durante consulta ou inferência pelo nome.
@@ -34,9 +34,11 @@ As perguntas foram apresentadas por formulário de resposta. “Pode continuar�
 - Dados antigos são exibidos sem corrigir status, datas ou referências durante GET. Ausências terão indicação visual, sem inventar conteúdo no banco.
 - DTO de demanda devolve campos explícitos e etapaId; não exige serializar toda a cadeia de entidades de usuário e gerenciamento.
 - Novo cadastro e histórico de criação permanecem na mesma transação. Usar o lock do gerenciamento antes de escolher o trabalho inicial, incluindo as disputas com arquivamento, remoção e reordenação.
-- A versão atual não é uma revisão de demandas: seu incremento no novo cadastro e a forma de retornar o snapshot precisam ser definidos expressamente na especificação, com testes de concorrência. Não mudar indiscriminadamente as políticas ainda abertas de edição/exclusão.
+- O novo cadastro exige a versão estrutural e a incrementa uma vez. A rota legada permanece sem versão exigida/incremento, mas também recusa escolher uma etapa posterior/final ou um estado final. A versão não passa a representar todas as mutações antigas de demandas. Não mudar indiscriminadamente as políticas ainda abertas de edição/exclusão.
+- Número/cliente têm 1..255 unidades UTF-16 após trim; responsável/prioridade opcionais até255, observações até10000. Textos opcionais vazios viram null; datas opcionais ausentes permanecem null, sem default de hoje ou restrição de ordem entre prazos não pedida. Prioridade é texto livre.
+- Duplicidade não distingue maiúsculas/minúsculas; a grafia digitada é preservada após trim. A restrição única do banco continua válida, incluindo sua collation própria; nenhuma mudança de schema ou renumeração.
 
-Esses pontos são propostas técnicas, não decisões adicionais atribuídas ao usuário. Limites, mensagens, códigos HTTP, resposta e testes serão fixados na especificação, depois de resolver as duas escolhas acima.
+Esses defaults resolvem detalhes técnicos da entrega e não são atribuídos às respostas de produto. Mensagens, códigos HTTP, resposta e testes estão fixados em spec.md/design.md antes de implementar.
 
 ## Evidências do código atual
 
