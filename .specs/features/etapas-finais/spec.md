@@ -131,17 +131,17 @@ Homônimos e ordem antiga com lacunas/empates permanecem trabalho (FIN-06/14/24)
 | FIN-17 | T6, T7 | Pending |
 | FIN-18 | T6, T7 | Pending |
 | FIN-19 | T4, T6, T7 | T4 complete; T6/T7 pending |
-| FIN-20 | T5 | Pending |
-| FIN-21 | T5 | Pending |
-| FIN-22 | T5 | Pending |
-| FIN-23 | T5 | Pending |
-| FIN-24 | T5 | Pending |
-| FIN-25 | T5 | Pending |
-| FIN-26 | T2, T5 | T2 complete; remaining tasks pending |
-| FIN-27 | T2, T5 | T2 complete; remaining tasks pending |
-| FIN-28 | T5 | Pending |
-| FIN-29 | T4, T5, T7 | T4 complete; T5/T7 pending |
-| FIN-30 | T5 | Pending |
+| FIN-20 | T5 | T5 complete; MySQL TEMP feature gate pending |
+| FIN-21 | T5 | T5 complete; MySQL TEMP feature gate pending |
+| FIN-22 | T5 | T5 complete; MySQL TEMP feature gate pending |
+| FIN-23 | T5 | T5 complete; MySQL TEMP feature gate pending |
+| FIN-24 | T5 | T5 complete; MySQL TEMP feature gate pending |
+| FIN-25 | T5 | T5 complete; MySQL TEMP feature gate pending |
+| FIN-26 | T2, T5 | T2/T5 complete; MySQL TEMP feature gate pending |
+| FIN-27 | T2, T5 | T2/T5 complete; MySQL TEMP feature gate pending |
+| FIN-28 | T5 | T5 complete; MySQL TEMP feature gate pending |
+| FIN-29 | T4, T5, T7 | T4/T5 complete; T7 pending |
+| FIN-30 | T5 | T5 complete |
 
 ## Success Criteria
 

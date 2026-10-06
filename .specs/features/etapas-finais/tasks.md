@@ -115,12 +115,12 @@ Commit corretivo a06550f concluído antes da formalização administrativa de T8
 **Depends on:** T4
 **Reuses:** garantia de finais, locks ordenados, persistência e incremento de versão existentes.
 **Requirement:** FIN-20/21/22/23/24/25/26/27/28/29/30
-**Related files:** PrepararEtapasFinais.java (entry point próprio), consulta por quadro em ProcessoRepository, PreparacaoEtapasFinaisTests.java, docs/OPERACAO.md (comando/scope/schema).
+**Related files:** PrepararEtapasFinais.java (entry point próprio), consulta por quadro em ProcessoRepository e IDs ordenados em GerenciamentoRepository, pom.xml (manter SistemaApplication como main normal do pacote), PreparacaoEtapasFinaisTests.java, docs/OPERACAO.md (comando/scope/schema).
 **Tests:** integration
 **Gate:** Full
 **Commit:** feat(etapas): prepare legacy final stage references explicitly
 **Done when:**
-- [ ] Plano sem escrita; ativos/arquivados/sem criador; somente etapa_id de status exatos muda; snapshot integral preservado; repetição zero efeitos; falha/duplicidade rollback; versão uma vez por quadro; main inválido recusa antes do contexto; nunca startup/GET; H2/adequação PASS e MySQL TEMP antes do encerramento da feature.
+- [x] Plano sem escrita; ativos/arquivados/sem criador; somente etapa_id de status exatos muda; snapshot integral preservado; repetição zero efeitos; falha/duplicidade rollback; versão uma vez por quadro; main inválido recusa antes do contexto; nunca startup/GET; H2/adequação PASS. MySQL TEMP permanece gate antes do encerramento da feature.
 
 ### T6: Apresentação e editor somente de trabalhos
 
