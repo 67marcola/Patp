@@ -98,14 +98,14 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature**: entrada automática após cadastro da Creral.
-- **Phase / Task**: T1–T5 concluídas; Verificador independente PASS sobre 92bc8ac, 14/14 AUTs. validate_state autocadastro: zero erros, exit 0.
+- **Feature**: retirada de PM das telas de login/cadastro da Creral, entrega pequena de interface.
+- **Phase / Task**: T1 implementada; gate frontend e quatro inspeções desktop/mobile PASS. Spec/evidência em features/marca-login. Verificador independente será disparado após commit atômico.
 - **Completed**: gerenciamentos 41/41, etapas 30/30 e autocadastro 14/14 com Verificadores independentes. Gates atuais próprios do Verificador: 247 Java/H2, 222 Vitest, build/lint e 3 E2E Edge, zero falhas/erros/skips/retries. Nove casos novos passaram também em MySQL TEMP 8.0.43; evidências em features/autocadastro/mysql-validation.md. Código sem alteração de esquema/política, cadastro continua FUNCIONARIO.
-- **In-progress**: UAT humano dos requisitos entregues sem resultado; roteiro do cadastro em docs/OPERACAO.md:21. Movimentação e etapas finais dependem das cinco respostas abaixo. L-001/L-002 continuam candidates; nenhum sinal funcional novo para lessons, nenhuma promoção.
-- **Next step**: registrar respostas de negócio e especificar Concluídos/Cancelados com os fluxos escolhidos antes de implementá-los; retirada de PM é melhoria independente ainda pedida. Continuar um requisito por vez com testes e Verificador. Não inferir escolhas ou PASS humano de continuações.
-- **Blockers**: nenhum funcional para autocadastro. Limpeza da scratch do Verificador foi rejeitada automaticamente; cópia TEMP restaurada e preservada. Perguntas futuras e escolha de contas administrativas reais permanecem pendentes.
-- **Uncommitted files**: após fechamento documental, somente artefatos gerados anteriores preservados; nenhum fonte/teste intencional pendente. Staging explícito dos documentos de fechamento e relatório independente.
-- **Branch**: testes; base histórica 5d8beb9, range de autocadastro f2e91c5..92bc8ac.
+- **In-progress**: revisão independente de marca-login pendente. UAT humano dos requisitos entregues sem resultado; roteiro do cadastro em docs/OPERACAO.md:21. Movimentação e etapas finais dependem das cinco respostas abaixo. L-001/L-002 continuam candidates, nenhuma promoção.
+- **Next step**: concluir Verificador e validate_state marca-login; depois registrar respostas e especificar Concluídos/Cancelados antes dos fluxos dependentes. Não inferir escolhas ou PASS humano de continuações.
+- **Blockers**: nenhum funcional para a remoção visual. Rejeição histórica de limpeza de autocadastro documentada abaixo, sem nova tentativa. Perguntas futuras e contas administrativas reais pendentes.
+- **Uncommitted files**: três fontes visuais e spec/evidência desta tarefa antes do commit; artefatos anteriores preservados. Staging explícito apenas dos paths da tarefa e STATE.
+- **Branch**: testes; base histórica 5d8beb9, base de marca-login 39ea59c.
 
 Autorização de implementação permanece válida. Não iniciar aplicação normal/MySQL configurado nem reiniciar serviços do usuário. Testes somente H2/helper isolado ou MySQL TEMP fictício explicitamente delimitado. Não push/deploy/alterar contas reais. A falha ECONNRESET anterior de etapas permanece documentada em seu relatório, sem causa inventada.
 
