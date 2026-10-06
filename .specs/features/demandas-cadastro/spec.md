@@ -1,6 +1,6 @@
 # Cadastro e leitura de demandas Specification
 
-**Base:** 28b8c88. **Data:** 2026-10-06. **Status:** produto confirmado, defaults técnicos declarados; implementação autorizada pela sessão.
+**Base:** 28b8c88. **Data:** 2026-10-06. **Status:** implementação e verificação independente PASS,41/41 critérios. Fonte final926c862; teste de uso humano separado e ainda pendente.
 
 ## Problem Statement
 
@@ -8,9 +8,9 @@ Criar processo não tem ação e o quadro mostra contagens sem carregar demandas
 
 ## Goals
 
-- [ ] Cadastrar uma demanda por formulário e API, inicialmente na primeira etapa de trabalho.
-- [ ] Exibir cartões reais e preservar dados após recarga/configuração/arquivo.
-- [ ] Garantir obrigatórios, unicidade global, transação, autorização e tratamento de erros.
+- [x] Cadastrar uma demanda por formulário e API, inicialmente na primeira etapa de trabalho.
+- [x] Exibir cartões reais e preservar dados após recarga/configuração/arquivo.
+- [x] Garantir obrigatórios, unicidade global, transação, autorização e tratamento de erros.
 
 ## Out of Scope
 
@@ -122,47 +122,47 @@ Quadro só com finais, legado sem criador, trabalho homônimo de final/categoria
 
 | Requirement | Task | Status |
 | --- | --- | --- |
-| CAD-01 | T2, T5, T6, T7 | Complete T2, T5, T6, T7 |
-| CAD-02 | T2, T4 | Complete T2, T4 |
-| CAD-03 | T2, T4 | Complete T2, T4 |
-| CAD-04 | T2, T4 | Complete T2, T4 |
-| CAD-05 | T2, T6, T7 | Complete T2, T6, T7 |
-| CAD-06 | T2, T7 | Complete T2, T7 |
-| CAD-07 | T2, T5 | Complete T2, T5 |
-| CAD-08 | T2, T5 | Complete T2, T5 |
-| CAD-09 | T2 | Complete T2 |
-| CAD-10 | T2, T4 | Complete T2, T4 |
-| CAD-11 | T2 | Complete T2 |
-| CAD-12 | T2 | Complete T2 |
-| CAD-13 | T2, T6 | Complete T2, T6 |
-| CAD-14 | T2 | Complete T2 |
-| CAD-15 | T2, T7 | Complete T2, T7 |
-| CAD-16 | T2 | Complete T2 |
-| CAD-17 | T2 | Complete T2 |
-| CAD-18 | T2 | Complete T2 |
-| CAD-19 | T2 | Complete T2 |
-| CAD-20 | T2 | Complete T2 |
-| CAD-21 | T1 | Complete T1 |
-| CAD-22 | T1 | Complete T1 |
-| CAD-23 | T1 | Complete T1 |
-| CAD-24 | T1, T5 | Complete T1, T5 |
-| CAD-25 | T1 | Complete T1 |
-| CAD-26 | T5 | Complete T5 |
-| CAD-27 | T5 | Complete T5 |
-| CAD-28 | T4 | Complete T4 |
-| CAD-29 | T4 | Complete T4 |
-| CAD-30 | T3, T4, T5, T7 | Complete T3, T4, T5, T7 |
-| CAD-31 | T4, T5 | Complete T4, T5 |
-| CAD-32 | T5, T7 | Complete T5, T7 |
-| CAD-33 | T3, T4, T5, T7 | Complete T3, T4, T5, T7 |
-| CAD-34 | T5 | Complete T5 |
-| CAD-35 | T5 | Complete T5 |
-| CAD-36 | T3, T7 | Complete T3, T7 |
-| CAD-37 | T5 | Complete T5 |
-| CAD-38 | T5 | Complete T5 |
-| CAD-39 | T5 | Complete T5 |
-| CAD-40 | T4, T5 | Complete T4, T5 |
-| CAD-41 | T6 | Complete T6 |
+| CAD-01 | T2, T5, T6, T7 | Complete T2, T5, T6, T7; Verified |
+| CAD-02 | T2, T4 | Complete T2, T4; Verified |
+| CAD-03 | T2, T4 | Complete T2, T4; Verified |
+| CAD-04 | T2, T4 | Complete T2, T4; Verified |
+| CAD-05 | T2, T6, T7 | Complete T2, T6, T7; Verified |
+| CAD-06 | T2, T7 | Complete T2, T7; Verified |
+| CAD-07 | T2, T5 | Complete T2, T5; Verified |
+| CAD-08 | T2, T5 | Complete T2, T5; Verified |
+| CAD-09 | T2 | Complete T2; Verified |
+| CAD-10 | T2, T4 | Complete T2, T4; Verified |
+| CAD-11 | T2 | Complete T2; Verified |
+| CAD-12 | T2 | Complete T2; Verified |
+| CAD-13 | T2, T6 | Complete T2, T6; Verified |
+| CAD-14 | T2 | Complete T2; Verified |
+| CAD-15 | T2, T7 | Complete T2, T7; Verified |
+| CAD-16 | T2 | Complete T2; Verified |
+| CAD-17 | T2 | Complete T2; Verified |
+| CAD-18 | T2 | Complete T2; Verified |
+| CAD-19 | T2 | Complete T2; Verified |
+| CAD-20 | T2 | Complete T2; Verified |
+| CAD-21 | T1 | Complete T1; Verified |
+| CAD-22 | T1 | Complete T1; Verified |
+| CAD-23 | T1 | Complete T1; Verified |
+| CAD-24 | T1, T5 | Complete T1, T5; Verified |
+| CAD-25 | T1 | Complete T1; Verified |
+| CAD-26 | T5 | Complete T5; Verified |
+| CAD-27 | T5 | Complete T5; Verified |
+| CAD-28 | T4 | Complete T4; Verified |
+| CAD-29 | T4 | Complete T4; Verified |
+| CAD-30 | T3, T4, T5, T7 | Complete T3, T4, T5, T7; Verified |
+| CAD-31 | T4, T5 | Complete T4, T5; Verified |
+| CAD-32 | T5, T7 | Complete T5, T7; Verified |
+| CAD-33 | T3, T4, T5, T7 | Complete T3, T4, T5, T7; Verified |
+| CAD-34 | T5 | Complete T5; Verified |
+| CAD-35 | T5 | Complete T5; Verified |
+| CAD-36 | T3, T7 | Complete T3, T7; Verified |
+| CAD-37 | T5 | Complete T5; Verified |
+| CAD-38 | T5 | Complete T5; Verified |
+| CAD-39 | T5 | Complete T5; Verified |
+| CAD-40 | T4, T5 | Complete T4, T5; Verified |
+| CAD-41 | T6 | Complete T6; Verified |
 
 ## Success Criteria
 
