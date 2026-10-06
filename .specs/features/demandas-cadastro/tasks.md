@@ -4,7 +4,7 @@
 
 Usar tlc-spec-driven escolhido pelo usuário; autorização da sessão e respostas1A/2A cobrem implementação/testes/commits locais. Uma tarefa, gate, adequação e commit por vez. Verificador fresco obrigatório depois de T6. Skills/ferramentas locais já autorizadas; nenhuma nova pergunta técnica de aprovação. Não operar MySQL configurado/contas reais/push/deploy. Preservar target/dist/node_modules e scratchs recusadas.
 
-**Design:** design.md. **Status:** T1–T7 implementadas; aguarda re-verificação independente após correção CAD-33. Base28b8c88; baseline278 Java,235Vitest,3E2E.
+**Design:** design.md. **Status:** T1–T7 concluídas e verificadas independentemente,41/41 critérios PASS após correção CAD-33. Fonte final926c862; validation.md registra gates/sensor. Base28b8c88; baseline278 Java,235Vitest,3E2E.
 
 ## Test Coverage Matrix
 

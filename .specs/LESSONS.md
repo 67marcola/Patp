@@ -26,6 +26,12 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - evidence: .specs/features/etapas/validation.md:M10 / ETA-27 (frontend)
 - last seen: 2026-10-05T11:21:53Z
 
+### L-003 - Confirme o registro criado e a versão da operação antes de aceitar um snapshot de cadastro como sucesso.
+- signal: `ac_gap` · recurrence: 1 feature(s) · scope: `frontend` · harmful: 0
+- features: demandas-cadastro
+- evidence: CAD-33; frontend/src/services/api.js:161; frontend/src/services/api.test.js:190 (frontend)
+- last seen: 2026-10-06T21:11:06Z
+
 ## Quarantined (failed when applied - ignore)
 
 A confirmed lesson that recurred alongside failure. Kept for the maintainer to review.
