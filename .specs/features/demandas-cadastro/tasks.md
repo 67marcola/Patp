@@ -103,7 +103,7 @@ T1 → T2 → T3 → T4 → T5 → T6
 **Gate:** Quick
 **Commit:** feat(ui): show demand cards and connect creation in boards
 **Done when:**
-- [ ] Qualquerauthcria, zeroWorksorienta, successcache/cards/counts/foco, errorrefreshrascunho/archive/trocadequadro, leitura14campos/escape/ausências e controlesanteriores preservados; gate/adequação PASS.
+- [x] Qualquerauthcria, zeroWorksorienta, successcache/cards/counts/foco, errorrefreshrascunho/archive/trocadequadro, leitura14campos/escape/ausências e controlesanteriores preservados; gate/adequação PASS. Gate440/440 Vitest,34casos novos; dois mapas em evidence.md T5.
 
 ### T6: Fluxo real e roteiro operacional
 

@@ -1320,6 +1320,59 @@ button:focus-visible {
     font-size: 13px;
 }
 
+.demandas-etapa {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 14px;
+    padding: 0 20px 20px;
+}
+
+.card-demanda {
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    background: white;
+    overflow-wrap: anywhere;
+}
+
+.card-demanda > strong {
+    color: var(--azul);
+    font-size: 15px;
+}
+
+.card-demanda dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+    font-size: 13px;
+}
+
+.card-demanda dt {
+    color: var(--texto-secundario);
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.card-demanda dd {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.card-demanda .campo-longo {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 700px) {
+    .demandas-etapa {
+        padding: 0 14px 14px;
+    }
+    .card-demanda dl {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
 .editor-etapa {
     margin-bottom: 22px;
 }
