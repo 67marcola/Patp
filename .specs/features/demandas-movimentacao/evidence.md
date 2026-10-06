@@ -82,3 +82,24 @@ Gate459Java/H2 PASS,27casos novos,0falhas/erros/skips; log TEMP/creral-movimenta
 Todos27casos mapeiam às linhas da tabela:4sucessos,4matrizesauth/arquivo/versão/ID,4DTOs,2destinos,1motivo,4legadosdesconhecidos,4estadosincompatíveis,1rollbackHTTP e3compatibilidadeslegadas. Helper40–41 é assertion de código, mensagem quando especificada, conteúdo completo e versão; não só spy/callcount. Sucessos53–67 cobrem valores de todos14campos, metadados e counts. Dados antigos são consultados no HTTP e comparados literalmente.
 
 Adequação T3 PASS; todas rotas novas exercitadas com sucesso/erros/edges definidos, nenhum teste removido/ignorado,27casos além dos432anteriores. Interface e corridas finais continuamT4–T7.
+
+## T4: confirmação frontend
+
+Gate602Vitest/14arquivos PASS,127casos novos; log TEMP/creral-mov-ui-0fccc14db03f4e5d9cb6220a95052a27/t4-final.log. Primeira execução restrita teve13arquivos com ENOENT no TEMP virtual do Vite e125casos da API passaram; não conta como gate. Repetição com TEMP real estável passou600, acrescentadas2provas de categoria duplicada e gate final602. Nenhuma alteração em cadastroConfirmado ou testes antigos.
+
+### AC → assertions
+
+| Critério | file:line + assertion | Resultado definido |
+| --- | --- | --- |
+| MOV-21/33 | apiTransicoes.test.js:36 toEqual(c.resposta), :37rota, :38PUT, :39headers, :40JSONbody toEqual(c.dados) |4ações confirmam snapshot completo com versão3a partirde2, demanda21/destino/status/campos atuais exatos; não enviar entidade/autor/datas. |
+| MOV-32 | apiTransicoes.test.js:59 rejects.toMatchObject(ApiError200,mensagem), :61call1 |76casos de quadro/versão/arquivo/permissão/ID/status/destino/counts/categoria/8campospreservados rejeitam2xx semanticamenteincorreto. |
+| MOV-32/33 encerramento | apiTransicoes.test.js:71 rejects.toMatchObject(status200) |12combinações de datas/motivo incongruentes recusadas. |
+| MOV-32 formato/transporte | apiTransicoes.test.js:78/:82/:88/:94 rejects.toMatchObject(status/mensagem), :79/:89/:96call1 |201/204/JSONinválido,24HTTPs e4redes não confirmam nem repetemPUT. |
+| MOV-05 legado | apiTransicoes.test.js:103 toEqual(c.resposta) | Mover preserva datas/motivo antigos em andamento; somente reabrir/encerrar os limpa. |
+| MOV-14/32 categoria final única | apiTransicoes.test.js:109 rejects.toMatchObject(status200), :110call1 | Resposta com categoria final duplicada não confirma fechamento. |
+
+### Assertions → AC
+
+127casos:4sucessos→MOV-21/33;76incoerências+12camposclosure+4formato+24HTTP+4rede→MOV-32/33;1movimentaçãolegada→MOV-05;2duplasfinais→MOV-14/32. Assertion de resultado é snapshot completo ou erro exato; contagem de fetch complementa ausência de retry, não substitui estado.
+
+Adequação T4 PASS,602casos preservando475anteriores. Datas do servidor são verificadas na interface por formato ISO e presença, sem presumir que relógio/fuso do navegador coincide; data atual comprovada no Java. Rascunho/diálogo/foco aindaT5/T6.

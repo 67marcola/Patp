@@ -28,6 +28,7 @@ As APIs antigas permitem movimentar e encerrar demandas sem a permissão combina
 | Repetição e mesmo destino | HTTP 409 sem evento ou versão | Evitar histórico fictício e repetição de encerramento; novo ciclo requer reabrir. | default técnico explícito |
 | Motivo novo | Normalizar com helper existente; 1..10000 UTF-16 | Mesmo teto das observações; antigos motivos permanecem completos, sem limite retroativo. | default técnico explícito |
 | Datas | LocalDate.now do servidor; não inventar datas legadas | Compatibilidade com modelo existente; timestamps de reabertura são do novo evento. | default técnico explícito |
+| Confirmação de data na interface | Exigir data ISO válida não nula do fechamento correspondente | O navegador não conhece o relógio/fuso do servidor; testes Java verificam a data atual. Datas opostas devem ser null. | default técnico explícito |
 | Histórico longo | Descrição LONGTEXT e snapshot de campos anteriores em REABERTURA | VARCHAR255 atual não comporta nomes/motivos ou encerramentos antigos; não truncar. | default técnico explícito |
 | Quadros antigos sem finais | Recusar fechamento e orientar preparação explícita | AD-016 já oferece ferramenta; ação normal não migra dados. | default técnico explícito |
 | API e cache | Nova API tipada por quadro + versão; legado compartilha serviço e incrementa versão | Preservar formato legado sem desvio das regras e invalidar snapshots antigos. | default técnico explícito |

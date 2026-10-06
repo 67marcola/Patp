@@ -106,6 +106,28 @@ function cadastroConfirmado(resposta, id, enviados, status) {
         && demanda.dataCancelamento === null && demanda.motivoCancelamento === null && demanda.etapaId === primeira.id;
 }
 
+function transicaoConfirmada(resposta, id, anterior, acao, enviados, status) {
+    if (status !== 200 || !snapshotValido(resposta, id) || resposta.gerenciamento.arquivado
+        || !resposta.gerenciamento.podeAdministrar || resposta.gerenciamento.versao !== enviados.versao + 1) return false;
+    const demanda = resposta.demandas.find(atual => atual.id === anterior.id);
+    if (!demanda) return false;
+    const preservados = ["numeroProcesso", "pessoa", "responsavel", "prioridade", "dataEmissao", "prazoEtapa", "prazoGeral", "observacoes"];
+    if (!preservados.every(campo => demanda[campo] === anterior[campo])) return false;
+    const etapa = resposta.etapas.find(atual => atual.id === demanda.etapaId);
+    if (acao === "mover" || acao === "reabrir") {
+        if (demanda.etapaId !== enviados.etapaId || etapa.categoria !== "TRABALHO" || demanda.status !== "Em andamento") return false;
+        return ["dataConclusao", "dataCancelamento", "motivoCancelamento"]
+            .every(campo => demanda[campo] === (acao === "reabrir" ? null : anterior[campo]));
+    }
+    const concluir = acao === "concluir";
+    const categoria = concluir ? "CONCLUIDA" : "CANCELADA";
+    if (acao !== "concluir" && acao !== "cancelar" || etapa.categoria !== categoria
+        || resposta.etapas.filter(atual => atual.categoria === categoria).length !== 1) return false;
+    return demanda.status === (concluir ? "Concluido" : "Cancelado")
+        && (concluir ? demanda.dataConclusao !== null && demanda.dataCancelamento === null && demanda.motivoCancelamento === null
+            : demanda.dataCancelamento !== null && demanda.dataConclusao === null && demanda.motivoCancelamento === enviados.motivo.trim());
+}
+
 async function autenticar(caminho, dados) {
     const resposta = await requisicao(caminho, { method: "POST", dados });
     if (!resposta || typeof resposta !== "object" || Array.isArray(resposta)
@@ -181,4 +203,9 @@ export function removerEtapa(token, id, etapaId, versao) {
 export function criarDemanda(token, id, dados) {
     return requisicao(`/gerenciamentos/${id}/demandas`, { token, method: "POST", dados,
         validar: (resposta, status) => cadastroConfirmado(resposta, id, dados, status) });
+}
+
+export function transicionarDemanda(token, id, demanda, acao, dados) {
+    return requisicao(`/gerenciamentos/${id}/demandas/${demanda.id}/${acao}`, { token, method: "PUT", dados,
+        validar: (resposta, status) => transicaoConfirmada(resposta, id, demanda, acao, dados, status) });
 }
