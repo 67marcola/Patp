@@ -38,7 +38,7 @@ async function requisicao(caminho, { token, method = "GET", dados, signal, valid
     if (!resposta.ok) {
         throw new ApiError(corpo?.erro || "Não foi possível concluir a operação.", resposta.status);
     }
-    if (validar && !validar(corpo)) throw new ApiError(ERRO_COMUNICACAO, resposta.status);
+    if (validar && !validar(corpo, resposta.status)) throw new ApiError(ERRO_COMUNICACAO, resposta.status);
     return corpo;
 }
 
@@ -84,6 +84,26 @@ function snapshotValido(dados, id) {
         contagens.set(demanda.etapaId, contagens.get(demanda.etapaId) + 1);
     }
     return dados.etapas.every(etapa => etapa.quantidadeDemandas === contagens.get(etapa.id));
+}
+
+function cadastroConfirmado(resposta, id, enviados, status) {
+    if (status !== 201 || !snapshotValido(resposta, id) || resposta.gerenciamento.arquivado
+        || resposta.gerenciamento.versao !== enviados.versao + 1) return false;
+    const trabalhos = resposta.etapas.filter(etapa => etapa.categoria === "TRABALHO");
+    if (trabalhos.length === 0 || trabalhos.some(etapa => !Number.isSafeInteger(etapa.ordem))) return false;
+    const primeira = trabalhos.sort((a, b) => a.ordem - b.ordem || a.id - b.id)[0];
+    const campos = { dataEmissao: enviados.dataEmissao ?? null, prazoEtapa: enviados.prazoEtapa ?? null,
+        prazoGeral: enviados.prazoGeral ?? null };
+    for (const campo of ["numeroProcesso", "pessoa", "responsavel", "prioridade", "observacoes"]) {
+        const valor = enviados[campo];
+        campos[campo] = typeof valor === "string" ? valor.trim() || null : valor ?? null;
+    }
+    const correspondentes = resposta.demandas.filter(demanda => demanda.numeroProcesso === campos.numeroProcesso);
+    if (correspondentes.length !== 1) return false;
+    const demanda = correspondentes[0];
+    return Object.entries(campos).every(([campo, valor]) => demanda[campo] === valor)
+        && demanda.status === "Em andamento" && demanda.dataConclusao === null
+        && demanda.dataCancelamento === null && demanda.motivoCancelamento === null && demanda.etapaId === primeira.id;
 }
 
 async function autenticar(caminho, dados) {
@@ -160,5 +180,5 @@ export function removerEtapa(token, id, etapaId, versao) {
 
 export function criarDemanda(token, id, dados) {
     return requisicao(`/gerenciamentos/${id}/demandas`, { token, method: "POST", dados,
-        validar: resposta => snapshotValido(resposta, id) });
+        validar: (resposta, status) => cadastroConfirmado(resposta, id, dados, status) });
 }

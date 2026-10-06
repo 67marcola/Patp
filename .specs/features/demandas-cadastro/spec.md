@@ -88,7 +88,7 @@ Criar processo não tem ação e o quadro mostra contagens sem carregar demandas
 5. WHEN formulário é enviado THEN a interface SHALL enviar somente os nove campos de cadastro do design, com textos normalizados/opcionaisnull e versão atual. (CAD-30)
 6. WHILE cadastro está pendente THEN a interface SHALL executar somente um POST e bloquear campos, demais mutações, Cancelar, Voltar e Sair. (CAD-31)
 7. WHEN cadastro confirma snapshot válido THEN a interface SHALL fechar formulário, atualizar versão/cache/contagens/cartões e devolver foco ao botão Criar processo sem cadastro sintético nem novo POST. (CAD-32)
-8. IF cadastro falha ou resposta não confirma operação THEN a interface SHALL conservar todos campos/mensagem, exigir Atualizar quadro antes de reenviar e nunca repetir POST automaticamente. (CAD-33)
+8. IF cadastro falha ou resposta não confirma201, quadro ativo, versão enviada+1 e a demanda com os oito valores normalizados/estado inicial/finaisnull/primeira TRABALHO definidos neste contrato THEN a interface SHALL conservar todos campos/mensagem, exigir Atualizar quadro antes de reenviar e nunca repetir POST automaticamente; GET/configuração continuam aceitando snapshots vazios e dados antigos. (CAD-33)
 9. WHEN quadro é atualizado com rascunho aberto THEN a interface SHALL preservar rascunho e aplicar versão/permissões/trabalhos atuais; arquivo/zero trabalho impede reenvio. (CAD-34)
 10. WHEN navegação/consulta muda de quadro THEN a interface SHALL cancelar/ignorar resposta anterior sem mostrar cartões do quadro anterior. (CAD-35)
 11. IF snapshot está incompleto ou inconsistente THEN API frontend SHALL rejeitar sucesso, incluindo204 ou ausência de demandas, ID/vínculo inválido, contagens divergentes e duplicação de IDs. (CAD-36)
@@ -122,12 +122,12 @@ Quadro só com finais, legado sem criador, trabalho homônimo de final/categoria
 
 | Requirement | Task | Status |
 | --- | --- | --- |
-| CAD-01 | T2, T5, T6 | Complete T2, T5, T6 |
+| CAD-01 | T2, T5, T6, T7 | Complete T2, T5, T6, T7 |
 | CAD-02 | T2, T4 | Complete T2, T4 |
 | CAD-03 | T2, T4 | Complete T2, T4 |
 | CAD-04 | T2, T4 | Complete T2, T4 |
-| CAD-05 | T2, T6 | Complete T2, T6 |
-| CAD-06 | T2 | Complete T2 |
+| CAD-05 | T2, T6, T7 | Complete T2, T6, T7 |
+| CAD-06 | T2, T7 | Complete T2, T7 |
 | CAD-07 | T2, T5 | Complete T2, T5 |
 | CAD-08 | T2, T5 | Complete T2, T5 |
 | CAD-09 | T2 | Complete T2 |
@@ -136,7 +136,7 @@ Quadro só com finais, legado sem criador, trabalho homônimo de final/categoria
 | CAD-12 | T2 | Complete T2 |
 | CAD-13 | T2, T6 | Complete T2, T6 |
 | CAD-14 | T2 | Complete T2 |
-| CAD-15 | T2 | Complete T2 |
+| CAD-15 | T2, T7 | Complete T2, T7 |
 | CAD-16 | T2 | Complete T2 |
 | CAD-17 | T2 | Complete T2 |
 | CAD-18 | T2 | Complete T2 |
@@ -151,13 +151,13 @@ Quadro só com finais, legado sem criador, trabalho homônimo de final/categoria
 | CAD-27 | T5 | Complete T5 |
 | CAD-28 | T4 | Complete T4 |
 | CAD-29 | T4 | Complete T4 |
-| CAD-30 | T3, T4, T5 | Complete T3, T4, T5 |
+| CAD-30 | T3, T4, T5, T7 | Complete T3, T4, T5, T7 |
 | CAD-31 | T4, T5 | Complete T4, T5 |
-| CAD-32 | T5 | Complete T5 |
-| CAD-33 | T3, T4, T5 | Complete T3, T4, T5 |
+| CAD-32 | T5, T7 | Complete T5, T7 |
+| CAD-33 | T3, T4, T5, T7 | Complete T3, T4, T5, T7 |
 | CAD-34 | T5 | Complete T5 |
 | CAD-35 | T5 | Complete T5 |
-| CAD-36 | T3 | Complete T3 |
+| CAD-36 | T3, T7 | Complete T3, T7 |
 | CAD-37 | T5 | Complete T5 |
 | CAD-38 | T5 | Complete T5 |
 | CAD-39 | T5 | Complete T5 |

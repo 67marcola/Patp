@@ -4,7 +4,7 @@
 
 Usar tlc-spec-driven escolhido pelo usuário; autorização da sessão e respostas1A/2A cobrem implementação/testes/commits locais. Uma tarefa, gate, adequação e commit por vez. Verificador fresco obrigatório depois de T6. Skills/ferramentas locais já autorizadas; nenhuma nova pergunta técnica de aprovação. Não operar MySQL configurado/contas reais/push/deploy. Preservar target/dist/node_modules e scratchs recusadas.
 
-**Design:** design.md. **Status:** seis tarefas implementadas; aguarda Verificador independente. Base28b8c88; baseline278 Java,235Vitest,3E2E.
+**Design:** design.md. **Status:** T1–T7 implementadas; aguarda re-verificação independente após correção CAD-33. Base28b8c88; baseline278 Java,235Vitest,3E2E.
 
 ## Test Coverage Matrix
 
@@ -24,13 +24,14 @@ Gerada de docs/OPERACAO.md, pom.xml, package.json/vite/playwright e testes exist
 | Quick | T3/T4/T5 | npm.cmd test (suíte completa) |
 | Full | T1/T2 | sistema mvn.cmd -B verify, H2, JAVA_HOME C:/Program Files/Java/jdk-25.0.2 e Maven3.9.16PATH; sem Maven concorrente |
 | Build | T6 | npm.cmd test; build outDir TEMP novo; npm.cmd run lint; npm.cmd run test:e2e (4Edge/H2); MySQL TEMP selecionado/documentado |
+| Build | T7 frontend | npm.cmd test; build outDir TEMP novo; npm.cmd run lint; npm.cmd run test:e2e (4Edge/H2); preservar390H2/145MySQL já verificados, fonte Java inalterada |
 
 ## Execution Plan
 
 ### Phase 1: Cadastro e consulta integrada
 
 ```text
-T1 → T2 → T3 → T4 → T5 → T6
+T1 → T2 → T3 → T4 → T5 → T6 → T7
 ```
 
 ## Task Breakdown
@@ -119,6 +120,22 @@ T1 → T2 → T3 → T4 → T5 → T6
 **Done when:**
 - [x] QuatroEdge/H2PASS mínimo/completo/dedupentrequadros/reload/arquivo/keyboard;440Vitest/buildTEMP/lint e145MySQLTEMP selecionados documentados; seis capturas desktop/mobile QArootPASS e dois mapas em evidence.md T6. Teste/roteiro incorporados no commit do usuário11e1307, preservado; esta retomada fecha status/adequação antes de despachar Verificador fresco.
 
+### T7: Confirmar o resultado do cadastro
+
+**What:** rejeitar resposta de sucesso que possui estrutura válida, mas não confirma a demanda solicitada; preservar rascunho/cache no quadro.
+**Where:** frontend/src/services/api.js
+**Depends on:** T6
+**Reuses:** snapshotValido, ApiError, ERRO_COMUNICACAO e tratamento de falhas do formulário/quadro.
+**Requirement:** CAD-01/05/06/15/30/32/33/36
+**Related files:** services/api.test.js, pages/QuadroDemandas.test.jsx, evidence.md/spec/tasks. Alterar somente fixtures POST novas que hoje simulam criação impossível; preservar todos os casos/assertions de GET/configuração e baseline235. Sem mudança Java/DB.
+**Tests:** unit
+**Gate:** Build
+**Commit:** fix(api): confirm demand creation before closing the form
+**Done when:**
+- [x] Só confirma201/snapshot ativo/versão enviada+1 com uma demanda correspondente aos oito campos normalizados, estado inicial/finaisnull e primeira TRABALHO por ordem/ID; todos inversos coerentes estruturalmente rejeitados com erro existente, sem retry.
+- [x] Quadro conserva os oito campos/cartões/cache anteriores diante de resposta201 sem confirmação, exige GET manual e só reenvia manualmente com versão atual; leitura/configuração continuam aceitando vazio e dados antigos.
+- [x] Gate475Vitest/buildTEMP/lint/4EdgePASS,35 novos casos e adequação bidirecional em evidence.md T7, fontes Java preservadas. Após commit despachar re-verificação independente com sensor frontend em memória.
+
 ## Diagram-Definition Cross-Check
 
 | Task | Depends On | Diagram Shows | Status |
@@ -129,6 +146,7 @@ T1 → T2 → T3 → T4 → T5 → T6
 | T4 | T3 | T3 | Match |
 | T5 | T4 | T4 | Match |
 | T6 | T5 | T5 | Match |
+| T7 | T6 | T6 | Match |
 
 ## Test Co-location Validation
 
@@ -140,5 +158,6 @@ T1 → T2 → T3 → T4 → T5 → T6
 | T4 | Form React | unit | unit | Match |
 | T5 | Quadro React | unit | unit | Match |
 | T6 | Integração real | e2e | e2e | Match |
+| T7 | Confirmação API/quadro | unit | unit | Match |
 
-Cada tarefa tem um deliverable principal, testes e gate co-localizados. Seis tarefas, fontes/gates/commits sequenciais; auditorias somente leitura independentes podem ocorrer em paralelo.
+Cada tarefa tem um deliverable principal, testes e gate co-localizados. Sete tarefas, fontes/gates/commits sequenciais; auditorias somente leitura independentes podem ocorrer em paralelo. T7 resolve a única lacuna do relatório independente, sem expandir o recorte.
