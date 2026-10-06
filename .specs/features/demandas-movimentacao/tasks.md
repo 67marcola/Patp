@@ -83,12 +83,12 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 **Depends on:** T3
 **Reuses:** padrões e componentes identificados em design.md.
 **Requirement:** MOV-21/29/30/32/33
-**Related files:** api.test.js
+**Related files:** apiTransicoes.test.js; preservar api.test.js e confirmação do cadastro.
 **Tools:** filesystem/terminal; skill tlc-spec-driven; ferramentas locais autorizadas na sessão.
 **Tests:** unit
 **Gate:** Quick
 **Done when:**
-- [ ] Critérios mapeados têm assertions de valores e estado em file:line, gate verde sem perdas de testes, mapas AC→assertion e assertion→AC em evidence.md, task e trace atualizados antes do commit local.
+- [x] Confirmação correlacionada das4ações,127casos novos; gate602Vitest PASS,475anteriores preservados, mapas em evidence.md T4. Datas ISO do servidor não presumem fuso/relógio do navegador.
 
 ### T5: Diálogo de ação sobre demanda
 
