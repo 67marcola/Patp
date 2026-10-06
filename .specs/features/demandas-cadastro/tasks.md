@@ -89,7 +89,7 @@ T1 → T2 → T3 → T4 → T5 → T6
 **Gate:** Quick
 **Commit:** feat(ui): add the demand creation form
 **Done when:**
-- [ ] Oito campos/required/limites/opcionaisnull/payload/erro/pending/foco/cancelar comprovados; sem camposcontroladospelo sistema; gate/adequação PASS.
+- [x] Oito campos/required/limites/opcionaisnull/payload/erro/pending/foco/cancelar comprovados; sem camposcontroladospelo sistema; gate/adequação PASS. Gate406/406 Vitest,29casos novos; dois mapas em evidence.md T4.
 
 ### T5: Cartões e cadastro no quadro
 

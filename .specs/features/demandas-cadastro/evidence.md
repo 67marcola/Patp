@@ -1,5 +1,39 @@
 # Cadastro e leitura de demandas: evidências
 
+## T4: formulário de demanda
+
+PASS. Gate `frontend npm.cmd test`:406testes em12arquivos, zero falhas/skips,235anteriores e142T3preservados,29casosT4 novos. Assumptions: EditorDemanda envia oito campos; Quadro acrescentará versão atual emT5. Datas são inputdate e nenhuma data é gerada. Files: EditorDemanda.jsx/test.jsx e index.css para grid responsivo dos oito campos, além de status/evidência. Success: campos/regras/payload/foco/pending/erro/rascunho sem controles do servidor.
+
+### Check A: resultados e suficiência
+
+Prefixo `frontend/src/pages/`; E=EditorDemanda.test.jsx. Payloads explícitos: E:11–14 completo/mínimo; limites E:79–80. `conferirRascunho` E:31 compara valor de cada um dosoito controles separadamente.
+
+| AC / critério | file:line e assertion | Resultado da spec | Coberto |
+| --- | --- | --- | --- |
+| CAD-28 oito campos/required/tipos/auto | E:39 `expect(controle.value).toBe("")`; E:40 `expect(controle.required).toBe(campo === "numeroProcesso" || campo === "pessoa")`; E:43 prioridadetext; E:44 trêsdate; E:45 textarea; E:46/47 ausência controles; E:48/50 textos exatos | Somente número/pessoarequired, seisopcionais, primeira etapa automática e sem status/etapa/finais | Sim |
+| CAD-02/30 numeroProcesso/pessoa | E:58 `expect(salvar).toHaveBeenCalledExactlyOnceWith(minimo)` confere D-1/João; E:83 `...With(dados)` confere255UTF-16 |TrimUnicode, grafia e limites1..255 preservados | Sim |
+| CAD-03/30 responsavel/prioridade | E:67 `...With(completo)` confere Ana/Livre e urgente; E:74 `...With(minimo)` confere ambosnull; E:83 ambos255 |Trim, prioridade livre, vaziosnull, limite255 | Sim |
+| CAD-03/30 observacoes | E:67 `...With(completo)` confere Uma\nOutra; E:74 obsnull; E:83 obs10000 |Trim de bordas, linhas internas, branco→null,10000permitido | Sim |
+| CAD-04/30 dataEmissao/prazoEtapa/prazoGeral | E:67 `...With(completo)` confere2020-02-29/2019-01-01/2018-01-01; E:58 `...With(minimo)` confere trêsnull |Datas passadas/invertidasISO e ausência semdata atual | Sim |
+| CAD-10/29 inválidos/draft/norequest | E:100 `expect(screen.getByRole("alert").textContent).toBe(mensagem)`; E:31 valores; E:102 `expect(salvar).not.toHaveBeenCalled()`; E:103 aoErronãochamado |13casos limites/brancos/Unicode, mensagens exatas doscinco textos, semgravar/perdervalores | Sim |
+| CAD-31 únicoPOST/pending/cancel | E:134 `...With(completo)`; E:135 aria-busytrue; E:136 oitocamposdisabled; E:137 botãoCriando disabled; E:138 Cancelardisabled; E:140 nãochamado |Duplicação/submissãoforçada impedidas; campos eCancelar bloqueados | Sim |
+| CAD-31/33 bloqueio externo | E:147/E:148 disabled; E:150 `expect(salvar).not.toHaveBeenCalled()`; E:152 cancelaruma |Refresh/arquivo/zeroWorks poderá bloquear submit forçado; cancelamento após erro permanece disponível | Sim |
+| CAD-33 erro/conservação | E:166 alertmensagemexata; E:31 oito valores; E:168 `...With(completo)`; E:169 `expect(aoErro).toHaveBeenCalledExactlyOnceWith(erro)` |400/401/404/409/500/0/201 preservam draft e informamQu adro para refresh | Sim |
+| CAD-40 teclado/foco/cancel | E:42 focoNúmero; E:111 foco de cada campo; E:116 payloadteclado completo; E:123 cancelaruma; E:124 salvarnãochamado |Foco inicial,Tab/Enter e cancelarsemwrite | Sim |
+
+### Check C: necessidade
+
+| file:line e assertion | AC / critério | Manter |
+| --- | --- | --- |
+| E:36 título; E:39/40 vazio/required; E:43–50 tipos/ausência/textos | CAD-28 interface | Sim |
+| E:58 `...With(minimo)`; E:67 `...With(completo)`; E:74 `...With(minimo)`; E:83 `...With(dados)` | CAD-02/03/04/30 normalização e payload por valor | Sim |
+| E:100 mensagem; E:31 draft; E:102/103 semcallbacks | CAD-10/29 erros locais | Sim |
+| E:111 foco; E:116 `...With(...)`; E:123 cancel; E:124 nograva | CAD-28/30/40 teclado/cancel | Sim |
+| E:134–142 payload/pending/disabled/cancel; E:147–152 bloqueioexterno | CAD-31 eCAD-33 controledependente deQuadro | Sim |
+| E:166 alert; E:31 draft; E:168 payload; E:169 callbackerro | CAD-33 seteformas de erro | Sim |
+
+Adequação PASS: todos oscampos emitidos conferidos por valor nosobjetos completos/mínimos/limites; cadaedge ecritério temassertion localizada. Pending temdados emitidos+estado, nãoapenascontagem de mock. Todos29casos têm requisito, sem assertions anteriores alteradas, testes apagados/ignorados ouSPEC_DEVIATION. PadrãoEditorEtapa, classes existentes e localização/runner do projeto seguidos.
+
 ## T3: contrato frontend de snapshot e cadastro
 
 PASS. Gate `frontend npm.cmd test`:377 testes em11arquivos, zero falhas/skips;235anteriores preservados e142novos. Gate repetido após fortalecer mensagens das assertions de campos incompletos, com377/377 novamente. Nenhum Maven/E2E/build ou artefato anterior alterado por esta tarefa.

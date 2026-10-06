@@ -1324,6 +1324,35 @@ button:focus-visible {
     margin-bottom: 22px;
 }
 
+.editor-demanda {
+    margin-bottom: 22px;
+}
+
+.campos-demanda {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.campos-demanda .campo-form {
+    min-width: 0;
+}
+
+.campo-observacoes {
+    grid-column: 1 / -1;
+}
+
+.editor-demanda .erro-login {
+    margin-top: 14px;
+}
+
+@media (max-width: 700px) {
+    .campos-demanda {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
 .quadro-acoes,
 .etapa-acoes {
     display: flex;
