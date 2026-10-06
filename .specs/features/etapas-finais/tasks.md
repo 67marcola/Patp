@@ -4,7 +4,7 @@
 
 Usar tlc-spec-driven já escolhido pelo usuário. Uma tarefa, gate, adequação e commit local por vez. Testes derivados de spec.md, sem exclusão/skip/enfraquecimento. Verificador novo automático ao final. Ferramentas locais de edição/shell, H2 e MySQL TEMP fictício; nenhum DB configurado, push/deploy ou reinício de serviços do usuário.
 
-**Design:** design.md. **Status:** In Progress. Sete tarefas em um lote; execução sequencial. A autorização anterior cobre implementação e testes locais das escolhas confirmadas.
+**Design:** design.md. **Status:** In Progress. Oito tarefas em um lote, incluindo T8 corretiva de schema; execução sequencial. A autorização anterior cobre implementação e testes locais das escolhas confirmadas.
 
 ## Test Coverage Matrix
 
@@ -31,7 +31,7 @@ Gerada de código/spec e docs/OPERACAO.md, sistema/pom.xml, application.properti
 ### Phase 1: Categorias e colunas
 
 ```text
-T1 → T2 → T3 → T4 → T5 → T6 → T7
+T1 → T2 → T8 → T3 → T4 → T5 → T6 → T7
 ```
 
 ## Task Breakdown
@@ -64,19 +64,35 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 **Done when:**
 - [x] Par possui nomes/categorias/IDs/campos corretos; repetição não duplica; ordenação preserva trabalhos; duplicidade explícita é rejeitada; gate/adequação PASS.
 
+### T8: Tipo físico VARCHAR da categoria
+
+**What:** fixar VARCHAR nullable em vez de ENUM nativo do dialect MySQL.
+**Where:** `sistema/src/main/java/com/patp/sistema/model/Etapa.java`
+**Depends on:** T2
+**Reuses:** enum STRING e mapeamento JPA existentes.
+**Requirement:** FIN-06/07 e modelo VARCHAR do design.
+**Related files:** EtapaCategoriaTests.java, evidence.md.
+**Tests:** integration
+**Gate:** Full
+**Commit:** fix(etapas): use nullable varchar for stage categories
+**Done when:**
+- [x] INFORMATION_SCHEMA H2 confirma VARCHAR20 nullable e suíte completa PASS; MySQL TEMP físico ainda será verificado no fechamento da feature.
+
+Commit corretivo a06550f concluído antes da formalização administrativa de T8, incorporada à próxima tarefa sem reescrita de histórico. Evidência/gate e pré-plano estavam no mesmo commit corretivo.
+
 ### T3: Criação atômica de novos quadros
 
 **What:** integrar as finais na transação de criação e rejeitar identidade/categoria inicial fornecida pelo cliente.
 **Where:** `sistema/src/main/java/com/patp/sistema/service/GerenciamentoService.java`
-**Depends on:** T2
+**Depends on:** T8
 **Reuses:** criação/validação/rollback existentes.
 **Requirement:** FIN-01/02/03/04/05
-**Related files:** GerenciamentoApiTests.java e teste de falha parcial se necessário.
+**Related files:** GerenciamentoController.java (repassar ID/categoria para validação HTTP), GerenciamentoApiTests.java e GerenciamentoFinaisTests.java (inclui falha parcial).
 **Tests:** integration
 **Gate:** Full
 **Commit:** feat(gerenciamentos): create required final columns atomically
 **Done when:**
-- [ ] HTTP sem/com trabalho retorna persistência exata do par; quadros independentes; entrada inválida e falha parcial não salvam; expectativas antigas mudam somente para incluir finais; gate/adequação PASS.
+- [x] HTTP sem/com trabalho retorna persistência exata do par; quadros independentes; entrada inválida e falha parcial não salvam; expectativas antigas mudam somente para incluir finais; gate/adequação PASS.
 
 ### T4: Proteção e sequência no CRUD de etapas
 
@@ -140,7 +156,8 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 | --- | --- | --- | --- |
 | T1 | None | None | Match |
 | T2 | T1 | T1 | Match |
-| T3 | T2 | T2 | Match |
+| T8 | T2 | T2 | Match |
+| T3 | T8 | T8 | Match |
 | T4 | T3 | T3 | Match |
 | T5 | T4 | T4 | Match |
 | T6 | T5 | T5 | Match |
@@ -152,10 +169,11 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 | --- | --- | --- | --- | --- |
 | T1 | Modelo/DTO | integration | integration | Match |
 | T2 | Serviço | integration | integration | Match |
+| T8 | Modelo/schema | integration | integration | Match |
 | T3 | Serviço/HTTP | integration | integration | Match |
 | T4 | Serviço/HTTP | integration | integration | Match |
 | T5 | Preparação/CLI | integration | integration | Match |
 | T6 | React | unit | unit | Match |
 | T7 | Integração real | e2e | e2e | Match |
 
-Cada tarefa tem um componente/deliverable principal, seus testes e arquivos auxiliares indispensáveis; nenhum trabalho de negócio está escondido em teste separado. Sete tarefas, nenhum lote adicional; auditorias somente leitura puderam ocorrer em paralelo, gravações/gates/commits seguem em sequência.
+Cada tarefa tem um componente/deliverable principal, seus testes e arquivos auxiliares indispensáveis; nenhum trabalho de negócio está escondido em teste separado. Oito tarefas, nenhum lote adicional; auditorias somente leitura puderam ocorrer em paralelo, gravações/gates/commits seguem em sequência.

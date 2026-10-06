@@ -112,13 +112,13 @@ Homônimos e ordem antiga com lacunas/empates permanecem trabalho (FIN-06/14/24)
 
 | Requirement | Task | Status |
 | --- | --- | --- |
-| FIN-01 | T2, T3, T7 | T2 complete; remaining tasks pending |
-| FIN-02 | T3, T7 | Pending |
-| FIN-03 | T2, T3, T7 | T2 complete; remaining tasks pending |
-| FIN-04 | T3 | Pending |
-| FIN-05 | T3 | Pending |
-| FIN-06 | T1 | T1 complete |
-| FIN-07 | T1, T4, T7 | T1 complete; T4/T7 pending |
+| FIN-01 | T2, T3, T7 | T3 complete; remaining tasks pending |
+| FIN-02 | T3, T7 | T3 complete; remaining tasks pending |
+| FIN-03 | T2, T3, T7 | T3 complete; remaining tasks pending |
+| FIN-04 | T3 | T3 complete |
+| FIN-05 | T3 | T3 complete |
+| FIN-06 | T1, T8 | T1/T8 complete |
+| FIN-07 | T1, T8, T4, T7 | T1/T8 complete; T4/T7 pending |
 | FIN-08 | T2, T4, T7 | T2 complete; remaining tasks pending |
 | FIN-09 | T4 | Pending |
 | FIN-10 | T4 | Pending |

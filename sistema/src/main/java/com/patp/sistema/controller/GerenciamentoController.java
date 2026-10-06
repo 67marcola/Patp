@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.patp.sistema.model.Etapa;
+import com.patp.sistema.model.CategoriaEtapa;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.patp.sistema.dto.GerenciamentoResponse;
 import com.patp.sistema.dto.OrdemDeserializer;
@@ -51,6 +52,10 @@ public class GerenciamentoController {
                     etapa.setNome(etapaRequest.nome());
                     etapa.setSetor(etapaRequest.setor());
                     etapa.setOrdem(etapaRequest.ordem());
+                    etapa.setId(etapaRequest.id());
+                    if (etapaRequest.categoria() != null) {
+                        etapa.setCategoria(etapaRequest.categoria());
+                    }
 
                     return etapa;
                 })
@@ -125,7 +130,9 @@ public class GerenciamentoController {
     public record CriarEtapaRequest(
             String nome,
             String setor,
-            @JsonDeserialize(using = OrdemDeserializer.class) Integer ordem
+            @JsonDeserialize(using = OrdemDeserializer.class) Integer ordem,
+            Long id,
+            CategoriaEtapa categoria
     ) {
     }
 

@@ -62,8 +62,10 @@ class GerenciamentoApiTests extends ApiIntegrationSupport {
         assertThat(todos).hasSize(2);
         assertThat(todos.get(0).getId()).isNotEqualTo(todos.get(1).getId());
         etapa(todos.get(0), "Só primeiro", 1);
-        assertThat(etapas.findByGerenciamentoIdOrderByOrdem(todos.get(0).getId())).hasSize(1);
-        assertThat(etapas.findByGerenciamentoIdOrderByOrdem(todos.get(1).getId())).isEmpty();
+        assertThat(etapas.findByGerenciamentoIdOrderByOrdem(todos.get(0).getId())).hasSize(3);
+        assertThat(etapas.findByGerenciamentoIdOrderByOrdem(todos.get(0).getId())).filteredOn(e -> e.getCategoria() == com.patp.sistema.model.CategoriaEtapa.TRABALHO).extracting("nome").containsExactly("Só primeiro");
+        assertThat(etapas.findByGerenciamentoIdOrderByOrdem(todos.get(1).getId())).hasSize(2).extracting("nome").containsExactly("Concluídos", "Cancelados");
+        assertThat(etapas.findByGerenciamentoIdOrderByOrdem(todos.get(1).getId())).extracting("categoria").containsExactly(com.patp.sistema.model.CategoriaEtapa.CONCLUIDA, com.patp.sistema.model.CategoriaEtapa.CANCELADA);
     }
 
     @ParameterizedTest
@@ -369,7 +371,10 @@ class GerenciamentoApiTests extends ApiIntegrationSupport {
         long id = json.readTree(resultado.getResponse().getContentAsString(java.nio.charset.StandardCharsets.UTF_8)).get("id").asLong();
         assertThat(quadros.findById(id)).isPresent();
         var etapasSalvas = etapas.findByGerenciamentoIdOrderByOrdem(id);
-        assertThat(etapasSalvas).hasSize(1);
+        assertThat(etapasSalvas).hasSize(3);
+        assertThat(etapasSalvas.subList(1, 3)).extracting("nome").containsExactly("Concluídos", "Cancelados");
+        assertThat(etapasSalvas.subList(1, 3)).extracting("categoria").containsExactly(com.patp.sistema.model.CategoriaEtapa.CONCLUIDA, com.patp.sistema.model.CategoriaEtapa.CANCELADA);
+        assertThat(etapasSalvas.subList(1, 3)).extracting("setor").containsExactly(null, null);
         assertThat(etapasSalvas.get(0).getNome()).isEqualTo("N".repeat(255));
         assertThat(etapasSalvas.get(0).getSetor()).isEqualTo("S".repeat(255));
         assertThat(etapasSalvas.get(0).getOrdem()).isEqualTo(1);
