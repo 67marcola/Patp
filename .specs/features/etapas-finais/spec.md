@@ -118,19 +118,19 @@ Homônimos e ordem antiga com lacunas/empates permanecem trabalho (FIN-06/14/24)
 | FIN-04 | T3 | T3 complete |
 | FIN-05 | T3 | T3 complete |
 | FIN-06 | T1, T8 | T1/T8 complete |
-| FIN-07 | T1, T8, T4, T7 | T1/T8 complete; T4/T7 pending |
-| FIN-08 | T2, T4, T7 | T2 complete; remaining tasks pending |
-| FIN-09 | T4 | Pending |
-| FIN-10 | T4 | Pending |
-| FIN-11 | T2, T4, T7 | T2 complete; remaining tasks pending |
-| FIN-12 | T4 | Pending |
-| FIN-13 | T4 | Pending |
-| FIN-14 | T2, T4 | T2 complete; remaining tasks pending |
+| FIN-07 | T1, T8, T4, T7 | T1/T8/T4 complete; T7 pending |
+| FIN-08 | T2, T4, T7 | T2/T4 complete; T7 pending |
+| FIN-09 | T4 | T4 complete |
+| FIN-10 | T4 | T4 complete |
+| FIN-11 | T2, T4, T7 | T2/T4 complete; T7 pending |
+| FIN-12 | T4 | T4 complete |
+| FIN-13 | T4 | T4 complete |
+| FIN-14 | T2, T4 | T2/T4 complete |
 | FIN-15 | T6, T7 | Pending |
 | FIN-16 | T6, T7 | Pending |
 | FIN-17 | T6, T7 | Pending |
 | FIN-18 | T6, T7 | Pending |
-| FIN-19 | T4, T6, T7 | Pending |
+| FIN-19 | T4, T6, T7 | T4 complete; T6/T7 pending |
 | FIN-20 | T5 | Pending |
 | FIN-21 | T5 | Pending |
 | FIN-22 | T5 | Pending |
@@ -140,7 +140,7 @@ Homônimos e ordem antiga com lacunas/empates permanecem trabalho (FIN-06/14/24)
 | FIN-26 | T2, T5 | T2 complete; remaining tasks pending |
 | FIN-27 | T2, T5 | T2 complete; remaining tasks pending |
 | FIN-28 | T5 | Pending |
-| FIN-29 | T4, T5, T7 | Pending |
+| FIN-29 | T4, T5, T7 | T4 complete; T5/T7 pending |
 | FIN-30 | T5 | Pending |
 
 ## Success Criteria

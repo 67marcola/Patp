@@ -80,10 +80,13 @@ class EtapaArchiveTests extends ApiIntegrationSupport {
         assertThat(etapas.findById(etapa.getId()).orElseThrow().getNome()).isEqualTo("Editada");
         mvc.perform(delete(base + "/" + etapa.getId()).header("Authorization", token).contentType(MediaType.APPLICATION_JSON).content("{\"versao\":2}"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.gerenciamento.versao").value(3))
-                .andExpect(jsonPath("$.etapas.length()").value(2)).andExpect(jsonPath("$.etapas[0].id").value(primeira.getId()))
+                .andExpect(jsonPath("$.etapas.length()").value(4))
+                .andExpect(jsonPath("$.etapas[2].nome").value("Concluídos")).andExpect(jsonPath("$.etapas[2].categoria").value("CONCLUIDA"))
+                .andExpect(jsonPath("$.etapas[3].nome").value("Cancelados")).andExpect(jsonPath("$.etapas[3].categoria").value("CANCELADA"))
+                .andExpect(jsonPath("$.etapas[0].id").value(primeira.getId()))
                 .andExpect(jsonPath("$.etapas[1].id").value(segunda.getId()));
         assertThat(etapas.existsById(etapa.getId())).isFalse();
-        assertThat(etapas.count()).isEqualTo(2);
+        assertThat(etapas.count()).isEqualTo(4);
         assertThat(etapas.findById(primeira.getId()).orElseThrow().getOrdem()).isEqualTo(1);
         assertThat(etapas.findById(segunda.getId()).orElseThrow().getOrdem()).isEqualTo(2);
     }
@@ -143,9 +146,11 @@ class EtapaArchiveTests extends ApiIntegrationSupport {
                 mvc.perform(put("/api/gerenciamentos/" + quadro.getId() + "/arquivar").header("Authorization", bearer)
                         .contentType(MediaType.APPLICATION_JSON).content("{\"versao\":1}")).andExpect(status().isNoContent());
             }
-            assertThat(etapas.count()).isEqualTo(arquivoPrimeiro ? 0 : 1);
+            assertThat(etapas.count()).isEqualTo(arquivoPrimeiro ? 0 : 3);
             if (!arquivoPrimeiro) {
                 assertThat(etapas.findAll().get(0).getNome()).isEqualTo("Concorrente");
+                assertThat(etapas.findAll().subList(1, 3)).extracting("nome").containsExactly("Concluídos", "Cancelados");
+                assertThat(etapas.findAll().subList(1, 3)).extracting("categoria").containsExactly(com.patp.sistema.model.CategoriaEtapa.CONCLUIDA, com.patp.sistema.model.CategoriaEtapa.CANCELADA);
             }
             assertThat(quadros.findById(quadro.getId()).orElseThrow().isArquivado()).isTrue();
             assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(arquivoPrimeiro ? 1L : 2L);

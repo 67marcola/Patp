@@ -81,3 +81,32 @@ Gate Full H2 PASS: **258 testes, zero falhas/erros/skips**, log T3-verify.log no
 
 Adequação PASS: cinco casos novos (1 criação,3 rejeição,1 falha parcial); testes antigos conservados. Somente cardinalidades/listas afetadas atualizadas, assertions finais exatas acrescentadas. Padrões de teste existentes seguidos; sem SPEC_DEVIATION.
 
+## T4: proteção e sequência no CRUD
+
+Pré-plano: separar trabalhos da lista completa; proteção por categoria depois de auth/arquivo/versão; garantir par somente na confirmação de mutation válida, na mesma transação/lock e incremento único. GET ordena/consulta sem preparação. Arquivos: EtapaService.java, EtapaFinaisApiTests.java, EtapaApiTests.java/EtapaArchiveTests.java/EtapaDemandConcurrencyTests.java para expectativas afetadas e assertions finais extras, spec/tasks/evidence. Sucesso: finais vazias protegidas409 erro exato sem mudanças; posições N/N+1 só trabalho, homônimos CRUD, snapshot com IDs/campos/contagens/finais ordenadas; auth/arquivo/conflito/rollback anteriores conservados. Full H2.
+
+Gate Full H2 PASS: **266 testes, zero falhas/erros/skips**, log `C:/Users/Marco/AppData/Local/Temp/etapas-finais-backend-20261006/T4-verify.log`. A retomada reconciliou o diff com esse gate; nenhuma alteração de código/teste posterior ao gate.
+
+| AC/done when | Evidência + assertion | Resultado da spec | Cobertura |
+| --- | --- | --- | --- |
+| FIN-09/10 finais vazias, criador/admin, PUT/DELETE | `sistema/src/test/java/com/patp/sistema/EtapaFinaisApiTests.java:44` e `:47` `isConflict()` / `jsonPath("$.erro").value("Etapas finais obrigatórias não podem ser alteradas.")`; `:48` `assertThat(estado()).isEqualTo(antes)` | 409 exato, registros/versão intactos | Sim |
+| FIN-11 CRUD inteiro preserva par/campos/IDs e versão única | `EtapaFinaisApiTests.java:81` `value(3)`; `:83` `value(2)`; `:84` `assertThat(jdbc.queryForList("select * from etapas where categoria <> 'TRABALHO' order by id")).isEqualTo(finaisAntes)`; `:85` `isEqualTo(5L)`; `:86` `containsExactly(CONCLUIDA, CANCELADA)` | trabalho criado/editado/removido, finais integralmente iguais, uma versão por cada uma das cinco mutations | Sim |
+| FIN-07/08/14 categoria por identidade, homônimo configurável, finais após trabalhos/contagens reais | `EtapaFinaisApiTests.java:59` `value("TRABALHO")`; `:60–63` nomes/categorias finais exatos; `:72–75` `value(finais.get(0).getId())`, `value(2)`, `value(finais.get(1).getId())`, `value(1)`; `:79` `value(trabalho.getId())` | homônimo trabalho, finais ordenadas após N trabalhos, IDs e contagens reais | Sim |
+| FIN-07 demais campos reais do snapshot | `sistema/src/test/java/com/patp/sistema/EtapaApiTests.java:114–125` `value("Concluídos")`, `value("CONCLUIDA")`, `isEmpty()`, `value(0)`, `value("Cancelados")`, `value("CANCELADA")`, `value(primeira.getId())`, `value(1)`, `value("Mesmo")`, `value("Operação")`, `value(2)`, `value(ultima.getId())`, `value("Legada")`, `value(3)`; `sistema/src/test/java/com/patp/sistema/EtapaCategoriaTests.java:44–49` campos reais de etapa legado | valores reais de nomes, categorias, IDs, Setor, ordem e contagens | Sim |
+| FIN-12 intervalos 1..N+1/1..N, inclusive somente finais | `EtapaFinaisApiTests.java:95` `isCreated()` posição1 com só finais; `:70` `isCreated()` posição2 com um trabalho; `:78–79` `isOk()` / ID trabalho posição2 com dois trabalhos; `EtapaApiTests.java:360–363` posição/criação/ordens exatas | somente N trabalhos delimita posições | Sim |
+| FIN-13 posição final/Setor branco sem escrita | `EtapaFinaisApiTests.java:101` `isBadRequest()` / `value(setor ? "Informe um setor entre 1 e 255 caracteres." : "Escolha uma posição válida para a etapa.")`; `:102` `assertThat(estado()).isEqualTo(antes)` | 400 exato sem registros/versão alterados nos quatro casos | Sim |
+| FIN-19 permission/arquivo/versão preservados | `EtapaApiTests.java:228–229` `isForbidden()` / `value(PERMISSAO)` / `isEqualTo(antes)`; `:246–247` `isConflict()` / `value(ARQUIVO)` / `isEqualTo(antes)`; `:387–388` `isConflict()` / `value(VERSAO)` / `isEqualTo(antes)` | 403/409/409 e zero efeito | Sim |
+| FIN-29 GET legado readonly; rollback/concorrência anteriores conservados | `EtapaFinaisApiTests.java:111` `value(1)` / `value("TRABALHO")`; `:113–114` `value(1)` / `assertThat(estado()).isEqualTo(antes)`; `EtapaApiTests.java:421–423` `isInternalServerError()` / `value("Não foi possível concluir a operação.")` / `assertThat(estado()).isEqualTo(antes)`; `EtapaDemandConcurrencyTests.java:88` `isEqualTo(removerPrimeiro ? 1L : 0L)` e `:143` `isEqualTo(1L)` | GET não prepara; falhas revertidas; lock mantém versão | Sim |
+
+As referências abreviadas nas tabelas são relativas a `sistema/src/test/java/com/patp/sistema/`.
+
+| Assertion (arquivo/linha acima) | Requisito | Manter |
+| --- | --- | --- |
+| EtapaFinaisApiTests.java:44/47/48 (dois atores, duas finais, duas rotas) | FIN-09/10 | Sim |
+| EtapaFinaisApiTests.java:59–86 (ciclo de homônimos completo) | FIN-07/08/11/12/14 | Sim |
+| EtapaFinaisApiTests.java:95/101/102 (quatro entradas inválidas) | FIN-12/13 | Sim |
+| EtapaFinaisApiTests.java:111/113/114 (consulta legado) | FIN-06/29 | Sim |
+| EtapaApiTests.java:114–125/153–160/213–217 novas assertions finais; EtapaArchiveTests.java:83–88/152–153; EtapaDemandConcurrencyTests.java:85–86/139–140/151–154 | FIN-07/08/11/19 e adaptação autorizada das cardinalidades anteriores | Sim |
+| Assertions anteriores de trabalho/auth/arquivo/versão/rollback, conservadas | FIN-12/13/19 e regressão exigida no done when | Sim |
+
+Adequação PASS: oito casos novos, todos ancorados; campos e snapshots persistidos comprovam resultado, nenhum teste somente por chamada de mock. Padrão SpringBootTest/MockMvc/H2 do projeto seguido; sem skip/exclusão, sem SPEC_DEVIATION. Testes antigos alterados somente nas listas/contagens autorizadas, com finais exatas adicionais. A ausência de execução em startup receberá também evidência específica de main/contexto em T5.
