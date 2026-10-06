@@ -142,11 +142,11 @@ Quadro só com finais, legado sem criador, trabalho homônimo de final/categoria
 | CAD-18 | T2 | Pending |
 | CAD-19 | T2 | Pending |
 | CAD-20 | T2 | Pending |
-| CAD-21 | T1 | Pending |
-| CAD-22 | T1 | Pending |
-| CAD-23 | T1 | Pending |
-| CAD-24 | T1, T5 | Pending |
-| CAD-25 | T1 | Pending |
+| CAD-21 | T1 | Complete T1 |
+| CAD-22 | T1 | Complete T1 |
+| CAD-23 | T1 | Complete T1 |
+| CAD-24 | T1, T5 | Complete T1; Pending T5 |
+| CAD-25 | T1 | Complete T1 |
 | CAD-26 | T5 | Pending |
 | CAD-27 | T5 | Pending |
 | CAD-28 | T4 | Pending |
