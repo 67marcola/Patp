@@ -24,7 +24,7 @@ function servidor(registros = [quadro]) {
         if (url.endsWith("/etapas")) return json([]);
         if (url.endsWith("/estrutura-etapas")) {
             const id = Number(url.match(/gerenciamentos\/(\d+)/)?.[1]);
-            return json({ gerenciamento: dados.find(registro => registro.id === id), etapas: [] });
+            return json({ gerenciamento: dados.find(registro => registro.id === id), etapas: [], demandas: [] });
         }
         const id = Number(url.match(/gerenciamentos\/(\d+)/)?.[1]);
         const item = dados.find(registro => registro.id === id);

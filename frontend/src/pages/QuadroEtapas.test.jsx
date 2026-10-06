@@ -12,10 +12,18 @@ const finais = [
     { id: 20, nome: "Concluídos", setor: null, categoria: "CONCLUIDA", quantidadeDemandas: 3 },
     { id: 21, nome: "Cancelados", setor: null, categoria: "CANCELADA", quantidadeDemandas: 1 }
 ];
-const snapshot = (etapas = [a, b], metadados = {}, incluirFinais = true) => ({
-    gerenciamento: { ...quadro, ...metadados },
-    etapas: incluirFinais ? [...etapas, ...finais.map((etapa, index) => ({ ...etapa, ordem: etapas.length + index + 1 }))] : etapas
-});
+const snapshot = (etapas = [a, b], metadados = {}, incluirFinais = true) => {
+    const colunas = incluirFinais ? [...etapas, ...finais.map((etapa, index) => ({ ...etapa, ordem: etapas.length + index + 1 }))] : etapas;
+    return {
+        gerenciamento: { ...quadro, ...metadados }, etapas: colunas,
+        demandas: colunas.flatMap(etapa => Array.from({ length: etapa.quantidadeDemandas }, (_, index) => ({
+            id: etapa.id * 100 + index + 1, numeroProcesso: `Fixture ${etapa.id}-${index}`, pessoa: `Cliente ${index}`,
+            responsavel: null, status: "Em andamento", prioridade: null, dataEmissao: null, prazoEtapa: null,
+            prazoGeral: null, dataConclusao: null, dataCancelamento: null, motivoCancelamento: null,
+            observacoes: null, etapaId: etapa.id
+        })))
+    };
+};
 const json = (dados, status = 200) => new Response(JSON.stringify(dados), { status });
 const endpoint = "http://localhost:8081/api/gerenciamentos/9";
 

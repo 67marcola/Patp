@@ -2,7 +2,7 @@ import { expect, test, vi } from "vitest";
 import {
     arquivarGerenciamento, buscarGerenciamento, criarGerenciamento,
     editarGerenciamento, listarEtapas, listarGerenciamentos, restaurarGerenciamento,
-    buscarConfiguracaoEtapas, criarEtapa, editarEtapa, removerEtapa
+    buscarConfiguracaoEtapas, criarEtapa, editarEtapa, removerEtapa, criarDemanda
 } from "./api";
 
 const quadro = {
@@ -104,7 +104,11 @@ test("GER-29: consulta etapas pelo contrato central e mantém seus dados", async
 
 const configuracao = {
     gerenciamento: { ...quadro, versao: 3 },
-    etapas: [{ id: 4, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 2 }]
+    etapas: [{ id: 4, nome: "Planejamento", setor: "Técnico", ordem: 1, quantidadeDemandas: 2 }],
+    demandas: [1, 2].map(id => ({ id, numeroProcesso: `D-${id}`, pessoa: `Cliente ${id}`,
+        responsavel: null, status: "Em andamento", prioridade: null, dataEmissao: null,
+        prazoEtapa: null, prazoGeral: null, dataConclusao: null, dataCancelamento: null,
+        motivoCancelamento: null, observacoes: null, etapaId: 4 }))
 };
 const dadosEtapa = { nome: "Planejamento", setor: "Técnico", ordem: 1, versao: 2 };
 const mutacoesEtapa = [
@@ -164,3 +168,116 @@ test.each(mutacoesEtapa.flatMap(([method, _rota, executar, _dados, status]) =>
         });
         expect(fetchSpy).toHaveBeenCalledTimes(1);
     });
+
+const dadosDemanda = { versao: 2, numeroProcesso: "D-3", pessoa: "Maria", responsavel: "Ana",
+    prioridade: "Livre", dataEmissao: "2020-02-29", prazoEtapa: "2019-01-01", prazoGeral: "2018-01-01",
+    observacoes: "Primeira\nSegunda" };
+const rotasSnapshot = [
+    ["GET", () => buscarConfiguracaoEtapas("sessao", 9), 200],
+    ...mutacoesEtapa.map(([metodo, _rota, executar, _dados, status]) => [metodo, executar, status]),
+    ["POST demanda", () => criarDemanda("sessao", 9, dadosDemanda), 201]
+];
+
+test("CAD-30: POST demanda envia somente nove campos e retorna o snapshot completo", async () => {
+    const fetchSpy = resposta(configuracao, 201);
+    expect(await criarDemanda("sessao", 9, dadosDemanda)).toEqual(configuracao);
+    expect(fetchSpy).toHaveBeenCalledExactlyOnceWith("http://localhost:8081/api/gerenciamentos/9/demandas", {
+        method: "POST", headers: { Authorization: "Bearer sessao", "Content-Type": "application/json" },
+        signal: undefined, body: JSON.stringify(dadosDemanda)
+    });
+});
+
+test.each(rotasSnapshot)("CAD-36: %s aceita vazio e valores antigos completos sem limites retroativos", async (_rota, executar, status) => {
+    const legado = structuredClone(configuracao);
+    Object.assign(legado.demandas[0], { status: "Desconhecido antigo", observacoes: "x".repeat(10001),
+        dataEmissao: "2020-02-29", prazoEtapa: "2019-01-01", prazoGeral: "2018-01-01",
+        dataConclusao: "2021-03-04", dataCancelamento: "2022-05-06", motivoCancelamento: "Legado" });
+    resposta(legado, status);
+    expect(await executar()).toEqual(legado);
+    const vazio = { gerenciamento: quadro, etapas: [], demandas: [] };
+    resposta(vazio, status);
+    expect(await executar()).toEqual(vazio);
+});
+
+const snapshotsInvalidos = [
+    ["null", () => null], ["array", () => []],
+    ["sem gerenciamento", dado => { delete dado.gerenciamento; return dado; }],
+    ["quadro diferente", dado => { dado.gerenciamento.id = 10; return dado; }],
+    ["versão negativa", dado => { dado.gerenciamento.versao = -1; return dado; }],
+    ["versão texto", dado => { dado.gerenciamento.versao = "3"; return dado; }],
+    ["arquivo ausente", dado => { delete dado.gerenciamento.arquivado; return dado; }],
+    ["permissão inválida", dado => { dado.gerenciamento.podeAdministrar = "true"; return dado; }],
+    ["sem etapas", dado => { delete dado.etapas; return dado; }],
+    ["sem demandas", dado => { delete dado.demandas; return dado; }],
+    ["demandas objeto", dado => { dado.demandas = {}; return dado; }],
+    ["etapa ID zero", dado => { dado.etapas[0].id = 0; return dado; }],
+    ["etapa ID duplicado", dado => { dado.etapas.push({ ...dado.etapas[0] }); return dado; }],
+    ["contagem fracionada", dado => { dado.etapas[0].quantidadeDemandas = 1.5; return dado; }],
+    ["contagem divergente", dado => { dado.etapas[0].quantidadeDemandas = 1; return dado; }],
+    ["demanda ID negativo", dado => { dado.demandas[0].id = -1; return dado; }],
+    ["demanda ID duplicado", dado => { dado.demandas[1].id = 1; return dado; }],
+    ["etapa de outro quadro", dado => { dado.demandas[0].etapaId = 99; return dado; }],
+    ["entidade aninhada", dado => { dado.demandas[0].etapa = { id: 4 }; return dado; }]
+];
+test.each(rotasSnapshot.flatMap(([rota, executar, status]) => snapshotsInvalidos.map(([caso, invalidar]) =>
+    [rota, caso, executar, status, invalidar])))
+    ("CAD-36: %s rejeita snapshot %s sem retry", async (_rota, _caso, executar, status, invalidar) => {
+        const fetchSpy = resposta(invalidar(structuredClone(configuracao)), status);
+        await expect(executar()).rejects.toMatchObject({ name: "ApiError", status,
+            message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente." });
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+
+test.each(Object.keys(configuracao.demandas[0]))("CAD-36: campo obrigatório do DTO %s ausente rejeita sucesso", async campo => {
+    const incompleto = structuredClone(configuracao);
+    delete incompleto.demandas[0][campo];
+    resposta(incompleto);
+    await expect(buscarConfiguracaoEtapas("sessao", 9)).rejects.toMatchObject({ status: 200,
+        message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente." });
+});
+
+test.each([
+    ["id", "1"], ["numeroProcesso", null], ["pessoa", 1], ["responsavel", {}], ["status", false],
+    ["prioridade", []], ["dataEmissao", "2021-02-29"], ["prazoEtapa", "2020-13-01"],
+    ["prazoGeral", "01/01/2020"], ["dataConclusao", 2020], ["dataCancelamento", "2020-04-31"],
+    ["motivoCancelamento", true], ["observacoes", 1], ["etapaId", "4"]
+])("CAD-36: campo %s com tipo/data inválido rejeita sucesso", async (campo, valor) => {
+    const incorreto = structuredClone(configuracao);
+    incorreto.demandas[0][campo] = valor;
+    resposta(incorreto);
+    await expect(buscarConfiguracaoEtapas("sessao", 9)).rejects.toMatchObject({ status: 200,
+        message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente." });
+});
+
+test.each(rotasSnapshot)("CAD-33/36: %s não aceita 204 como confirmação do quadro", async (_rota, executar) => {
+    const fetchSpy = vi.fn().mockResolvedValue(new Response(null, { status: 204 }));
+    vi.stubGlobal("fetch", fetchSpy);
+    await expect(executar()).rejects.toMatchObject({ status: 204,
+        message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente." });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+});
+
+test.each([400, 401, 404, 409, 500])("CAD-33: cadastro HTTP%s conserva mensagem/status sem retry", async status => {
+    const fetchSpy = resposta({ erro: "Mensagem do servidor" }, status);
+    await expect(criarDemanda("sessao", 9, dadosDemanda)).rejects.toMatchObject({ message: "Mensagem do servidor", status });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+});
+
+test.each(["rede", "JSON"])("CAD-33: cadastro com falha de %s não confirma nem repete POST", async falha => {
+    const fetchSpy = falha === "rede" ? vi.fn().mockRejectedValue(new TypeError("offline"))
+        : vi.fn().mockResolvedValue(new Response("<html>incompleto</html>", { status: 201 }));
+    vi.stubGlobal("fetch", fetchSpy);
+    await expect(criarDemanda("sessao", 9, dadosDemanda)).rejects.toMatchObject({ status: falha === "rede" ? 0 : 201,
+        message: "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente." });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+});
+
+test("CAD-35/36: GET abortado conserva AbortError e signal sem retry", async () => {
+    const controller = new AbortController();
+    const erro = new DOMException("Abortado", "AbortError");
+    const fetchSpy = vi.fn().mockRejectedValue(erro);
+    vi.stubGlobal("fetch", fetchSpy);
+    await expect(buscarConfiguracaoEtapas("sessao", 9, { signal: controller.signal })).rejects.toBe(erro);
+    expect(fetchSpy.mock.calls[0][1].signal).toBe(controller.signal);
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+});

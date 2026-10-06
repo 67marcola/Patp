@@ -9,7 +9,7 @@ export class ApiError extends Error {
     }
 }
 
-async function requisicao(caminho, { token, method = "GET", dados, signal } = {}) {
+async function requisicao(caminho, { token, method = "GET", dados, signal, validar } = {}) {
     const headers = {};
     if (token) headers.Authorization = `Bearer ${token}`;
     if (dados !== undefined) headers["Content-Type"] = "application/json";
@@ -25,7 +25,10 @@ async function requisicao(caminho, { token, method = "GET", dados, signal } = {}
         throw new ApiError(ERRO_COMUNICACAO, 0);
     }
 
-    if (resposta.status === 204) return;
+    if (resposta.status === 204) {
+        if (validar) throw new ApiError(ERRO_COMUNICACAO, resposta.status);
+        return;
+    }
     let corpo;
     try {
         corpo = await resposta.json();
@@ -35,7 +38,52 @@ async function requisicao(caminho, { token, method = "GET", dados, signal } = {}
     if (!resposta.ok) {
         throw new ApiError(corpo?.erro || "Não foi possível concluir a operação.", resposta.status);
     }
+    if (validar && !validar(corpo)) throw new ApiError(ERRO_COMUNICACAO, resposta.status);
     return corpo;
+}
+
+const CAMPOS_DEMANDA = ["id", "numeroProcesso", "pessoa", "responsavel", "status", "prioridade",
+    "dataEmissao", "prazoEtapa", "prazoGeral", "dataConclusao", "dataCancelamento", "motivoCancelamento",
+    "observacoes", "etapaId"];
+const TEXTOS_OPCIONAIS = ["responsavel", "status", "prioridade", "motivoCancelamento", "observacoes"];
+const DATAS_DEMANDA = ["dataEmissao", "prazoEtapa", "prazoGeral", "dataConclusao", "dataCancelamento"];
+const objeto = valor => valor !== null && typeof valor === "object" && !Array.isArray(valor);
+const idValido = valor => Number.isSafeInteger(valor) && valor > 0;
+
+function dataIso(valor) {
+    if (valor === null) return true;
+    if (typeof valor !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(valor)) return false;
+    const [ano, mes, dia] = valor.split("-").map(Number);
+    const bissexto = ano % 4 === 0 && (ano % 100 !== 0 || ano % 400 === 0);
+    const dias = [31, bissexto ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    return mes >= 1 && mes <= 12 && dia >= 1 && dia <= dias[mes - 1];
+}
+
+function snapshotValido(dados, id) {
+    if (!objeto(dados) || !objeto(dados.gerenciamento) || dados.gerenciamento.id !== id
+        || !idValido(dados.gerenciamento.id) || !Number.isSafeInteger(dados.gerenciamento.versao)
+        || dados.gerenciamento.versao < 0 || typeof dados.gerenciamento.arquivado !== "boolean"
+        || typeof dados.gerenciamento.podeAdministrar !== "boolean"
+        || !Array.isArray(dados.etapas) || !Array.isArray(dados.demandas)) return false;
+    const contagens = new Map();
+    for (const etapa of dados.etapas) {
+        if (!objeto(etapa) || !idValido(etapa.id) || contagens.has(etapa.id)
+            || !Number.isSafeInteger(etapa.quantidadeDemandas) || etapa.quantidadeDemandas < 0) return false;
+        contagens.set(etapa.id, 0);
+    }
+    const ids = new Set();
+    for (const demanda of dados.demandas) {
+        if (!objeto(demanda) || Object.keys(demanda).length !== CAMPOS_DEMANDA.length
+            || !CAMPOS_DEMANDA.every(campo => Object.hasOwn(demanda, campo))
+            || !idValido(demanda.id) || ids.has(demanda.id) || !idValido(demanda.etapaId)
+            || !contagens.has(demanda.etapaId) || typeof demanda.numeroProcesso !== "string"
+            || typeof demanda.pessoa !== "string"
+            || !TEXTOS_OPCIONAIS.every(campo => demanda[campo] === null || typeof demanda[campo] === "string")
+            || !DATAS_DEMANDA.every(campo => dataIso(demanda[campo]))) return false;
+        ids.add(demanda.id);
+        contagens.set(demanda.etapaId, contagens.get(demanda.etapaId) + 1);
+    }
+    return dados.etapas.every(etapa => etapa.quantidadeDemandas === contagens.get(etapa.id));
 }
 
 async function autenticar(caminho, dados) {
@@ -91,17 +139,26 @@ export function listarEtapas(token, id, options = {}) {
 }
 
 export function buscarConfiguracaoEtapas(token, id, options = {}) {
-    return requisicao(`/gerenciamentos/${id}/estrutura-etapas`, { token, signal: options.signal });
+    return requisicao(`/gerenciamentos/${id}/estrutura-etapas`, { token, signal: options.signal,
+        validar: dados => snapshotValido(dados, id) });
 }
 
 export function criarEtapa(token, id, dados) {
-    return requisicao(`/gerenciamentos/${id}/etapas`, { token, method: "POST", dados });
+    return requisicao(`/gerenciamentos/${id}/etapas`, { token, method: "POST", dados,
+        validar: resposta => snapshotValido(resposta, id) });
 }
 
 export function editarEtapa(token, id, etapaId, dados) {
-    return requisicao(`/gerenciamentos/${id}/etapas/${etapaId}`, { token, method: "PUT", dados });
+    return requisicao(`/gerenciamentos/${id}/etapas/${etapaId}`, { token, method: "PUT", dados,
+        validar: resposta => snapshotValido(resposta, id) });
 }
 
 export function removerEtapa(token, id, etapaId, versao) {
-    return requisicao(`/gerenciamentos/${id}/etapas/${etapaId}`, { token, method: "DELETE", dados: { versao } });
+    return requisicao(`/gerenciamentos/${id}/etapas/${etapaId}`, { token, method: "DELETE", dados: { versao },
+        validar: resposta => snapshotValido(resposta, id) });
+}
+
+export function criarDemanda(token, id, dados) {
+    return requisicao(`/gerenciamentos/${id}/demandas`, { token, method: "POST", dados,
+        validar: resposta => snapshotValido(resposta, id) });
 }

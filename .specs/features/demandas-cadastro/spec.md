@@ -151,13 +151,13 @@ Quadro só com finais, legado sem criador, trabalho homônimo de final/categoria
 | CAD-27 | T5 | Pending |
 | CAD-28 | T4 | Pending |
 | CAD-29 | T4 | Pending |
-| CAD-30 | T3, T4, T5 | Pending |
+| CAD-30 | T3, T4, T5 | Complete T3; Pending T4, T5 |
 | CAD-31 | T4, T5 | Pending |
 | CAD-32 | T5 | Pending |
-| CAD-33 | T3, T4, T5 | Pending |
+| CAD-33 | T3, T4, T5 | Complete T3; Pending T4, T5 |
 | CAD-34 | T5 | Pending |
 | CAD-35 | T5 | Pending |
-| CAD-36 | T3 | Pending |
+| CAD-36 | T3 | Complete T3 |
 | CAD-37 | T5 | Pending |
 | CAD-38 | T5 | Pending |
 | CAD-39 | T5 | Pending |
