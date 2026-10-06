@@ -80,7 +80,11 @@ class EtapaDemandConcurrencyTests extends ApiIntegrationSupport {
                     ? "Etapa não encontrada neste gerenciamento."
                     : "Esta etapa possui demandas. Mova-as para outra etapa antes de removê-la.");
             assertThat(etapas.existsById(destino.getId())).isEqualTo(!removerPrimeiro);
-            assertThat(etapas.count()).isEqualTo(removerPrimeiro ? 1 : 2);
+            assertThat(etapas.count()).isEqualTo(removerPrimeiro ? 3 : 2);
+            if (removerPrimeiro) {
+                assertThat(etapas.findAll().subList(1, 3)).extracting("nome").containsExactly("Concluídos", "Cancelados");
+                assertThat(etapas.findAll().subList(1, 3)).extracting("categoria").containsExactly(com.patp.sistema.model.CategoriaEtapa.CONCLUIDA, com.patp.sistema.model.CategoriaEtapa.CANCELADA);
+            }
             assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(removerPrimeiro ? 1L : 0L);
             assertThat(jdbc.queryForObject("select count(*) from processos p left join etapas e on e.id=p.etapa_id where e.id is null", Long.class)).isZero();
             assertThat(jdbc.queryForObject("select count(*) from historicos", Long.class)).isEqualTo(removerPrimeiro ? 0L : 1L);
@@ -131,7 +135,9 @@ class EtapaDemandConcurrencyTests extends ApiIntegrationSupport {
                 assertThat(resultado.getResponse().getContentAsString(StandardCharsets.UTF_8))
                         .contains("Gerenciamento alterado por outro usuário. Atualize e tente novamente.");
             }
-            assertThat(etapas.count()).isEqualTo(1);
+            assertThat(etapas.count()).isEqualTo(3);
+            assertThat(etapas.findAll().subList(1, 3)).extracting("nome").containsExactly("Concluídos", "Cancelados");
+            assertThat(etapas.findAll().subList(1, 3)).extracting("categoria").containsExactly(com.patp.sistema.model.CategoriaEtapa.CONCLUIDA, com.patp.sistema.model.CategoriaEtapa.CANCELADA);
             assertThat(etapas.findById(etapa.getId()).orElseThrow().getNome()).isEqualTo("Confirmada");
             assertThat(etapas.findById(etapa.getId()).orElseThrow().getSetor()).isEqualTo("Projeto");
             assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(1L);
@@ -141,7 +147,11 @@ class EtapaDemandConcurrencyTests extends ApiIntegrationSupport {
     private static void mvcResultAssert(org.springframework.test.web.servlet.MvcResult resultado) throws Exception {
         status().isOk().match(resultado);
         jsonPath("$.gerenciamento.versao").value(1).match(resultado);
-        jsonPath("$.etapas.length()").value(1).match(resultado);
+        jsonPath("$.etapas.length()").value(3).match(resultado);
+        jsonPath("$.etapas[1].nome").value("Concluídos").match(resultado);
+        jsonPath("$.etapas[1].categoria").value("CONCLUIDA").match(resultado);
+        jsonPath("$.etapas[2].nome").value("Cancelados").match(resultado);
+        jsonPath("$.etapas[2].categoria").value("CANCELADA").match(resultado);
         jsonPath("$.etapas[0].nome").value("Confirmada").match(resultado);
         jsonPath("$.etapas[0].setor").value("Projeto").match(resultado);
         jsonPath("$.etapas[0].ordem").value(1).match(resultado);

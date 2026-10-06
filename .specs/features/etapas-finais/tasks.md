@@ -106,7 +106,7 @@ Commit corretivo a06550f concluído antes da formalização administrativa de T8
 **Gate:** Full
 **Commit:** feat(etapas): protect final columns during stage management
 **Done when:**
-- [ ] HTTP direto protege finais mesmo vazias; trabalhos contam só N para posições; mutations garantem par no mesmo lock/versão; GET nunca prepara legados; arquivos/permissões/conflitos/rollback preservados; gate/adequação PASS.
+- [x] HTTP direto protege finais mesmo vazias; trabalhos contam só N para posições; mutations garantem par no mesmo lock/versão; GET nunca prepara legados; arquivos/permissões/conflitos/rollback preservados; gate/adequação PASS.
 
 ### T5: Preparação explícita e idempotente
 

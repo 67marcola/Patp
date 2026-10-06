@@ -14,6 +14,7 @@ import com.patp.sistema.dto.ConfiguracaoEtapasResponse;
 import com.patp.sistema.dto.EtapaResponse;
 import com.patp.sistema.exception.ApiException;
 import com.patp.sistema.model.Etapa;
+import com.patp.sistema.model.CategoriaEtapa;
 import com.patp.sistema.model.Gerenciamento;
 import com.patp.sistema.model.Usuario;
 import com.patp.sistema.repository.EtapaRepository;
@@ -30,15 +31,17 @@ public class EtapaService {
     private final GerenciamentoService gerenciamentos;
     private final SessaoService sessoes;
     private final EntityManager entityManager;
+    private final EtapasFinaisService finais;
 
     public EtapaService(EtapaRepository etapas, ProcessoRepository processos, GerenciamentoGuard guard,
-            GerenciamentoService gerenciamentos, SessaoService sessoes, EntityManager entityManager) {
+            GerenciamentoService gerenciamentos, SessaoService sessoes, EntityManager entityManager, EtapasFinaisService finais) {
         this.etapas = etapas;
         this.processos = processos;
         this.guard = guard;
         this.gerenciamentos = gerenciamentos;
         this.sessoes = sessoes;
         this.entityManager = entityManager;
+        this.finais = finais;
     }
 
     // A locking read keeps the version and children from different commits out of the same snapshot.
@@ -77,6 +80,7 @@ public class EtapaService {
         Gerenciamento gerenciamento = administrar(gerenciamentoId, usuario);
         Etapa etapa = buscarEtapa(gerenciamentoId, etapaId);
         validarVersao(gerenciamento, versao);
+        exigirTrabalho(etapa);
         String nomeValido = validarCampo(nome, "Informe um nome de etapa entre 1 e 255 caracteres.");
         String setorValido = validarCampo(setor, "Informe um setor entre 1 e 255 caracteres.");
         List<Etapa> sequencia = sequencia(gerenciamentoId);
@@ -95,6 +99,7 @@ public class EtapaService {
         Gerenciamento gerenciamento = administrar(gerenciamentoId, usuario);
         Etapa etapa = buscarEtapa(gerenciamentoId, etapaId);
         validarVersao(gerenciamento, versao);
+        exigirTrabalho(etapa);
         if (processos.existsByEtapaId(etapaId)) {
             throw new ApiException(HttpStatus.CONFLICT,
                     "Esta etapa possui demandas. Mova-as para outra etapa antes de removê-la.");
@@ -122,13 +127,22 @@ public class EtapaService {
     }
 
     private List<Etapa> sequencia(Long gerenciamentoId) {
-        return etapas.findByGerenciamentoIdOrderByOrdemAscIdAsc(gerenciamentoId);
+        return etapas.findByGerenciamentoIdOrderByOrdemAscIdAsc(gerenciamentoId).stream()
+                .filter(e -> e.getCategoria() == CategoriaEtapa.TRABALHO)
+                .collect(Collectors.toList());
+    }
+
+    private static void exigirTrabalho(Etapa etapa) {
+        if (etapa.getCategoria() != CategoriaEtapa.TRABALHO) {
+            throw new ApiException(HttpStatus.CONFLICT, "Etapas finais obrigatórias não podem ser alteradas.");
+        }
     }
 
     private void confirmar(Gerenciamento gerenciamento, List<Etapa> sequencia) {
         for (int i = 0; i < sequencia.size(); i++) {
             sequencia.get(i).setOrdem(i + 1);
         }
+        finais.garantirPar(gerenciamento);
         etapas.flush();
         // Children do not dirty the parent; force exactly one version change, including identical edits.
         entityManager.lock(gerenciamento, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
@@ -138,7 +152,7 @@ public class EtapaService {
     private ConfiguracaoEtapasResponse resposta(Gerenciamento gerenciamento, Usuario usuario) {
         Map<Long, Long> quantidades = processos.contarPorEtapa(gerenciamento.getId()).stream()
                 .collect(Collectors.toMap(ProcessoRepository.ContagemEtapa::getEtapaId, ProcessoRepository.ContagemEtapa::getQuantidade));
-        List<EtapaResponse> resumos = sequencia(gerenciamento.getId()).stream()
+        List<EtapaResponse> resumos = finais.ordenar(etapas.findByGerenciamentoIdOrderByOrdemAscIdAsc(gerenciamento.getId())).stream()
                 .map(e -> new EtapaResponse(e.getId(), e.getNome(), e.getSetor(), e.getOrdem(), quantidades.getOrDefault(e.getId(), 0L), e.getCategoria()))
                 .toList();
         return new ConfiguracaoEtapasResponse(gerenciamentos.resposta(gerenciamento, usuario), resumos);

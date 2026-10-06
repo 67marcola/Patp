@@ -111,7 +111,11 @@ class EtapaApiTests extends ApiIntegrationSupport {
                 .andExpect(jsonPath(ator.equals("adminLegado") ? "$.gerenciamento.criador" : "$.gerenciamento.criador.id")
                         .value(ator.equals("adminLegado") ? null : criador.getId()))
                 .andExpect(jsonPath("$.gerenciamento.podeAdministrar").value(true))
-                .andExpect(jsonPath("$.etapas.length()").value(3))
+                .andExpect(jsonPath("$.etapas.length()").value(5))
+                .andExpect(jsonPath("$.etapas[3].nome").value("Concluídos")).andExpect(jsonPath("$.etapas[3].categoria").value("CONCLUIDA"))
+                .andExpect(jsonPath("$.etapas[3].setor").isEmpty()).andExpect(jsonPath("$.etapas[3].quantidadeDemandas").value(0))
+                .andExpect(jsonPath("$.etapas[4].nome").value("Cancelados")).andExpect(jsonPath("$.etapas[4].categoria").value("CANCELADA"))
+                .andExpect(jsonPath("$.etapas[4].setor").isEmpty()).andExpect(jsonPath("$.etapas[4].quantidadeDemandas").value(0))
                 .andExpect(jsonPath("$.etapas[0].id").value(primeira.getId())).andExpect(jsonPath("$.etapas[0].ordem").value(1))
                 .andExpect(jsonPath("$.etapas[0].quantidadeDemandas").value(1))
                 .andExpect(jsonPath("$.etapas[1].nome").value("Mesmo")).andExpect(jsonPath("$.etapas[1].setor").value("Operação"))
@@ -145,7 +149,9 @@ class EtapaApiTests extends ApiIntegrationSupport {
                 .andExpect(jsonPath("$.gerenciamento.arquivado").value(false)).andExpect(jsonPath("$.gerenciamento.podeAdministrar").value(true))
                 .andExpect(jsonPath(ator.equals("adminLegado") ? "$.gerenciamento.criador" : "$.gerenciamento.criador.id")
                         .value(ator.equals("adminLegado") ? null : criador.getId()))
-                .andExpect(jsonPath("$.etapas.length()").value(2))
+                .andExpect(jsonPath("$.etapas.length()").value(4))
+                .andExpect(jsonPath("$.etapas[2].nome").value("Concluídos")).andExpect(jsonPath("$.etapas[2].categoria").value("CONCLUIDA"))
+                .andExpect(jsonPath("$.etapas[3].nome").value("Cancelados")).andExpect(jsonPath("$.etapas[3].categoria").value("CANCELADA"))
                 .andExpect(jsonPath("$.etapas[0].id").value(ultima.getId())).andExpect(jsonPath("$.etapas[0].ordem").value(1))
                 .andExpect(jsonPath("$.etapas[0].nome").value("Legada")).andExpect(jsonPath("$.etapas[0].setor").isEmpty())
                 .andExpect(jsonPath("$.etapas[0].quantidadeDemandas").value(0))
@@ -203,8 +209,11 @@ class EtapaApiTests extends ApiIntegrationSupport {
                 .andExpect(jsonPath("$.etapas[0].id").value(unica.getId())).andExpect(jsonPath("$.etapas[0].nome").value("Uma"))
                 .andExpect(jsonPath("$.etapas[0].setor").value("Setor")).andExpect(jsonPath("$.etapas[0].ordem").value(1));
         mvc.perform(delete(base(quadro.getId()) + "/" + unica.getId()).header("Authorization", bearer).contentType(MediaType.APPLICATION_JSON).content("{\"versao\":2}"))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.gerenciamento.versao").value(3)).andExpect(jsonPath("$.etapas").isEmpty());
-        assertThat(etapas.count()).isZero();
+                .andExpect(status().isOk()).andExpect(jsonPath("$.gerenciamento.versao").value(3)).andExpect(jsonPath("$.etapas.length()").value(2))
+                .andExpect(jsonPath("$.etapas[0].nome").value("Concluídos")).andExpect(jsonPath("$.etapas[0].categoria").value("CONCLUIDA"))
+                .andExpect(jsonPath("$.etapas[1].nome").value("Cancelados")).andExpect(jsonPath("$.etapas[1].categoria").value("CANCELADA"));
+        assertThat(etapas.count()).isEqualTo(2);
+        assertThat(etapas.findAll()).filteredOn(e -> e.getCategoria() == com.patp.sistema.model.CategoriaEtapa.TRABALHO).isEmpty();
         assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isEqualTo(3L);
     }
 
