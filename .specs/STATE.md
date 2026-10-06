@@ -152,16 +152,32 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-06
 - **Status**: active
 
+### AD-019
+- **Decision**: o número de cada demanda será digitado pelo usuário e único em todo o sistema, inclusive entre gerenciamentos diferentes.
+- **Reason**: o usuário confirmou explicitamente 1A na escolha sobre o identificador.
+- **Trade-off**: cadastrar exige informar um identificador; não haverá numeração automática nem reutilização em outro quadro.
+- **Scope**: cadastro de demandas, formulário e validação de duplicidade. Preservar números existentes; não renumerar registros antigos.
+- **Date**: 2026-10-06
+- **Status**: active
+
+### AD-020
+- **Decision**: número e cliente/solicitante são obrigatórios; responsável, prioridade, data de emissão, prazo da etapa, prazo geral e observações são opcionais no cadastro.
+- **Reason**: o usuário confirmou explicitamente 2A na escolha de obrigatoriedade.
+- **Trade-off**: uma demanda pode iniciar sem responsável ou prazo definido; campos ausentes não serão preenchidos com dados inventados.
+- **Scope**: novo cadastro de demandas. Etapa inicial permanece automática conforme AD-018; encerramentos e suas datas pertencem às ações futuras.
+- **Date**: 2026-10-06
+- **Status**: active
+
 ## Handoff
 
 - **Feature**: cadastro e leitura de demandas, levantamento em features/demandas-cadastro/context.md.
-- **Phase / Task**: esclarecimento dos campos e do número identificador, antes de fechar a especificação. Etapas finais encerradas em 8679933; seus oito commits de implementação e a verificação independente estão no relatório features/etapas-finais/validation.md. Não refazer esse trabalho.
+- **Phase / Task**: Execute, T1: snapshot com demandas persistidas. Spec/design/tasks fechados após confirmação explícita 1A/2A. Etapas finais encerradas em 8679933; seus oito commits de implementação e a verificação independente estão no relatório features/etapas-finais/validation.md. Não refazer esse trabalho.
 - **Completed**: gerenciamentos 41/41, etapas de trabalho 30/30, autocadastro 14/14, retirada de PM 4/4 e etapas finais 30/30 com Verificadores independentes. Gates atuais: 278 Java/H2, 235 Vitest, build TEMP/lint e 3 E2E Edge/H2, zero falhas/skips/retries. MySQL TEMP8.0.43: 30 testes selecionados PASS e prova física de schema antigo/plano/aplicação/repetição, sem operar banco configurado. QA visual12 capturas desktop/mobile PASS. Novo sensor independente em memória: controle29/29 PASS, sete falhas compiláveis detectadas7/7; JVMs encerradas antes da comparação integral de porcelain byteigual8647bytes/SHA256 e7f812fc22c589f52439af653d60dc7ae2a0530a0235a6b3723ca0e7068f07ed. Cadastro continua FUNCIONARIO.
-- **In-progress**: levantamento de cadastro/leitura concluído; nenhum código de aplicação alterado nesta retomada. AD-017/018 estão confirmadas, mas cadastro ainda não implementado. UAT humano sem resultado. L-001/L-002 continuam candidates, nenhuma promoção.
-- **Next step**: receber as duas respostas de produto sobre número e campos; registrar decisões, fechar spec/design/tasks e conectar Criar processo/cartões, com uma tarefa/gate/commit por vez. Não inferir respostas de pedidos para continuar.
-- **Blockers**: as duas escolhas de produto permanecem abertas; perguntas reapresentadas por formulário. Nenhum novo bloqueio de ferramentas ou operação sobre cópias recusadas. Rejeição histórica de descarte do sensor de etapas-finais foi resolvida pelo teste independente em RAM; preservar suas evidências. Contas administrativas reais pendentes.
-- **Uncommitted files**: context.md de demandas-cadastro e atualização deste Handoff/DIAGNOSTICO no commit documental da retomada. Código funcional sem mudanças. Artefatos anteriores de node_modules/dist/target preservados.
-- **Branch**: testes; base do cadastro/leitura 8679933, base de etapas-finais a118606, base histórica 5d8beb9.
+- **In-progress**: AD-017 a AD-020 confirmadas; 41 critérios CAD e seis tarefas sequenciais definidos. Validadores de spec/tasks: zero erros/avisos. Nenhum código funcional alterado no fechamento do plano. UAT humano sem resultado. L-001/L-002 continuam candidates, nenhuma promoção.
+- **Next step**: executar T1 e T2 no servidor, depois T3 a T6 na interface e integração; uma tarefa/gate/adequação/commit por vez. Verificador fresco obrigatório após T6, com sensor em RAM e comparação integral de porcelain após encerrar JVMs.
+- **Blockers**: nenhum para este cadastro. Rejeição histórica de descarte do sensor de etapas-finais foi resolvida pelo teste independente em RAM; preservar suas evidências. Contas administrativas reais e políticas futuras de edição/exclusão continuam pendentes, fora desta entrega.
+- **Uncommitted files**: plano de demandas-cadastro e atualização de STATE/DIAGNOSTICO, para commit documental antes de T1. Artefatos anteriores de node_modules/dist/target preservados.
+- **Branch**: testes; base do cadastro/leitura 28b8c88, base de etapas-finais a118606, base histórica 5d8beb9.
 
 Autorização de implementação permanece válida. Não iniciar aplicação normal/MySQL configurado nem reiniciar serviços do usuário. Testes somente H2/helper isolado ou MySQL TEMP fictício explicitamente delimitado. Não push/deploy/alterar contas reais. Serviços próprios de testes encerrados; portas18082/4173/18083/33817 livres. Nenhum serviço8081/5173 estava em execução nesta retomada. Mysqld estrangeiros4304/5232 preservados. A falha ECONNRESET anterior de etapas permanece documentada em seu relatório, sem causa inventada.
 
