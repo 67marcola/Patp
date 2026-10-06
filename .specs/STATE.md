@@ -168,14 +168,22 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-06
 - **Status**: active
 
+### AD-021
+- **Decision**: reabrir uma demanda retorna seu status para Em andamento e limpa dataConclusao, dataCancelamento e motivoCancelamento atuais, preservando os encerramentos anteriores no histórico.
+- **Reason**: o usuário respondeu A à escolha entre limpar ou manter os campos atuais de encerramento na reabertura.
+- **Trade-off**: os campos atuais representam somente o ciclo vigente; consultar ciclos anteriores exige consultar o histórico.
+- **Scope**: reabertura de demandas concluídas/canceladas conforme AD-013, com destino de trabalho escolhido no mesmo gerenciamento e autoria real. Preservar dados antigos existentes sem inventar datas ou motivos.
+- **Date**: 2026-10-06
+- **Status**: active
+
 ## Handoff
 
 - **Feature**: cadastro e leitura de demandas, levantamento em features/demandas-cadastro/context.md.
 - **Phase / Task**: Execute encerrado, cadastro/consulta41/41 PASS. T7 corrigiu CAD-33 em926c862; T6 teste/roteiro no commit do usuário11e1307, fechamento0477167. Plano5040dc3; T1 7c31608, T2 e24ce17, T3 133915e, T4 b6e13de, T5 f134fcb. Fonte Java permanece e24ce17.
 - **Completed**: gerenciamentos41/41, etapas30/30, autocadastro14/14, retirada de PM4/4, finais30/30 e cadastro/consulta41/41, com revisões independentes. Gates atuais:390Java/H2,475Vitest,buildTEMP/lint,4Edge/H2 e145MySQL selecionados. Criação inicia na primeira TRABALHO; formulário só fecha com confirmação da demanda. Cadastro de conta permanece FUNCIONARIO. Edição/exclusão/transições não foram entregues neste corte.
 - **In-progress**: nenhuma implementação do cadastro pendente. Verificador final PASS em validation.md; provas iniciais de backend reutilizadas com fonte inalterada. Sensor8/8 falhas detectadas:7backend e novo guardfrontend; controles112Java/242Vitest PASS. Comparação final integral3546bytes/SHA256a6d2b2b90f641cbc7b99aded1879a3a64eec6d21b85deb4a651e062cd39cb3c3 igual após todos processos encerrados, antes do relatório. TEMP/demandas-reverify-29e76cc43253a8. FAIL inicial/diagnósticos ambientais preservados; L-001/002/003 candidates, nenhuma promoção. UAT humano sem resultado.
-- **Next step**: aguardar resposta sobre limpar ou manter os campos atuais de encerramento ao reabrir; pergunta enviada para a próxima entrega, sem decisão inferida. Depois especificar movimentar/pular/concluir/cancelar/reabrir conforme AD-011–015, incluindo fechar desvio por PUT genérico, autoria/histórico e testes. Não refazer cadastro/consulta ou etapas finais.
-- **Blockers**: nenhum nesta entrega concluída. Escolha de campos da reabertura pendente para a próxima. Contas reais, permissões de edição/exclusão, comentários, logs e gráficos terão seus próprios recortes.
+- **Next step**: AD-021 registra a resposta A: reabrir limpa campos atuais e preserva anteriores no histórico. Próxima entrega em features/demandas-movimentacao: spec/context/design preparatórios,34 critérios definidos. Pergunta nova enviada sobre status legados vazios/desconhecidos: bloquear ações mantendo consulta, ou tratá-los como Em andamento. Aguardar essa escolha antes de fechar esse contrato; não reabrir decisões já confirmadas nem refazer cadastro/consulta/finais.
+- **Blockers**: nenhuma pendência de cadastro/consulta. Próxima entrega tem somente a escolha de status legado desconhecido pendente; não inferir resposta. Contas reais, permissões de edição/exclusão, comentários, logs e gráficos terão seus próprios recortes.
 - **Uncommitted files**: documentação deste encerramento registrada em commit próprio; artefatos gerados pelos gates em target e dependências preservados. Commit do usuário11e1307 e dist/node_modules/target rastreados não foram reescritos nem limpos; staging somente por caminhos explícitos.
 - **Branch**: testes; base do cadastro/leitura 28b8c88, base de etapas-finais a118606, base histórica 5d8beb9.
 
@@ -209,7 +217,7 @@ Confirmado em AD-016: preparar correção para todos os quadros, inclusive arqui
 
 Entrega de etapas-finais concluída: categorias explícitas, criação/proteção das duas colunas oficiais, interface e preparação idempotente de legados. Não promete ainda coerência permanente de status/etapa nas APIs antigas de demandas; esses fluxos, a permissão de AD-012, reabertura e justificativa pertencem à entrega seguinte. Testes desses fluxos existentes foram preservados neste corte.
 
-Cadastro e leitura concluídos em2026-10-06,41/41 critérios verificados, sem prometer CRUD completo. AD-017 permite criar a todos autenticados em quadro ativo; AD-018 define primeira etapa de trabalho automaticamente. Número manual global e obrigatórios foram respondidos1A/2A e registrados em AD-019/020; não estão mais pendentes. Sem trabalho, funcionário solicita ao criador/admin a configuração conforme AD-007. Próxima entrega: transições; a escolha sobre os campos atuais ao reabrir permanece pendente.
+Cadastro e leitura concluídos em2026-10-06,41/41 critérios verificados, sem prometer CRUD completo. AD-017 permite criar a todos autenticados em quadro ativo; AD-018 define primeira etapa de trabalho automaticamente. Número manual global e obrigatórios foram respondidos1A/2A e registrados em AD-019/020; não estão mais pendentes. Sem trabalho, funcionário solicita ao criador/admin a configuração conforme AD-007. Próxima entrega: transições; campos atuais ao reabrir resolvidos em AD-021. Status desconhecido permanece uma pergunta nova pendente.
 
 Auditoria inicial da criação, antes da entrega28b8c88..926c862: ProcessoController.java:32 recebia entidade completa; ProcessoService.java:52 exigia etapa enviada e :65 salvava sem defaults. Quadro.jsx:140 tinha Criar processo sem ação e não carregava cartões. Esses pontos foram corrigidos e verificados em features/demandas-cadastro/validation.md. Exclusão ativa ainda registra histórico dependente antes de apagar; falha/rollback caracterizada em ProcessoArchiveTests.java:115–121. Edição/exclusão continuam fora do corte, com políticas próprias pendentes; não restringir seu helper indiscriminadamente.
 
