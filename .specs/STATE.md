@@ -136,18 +136,36 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-06
 - **Status**: active
 
+### AD-017
+- **Decision**: todos os usuários autenticados poderão criar demandas em gerenciamentos ativos.
+- **Reason**: o usuário escolheu explicitamente a proposta de criação por todos os usuários autenticados.
+- **Trade-off**: a criação é colaborativa; ela não concede permissão para mover ou encerrar demandas depois de criadas.
+- **Scope**: próximo CRUD de demandas e botão Criar processo. Movimentação, conclusão, cancelamento e reabertura continuam restritos ao criador do quadro e administradores conforme AD-012/013. Arquivados continuam somente consulta conforme AD-005.
+- **Date**: 2026-10-06
+- **Status**: active
+
+### AD-018
+- **Decision**: novas demandas começarão automaticamente na primeira etapa de trabalho do gerenciamento ativo.
+- **Reason**: o usuário escolheu explicitamente começar na primeira etapa de trabalho.
+- **Trade-off**: o cadastro não escolhe uma etapa posterior; movimentar e pular etapas continuam ações próprias. Quadros sem trabalho exigem cadastrar uma etapa de trabalho antes de criar demandas.
+- **Scope**: próximo CRUD de demandas e botão Criar processo. Concluídos e Cancelados ficam reservados às ações de finalizar, não ao cadastro inicial.
+- **Date**: 2026-10-06
+- **Status**: active
+
 ## Handoff
 
 - **Feature**: etapas finais obrigatórias, em features/etapas-finais; fluxos de demandas em entrega posterior.
-- **Phase / Task**: especificação e plano das colunas Concluídos/Cancelados, proteção e preparação explícita de legados. AD-011–016 resolvem este bloco de escolhas; início da implementação após gates estruturais.
-- **Completed**: gerenciamentos 41/41, etapas 30/30, autocadastro 14/14 e retirada de PM 4/4 com Verificadores independentes. Gates próprios desta remoção visual: 222 Vitest, build/lint e 3 E2E Edge/H2, zero falhas/skips. Quatro inspeções desktop/mobile PASS; sensor visual 3/3 falhas detectadas e 3/3 controles originais PASS. Os últimos 247 Java/H2 e nove casos MySQL TEMP pertencem à entrega de autocadastro; não foram repetidos nesta alteração de apresentação. Cadastro continua FUNCIONARIO.
-- **In-progress**: artefatos da próxima entrega; nenhuma coluna/ação nova já declarada pronta. UAT humano anterior sem resultado. L-001/L-002 continuam candidates, nenhuma promoção.
-- **Next step**: validar spec/tasks e executar uma tarefa atômica por vez, com testes; finalizar com Verificador independente. Depois conectar fluxos e CRUD de demandas, esclarecendo campos/permissões que ainda faltarem.
-- **Blockers**: nenhum para o escopo de colunas e preparação explícita definido. Rejeição histórica de limpeza preservada abaixo, sem nova tentativa. Contas administrativas reais pendentes.
-- **Uncommitted files**: registro AD-016, DIAGNOSTICO e artefatos de etapas-finais; staging explícito por tarefa. Artefatos anteriores preservados.
+- **Phase / Task**: oito tarefas locais concluídas em sequência T1/T2/T8/T3/T4/T5/T6/T7; implementação em 137d07b, d160387, a06550f, 3c1791e, 0c846ae, efcdbdf, 0cf7f29 e d1f5e47. Verificação independente em features/etapas-finais/validation.md; fechamento documental próprio.
+- **Completed**: gerenciamentos 41/41, etapas de trabalho 30/30, autocadastro 14/14, retirada de PM 4/4 e etapas finais 30/30 com Verificadores independentes. Gates atuais: 278 Java/H2, 235 Vitest, build TEMP/lint e 3 E2E Edge/H2, zero falhas/skips/retries. MySQL TEMP8.0.43: 30 testes selecionados PASS e prova física de schema antigo/plano/aplicação/repetição, sem operar banco configurado. QA visual12 capturas desktop/mobile PASS. Novo sensor independente em memória: controle29/29 PASS, sete falhas compiláveis detectadas7/7; JVMs encerradas antes da comparação integral de porcelain byteigual8647bytes/SHA256 e7f812fc22c589f52439af653d60dc7ae2a0530a0235a6b3723ca0e7068f07ed. Cadastro continua FUNCIONARIO.
+- **In-progress**: nenhum código deste corte pendente. UAT humano sem resultado. L-001/L-002 continuam candidates, nenhuma promoção. AD-017/018 definem criação colaborativa e primeira etapa de trabalho para a próxima entrega; não foram implementadas neste corte.
+- **Next step**: resolver as duas perguntas já apresentadas sobre número identificador e campos obrigatórios; especificar criação/leitura de demandas e conectar Criar processo, com uma tarefa/gate/commit por vez. Depois conectar movimentação/finalização/reabertura conforme AD-011–015; esclarecer edição/exclusão antes de implementar essas ações.
+- **Blockers**: nenhum funcional para as colunas e preparação explícita. Novo descarte de scratch TEMP foi rejeitado automaticamente com blocked by policy; cópia preservada sem retry. Sensor substituto integralmente em memória completou o ciclo de descarte pelo encerramento das JVMs e comparação posterior, sem remover a cópia recusada. Contas administrativas reais pendentes.
+- **Uncommitted files**: nenhum código funcional deste corte pendente; metadados e AD-017/018 incluídos no commit de fechamento com staging explícito. Artefatos anteriores de node_modules/dist/target preservados, fora dos commits da feature.
 - **Branch**: testes; base de etapas-finais a118606, base histórica 5d8beb9.
 
-Autorização de implementação permanece válida. Não iniciar aplicação normal/MySQL configurado nem reiniciar serviços do usuário. Testes somente H2/helper isolado ou MySQL TEMP fictício explicitamente delimitado. Não push/deploy/alterar contas reais. A falha ECONNRESET anterior de etapas permanece documentada em seu relatório, sem causa inventada.
+Autorização de implementação permanece válida. Não iniciar aplicação normal/MySQL configurado nem reiniciar serviços do usuário. Testes somente H2/helper isolado ou MySQL TEMP fictício explicitamente delimitado. Não push/deploy/alterar contas reais. Serviços próprios de testes encerrados; portas18082/4173/18083/33817 livres. Nenhum serviço8081/5173 estava em execução nesta retomada. Mysqld estrangeiros4304/5232 preservados. A falha ECONNRESET anterior de etapas permanece documentada em seu relatório, sem causa inventada.
+
+Evidências de etapas-finais: MySQL/script/snapshots em C:/Users/Marco/AppData/Local/Temp/creral-etapas-finais-3b48b05a57314180a8f952ea6fa43d07; gates independentes e scratch recusada em C:/Users/Marco/AppData/Local/Temp/etapas-finais-verifier-47a7e6f8d5fc4be6bfd27345677d01c9; sensor RAM/harness/logs em C:/Users/Marco/AppData/Local/Temp/etapas-finais-ram-6cecccc8b93e4264aefc18773d7c7a0e. A rejeição não teve razão adicional. Nenhuma nova tentativa sobre a cópia recusada nem sobre limpezas históricas.
 
 Sensor marca-login: falhas em cópias do JavaScript executadas em memória, sem modificar o projeto. Porcelain integral antes/depois byteigual: 231250 bytes, 3406 linhas, SHA256 7c00fa1801471477c0d988eb7155679c872148517310389fa817ecf86dec84d6. Contextos/browser e preview próprios encerrados; portas 18082/4173/4174 livres e serviços do usuário 8081/5173 preservados. Relatório integral em features/marca-login/validation.md. Nenhuma nova rejeição de limpeza nesta entrega.
 
@@ -155,7 +173,7 @@ Sensor autocadastro: 7/7 falhas compiláveis detectadas, baselines restauradas 9
 
 ## Próxima conversa: destinos finais e movimentação
 
-Confirmado em AD-011: somente Concluídos e Cancelados, com destino automático conforme a ação. Essas colunas e os fluxos de finalizar/cancelar pertencem à próxima entrega.
+Confirmado em AD-011: somente Concluídos e Cancelados, com destino automático conforme a ação. As colunas obrigatórias já estão implementadas e verificadas; os fluxos de finalizar/cancelar continuam na próxima entrega.
 
 Confirmado em AD-012: somente o criador do gerenciamento e administradores poderão mover, pular etapas, concluir e cancelar demandas de quadro ativo. A resposta B não decide reabertura nem permissões para criar/editar/excluir demandas.
 
@@ -169,8 +187,12 @@ Auditoria somente leitura: `GerenciamentoGuard.java:44–54` já oferece a verif
 
 A criação recebe entidade completa e salva status/datas enviados (`ProcessoController.java:32`, `ProcessoService.java:49–65`); estado/etapa iniciais serão definidos no contrato de demandas. Não restringir indiscriminadamente o helper compartilhado com edição de campos e exclusão, cujas permissões ainda não foram decididas. Testes antigos que aceitam terceiro movendo/finalizando precisarão refletir AD-012 e verificar bloqueio sem efeitos: `ProcessoArchiveTests.java:82–111`, `HistoricoArchiveTests.java:52–62`, `EtapaDemandConcurrencyTests.java:45–70/157–159`. Nenhum desses testes foi alterado nesta conversa.
 
-Confirmado em AD-016: preparar correção para todos os quadros, inclusive arquivados. Nenhuma migração real autorizada/executada. Este bloco de cinco perguntas está resolvido.
+Confirmado em AD-016: preparar correção para todos os quadros, inclusive arquivados. Ferramenta explícita já implementada e testada em H2/MySQL fictícios; plano não grava e aplicação preserva registros/repetição. Nenhuma migração real autorizada/executada. Este bloco de cinco perguntas está resolvido.
 
-Próxima entrega delimitada: categorias explícitas, criação/proteção das duas colunas oficiais, interface e preparação idempotente de legados. Não promete ainda coerência permanente de status/etapa nas APIs antigas de demandas; esses fluxos, a permissão de AD-012, reabertura e justificativa pertencem à entrega seguinte. Testes desses fluxos existentes permanecem nesta primeira entrega.
+Entrega de etapas-finais concluída: categorias explícitas, criação/proteção das duas colunas oficiais, interface e preparação idempotente de legados. Não promete ainda coerência permanente de status/etapa nas APIs antigas de demandas; esses fluxos, a permissão de AD-012, reabertura e justificativa pertencem à entrega seguinte. Testes desses fluxos existentes foram preservados neste corte.
+
+Próximo recorte proposto: criação e leitura das demandas no quadro, ainda sem prometer CRUD completo. AD-017 permite criar a todos autenticados em quadro ativo; AD-018 define primeira etapa de trabalho automaticamente. Duas perguntas permanecem aguardando resposta: número manual globalmente único versus automático, e obrigatoriedade dos campos. Não inferir respostas. Sem trabalho, funcionário comum deve solicitar ao criador/admin a criação de uma etapa conforme AD-007.
+
+Auditoria somente leitura atual: ProcessoController.java:32 ainda recebe entidade completa; ProcessoService.java:52 exige etapa enviada e :65 salva campos sem defaults. Processo.java:22/25 tem número único global/pessoa não nula no schema, sem que isso confirme a regra desejada. Quadro.jsx:175 já mostra contagens reais, mas :140 tem Criar processo sem ação e não carrega cartões. API frontend não oferece cadastro/leitura de demandas. Exclusão ativa registra histórico dependente antes de apagar; falha/rollback está caracterizada em ProcessoArchiveTests.java:115–121. Edição, exclusão, tratamento dos encerrados e preservação de registros precisam de escolhas próprias; não restringir indistintamente seu helper antes delas.
 
 CRUD de etapas segue AD-007–010, com detalhes e defaults declarados em `features/etapas/context.md`. Não inferir respostas novas de “pode continuar”.

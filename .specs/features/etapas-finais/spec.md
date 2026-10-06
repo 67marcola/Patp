@@ -1,6 +1,6 @@
 # Etapas finais obrigatórias Specification
 
-**Status:** escopo confirmado pela sessão; defaults técnicos declarados. **Base:** a118606. **Data:** 2026-10-06.
+**Status:** implementação e verificação independente concluídas, 30/30 critérios; UAT humano pendente. **Base:** a118606. **Data:** 2026-10-06. **Relatório:** validation.md.
 
 ## Problem Statement
 
@@ -112,36 +112,36 @@ Homônimos e ordem antiga com lacunas/empates permanecem trabalho (FIN-06/14/24)
 
 | Requirement | Task | Status |
 | --- | --- | --- |
-| FIN-01 | T2, T3, T7 | T2/T3/T7 complete |
-| FIN-02 | T3, T7 | T3/T7 complete |
-| FIN-03 | T2, T3, T7 | T2/T3/T7 complete |
-| FIN-04 | T3 | T3 complete |
-| FIN-05 | T3 | T3 complete |
-| FIN-06 | T1, T8 | T1/T8 complete |
-| FIN-07 | T1, T8, T4, T7 | T1/T8/T4/T7 complete |
-| FIN-08 | T2, T4, T7 | T2/T4/T7 complete |
-| FIN-09 | T4 | T4 complete |
-| FIN-10 | T4 | T4 complete |
-| FIN-11 | T2, T4, T7 | T2/T4/T7 complete |
-| FIN-12 | T4 | T4 complete |
-| FIN-13 | T4 | T4 complete |
-| FIN-14 | T2, T4 | T2/T4 complete |
-| FIN-15 | T6, T7 | T6/T7 complete |
-| FIN-16 | T6, T7 | T6/T7 complete |
-| FIN-17 | T6, T7 | T6/T7 complete |
-| FIN-18 | T6, T7 | T6/T7 complete |
-| FIN-19 | T4, T6, T7 | T4/T6/T7 complete |
-| FIN-20 | T5 | T5 complete; MySQL TEMP PASS |
-| FIN-21 | T5 | T5 complete; MySQL TEMP PASS |
-| FIN-22 | T5 | T5 complete; MySQL TEMP PASS |
-| FIN-23 | T5 | T5 complete; MySQL TEMP PASS |
-| FIN-24 | T5 | T5 complete; MySQL TEMP PASS |
-| FIN-25 | T5 | T5 complete; MySQL TEMP PASS |
-| FIN-26 | T2, T5 | T2/T5 complete; MySQL TEMP PASS |
-| FIN-27 | T2, T5 | T2/T5 complete; MySQL TEMP PASS |
-| FIN-28 | T5 | T5 complete; MySQL TEMP PASS |
-| FIN-29 | T4, T5, T7 | T4/T5/T7 complete |
-| FIN-30 | T5 | T5 complete |
+| FIN-01 | T2, T3, T7 | Verified; validation.md |
+| FIN-02 | T3, T7 | Verified; validation.md |
+| FIN-03 | T2, T3, T7 | Verified; validation.md |
+| FIN-04 | T3 | Verified; validation.md |
+| FIN-05 | T3 | Verified; validation.md |
+| FIN-06 | T1, T8 | Verified; validation.md |
+| FIN-07 | T1, T8, T4, T7 | Verified; validation.md |
+| FIN-08 | T2, T4, T7 | Verified; validation.md |
+| FIN-09 | T4 | Verified; validation.md |
+| FIN-10 | T4 | Verified; validation.md |
+| FIN-11 | T2, T4, T7 | Verified; validation.md |
+| FIN-12 | T4 | Verified; validation.md |
+| FIN-13 | T4 | Verified; validation.md |
+| FIN-14 | T2, T4 | Verified; validation.md |
+| FIN-15 | T6, T7 | Verified; validation.md |
+| FIN-16 | T6, T7 | Verified; validation.md |
+| FIN-17 | T6, T7 | Verified; validation.md |
+| FIN-18 | T6, T7 | Verified; validation.md |
+| FIN-19 | T4, T6, T7 | Verified; validation.md |
+| FIN-20 | T5 | Verified; validation.md |
+| FIN-21 | T5 | Verified; validation.md |
+| FIN-22 | T5 | Verified; validation.md |
+| FIN-23 | T5 | Verified; validation.md |
+| FIN-24 | T5 | Verified; validation.md |
+| FIN-25 | T5 | Verified; validation.md |
+| FIN-26 | T2, T5 | Verified; validation.md |
+| FIN-27 | T2, T5 | Verified; validation.md |
+| FIN-28 | T5 | Verified; validation.md |
+| FIN-29 | T4, T5, T7 | Verified; validation.md |
+| FIN-30 | T5 | Verified; validation.md |
 
 ## Success Criteria
 
