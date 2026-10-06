@@ -74,7 +74,7 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 **Tests:** integration
 **Gate:** Full
 **Done when:**
-- [ ] Critérios mapeados têm assertions de valores e estado em file:line, gate verde sem perdas de testes, mapas AC→assertion e assertion→AC em evidence.md, task e trace atualizados antes do commit local.
+- [x] QuatroPUTs e3DTOs estritos,27casosHTTP novos; gate459Java/H2 PASS. Payload completo, auth/estado/versão/legados e erros sem efeitos mapeados em evidence.md T3.
 
 ### T4: Confirmação de transição na API frontend
 
