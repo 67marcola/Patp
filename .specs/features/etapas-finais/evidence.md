@@ -43,3 +43,19 @@ Gate Full H2 PASS: **253 testes, 0 falhas/erros/skips**, log TEMP/etapas-finais-
 
 Adequação PASS: quatro testes de integração, campos reais e rejeição sem efeitos; padrões existentes, sem alterações em testes anteriores, sem SPEC_DEVIATION.
 
+## T1a: tipo físico VARCHAR explícito
+
+Pré-plano corretivo: a inspeção bytecode local `MySQLDialect.getEnumTypeDeclaration` mostra `enum (` como tipo nativo. Fixar mapeamento VARCHAR(20) nullable para cumprir design, mantendo enum STRING. Arquivos: Etapa.java, EtapaCategoriaTests.java e evidence.md. Sucesso: assertion física INFORMATION_SCHEMA VARCHAR nullable/comprimento20 e Full H2. Verificação física MySQL TEMP será feita pelo root depois de T5.
+
+Gate Full H2 PASS, 253 testes sem falhas/erros/skips; log T1a-verify.log no mesmo TEMP.
+
+| Done when | Assertion | Resultado | Cobertura |
+| --- | --- | --- | --- |
+| VARCHAR20 nullable físico | `sistema/src/test/java/com/patp/sistema/EtapaCategoriaTests.java:23` `.containsEntry("DATA_TYPE", "CHARACTER VARYING").containsEntry("IS_NULLABLE", "YES").containsEntry("CHARACTER_MAXIMUM_LENGTH", 20L)` | VARCHAR20 nullable H2 | Sim |
+
+| Assertion | Requisito | Manter |
+| --- | --- | --- |
+| EtapaCategoriaTests.java:23 INFORMATION_SCHEMA | T1 done when/design modelo VARCHAR nullable | Sim |
+
+Adequação PASS, assertion adicional de schema sem enfraquecer as existentes. Não há SPEC_DEVIATION.
+

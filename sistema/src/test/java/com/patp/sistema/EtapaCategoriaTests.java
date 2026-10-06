@@ -20,6 +20,10 @@ import com.patp.sistema.model.Usuario;
 class EtapaCategoriaTests extends ApiIntegrationSupport {
     @Test
     void persisteCategoriasComoString() {
+        assertThat(jdbc.queryForMap("select data_type, is_nullable, character_maximum_length from information_schema.columns "
+                + "where table_name='ETAPAS' and column_name='CATEGORIA'"))
+                .containsEntry("DATA_TYPE", "CHARACTER VARYING").containsEntry("IS_NULLABLE", "YES")
+                .containsEntry("CHARACTER_MAXIMUM_LENGTH", 20L);
         Gerenciamento quadro = quadro(usuario("Criador"));
         for (CategoriaEtapa categoria : CategoriaEtapa.values()) {
             Etapa etapa = etapa(quadro, categoria.name(), categoria.ordinal() + 1);
