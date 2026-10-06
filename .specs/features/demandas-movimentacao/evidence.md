@@ -103,3 +103,27 @@ Gate602Vitest/14arquivos PASS,127casos novos; log TEMP/creral-mov-ui-0fccc14db03
 127casos:4sucessos→MOV-21/33;76incoerências+12camposclosure+4formato+24HTTP+4rede→MOV-32/33;1movimentaçãolegada→MOV-05;2duplasfinais→MOV-14/32. Assertion de resultado é snapshot completo ou erro exato; contagem de fetch complementa ausência de retry, não substitui estado.
 
 Adequação T4 PASS,602casos preservando475anteriores. Datas do servidor são verificadas na interface por formato ISO e presença, sem presumir que relógio/fuso do navegador coincide; data atual comprovada no Java. Rascunho/diálogo/foco aindaT5/T6.
+
+## T5: diálogo de ação
+
+Gate630Vitest/15arquivos PASS,28casos novos, log TEMP/creral-mov-ui-0fccc14db03f4e5d9cb6220a95052a27/t5-vitest.log.
+
+### AC → assertions
+
+| Critério | Assertion | Resultado definido |
+| --- | --- | --- |
+| MOV-29 | AcaoDemanda.test.jsx:20 activeElement toBe(select), :21options toEqual(lista exata), :25aria-labelledby | Mover exclui etapa atual; reabrir permite ambas; finais excluídas e foco na seleção. |
+| MOV-29 payload | AcaoDemanda.test.jsx:31alert exato/no save, :34toHaveBeenCalledExactlyOnceWith({etapaId:12}) | Seleção obrigatória; somente ID de trabalho escolhido após teclado. |
+| MOV-30 | AcaoDemanda.test.jsx:39query combobox null/:40destino textual/:42requiredtrue/:43ajuda/:44foco | Concluir/cancelar têm destino automático, motivo requerido e teto10000 visível. |
+| MOV-12/30 | AcaoDemanda.test.jsx:55alert exato/:56value toBe(motivo)/:57no save/:63payload normalizado | BrancosUnicode/10001/emoji10002 recusados sem truncar rascunho; motivo10000 e multiline válidos. |
+| MOV-30 conclusão | AcaoDemanda.test.jsx:68toHaveBeenCalledExactlyOnceWith({}) | Não enviar campos de encerramento inventados. |
+| MOV-31 | AcaoDemanda.test.jsx:77buttonsdisabled/:78inputsdisabled/:80savecount1/no cancel/:81habilitado após resolver |4ações pendentes não duplicam nem abandonam operação. Bloqueio externo também não envia. |
+| MOV-32 | AcaoDemanda.test.jsx:89alert/:90select12/:91motivo literal/:92aoErro(error)savecount1/:93dialog existe | Falha conserva seleção/motivo e diálogo, comunica erro ao quadro. |
+| MOV-29 vazio | AcaoDemanda.test.jsx:98orientação/:99submitdisabled/:100voltar habilitado | Sem trabalho não inventar destino; saída sem mutação disponível. |
+| MOV-32 voltar | AcaoDemanda.test.jsx:110cancelcount1/no save | Descartar diálogo por teclado não grava. |
+
+### Assertions → AC
+
+28casos:2listas+2seleções→MOV-29;2destinos+4motivosinválidos+2motivosválidos+1conclusão→MOV-12/30;4pending+4bloqueioexterno→MOV-31;4erros+1voltar→MOV-32;2vazios→MOV-29. As assertions de payload comprovam os dados submetidos; estado visual/rascunho/foco comprovam resposta do componente. Nenhum teste sem âncora.
+
+Adequação T5 PASS, nenhum teste removido/ignorado. Busy/Voltar/Sair global, cartões/cache e troca de quadro sãoT6.
