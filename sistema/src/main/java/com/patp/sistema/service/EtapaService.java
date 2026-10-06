@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.patp.sistema.dto.ConfiguracaoEtapasResponse;
+import com.patp.sistema.dto.DemandaResponse;
 import com.patp.sistema.dto.EtapaResponse;
 import com.patp.sistema.exception.ApiException;
 import com.patp.sistema.model.Etapa;
@@ -149,13 +150,15 @@ public class EtapaService {
         entityManager.flush();
     }
 
-    private ConfiguracaoEtapasResponse resposta(Gerenciamento gerenciamento, Usuario usuario) {
-        Map<Long, Long> quantidades = processos.contarPorEtapa(gerenciamento.getId()).stream()
-                .collect(Collectors.toMap(ProcessoRepository.ContagemEtapa::getEtapaId, ProcessoRepository.ContagemEtapa::getQuantidade));
+    ConfiguracaoEtapasResponse resposta(Gerenciamento gerenciamento, Usuario usuario) {
+        List<DemandaResponse> demandas = processos.findByEtapaGerenciamentoIdOrderByIdAsc(gerenciamento.getId()).stream()
+                .map(DemandaResponse::de).toList();
+        Map<Long, Long> quantidades = demandas.stream()
+                .collect(Collectors.groupingBy(DemandaResponse::etapaId, Collectors.counting()));
         List<EtapaResponse> resumos = finais.ordenar(etapas.findByGerenciamentoIdOrderByOrdemAscIdAsc(gerenciamento.getId())).stream()
                 .map(e -> new EtapaResponse(e.getId(), e.getNome(), e.getSetor(), e.getOrdem(), quantidades.getOrDefault(e.getId(), 0L), e.getCategoria()))
                 .toList();
-        return new ConfiguracaoEtapasResponse(gerenciamentos.resposta(gerenciamento, usuario), resumos);
+        return new ConfiguracaoEtapasResponse(gerenciamentos.resposta(gerenciamento, usuario), resumos, demandas);
     }
 
     private static String validarCampo(String valor, String mensagem) {

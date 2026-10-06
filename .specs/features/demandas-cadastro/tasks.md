@@ -47,7 +47,7 @@ T1 → T2 → T3 → T4 → T5 → T6
 **Gate:** Full
 **Commit:** feat(demandas): include persisted cards in board snapshots
 **Done when:**
-- [ ] DTO14campos/listavazia/filtro/ordem/counts/arquivo/legados semwrite e snapshot pósCRUD/concurrency comprovados; baseline278 preservada, gate/adequação PASS.
+- [x] DTO14campos/listavazia/filtro/ordem/counts/arquivo/legados semwrite e snapshot pósCRUD/concurrency comprovados; baseline278 preservada, gate/adequação PASS. Gate284/284 H2; evidências e dois mapas em evidence.md T1.
 
 ### T2: Cadastro automático na primeira etapa
 
