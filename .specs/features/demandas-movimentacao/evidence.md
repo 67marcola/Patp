@@ -56,3 +56,29 @@ Todos40casos de DemandaTransicaoServiceTests usam somente os critérios da tabel
 Regressões adaptadas às decisões explícitas AD-011/012/013: ProcessoArchiveTests usa colaborador para criar/editar e criador para transições, acrescenta reabertura antes de novo cancelamento, exige coluna CANCELADA e sequência/autores exatos. HistoricoArchiveTests conserva histórico manual de terceiro e usa criador para concluir, versão1paraarquivar. EtapaDemandConcurrencyTests conserva criação colaborativa, usa criador para mover, informa versão incrementada para preservar a prova de etapa ocupada e mantém404de destino removido na ação dedicada; PUT genérico agora400sem efeitos. Não reduzir especificidade para acomodar comportamento antigo incompatível.
 
 Adequação T2 PASS para o serviço e rotas legadas alteradas. Versão/DTO/4rotasHTTP completasT3, corridas novasT7 e UI permanecem pendentes. Fontefuncional verificada432H2; revisão independente somente após última tarefa.
+
+## T3: quatro APIs tipadas
+
+Gate459Java/H2 PASS,27casos novos,0falhas/erros/skips; log TEMP/creral-movimentacao-af89b92e2e52431b8e1bf9156c10ba61/t3-final.log. Quatro PUTs200, DTOs com versão/IDs inteiros estritos, motivo textual e propriedades extras rejeitadas inclusive null. Fonte nova testada em HTTP, nenhum schema/banco real operado.
+
+### AC → assertions
+
+| Critério | file:line + assertion | Resultado definido |
+| --- | --- | --- |
+| MOV-01/02/03 | DemandaTransicaoApiTests.java:40 status().is(codigo), chamadas :73/:74/:75/:82, conteúdo/versão igual :41 | Cada rota401sem sessão/inválida/encerrada,403terceiro,409arquivo e mensagens exatas quando definidas. |
+| MOV-05/10/11/15/21 | DemandaTransicaoApiTests.java:55 estado e etapaId isEqualTo(esperado), :56/:57/:58/:59/:60/:61 datas/motivo exatos, :62 opcionais null, :63 counts | Snapshot14campos, demanda correta, estado/destino exatos, data atual do servidor e fechamento incompatível limpo; versão1 persistida/retornada :49/:65. |
+| MOV-19 | DemandaTransicaoApiTests.java:67 containsExactly(evento), containsExactly(Dono) | Uma ação/evento por endpoint; payload completo do evento já comprovado no serviçoT2. |
+| MOV-22/23 | DemandaTransicaoApiTests.java:89/:91 recusa400, :76 recusa409mensagemexata, helper :40/:41 | Formato/ausência/negativo400; versãoantiga409 sem dados/histórico/versão alterados. |
+| MOV-25 | DemandaTransicaoApiTests.java:79/:80 recusa404 Demanda não encontrada neste gerenciamento., helper :40/:41 | ID alheio/inexistente em todas4rotas não atravessa quadro. |
+| MOV-06/07/18 | DemandaTransicaoApiTests.java:100/:101/:102/:103 com helper :40/:41 | Destino inválido400, removido/externo404, ambasfinais400 para mover/reabrir; sem efeitos. |
+| MOV-12 e Done when DTOestrito | DemandaTransicaoApiTests.java:109 recusa400, :93 extras400 Dados da requisição inválidos., helper :40/:41 | Motivo ausente/vazio/branco/10001/número/boolean/mapa não convertido/truncado; extras não aceitos. |
+| MOV-35 | DemandaTransicaoApiTests.java:118 recusa409mensagemexata, :119GET200, :121 isNull/asText isEqualTo(antigo) | Null/vazio/Pendente antigo consultáveis, nenhuma das4transições escreve ou normaliza. |
+| MOV-08/13/17 | DemandaTransicaoApiTests.java:129 recusa409 com helper :40/:41 | Estado incompatível bloqueado em cada rota; matriz de estados ampliadaT2. |
+| MOV-20 | DemandaTransicaoApiTests.java:135 recusa500mensagemexata com helper :40/:41 | CHECK de histórico no caminho HTTP reverte demanda/evento/versão. |
+| MOV-27 | DemandaTransicaoApiTests.java:143 legado403, :145HTTP200entidade/id exato, :146versão1/:147count1 | Rotas antigas compartilham permissão e incrementam versão; formato200 preservado. |
+
+### Assertions → AC
+
+Todos27casos mapeiam às linhas da tabela:4sucessos,4matrizesauth/arquivo/versão/ID,4DTOs,2destinos,1motivo,4legadosdesconhecidos,4estadosincompatíveis,1rollbackHTTP e3compatibilidadeslegadas. Helper40–41 é assertion de código, mensagem quando especificada, conteúdo completo e versão; não só spy/callcount. Sucessos53–67 cobrem valores de todos14campos, metadados e counts. Dados antigos são consultados no HTTP e comparados literalmente.
+
+Adequação T3 PASS; todas rotas novas exercitadas com sucesso/erros/edges definidos, nenhum teste removido/ignorado,27casos além dos432anteriores. Interface e corridas finais continuamT4–T7.
