@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.patp.sistema.EtapaApiTests
 -------------------------------------------------------------------------------
-Tests run: 134, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.040 s -- in com.patp.sistema.EtapaApiTests
+Tests run: 134, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.998 s -- in com.patp.sistema.EtapaApiTests

@@ -1,7 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { buscarConfiguracaoEtapas, criarDemanda, criarEtapa, editarEtapa, removerEtapa } from "../services/api";
+import { buscarConfiguracaoEtapas, criarDemanda, criarEtapa, editarEtapa, removerEtapa, transicionarDemanda } from "../services/api";
 import EditorEtapa from "./EditorEtapa";
 import EditorDemanda from "./EditorDemanda";
+import AcaoDemanda from "./AcaoDemanda";
+
+function acoesDaDemanda(demanda) {
+    if (demanda?.status === "Em andamento") return ["mover", "concluir", "cancelar"];
+    if (demanda?.status === "Concluido" || demanda?.status === "Cancelado") return ["reabrir"];
+    return [];
+}
+
+const nomesAcoes = { mover: "Mover/pular etapa", concluir: "Concluir", cancelar: "Cancelar", reabrir: "Reabrir" };
 
 function etapaFinal(etapa) {
     return etapa?.categoria === "CONCLUIDA" || etapa?.categoria === "CANCELADA";
@@ -22,6 +31,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const [tentativa, setTentativa] = useState(0);
     const [editor, setEditor] = useState(null);
     const [editorDemanda, setEditorDemanda] = useState(false);
+    const [acaoDemanda, setAcaoDemanda] = useState(null);
     const [confirmacao, setConfirmacao] = useState(null);
     const [erroRemocao, setErroRemocao] = useState("");
     const [precisaAtualizar, setPrecisaAtualizar] = useState(false);
@@ -44,7 +54,10 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const podeConfigurar = !!snapshot && quadro.podeAdministrar && !quadro.arquivado;
     const podeCriar = !!snapshot && !quadro.arquivado && trabalhos.length > 0;
     const bloqueado = ocupado || carregando || precisaAtualizar || !!erroConsulta || !snapshot;
-    const formularioAberto = !!editor || !!confirmacao || editorDemanda;
+    const acaoAtual = acaoDemanda?.gerenciamentoId === gerenciamento.id ? acaoDemanda : null;
+    const demandaAtual = acaoAtual && demandas.find(demanda => demanda.id === acaoAtual.demanda.id);
+    const podeExecutarAcao = podeConfigurar && !!demandaAtual && acoesDaDemanda(demandaAtual).includes(acaoAtual.acao);
+    const formularioAberto = !!editor || !!confirmacao || editorDemanda || !!acaoAtual;
 
     function finalNoSnapshot(etapa) {
         return etapaFinal(etapa) || etapaFinal(etapas.find(atual => atual.id === etapa?.id));
@@ -69,6 +82,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
             setConfiguracao(null);
             setEditor(null);
             setEditorDemanda(false);
+            setAcaoDemanda(null);
             setConfirmacao(null);
             setPrecisaAtualizar(false);
             setErroRemocao("");
@@ -95,11 +109,11 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
 
     useEffect(() => {
         if (confirmacao) cancelarConfirmacao.current?.focus();
-        else if (!editor && !editorDemanda && origem.current) {
+        else if (!editor && !editorDemanda && !acaoAtual && origem.current) {
             if (origem.current.isConnected) origem.current.focus();
             else (novaEtapa.current || criarProcesso.current || botaoVoltar.current)?.focus();
         }
-    }, [editor, editorDemanda, confirmacao]);
+    }, [editor, editorDemanda, confirmacao, acaoAtual]);
 
     function abrirEditor(event, etapa = null) {
         if (bloqueado || formularioAberto || !podeConfigurar || finalNoSnapshot(etapa)) return;
@@ -121,10 +135,17 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
         setEditorDemanda(true);
     }
 
+    function abrirAcao(event, demanda, acao) {
+        if (bloqueado || formularioAberto || !podeConfigurar || !acoesDaDemanda(demanda).includes(acao)) return;
+        origem.current = event.currentTarget;
+        setAcaoDemanda({ gerenciamentoId: quadro.id, demanda, acao });
+    }
+
     function cancelar() {
         if (operando.current) return;
         setEditor(null);
         setEditorDemanda(false);
+        setAcaoDemanda(null);
         setConfirmacao(null);
         setErroRemocao("");
     }
@@ -156,6 +177,22 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
         try {
             const salvo = await criarDemanda(localStorage.getItem("token"), quadro.id, { ...dados, versao: quadro.versao });
             if (aplicarConfiguracao(salvo)) setEditorDemanda(false);
+        } finally {
+            operando.current = false;
+            aoOcupar?.(false);
+            setOcupado(false);
+        }
+    }
+
+    async function salvarAcao(dados) {
+        if (operando.current || bloqueado || !podeExecutarAcao) return;
+        operando.current = true;
+        aoOcupar?.(true);
+        setOcupado(true);
+        try {
+            const salvo = await transicionarDemanda(localStorage.getItem("token"), quadro.id, demandaAtual, acaoAtual.acao,
+                { ...dados, versao: quadro.versao });
+            if (aplicarConfiguracao(salvo)) setAcaoDemanda(null);
         } finally {
             operando.current = false;
             aoOcupar?.(false);
@@ -215,6 +252,9 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                 salvar={salvar} cancelar={cancelar} bloqueado={bloqueado || !podeConfigurar || finalNoSnapshot(editor.etapa)}
                 aoErro={() => { if (montado.current && quadro.id === quadroAtual.current) setPrecisaAtualizar(true); }} />}
             {editorDemanda && <EditorDemanda salvar={salvarDemanda} cancelar={cancelar} bloqueado={bloqueado || !podeCriar}
+                aoErro={() => { if (montado.current && quadro.id === quadroAtual.current) setPrecisaAtualizar(true); }} />}
+            {acaoAtual && <AcaoDemanda acao={acaoAtual.acao} demanda={demandaAtual || acaoAtual.demanda} etapas={etapas}
+                salvar={salvarAcao} cancelar={cancelar} bloqueado={bloqueado || !podeExecutarAcao}
                 aoErro={() => { if (montado.current && quadro.id === quadroAtual.current) setPrecisaAtualizar(true); }} />}
             {confirmacao && <section className="confirmacao-arquivo confirmacao-etapa" role="dialog"
                 aria-labelledby="remover-etapa-titulo" aria-describedby="remover-etapa-descricao">
@@ -281,6 +321,12 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                                         className={label === "Observações" || label === "Motivo do cancelamento" ? "campo-longo" : undefined}>
                                         <dt>{label}</dt><dd>{valor}</dd>
                                     </div>)}</dl>
+                                    {acoesDaDemanda(demanda).length === 0 && <p>Status antigo não reconhecido. Solicite a correção do registro.</p>}
+                                    {podeConfigurar && acoesDaDemanda(demanda).length > 0 && <div className="acoes-form">
+                                        {acoesDaDemanda(demanda).map(acao => <button key={acao} className="btn-secundario"
+                                            disabled={bloqueado || formularioAberto} aria-label={`${nomesAcoes[acao]} demanda ${demanda.numeroProcesso}`}
+                                            onClick={event => abrirAcao(event, demanda, acao)}>{nomesAcoes[acao]}</button>)}
+                                    </div>}
                                 </article>;
                             })}
                         </div>}

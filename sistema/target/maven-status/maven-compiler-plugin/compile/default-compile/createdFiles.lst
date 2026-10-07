@@ -26,6 +26,7 @@ com\patp\sistema\controller\EtapaController.class
 com\patp\sistema\model\Usuario.class
 com\patp\sistema\controller\HistoricoController.class
 com\patp\sistema\controller\HistoricoController$CriarHistoricoRequest.class
+com\patp\sistema\dto\TransicaoDestinoRequest.class
 com\patp\sistema\model\Etapa.class
 com\patp\sistema\repository\ProcessoRepository.class
 com\patp\sistema\service\ProcessoService.class
@@ -46,6 +47,7 @@ com\patp\sistema\service\HistoricoService.class
 com\patp\sistema\dto\CriarDemandaRequest.class
 com\patp\sistema\model\Processo.class
 com\patp\sistema\dto\GerenciamentoResponse.class
+com\patp\sistema\service\ProcessoService$Acao.class
 com\patp\sistema\dto\EtapaResponse.class
 com\patp\sistema\service\ComentarioService.class
 com\patp\sistema\service\SessaoService.class
@@ -56,9 +58,12 @@ com\patp\sistema\model\Gerenciamento.class
 com\patp\sistema\repository\UsuarioRepository.class
 com\patp\sistema\config\CorsConfig.class
 com\patp\sistema\config\WebConfig.class
+com\patp\sistema\dto\TransicaoVersaoRequest.class
 com\patp\sistema\model\CategoriaEtapa.class
 com\patp\sistema\dto\GerenciamentoResponse$CriadorResponse.class
+com\patp\sistema\dto\TransicaoCancelarRequest$MotivoDeserializer.class
 com\patp\sistema\model\PapelUsuario.class
 com\patp\sistema\repository\ProcessoRepository$ContagemEtapa.class
+com\patp\sistema\dto\TransicaoCancelarRequest.class
 com\patp\sistema\controller\UsuarioController$LoginResponse.class
 com\patp\sistema\dto\DemandaResponse.class
