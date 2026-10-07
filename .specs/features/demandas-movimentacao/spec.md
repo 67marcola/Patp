@@ -8,8 +8,8 @@ As APIs antigas permitem movimentar e encerrar demandas sem a permissão combina
 
 ## Goals
 
-- [ ] Mover ou pular etapas, concluir, cancelar e reabrir com integridade e autorização.
-- [ ] Entregar botões e diálogos com confirmação do resultado, testes e revisão independente.
+- [x] Mover ou pular etapas, concluir, cancelar e reabrir com integridade e autorização.
+- [x] Entregar botões e diálogos com confirmação do resultado, testes e revisão independente.
 
 ## Out of Scope
 
@@ -178,7 +178,7 @@ IF uma demanda Em andamento estiver incoerentemente em coluna final THEN o servi
 
 ## Success Criteria
 
-- [ ] Todos os critérios mapeados a assertions de estado/resultado e aprovados nos gates locais.
+- [x] Todos os critérios mapeados a assertions de estado/resultado e aprovados nos gates locais.
 - [ ] Revisão independente e sensor de falhas aprovados, com nenhum dado real operado.
-- [ ] Roteiro de teste humano disponível; não declarar UAT realizado sem resposta do usuário.
+- [x] Roteiro de teste humano disponível; não declarar UAT realizado sem resposta do usuário.
 

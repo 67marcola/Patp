@@ -125,12 +125,12 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 **Depends on:** T6
 **Reuses:** padrões e componentes identificados em design.md.
 **Requirement:** MOV-05/10/11/15/16/24/28–34
-**Related files:** DemandaTransicaoConcurrencyTests.java, docs/OPERACAO.md
+**Related files:** DemandaTransicaoConcurrencyTests.java, DemandaTransicaoServiceTests.java (leitura JDBC tipada autorizada em 07/10/2026), docs/OPERACAO.md
 **Tools:** filesystem/terminal; skill tlc-spec-driven; ferramentas locais autorizadas na sessão.
 **Tests:** e2e
 **Gate:** Build
 **Done when:**
-- [ ] Critérios mapeados têm assertions de valores e estado em file:line, gate verde sem perdas de testes, mapas AC→assertion e assertion→AC em evidence.md, task e trace atualizados antes do commit local.
+- [x] 469 Java/H2, 661 Vitest, lint/build TEMP, 7 fluxos Edge/H2 e 112 selecionados MySQL fictício PASS em 07/10/2026. Dez casos novos de concorrência e três fluxos navegador; roteiro humano documentado sem declarar UAT realizado. Gates, tentativas anteriores e mapas exatos em evidence.md T7. Verifier independente e sensor são o próximo gate obrigatório.
 
 ## Diagram-Definition Cross-Check
 
