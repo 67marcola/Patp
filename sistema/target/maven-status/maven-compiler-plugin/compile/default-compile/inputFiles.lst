@@ -15,6 +15,9 @@ C:\Users\Marco\Desktop\sistema-grupo\sistema\src\main\java\com\patp\sistema\dto\
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\main\java\com\patp\sistema\dto\EtapaResponse.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\main\java\com\patp\sistema\dto\GerenciamentoResponse.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\main\java\com\patp\sistema\dto\OrdemDeserializer.java
+C:\Users\Marco\Desktop\sistema-grupo\sistema\src\main\java\com\patp\sistema\dto\TransicaoCancelarRequest.java
+C:\Users\Marco\Desktop\sistema-grupo\sistema\src\main\java\com\patp\sistema\dto\TransicaoDestinoRequest.java
+C:\Users\Marco\Desktop\sistema-grupo\sistema\src\main\java\com\patp\sistema\dto\TransicaoVersaoRequest.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\main\java\com\patp\sistema\dto\VersaoDeserializer.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\main\java\com\patp\sistema\exception\ApiException.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\main\java\com\patp\sistema\exception\ApiExceptionHandler.java

@@ -5,6 +5,8 @@ C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\Come
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\DemandaCadastroConcurrencyTests.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\DemandaCadastroTests.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\DemandaConsultaTests.java
+C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\DemandaTransicaoApiTests.java
+C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\DemandaTransicaoServiceTests.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\EtapaApiTests.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\EtapaArchiveTests.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\EtapaCategoriaTests.java
@@ -15,6 +17,7 @@ C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\Gere
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\GerenciamentoFinaisTests.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\GerenciamentoPersistenceTests.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\HistoricoArchiveTests.java
+C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\HistoricoDescricaoTests.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\PreparacaoEtapasFinaisTests.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\ProcessoArchiveTests.java
 C:\Users\Marco\Desktop\sistema-grupo\sistema\src\test\java\com\patp\sistema\SistemaApplicationTests.java

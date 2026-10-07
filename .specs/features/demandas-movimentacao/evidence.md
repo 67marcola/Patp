@@ -112,18 +112,39 @@ Gate630Vitest/15arquivos PASS,28casos novos, log TEMP/creral-mov-ui-0fccc14db03f
 
 | Critério | Assertion | Resultado definido |
 | --- | --- | --- |
-| MOV-29 | AcaoDemanda.test.jsx:20 activeElement toBe(select), :21options toEqual(lista exata), :25aria-labelledby | Mover exclui etapa atual; reabrir permite ambas; finais excluídas e foco na seleção. |
-| MOV-29 payload | AcaoDemanda.test.jsx:31alert exato/no save, :34toHaveBeenCalledExactlyOnceWith({etapaId:12}) | Seleção obrigatória; somente ID de trabalho escolhido após teclado. |
-| MOV-30 | AcaoDemanda.test.jsx:39query combobox null/:40destino textual/:42requiredtrue/:43ajuda/:44foco | Concluir/cancelar têm destino automático, motivo requerido e teto10000 visível. |
-| MOV-12/30 | AcaoDemanda.test.jsx:55alert exato/:56value toBe(motivo)/:57no save/:63payload normalizado | BrancosUnicode/10001/emoji10002 recusados sem truncar rascunho; motivo10000 e multiline válidos. |
-| MOV-30 conclusão | AcaoDemanda.test.jsx:68toHaveBeenCalledExactlyOnceWith({}) | Não enviar campos de encerramento inventados. |
-| MOV-31 | AcaoDemanda.test.jsx:77buttonsdisabled/:78inputsdisabled/:80savecount1/no cancel/:81habilitado após resolver |4ações pendentes não duplicam nem abandonam operação. Bloqueio externo também não envia. |
-| MOV-32 | AcaoDemanda.test.jsx:89alert/:90select12/:91motivo literal/:92aoErro(error)savecount1/:93dialog existe | Falha conserva seleção/motivo e diálogo, comunica erro ao quadro. |
-| MOV-29 vazio | AcaoDemanda.test.jsx:98orientação/:99submitdisabled/:100voltar habilitado | Sem trabalho não inventar destino; saída sem mutação disponível. |
-| MOV-32 voltar | AcaoDemanda.test.jsx:110cancelcount1/no save | Descartar diálogo por teclado não grava. |
+| MOV-29 | AcaoDemanda.test.jsx:19 activeElement toBe(select), :20options toEqual(lista exata), :23aria-labelledby | Mover exclui etapa atual; reabrir permite ambas; finais excluídas e foco na seleção. |
+| MOV-29 payload | AcaoDemanda.test.jsx:29alert exato/no save, :32toHaveBeenCalledExactlyOnceWith({etapaId:12}) | Seleção obrigatória; somente ID de trabalho escolhido após teclado. |
+| MOV-30 | AcaoDemanda.test.jsx:36query combobox null/:37destino textual/:39requiredtrue/:40ajuda/:41/:42foco | Concluir/cancelar têm destino automático, motivo requerido e teto10000 visível. |
+| MOV-12/30 | AcaoDemanda.test.jsx:50alert exato/:51value toBe(motivo)/:52no save/:58payload normalizado | BrancosUnicode/10001/emoji10002 recusados sem truncar rascunho; motivo10000 e multiline válidos. |
+| MOV-30 conclusão | AcaoDemanda.test.jsx:63toHaveBeenCalledExactlyOnceWith({}) | Não enviar campos de encerramento inventados. |
+| MOV-31 | AcaoDemanda.test.jsx:71buttonsdisabled/:72inputsdisabled/:74savecount1/no cancel/:75habilitado após resolver |4ações pendentes não duplicam nem abandonam operação. Bloqueio externo também não envia. |
+| MOV-32 | AcaoDemanda.test.jsx:83alert/:84select12/:85motivo literal/:86aoErro(error)savecount1/:87dialog existe | Falha conserva seleção/motivo e diálogo, comunica erro ao quadro. |
+| MOV-29 vazio | AcaoDemanda.test.jsx:92orientação/:93submitdisabled/:94voltar habilitado | Sem trabalho não inventar destino; saída sem mutação disponível. |
+| MOV-32 voltar | AcaoDemanda.test.jsx:104cancelcount1/no save | Descartar diálogo por teclado não grava. |
 
 ### Assertions → AC
 
 28casos:2listas+2seleções→MOV-29;2destinos+4motivosinválidos+2motivosválidos+1conclusão→MOV-12/30;4pending+4bloqueioexterno→MOV-31;4erros+1voltar→MOV-32;2vazios→MOV-29. As assertions de payload comprovam os dados submetidos; estado visual/rascunho/foco comprovam resposta do componente. Nenhum teste sem âncora.
 
 Adequação T5 PASS, nenhum teste removido/ignorado. Busy/Voltar/Sair global, cartões/cache e troca de quadro sãoT6.
+
+## T6: integração do quadro — em andamento
+
+Teste focal 31/31 PASS, log TEMP/creral-mov-ui-0fccc14db03f4e5d9cb6220a95052a27/t6-transicoes-2.log. Não substitui gate integral, que continua pendente devido às assertions antigas sobre botões das colunas finais; confirmação solicitada ao usuário antes de modificá-las. Nenhum teste removido/ignorado. Correção das referências de linha do mapa T5 acima, sem alterar seus testes/fonte.
+
+### AC → assertions
+
+| Critério | file:line + assertion | Resultado definido |
+| --- | --- | --- |
+| MOV-28 | QuadroTransicoes.test.jsx:44 toEqual(lista ações), :50 queryByRole(button).toBeNull() | Ações exatas por estado; consulta somente para arquivado/sem permissão. |
+| MOV-35 | QuadroTransicoes.test.jsx:55 ausência de ações, :56 mensagem literal, :57 status literal | Null/vazio/desconhecido não normalizados. |
+| MOV-29/30/33 | QuadroTransicoes.test.jsx:65 etapa exata, :66 status/preservação, :67 contagem, :68 cache versão1, :70 payload completo | Quatro ações enviam destino/motivo/versão exatos, atualizam cartões/count/cache; datas e campos adicionais corroborados por apiTransicoes.test.js:36. |
+| MOV-31 | QuadroTransicoes.test.jsx:81–85 disabled true, :87 sem Voltar/sem envio extra, :90 desbloqueio, :161/:162/:164 Sair e token | Mutação pendente impede repetição e abandono; libera após confirmação. |
+| MOV-32 | QuadroTransicoes.test.jsx:97 erro literal, :98 diálogo/bloqueio, :99/:100 rascunho, :101/:104 sequência GET PUT GET | Snapshot incoerente exige GET manual, preserva diálogo, nenhum retry automático. |
+| MOV-32 HTTP/rede | QuadroTransicoes.test.jsx:129 mensagem, :130/:131 diálogo e bloqueio, :132/:133 rascunho, :134 cache0, :135 destino anterior, :137/:140 sequência exata | Oito casos de HTTP409/rede nas quatro ações preservam estado e rascunho e aguardam atualização manual. |
+| MOV-33 foco | QuadroTransicoes.test.jsx:74 isConnected true/tag BUTTON, :146 activeElement.toBe(origem) | Fecha com foco em elemento existente; voltar sem alterar restaura origem sem PUT. |
+| MOV-34 | QuadroTransicoes.test.jsx:113 diálogo null, :115 outro quadro sem cartão antigo, :116 cache antigo não aplicado | Troca de quadro ignora resposta de ação do quadro anterior. Consulta antiga já coberta pelos testes existentes; revisão final T7/Verifier. |
+
+### Assertions → AC
+
+31 casos: 3 estados e 2 permissões→MOV-28; 3 legados→MOV-35; 4 sucessos→MOV-29/30/33; 4 pending e 1 Sair→MOV-31; 4 snapshots incoerentes, 8 HTTP/rede e 1 voltar→MOV-32/33; 1 troca de quadro→MOV-34. As assertions verificam estado/payload/foco; contagens complementam ausência de repetição. Adequação integral e commit T6 permanecem pendentes.
