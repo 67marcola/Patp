@@ -116,7 +116,7 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 **Tests:** unit
 **Gate:** Quick
 **Done when:**
-- [ ] Critérios mapeados têm assertions de valores e estado em file:line, gate verde sem perdas de testes, mapas AC→assertion e assertion→AC em evidence.md, task e trace atualizados antes do commit local.
+- [x] Gate integral 661 Vitest/16 arquivos PASS em 07/10/2026; 31 casos de transições e 630 anteriores preservados. Três assertions antigas de colunas finais corrigidas com autorização explícita do usuário, mantendo a proibição de Editar/Remover etapa. Mapas AC→assertion e assertion→AC em evidence.md T6. Fonte da integração já preservada no commit b0ddbed; este fechamento contém correções e status juntos.
 
 ### T7: Integração e operação das transições
 

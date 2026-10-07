@@ -186,17 +186,14 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature:** demandas-movimentacao.
-- **Branch:** testes. Último commit de tarefa: 7aa0485 (T5).
-- **Completed:** T1–T5. Gates já aprovados: 459 Java/H2 e 630 Vitest na T5.
-- **In progress:** T6, ações nos cartões, busy global, snapshots/cache/foco e consulta manual após falhas. Fonte frontend/src/pages/Quadro.jsx; testes frontend/src/pages/QuadroTransicoes.test.jsx.
-- **Latest evidence:** 31/31 casos de QuadroTransicoes PASS em TEMP/creral-mov-ui-0fccc14db03f4e5d9cb6220a95052a27/t6-transicoes-2.log. O teste de Sair tinha fixture de sessão incompleta; corrigido token+usuario e GET dos metadados, sem alterar assertions.
-- **Pending clarification:** enviada pergunta assíncrona para autorizar adequação das três assertions de QuadroEtapas.test.jsx:59/:519/:560 que proíbem todo botão dentro de colunas finais. A proposta concreta é continuar proibindo editar/remover a coluna final, permitindo botões das demandas. Essas assertions ainda não foram modificadas. A skill implement.md exige perguntar antes de corrigir assertion antiga incompatível.
-- **Gate:** T6 ainda NÃO completo/commitado. Última suite integral anterior à correção da fixture: 634 PASS/19 FAIL de 653; 18 falhas ligadas à proibição de botões nas finais. Os 8 novos casos HTTP/rede aumentam a expectativa para 661 na próxima suite integral.
-- **Next step:** incorporar resposta do usuário, ajustar somente seleção das assertions autorizadas, executar npm test integral com TEMP real, adequação/mapas/status e commit atômico T6. Depois T7: navegador, concorrência Java, MySQL fictício, operação. Após commit T7, Verifier fresco obrigatório, sensor e validate_state; não declarar funcionalidade completa antes disso.
-- **Uncommitted source:** Quadro.jsx, QuadroTransicoes.test.jsx; documentação STATE/evidence. Artefatos gerados rastreados de node_modules/target devem ser preservados e excluídos dos commits de fonte; não git add geral.
-- **Restrictions:** sem push/deploy/banco real; nenhuma operação no MySQL da empresa. Autorizações de implementação/testes/commits locais persistem.
-
+- **Feature:** demandas-movimentacao; branch testes.
+- **Completed:** T1–T6. T6: 661/661 Vitest, 16 arquivos PASS em 07/10/2026. Integração preservada em b0ddbed; fechamento inclui três assertions autorizadas e status.
+- **In progress:** T7, testes reais de navegador, concorrência backend, MySQL fictício e roteiro humano.
+- **Next step:** implementar T7, passar Build gate e fazer commit local; depois Verifier independente obrigatório com sensor e validate_state.
+- **Blockers:** nenhum; confirmação das três assertions recebida explicitamente nesta conversa.
+- **User preference:** explicar o que será colocado no sistema; em cada pergunta indicar opção recomendada e efeito para o usuário.
+- **Uncommitted files:** DIAGNOSTICO.md tinha 72 linhas acrescentadas pelo usuário antes da retomada; preservar. Artefatos gerados de node_modules/target devem ficar fora dos commits de fonte.
+- **Restrictions:** sem push/deploy/MySQL real. Implementação, testes fictícios e commits locais autorizados.
 ## Próxima conversa: destinos finais e movimentação
 
 Confirmado em AD-011: somente Concluídos e Cancelados, com destino automático conforme a ação. As colunas obrigatórias já estão implementadas e verificadas; os fluxos de finalizar/cancelar continuam na próxima entrega.

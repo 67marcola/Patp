@@ -164,15 +164,15 @@ IF uma demanda Em andamento estiver incoerentemente em coluna final THEN o servi
 | MOV-25 | P1: Integridade | Execute | Implementing |
 | MOV-26 | P1: Integridade | Execute | Implementing |
 | MOV-27 | P1: Integridade | Execute | Implementing |
-| MOV-28 | P1: Interface | Specify | Pending |
-| MOV-29 | P1: Interface | Specify | Pending |
-| MOV-30 | P1: Interface | Specify | Pending |
-| MOV-31 | P1: Interface | Specify | Pending |
-| MOV-32 | P1: Interface | Specify | Pending |
-| MOV-33 | P1: Interface | Specify | Pending |
-| MOV-34 | P1: Interface | Specify | Pending |
+| MOV-28 | P1: Interface | Execute | Implementing |
+| MOV-29 | P1: Interface | Execute | Implementing |
+| MOV-30 | P1: Interface | Execute | Implementing |
+| MOV-31 | P1: Interface | Execute | Implementing |
+| MOV-32 | P1: Interface | Execute | Implementing |
+| MOV-33 | P1: Interface | Execute | Implementing |
+| MOV-34 | P1: Interface | Execute | Implementing |
 
-| MOV-35 | P1: Integridade | Tasks | Pending |
+| MOV-35 | P1: Integridade | Execute | Implementing |
 
 **Coverage:** 35 critérios mapeados nas tarefas T1–T7.
 
