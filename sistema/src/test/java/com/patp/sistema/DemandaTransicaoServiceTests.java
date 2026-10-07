@@ -85,8 +85,8 @@ class DemandaTransicaoServiceTests extends ApiIntegrationSupport {
                 .containsExactly("Etapa alterada de 'Início' para 'Fim'.", "Etapa alterada de 'Fim' para 'Início'.");
         assertThat(jdbc.queryForList("select usuario from historicos order by id",String.class)).containsExactly("Dono","Dono");
         assertThat(jdbc.queryForObject("select count(*) from historicos where processo_id=? and data_hora is not null",Long.class,p.getId())).isEqualTo(2L);
-        for(var evento:jdbc.queryForList("select data_hora from historicos")) {
-            assertThat(((java.sql.Timestamp)evento.get("data_hora")).toLocalDateTime()).isBetween(antes,LocalDateTime.now().plusSeconds(1));
+        for(var evento:jdbc.query("select data_hora from historicos", (rs, linha) -> rs.getObject("data_hora", LocalDateTime.class))) {
+            assertThat(evento).isBetween(antes,LocalDateTime.now().plusSeconds(1));
         }
     }
 
@@ -106,7 +106,7 @@ class DemandaTransicaoServiceTests extends ApiIntegrationSupport {
         var eventos=jdbc.queryForList("select * from historicos");assertThat(eventos).hasSize(1);
         assertThat(eventos.get(0).get("acao")).isEqualTo(concluir?"CONCLUSAO":"CANCELAMENTO");
         assertThat(eventos.get(0).get("usuario")).isEqualTo("Dono");
-        assertThat(((java.sql.Timestamp)eventos.get(0).get("data_hora")).toLocalDateTime()).isBetween(antes,LocalDateTime.now().plusSeconds(1));
+        assertThat(jdbc.queryForObject("select data_hora from historicos where id=?", LocalDateTime.class, eventos.get(0).get("id"))).isBetween(antes,LocalDateTime.now().plusSeconds(1));
         assertThat(eventos.get(0).get("descricao")).isEqualTo(concluir?"Processo concluído.":"Processo cancelado. Motivo: Solicitação\ncompleta");
         assertThat(r.gerenciamento().versao()).isEqualTo(1L);
         assertThat(r.demandas().get(0).etapaId()).isEqualTo(salvo.getEtapa().getId());
@@ -128,7 +128,7 @@ class DemandaTransicaoServiceTests extends ApiIntegrationSupport {
         var eventos=jdbc.queryForList("select * from historicos order by id");assertThat(eventos).hasSize(2);assertThat(eventos.get(0)).isEqualTo(antigo);
         assertThat(eventos.get(1).get("acao")).isEqualTo("REABERTURA");assertThat(eventos.get(1).get("usuario")).isEqualTo("Dono");
         assertThat(((Number)eventos.get(1).get("processo_id")).longValue()).isEqualTo(p.getId());
-        assertThat(((java.sql.Timestamp)eventos.get(1).get("data_hora")).toLocalDateTime()).isBetween(antes,LocalDateTime.now().plusSeconds(1));
+        assertThat(jdbc.queryForObject("select data_hora from historicos where id=?", LocalDateTime.class, eventos.get(1).get("id"))).isBetween(antes,LocalDateTime.now().plusSeconds(1));
         var dados=json.readTree(eventos.get(1).get("descricao").toString());
         assertThat(dados.get("statusAnterior").asText()).isEqualTo(status);
         assertThat(dados.get("etapaAnteriorId").asLong()).isEqualTo(origem.getId());assertThat(dados.get("etapaDestinoId").asLong()).isEqualTo(trabalho.getId());

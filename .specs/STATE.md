@@ -187,13 +187,14 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** demandas-movimentacao; branch testes.
-- **Completed:** T1–T6. T6: 661/661 Vitest, 16 arquivos PASS em 07/10/2026. Integração preservada em b0ddbed; fechamento inclui três assertions autorizadas e status.
-- **In progress:** T7, testes reais de navegador, concorrência backend, MySQL fictício e roteiro humano.
-- **Next step:** implementar T7, passar Build gate e fazer commit local; depois Verifier independente obrigatório com sensor e validate_state.
-- **Blockers:** nenhum; confirmação das três assertions recebida explicitamente nesta conversa.
+- **Completed:** T1–T7. T6 fechado em 527d18b. T7: 469Java/H2, 661Vitest, lint/build TEMP, 7Edge/H2 e112MySQL fictício PASS em 07/10/2026.
+- **In progress:** revisão independente obrigatória, relatório validation.md e sensor; não declarar entrega antes de PASS/validate_state.
+- **Next step:** dispatch Verifier fresco após commit T7. Ambiente fictício próprio MySQL8.0.43/porta33819/schema creral_mov_tests/TEMP creral-tlc-retomada-e09b0601b70b48dc82f7ea9b26cf3efc; encerrar após Verifier. JAVA_HOME JDK25.0.2. Sensor somente em scratch, sem stash nem mutações reais.
+- **Blockers:** nenhum. Usuário autorizou três assertions de finais e três leituras JDBC tipadas, preservando requisitos/intervalos.
 - **User preference:** explicar o que será colocado no sistema; em cada pergunta indicar opção recomendada e efeito para o usuário.
-- **Uncommitted files:** DIAGNOSTICO.md tinha 72 linhas acrescentadas pelo usuário antes da retomada; preservar. Artefatos gerados de node_modules/target devem ficar fora dos commits de fonte.
-- **Restrictions:** sem push/deploy/MySQL real. Implementação, testes fictícios e commits locais autorizados.
+- **Uncommitted files:** DIAGNOSTICO.md tinha72linhas do usuário; preservadas. Artefatos rastreados node_modules/target/test-results são gerados e ficam fora dos commits de fonte.
+- **Latest evidence:** TEMP acima, t6-gate.log, t7-java-full-2.log, t7-e2e-full-3.log, t7-mysql-selected-3.log, lint/build. Falhas anteriores e causa de conexão/fuso registradas em evidence.md; causa raiz de ERR_CONNECTION_RESET não comprovada.
+- **Restrictions:** sem push/deploy/MySQL real; implementação, testes fictícios e commits locais autorizados.
 ## Próxima conversa: destinos finais e movimentação
 
 Confirmado em AD-011: somente Concluídos e Cancelados, com destino automático conforme a ação. As colunas obrigatórias já estão implementadas e verificadas; os fluxos de finalizar/cancelar continuam na próxima entrega.
