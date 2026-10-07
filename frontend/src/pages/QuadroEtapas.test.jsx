@@ -56,7 +56,7 @@ function conferirFinais(esperadas = finais) {
         expect(within(coluna).getByText("Etapa final obrigatória").textContent).toBe("Etapa final obrigatória");
         expect(within(coluna).queryByText(/Setor responsável:/)).toBeNull();
         expect(within(coluna).queryByText(/^Posição /)).toBeNull();
-        expect(within(coluna).queryByRole("button")).toBeNull();
+        expect(within(coluna).queryByRole("button", { name: /Editar etapa|Remover etapa/ })).toBeNull();
         expect(within(coluna).getByText(`${etapa.quantidadeDemandas} ${etapa.quantidadeDemandas === 1 ? "demanda" : "demandas"}`).textContent)
             .toBe(`${etapa.quantidadeDemandas} ${etapa.quantidadeDemandas === 1 ? "demanda" : "demandas"}`);
     }
@@ -516,7 +516,7 @@ test("FIN-14/15/16: trabalhos homônimos mantêm edição/setor/posição ao lad
     for (const etapa of finais) {
         const coluna = document.getElementById(`etapa-titulo-${etapa.id}`).closest("section");
         expect(within(coluna).getByText("Etapa final obrigatória").textContent).toBe("Etapa final obrigatória");
-        expect(within(coluna).queryByRole("button")).toBeNull();
+        expect(within(coluna).queryByRole("button", { name: /Editar etapa|Remover etapa/ })).toBeNull();
     }
     expect(fetchMock.mock.calls.map(([, request]) => request.method)).toEqual(["GET"]);
 });
@@ -557,7 +557,7 @@ test.each(["PUT", "DELETE"].flatMap(metodo => ["CONCLUIDA", "CANCELADA"].map(cat
         const coluna = screen.getByRole("region", { name: finalAtual.nome });
         expect(within(coluna).getByText("Etapa final obrigatória").textContent).toBe("Etapa final obrigatória");
         expect(within(coluna).queryByText(/Setor responsável:|^Posição /)).toBeNull();
-        expect(within(coluna).queryByRole("button")).toBeNull();
+        expect(within(coluna).queryByRole("button", { name: /Editar etapa|Remover etapa/ })).toBeNull();
         await ativarPorTeclado(user, screen.getByRole("button", { name: "Cancelar" }));
         expect(document.activeElement).toBe(screen.getByRole("button", { name: "+ Nova etapa" }));
     });

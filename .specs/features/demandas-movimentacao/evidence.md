@@ -128,7 +128,7 @@ Gate630Vitest/15arquivos PASS,28casos novos, log TEMP/creral-mov-ui-0fccc14db03f
 
 Adequação T5 PASS, nenhum teste removido/ignorado. Busy/Voltar/Sair global, cartões/cache e troca de quadro sãoT6.
 
-## T6: integração do quadro — em andamento
+## T6: integração do quadro — concluída
 
 Teste focal 31/31 PASS, log TEMP/creral-mov-ui-0fccc14db03f4e5d9cb6220a95052a27/t6-transicoes-2.log. Não substitui gate integral, que continua pendente devido às assertions antigas sobre botões das colunas finais; confirmação solicitada ao usuário antes de modificá-las. Nenhum teste removido/ignorado. Correção das referências de linha do mapa T5 acima, sem alterar seus testes/fonte.
 
@@ -148,3 +148,11 @@ Teste focal 31/31 PASS, log TEMP/creral-mov-ui-0fccc14db03f4e5d9cb6220a95052a27/
 ### Assertions → AC
 
 31 casos: 3 estados e 2 permissões→MOV-28; 3 legados→MOV-35; 4 sucessos→MOV-29/30/33; 4 pending e 1 Sair→MOV-31; 4 snapshots incoerentes, 8 HTTP/rede e 1 voltar→MOV-32/33; 1 troca de quadro→MOV-34. As assertions verificam estado/payload/foco; contagens complementam ausência de repetição. Adequação integral e commit T6 permanecem pendentes.
+
+### Fechamento T6 em 07/10/2026
+
+Gate integral: **661/661 testes, 16/16 arquivos PASS**, sem exclusões ou skips. Log: C:/Users/Marco/AppData/Local/Temp/creral-tlc-retomada-e09b0601b70b48dc82f7ea9b26cf3efc/t6-gate.log. Controle anterior reproduziu 18 falhas nas assertions de colunas finais; log t6-baseline.log, preservado. Usuário autorizou explicitamente corrigir somente as três verificações em QuadroEtapas.test.jsx:59/:519/:560. A seleção agora exige ausência de botões com nome Editar etapa ou Remover etapa; identificação, setor, posição e contagens permanecem verificados. Reabrir nos cartões segue MOV-28.
+
+Check A: os oito grupos de critérios e respectivos valores têm evidência na tabela T6 acima; MOV-34 consulta antiga também em QuadroEtapas.test.jsx:269–288 (troca de quadro preserva isolamento) e QuadroDemandas.test.jsx (consulta atrasada). Check B: estado visual, rascunho, destino/status, payload, cache e foco observados; callcount apenas complementa a prova de ausência de repetição. Check C: os 31 casos têm mapeamento reverso acima; três correções mantêm FIN-15 e compatibilizam MOV-28, sem acrescentar requisito. Check D: localização e padrões de testes seguem a matriz tasks.md e docs/OPERACAO.md.
+
+Adequação T6 PASS. Código da integração já estava preservado por b0ddbed; não foi refeito. O fechamento atômico registra as correções autorizadas e os status. T7 e Verifier continuam pendentes; a feature ainda não está entregue.
