@@ -215,17 +215,33 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-07
 - **Status**: active
 
+### AD-027
+- **Decision**: retirar demandas significa arquivar/restaurar, preservando identificação, informações, comentários e histórico; permitir arquivo em andamento, concluídas e canceladas.
+- **Reason**: usuário escolheu explicitamente Arquivar e restaurar e Todos os três estados em 08/10/2026 após explicação da recomendação.
+- **Trade-off**: não libera armazenamento nem número; consulta e restauração exigem fluxo próprio. Exclusão física não é a política de retirada.
+- **Scope**: ciclo de vida de demandas e preservação para comentários/histórico/métricas futuras; implementar na feature demandas-arquivamento, ainda pendente.
+- **Date**: 2026-10-08
+- **Status**: active
+
+### AD-028
+- **Decision**: somente criador do quadro ou administrador poderá arquivar/restaurar demandas em gerenciamento ativo; sem criador identificado somente admin.
+- **Reason**: usuário escolheu explicitamente Criador do quadro ou administrador, mantendo responsabilidade igual à edição/transições.
+- **Trade-off**: demais funcionários solicitam retirada/restauração ao responsável.
+- **Scope**: novas ações de arquivo e rotas alternativas de retirada; quadro arquivado precisa ser restaurado primeiro.
+- **Date**: 2026-10-08
+- **Status**: active
+
 ## Handoff
 
-- **Feature:** demandas-edicao concluída tecnicamente em 08/10/2026; branch testes. AD-023–026 implementadas.
-- **Completed:** T1–T8 nos commits 89e4abe, 429604e, 58b14d7, 227e699, 2ac0db2, af4d860, e7c32d4 e c20a1bf. Verifier independente PASS 29/29 e edges; sensor 9/9 em scratch, isolamento integral comprovado. Relatório features/demandas-edicao/validation.md. Gates: 570 Java/H2, 721 Vitest, 9 Edge/H2, 213 selecionados MySQL fictício, lint/build PASS. Movimentação anterior permanece concluída.
-- **In progress:** nenhum requisito desta entrega. Aceitação humana ainda não realizada; roteiro docs/OPERACAO.md.
-- **Next step:** decidir a política de retirada de demandas antes de implementar: arquivar/restaurar preservando dados foi recomendado; exclusão definitiva é alternativa ainda sem resposta. Comentários laterais, atividade por quadro e gráficos continuam entregas próprias.
-- **Blocker:** nenhum para a edição entregue. Não inferir decisão de retirada a partir de pode continuar.
-- **User preference:** explicar funcionalidades, efeitos e recomendação nas perguntas. Registrar cada requisito concluído e verificado no DIAGNOSTICO, distinguindo progresso parcial e aceitação humana.
-- **Environment:** tecnologias AD-024 preservadas. JDK25.0.2/Maven3.9.16/Mockito5.23.0. Logs do autor em C:/Users/Marco/AppData/Local/Temp/creral-edicao-32565590f1a14a198df2fc432b1bdfeb; logs independentes referenciados no relatório. MySQL fictício8.0.43 porta33821 inativo no fechamento; H2 somente testes. Nenhum banco real usado.
-- **Uncommitted files:** artefatos gerados preexistentes em target/node_modules/test-results preservados fora dos commits. Fontes e documentação da entrega em commits locais; não usar git add geral.
-- **Restrictions:** sem push/deploy/banco real. Não enfraquecer/excluir/ignorar testes. Adequações concretas anteriores autorizadas; nenhuma autorização nova para ações externas.
+- **Feature:** demandas-arquivamento, spec/context/design/tasks concretos em revisão. Branch testes; base 3f9d78a.
+- **Completed:** edição concluída, 29/29 critérios e sensor 9/9; 570 H2, 721 Vitest, 213 MySQL e 9 Edge. Produto do arquivo confirmado em AD-027/028: três estados, criador/admin, quadro ativo.
+- **In progress:** preparação; zero tarefas de código executadas. Proposta de 12 tarefas, fases 8+4; revisão concreta/oferta de agentes pendentes.
+- **Next step:** revisar proposta, escolher dois lotes por agentes ou inline e autorizar duas adequações concretas: ProcessoArchiveTests.java:128 (DELETE500 vira recusa409 sem efeito), QuadroTransicoes.test.jsx:44 (3listas incluem Arquivar mantendo ações anteriores). Não repetir políticas/tecnologias respondidas.
+- **Blocker:** nenhum técnico; aguardar apenas decisões apresentadas, sem inferir resposta por tempo.
+- **User preference:** explicar o que será colocado e recomendar efeitos/opções. Registrar requisito concluído no diagnóstico só após testes e Verifier.
+- **Environment:** AD-024; JDK 25/Maven 3.9.16/Mockito 5.23.0. Logs em TEMP. MySQL 33821 da edição inativo; nenhum banco real. Gates da nova implementação ainda não executados.
+- **Uncommitted files:** documentos desta preparação em fechamento; gerados target/node_modules/test-results preexistentes preservados. Add explícito.
+- **Restrictions:** sem exclusão física/push/deploy/migração real; preservar testes; Verifier fresco ao fim. Não spawn workers sem aceitar oferta.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

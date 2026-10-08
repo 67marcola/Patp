@@ -62,9 +62,11 @@ Demandas concluídas ou canceladas também permitem essas correções, preservan
 
 ## O que ainda falta nos requisitos originais
 
+**Próxima entrega em preparação — arquivamento/restauração (08/10/2026):** usuário confirmou preservar dados e permitir arquivo nos três estados, por criador/admin em quadro ativo. [Spec](features/demandas-arquivamento/spec.md), [contexto](features/demandas-arquivamento/context.md), [desenho](features/demandas-arquivamento/design.md) e [12 tarefas](features/demandas-arquivamento/tasks.md) preparados para revisão. Proposta: área Arquivadas, restauração na etapa/estado original, número reservado e rotas antigas protegidas. **Nenhum requisito desta entrega está concluído ou implementado.**
+
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| CRUD completo de demandas | Criação, consulta, transições e edição informativa estão prontas. Falta decidir a retirada de demandas: foi recomendado arquivar/restaurar preservando dados; exclusão definitiva é a alternativa, ainda sem resposta. A retirada ainda não foi entregue nem validada; não considerar o CRUD completo concluído. |
+| CRUD completo de demandas | Criação, consulta, transições e edição informativa estão prontas. Retirada definida em AD-027/028: arquivar/restaurar nos três estados, somente criador/admin em quadro ativo. Proposta preparada, mas arquivamento ainda não implementado nem validado; não considerar o CRUD completo concluído. |
 | Lateral de comentários de vários usuários, com data | Existe base de comentários por demanda no backend. Falta definir o alcance da conversa (quadro/demanda), suas permissões e implementar a experiência lateral pedida. |
 | Logs em cada gerenciamento | Há registros de histórico associados às demandas e proteções nos fluxos entregues. Falta a entrega completa de atividade por gerenciamento, com eventos, autoria, consulta e apresentação definidos. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
@@ -82,7 +84,7 @@ Os números abaixo são registros das execuções aprovadas, não uma nova execu
 
 ## Onde acompanhar o projeto
 
-- [STATE.md](STATE.md): decisões de negócio AD-001 a AD-026 e ponto de retomada.
+- [STATE.md](STATE.md): decisões de negócio AD-001 a AD-028 e ponto de retomada.
 - [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-edicao está concluída tecnicamente, com aceitação humana pendente.
 - [OPERACAO.md](../docs/OPERACAO.md): orientações de execução e verificação com dados fictícios.
 
