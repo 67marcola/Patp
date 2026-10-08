@@ -30,6 +30,20 @@ public class HistoricoService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Historico registrarExterno(Long processoId, String acao, String descricao, String usuario) {
+        Long gerenciamentoId = processoRepository.buscarGerenciamentoId(processoId)
+                .orElseThrow(() -> new RuntimeException("Processo não encontrado."));
+        guard.exigirAtivo(gerenciamentoId);
+        Processo processo = processoRepository.findById(processoId)
+                .orElseThrow(() -> new RuntimeException("Processo não encontrado."));
+        if (processo.isArquivado()) {
+            throw new com.patp.sistema.exception.ApiException(org.springframework.http.HttpStatus.CONFLICT,
+                    "Demanda arquivada. Restaure-a antes de alterar.");
+        }
+        return registrar(processoId, acao, descricao, usuario);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Historico registrar(
             Long processoId,
             String acao,
