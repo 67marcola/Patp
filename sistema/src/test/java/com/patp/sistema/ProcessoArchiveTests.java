@@ -124,8 +124,10 @@ class ProcessoArchiveTests extends ApiIntegrationSupport {
         var criador = usuario("Criador");
         var demanda = demanda(etapa(quadro(criador), "Inicial", 1));
         var antes = conteudoPersistido();
+        var versao = quadros.findById(demanda.getEtapa().getGerenciamento().getId()).orElseThrow().getVersao();
         mvc.perform(delete("/api/processos/" + demanda.getId()).header("Authorization", token(criador)))
-                .andExpect(status().isInternalServerError()).andExpect(jsonPath("$.erro").value("Não foi possível concluir a operação."));
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value("Exclusão definitiva indisponível. Use o arquivamento da demanda."));
         assertThat(conteudoPersistido()).isEqualTo(antes);
+        assertThat(quadros.findById(demanda.getEtapa().getGerenciamento().getId()).orElseThrow().getVersao()).isEqualTo(versao);
     }
 }

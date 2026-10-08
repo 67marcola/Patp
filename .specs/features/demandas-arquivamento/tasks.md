@@ -116,9 +116,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8 → T9 → T10 → T11 → T
 
 **Done when:**
 
-- [ ] DemandaArquivoServiceTests/ConcurrencyTests/LegadaTests: status×criador/admin, recusas sem efeito, rollback nas três escritas, disputas e bloqueios antigos.
-- [ ] Gate Quick PASS, contagem registrada e nenhum skip/remoção não autorizado.
-- [ ] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
+- [x] DemandaArquivoServiceTests/ConcurrencyTests/LegadaTests: status×criador/admin, recusas sem efeito, rollback nas três escritas, disputas e bloqueios antigos.
+- [x] Gate Quick PASS, contagem registrada e nenhum skip/remoção não autorizado.
+- [x] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
 
 **Tests:** integration
 **Gate:** Quick
