@@ -4,7 +4,7 @@
 
 Usar tlc-spec-driven explicitamente invocada. Usuário autorizou implementação e commits locais após AD-025/026 e respondeu pode continuar às duas adequações concretas de testes apresentadas. Oito tarefas, executar inline em ordem. Verifier fresco obrigatório após T8. Nenhum push/deploy/banco real. Atualizar diagnóstico como progresso parcial em cada tarefa e como concluído somente após Verifier PASS.
 
-**Design:** design.md. **Status:** In Progress. Base cd62ee4; 479 Java, 661 Vitest, 7 Edge.
+**Design:** design.md. **Status:** Complete (técnico); aceitação humana pendente. Base cd62ee4; 479 Java, 661 Vitest, 7 Edge.
 
 ## Test Coverage Matrix
 
@@ -164,3 +164,7 @@ Cada tarefa altera um DTO, uma função, um endpoint ou um componente/fluxo. Tes
 | T8 | Navegador | e2e | e2e | Match |
 
 **Result:** T8 Complete. 9 Edge/H2 PASS em seis arquivos, 213 selecionados MySQL PASS; lint PASS; t8-e2e.log, t8-mysql.log e t8-lint.log. QA desktop/mobile em TEMP/creral-edicao-qa-yAeiwS aprovada visualmente. Java completo 570 e Vitest 721 anteriores permanecem válidos por fontes inalteradas
+
+## Feature closure
+
+T1–T8 concluídas com gates e commits próprios. Verifier independente PASS 29/29 e edges; sensor 9/9. validate_state PASS. Relatório validation.md; conclusão registrada no DIAGNOSTICO. Aceitação humana ainda não realizada.

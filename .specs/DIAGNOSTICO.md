@@ -1,6 +1,6 @@
 # Diagnóstico e resumo atual do sistema Creral
 
-**Atualizado em 07/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
+**Atualizado em 08/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
 
 ## Como o sistema está organizado
 
@@ -31,6 +31,7 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 | Etapas finais obrigatórias | Novos quadros recebem Concluídos e Cancelados. Essas colunas são identificadas por categoria e protegidas contra edição e remoção. Existe ferramenta explícita de preparação para dados antigos, com plano sem gravação e aplicação transacional/idempotente. | [30 critérios aprovados](features/etapas-finais/validation.md). |
 | Cadastro e consulta de demandas | O botão Criar processo funciona. Número e cliente/solicitante são obrigatórios; os demais campos do cadastro são opcionais. A demanda começa na primeira etapa de trabalho. O número é único no sistema, inclusive entre quadros e sem distinguir maiúsculas de minúsculas. Cartões mostram dados reais, com contagens e preservação após recarga. | [41 critérios aprovados](features/demandas-cadastro/validation.md). |
 | Movimentação e encerramento de demandas | Criador/admin move ou pula etapas, conclui, cancela com motivo e reabre para trabalho escolhido. Cartões, contagens, versão e histórico são preservados. | [35 critérios e edge aprovados](features/demandas-movimentacao/validation.md). |
+| Edição informativa de demandas | Corrigir cliente, responsável, prioridade, emissão, prazos e observações. Número fixo; demandas concluídas/canceladas mantêm seu encerramento. Somente criador/admin em quadro ativo. | [29 critérios e edges aprovados](features/demandas-edicao/validation.md). |
 
 A criação de demandas registra histórico com autoria da sessão e é transacional: uma falha não deve deixar apenas parte dos dados gravada. O frontend confirma que a resposta contém a demanda solicitada antes de fechar o formulário; respostas incompletas ou divergentes preservam o rascunho e exigem atualização manual.
 
@@ -49,15 +50,21 @@ Já foram implementados e testados o serviço de transição, as quatro rotas da
 
 **Validação desta entrega:** 479 testes Java/H2, 661 da interface, lint/build, 7 fluxos Edge/H2 e 122 testes selecionados em MySQL fictício aprovados. O Verifier confirmou 35/35 critérios e o edge de estado incompatível. As 14 falhas simuladas foram detectadas após duas rodadas: 12 na primeira e as duas mensagens restantes depois dos dez novos casos HTTP. O código da aplicação não precisou de alteração nessa correção; nenhum teste anterior foi excluído ou enfraquecido. A aceitação humana permanece pendente.
 
+## Edição de demandas — concluída
+
+**Entrega técnica concluída em 08/10/2026:** as oito tarefas e os 29 critérios EDI-01 a EDI-29 foram aprovados pela revisão independente. Consulte [tarefas](features/demandas-edicao/tasks.md), [evidências](features/demandas-edicao/evidence.md) e [validação](features/demandas-edicao/validation.md).
+
+O botão **Editar** abre o formulário preenchido para corrigir cliente/solicitante, responsável, prioridade, data de emissão, prazo da etapa, prazo geral e observações. O número aparece somente para leitura e permanece fixo, inclusive na rota antiga. Apenas o criador do quadro ou um administrador pode editar, em quadro ativo.
+
+Demandas concluídas ou canceladas também permitem essas correções, preservando status, etapa, datas e motivo do encerramento. Cada salvamento registra um evento EDICAO com autor da sessão e atualiza a versão uma vez. Falhas revertem toda a gravação; conflitos ou respostas não confirmadas conservam o rascunho e exigem atualização manual. Registros com status antigo desconhecido permanecem para consulta.
+
+**Validação:** 570 Java/H2, 721 testes da interface, 9 fluxos Edge/H2 e 213 selecionados em MySQL fictício; lint/build aprovados. O sensor independente detectou 9/9 falhas simuladas em cópia isolada e confirmou a preservação integral da árvore real. Todos esses gates foram executados novamente pelo Verifier; os detalhes estão no relatório. Não houve exclusão ou salto de testes. Desktop e celular foram conferidos. O MySQL temporário não está ativo no fechamento; nenhum banco real foi utilizado. **Aceitação humana pendente**, com roteiro em [OPERACAO.md](../docs/OPERACAO.md).
+
 ## O que ainda falta nos requisitos originais
-
-**Próxima entrega iniciada — edição de demandas (07/10/2026):** [especificação em draft](features/demandas-edicao/spec.md) e [contexto](features/demandas-edicao/context.md) preparados. A permissão criador/admin e as tecnologias estão confirmadas. Número fixo e correção informativa de demandas encerradas foram confirmados (AD-025/026); implementação autorizada. Não considerar a edição implementada ou concluída; o draft define formulário preenchido, validação, autoria, preservação do ciclo e proteção contra conflitos.
-
-**Progresso parcial da edição:** T1–T8 concluídas. Fluxos reais de edição, encerramento preservado e persistência MySQL. 9 Edge/H2 PASS em seis arquivos, 213 selecionados MySQL PASS; lint PASS; t8-e2e.log, t8-mysql.log e t8-lint.log. QA desktop/mobile em TEMP/creral-edicao-qa-yAeiwS aprovada visualmente. Java completo 570 e Vitest 721 anteriores permanecem válidos por fontes inalteradas. Entrega completa ainda depende das tarefas restantes e do Verifier; [evidências](features/demandas-edicao/evidence.md).
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| CRUD completo de demandas | Criação, consulta e transições estão prontas. Próxima entrega: edição de dados informativos somente por criador/admin, escolhida em AD-023 e ainda não implementada. Falta decidir a retirada de demandas: foi recomendado arquivar/restaurar preservando dados; exclusão definitiva é a alternativa, ainda sem resposta. Rotas antigas não equivalem ao CRUD completo validado. |
+| CRUD completo de demandas | Criação, consulta, transições e edição informativa estão prontas. Falta decidir a retirada de demandas: foi recomendado arquivar/restaurar preservando dados; exclusão definitiva é a alternativa, ainda sem resposta. A retirada ainda não foi entregue nem validada; não considerar o CRUD completo concluído. |
 | Lateral de comentários de vários usuários, com data | Existe base de comentários por demanda no backend. Falta definir o alcance da conversa (quadro/demanda), suas permissões e implementar a experiência lateral pedida. |
 | Logs em cada gerenciamento | Há registros de histórico associados às demandas e proteções nos fluxos entregues. Falta a entrega completa de atividade por gerenciamento, com eventos, autoria, consulta e apresentação definidos. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
@@ -70,12 +77,13 @@ Os números abaixo são registros das execuções aprovadas, não uma nova execu
 
 - Cadastro e consulta de demandas (entrega anterior): **390 testes Java/H2, 475 testes da interface, 4 fluxos Edge/H2 e 145 testes selecionados em MySQL temporário**, além de build/lint e revisão independente. O sensor dessa revisão detectou 8 de 8 falhas simuladas.
 - Movimentação concluída: **479 Java/H2, 661 testes da interface, 7 fluxos Edge/H2 e 122 selecionados em MySQL fictício**, lint/build e revisão independente PASS. Sensor final: 14 padrões de falha detectados, após corrigir duas lacunas de mensagens. Logs de tentativas com timeout/conexão/conversão de data permanecem nas evidências; gates finais e limites documentados no relatório.
+- Edição concluída: **570 Java/H2, 721 testes da interface, 9 fluxos Edge/H2 e 213 selecionados em MySQL fictício**, lint/build e revisão independente PASS; sensor 9/9. Todos os gates foram repetidos independentemente.
 - As entregas anteriores têm seus próprios resultados e limites nos relatórios vinculados acima. MySQL foi verificado com dados fictícios em ambiente temporário.
 
 ## Onde acompanhar o projeto
 
 - [STATE.md](STATE.md): decisões de negócio AD-001 a AD-026 e ponto de retomada.
-- [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-edicao está em definição, sem conclusão técnica.
+- [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-edicao está concluída tecnicamente, com aceitação humana pendente.
 - [OPERACAO.md](../docs/OPERACAO.md): orientações de execução e verificação com dados fictícios.
 
 Este arquivo registra o diagnóstico do projeto. A skill `tlc-spec-driven` fornece o método de especificação, execução e verificação; suas instruções não foram alteradas para guardar o resumo.
