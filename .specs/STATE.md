@@ -184,17 +184,24 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-06
 - **Status**: active
 
+### AD-023
+- **Decision**: somente o criador do gerenciamento ou um administrador poderá editar os dados informativos das demandas na próxima entrega de edição.
+- **Reason**: usuário escolheu explicitamente Criador do quadro ou administrador nesta conversa, após explicação da recomendação.
+- **Trade-off**: funcionários que apenas acompanham o quadro não corrigem esses campos; precisam solicitar ao criador/admin.
+- **Scope**: próxima entrega de edição de cliente, responsável, prioridade, prazos e observações em quadro ativo. Não alterar permissões de criação, transições ou campos de encerramento; arquivados continuam somente consulta. A regra foi decidida, mas ainda não está implementada neste corte de movimentação. Número e política de retirada/exclusão continuam com escolhas próprias pendentes.
+- **Date**: 2026-10-07
+- **Status**: active
 ## Handoff
 
 - **Feature:** demandas-movimentacao; branch testes.
-- **Completed:** T1–T7. T6 fechado em 527d18b. T7: 469Java/H2, 661Vitest, lint/build TEMP, 7Edge/H2 e112MySQL fictício PASS em 07/10/2026.
-- **In progress:** revisão independente obrigatória, relatório validation.md e sensor; não declarar entrega antes de PASS/validate_state.
-- **Next step:** dispatch Verifier fresco após commit T7. Ambiente fictício próprio MySQL8.0.43/porta33819/schema creral_mov_tests/TEMP creral-tlc-retomada-e09b0601b70b48dc82f7ea9b26cf3efc; encerrar após Verifier. JAVA_HOME JDK25.0.2. Sensor somente em scratch, sem stash nem mutações reais.
-- **Blockers:** nenhum. Usuário autorizou três assertions de finais e três leituras JDBC tipadas, preservando requisitos/intervalos.
-- **User preference:** explicar o que será colocado no sistema; em cada pergunta indicar opção recomendada e efeito para o usuário.
-- **Uncommitted files:** DIAGNOSTICO.md tinha72linhas do usuário; preservadas. Artefatos rastreados node_modules/target/test-results são gerados e ficam fora dos commits de fonte.
-- **Latest evidence:** TEMP acima, t6-gate.log, t7-java-full-2.log, t7-e2e-full-3.log, t7-mysql-selected-3.log, lint/build. Falhas anteriores e causa de conexão/fuso registradas em evidence.md; causa raiz de ERR_CONNECTION_RESET não comprovada.
-- **Restrictions:** sem push/deploy/MySQL real; implementação, testes fictícios e commits locais autorizados.
+- **Completed:** T1–T8. T6 527d18b, T7 5defae7. T8:479Java/H2 e122MySQL fictício PASS,10assertioncenários novos; fonte da aplicação inalterada. Gates independentes anteriores661Vitest/lint/build/7Edge preservados.
+- **In progress:** re-verificação independente dos mutantes M08/M09 após commit T8. Rodada1FAIL34/35 +edgeparcial;14mutantes/12killed/2survived,isolamento4173arquivos confirmado,lessonsL-004/L-005 candidates.
+- **Next step:** re-dispatch Verifier após commitT8; confirmar35/35+edge,sensorM08/M09mortos evalidate_state. Somente depois atualizar DIAGNOSTICO eencerrar MySQL próprio.
+- **Blockers:** nenhum. T8 fecha mensagens ausentes das assertions sem mudar testes antigos.
+- **User preference:** explicar alterações e recomendar uma opção em cada pergunta. Edição futura criador/admin confirmada em AD-023; política de retirada/exclusão perguntada, ainda sem resposta.
+- **Environment:** TEMP/creral-tlc-retomada-e09b0601b70b48dc82f7ea9b26cf3efc;MySQL8.0.43/127.0.0.1:33819/schema creral_mov_tests;JDK25.0.2;connectionTimeZone=LOCAL. Sensor somente scratch,sem stash. Encerrar MySQL próprio após aprovação.
+- **Uncommitted files:** DIAGNOSTICO do usuário preservado; node_modules/target/test-results são artefatos gerados fora dos commits de fonte.
+- **Restrictions:** sem push/deploy/banco real. Testes fictícios e commits locais autorizados.
 ## Próxima conversa: destinos finais e movimentação
 
 Confirmado em AD-011: somente Concluídos e Cancelados, com destino automático conforme a ação. As colunas obrigatórias já estão implementadas e verificadas; os fluxos de finalizar/cancelar continuam na próxima entrega.

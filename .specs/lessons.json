@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 4,
+  "next_id": 6,
   "lessons": [
     {
       "id": "L-001",
@@ -58,6 +58,42 @@
       ],
       "created": "2026-10-06T21:11:06Z",
       "last_seen": "2026-10-06T21:11:06Z"
+    },
+    {
+      "id": "L-004",
+      "key": "surviving_mutant::nas recusas de ciclo de demanda assertar a mensagem literal exigida e o estado persistido completo alem do codigo http",
+      "text": "Nas recusas de ciclo de demanda, assertar a mensagem literal exigida e o estado persistido completo além do código HTTP.",
+      "signal": "surviving_mutant",
+      "scope": "demandas/testes",
+      "status": "candidate",
+      "features": [
+        "demandas-movimentacao"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "M08, EDGE-andamento-final, validation.md; DemandaTransicaoServiceTests.java:186 (demandas/testes)"
+      ],
+      "created": "2026-10-08T00:05:28Z",
+      "last_seen": "2026-10-08T00:05:28Z"
+    },
+    {
+      "id": "L-005",
+      "key": "ac_gap::nas recusas de encerramento por estrutura invalida verificar a orientacao de preparacao explicita para as duas categorias finais",
+      "text": "Nas recusas de encerramento por estrutura inválida, verificar a orientação de preparação explícita para as duas categorias finais.",
+      "signal": "ac_gap",
+      "scope": "demandas/testes",
+      "status": "candidate",
+      "features": [
+        "demandas-movimentacao"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "MOV-14, M09, validation.md; DemandaTransicaoServiceTests.java:170 (demandas/testes)"
+      ],
+      "created": "2026-10-08T00:05:29Z",
+      "last_seen": "2026-10-08T00:05:29Z"
     }
   ]
 }

@@ -32,6 +32,18 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - evidence: CAD-33; frontend/src/services/api.js:161; frontend/src/services/api.test.js:190 (frontend)
 - last seen: 2026-10-06T21:11:06Z
 
+### L-004 - Nas recusas de ciclo de demanda, assertar a mensagem literal exigida e o estado persistido completo além do código HTTP.
+- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `demandas/testes` · harmful: 0
+- features: demandas-movimentacao
+- evidence: M08, EDGE-andamento-final, validation.md; DemandaTransicaoServiceTests.java:186 (demandas/testes)
+- last seen: 2026-10-08T00:05:28Z
+
+### L-005 - Nas recusas de encerramento por estrutura inválida, verificar a orientação de preparação explícita para as duas categorias finais.
+- signal: `ac_gap` · recurrence: 1 feature(s) · scope: `demandas/testes` · harmful: 0
+- features: demandas-movimentacao
+- evidence: MOV-14, M09, validation.md; DemandaTransicaoServiceTests.java:170 (demandas/testes)
+- last seen: 2026-10-08T00:05:29Z
+
 ## Quarantined (failed when applied - ignore)
 
 A confirmed lesson that recurred alongside failure. Kept for the maintainer to review.

@@ -174,7 +174,7 @@ IF uma demanda Em andamento estiver incoerentemente em coluna final THEN o servi
 
 | MOV-35 | P1: Integridade | Execute | Implementing |
 
-**Coverage:** 35 critérios mapeados nas tarefas T1–T7.
+**Coverage:** 35 critérios mapeados nas tarefas T1–T8.
 
 ## Success Criteria
 
