@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.patp.sistema.dto.ConfiguracaoEtapasResponse;
 import com.patp.sistema.dto.CriarDemandaRequest;
+import com.patp.sistema.dto.EditarDemandaRequest;
 import com.patp.sistema.dto.TransicaoDestinoRequest;
 import com.patp.sistema.dto.TransicaoVersaoRequest;
 import com.patp.sistema.dto.TransicaoCancelarRequest;
@@ -30,6 +31,12 @@ public class DemandaController {
     public ConfiguracaoEtapasResponse criar(@RequestHeader("Authorization") String authorization,
             @PathVariable Long gerenciamentoId, @RequestBody CriarDemandaRequest request) {
         return processos.criar(authorization.substring(7), gerenciamentoId, request);
+    }
+
+    @PutMapping("/{gerenciamentoId}/demandas/{demandaId}")
+    public ConfiguracaoEtapasResponse editar(@RequestHeader("Authorization") String authorization,
+            @PathVariable Long gerenciamentoId, @PathVariable Long demandaId, @RequestBody EditarDemandaRequest request) {
+        return processos.editarDados(authorization.substring(7), gerenciamentoId, demandaId, request);
     }
 
     @PutMapping("/{gerenciamentoId}/demandas/{demandaId}/mover")

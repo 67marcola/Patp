@@ -167,7 +167,7 @@ class EtapaDemandConcurrencyTests extends ApiIntegrationSupport {
         mvc.perform(put("/api/processos/" + processo.getId() + "/etapa/" + destino.getId()).header("Authorization", bearer))
                 .andExpect(status().isNotFound()).andExpect(jsonPath("$.erro").value("Etapa não encontrada neste gerenciamento."));
         assertThat(conteudoPersistido()).isEqualTo(antes);
-        mvc.perform(put("/api/processos/" + processo.getId()).header("Authorization", token(usuario("Outro"))).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(put("/api/processos/" + processo.getId()).header("Authorization", bearer).contentType(MediaType.APPLICATION_JSON)
                 .content("{\"numeroProcesso\":\"Mudado\",\"pessoa\":\"Outra\",\"etapa\":{\"id\":" + destino.getId() + "}}"))
                 .andExpect(status().isBadRequest()).andExpect(jsonPath("$.erro").value("Use as ações de mover, concluir, cancelar ou reabrir para alterar o ciclo da demanda."));
         assertThat(conteudoPersistido()).isEqualTo(antes);
