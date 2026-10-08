@@ -225,6 +225,7 @@ public class ProcessoService {
         if (exigeVersao) { validarVersao(quadro, request.versao()); }
         Processo processo = processoRepository.findById(id).orElseThrow(() ->
                 new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento."));
+        exigirDemandaAtiva(processo);
         if (!"Em andamento".equals(processo.getStatus()) && !"Concluido".equals(processo.getStatus())
                 && !"Cancelado".equals(processo.getStatus())) {
             throw new ApiException(HttpStatus.CONFLICT, "Status antigo não reconhecido. Solicite a correção do registro.");
@@ -301,6 +302,7 @@ public class ProcessoService {
         if (exigeVersao) { validarVersao(quadro, versao); }
         Processo processo = processoRepository.findById(id).orElseThrow(() ->
                 new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento."));
+        exigirDemandaAtiva(processo);
         String status = processo.getStatus();
         boolean andamento = "Em andamento".equals(status);
         boolean encerrada = "Concluido".equals(status) || "Cancelado".equals(status);
@@ -373,7 +375,51 @@ public class ProcessoService {
         return salvo;
     }
 
-    // Excluir
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public ConfiguracaoEtapasResponse arquivar(String token, Long gerenciamentoId, Long demandaId, Long versao) {
+        return mudarArquivo(token, gerenciamentoId, demandaId, versao, true);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public ConfiguracaoEtapasResponse restaurar(String token, Long gerenciamentoId, Long demandaId, Long versao) {
+        return mudarArquivo(token, gerenciamentoId, demandaId, versao, false);
+    }
+
+    private ConfiguracaoEtapasResponse mudarArquivo(String token, Long gerenciamentoId, Long demandaId,
+            Long versao, boolean arquivar) {
+        Usuario usuario = sessaoService.buscarUsuario(token);
+        Gerenciamento quadro = guard.exigirAtivo(gerenciamentoId);
+        guard.exigirAdministracao(quadro, usuario);
+        validarVersao(quadro, versao);
+        Processo processo = processoRepository.findById(demandaId).orElseThrow(() ->
+                new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento."));
+        if (!Objects.equals(processo.getEtapa().getGerenciamento().getId(), gerenciamentoId)) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento.");
+        }
+        if (!"Em andamento".equals(processo.getStatus()) && !"Concluido".equals(processo.getStatus())
+                && !"Cancelado".equals(processo.getStatus())) {
+            throw new ApiException(HttpStatus.CONFLICT, "Status antigo não reconhecido. Solicite a correção do registro.");
+        }
+        if (processo.isArquivado() == arquivar) {
+            throw new ApiException(HttpStatus.CONFLICT, arquivar ? "A demanda já está arquivada." : "A demanda já está ativa.");
+        }
+        processo.setArquivado(arquivar);
+        processoRepository.saveAndFlush(processo);
+        historicoService.registrar(demandaId, arquivar ? "ARQUIVAMENTO" : "RESTAURACAO",
+                arquivar ? "Demanda arquivada." : "Demanda restaurada.", usuario.getNome());
+        entityManager.flush();
+        entityManager.lock(quadro, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        entityManager.flush();
+        return etapas.resposta(quadro, usuario);
+    }
+
+    private static void exigirDemandaAtiva(Processo processo) {
+        if (processo.isArquivado()) {
+            throw new ApiException(HttpStatus.CONFLICT, "Demanda arquivada. Restaure-a antes de alterar.");
+        }
+    }
+
+    // Exclusão física indisponível; retirada usa as ações de arquivo.
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void excluir(
             Long id,
@@ -382,23 +428,12 @@ public class ProcessoService {
         Usuario usuario =
                 sessaoService.buscarUsuario(token);
 
-        Processo processo =
-                buscarParaAlterar(id);
-
-        historicoService.registrar(
-                processo.getId(),
-                "EXCLUSAO",
-                "Processo excluído.",
-                usuario.getNome()
-        );
-
-        processoRepository.deleteById(id);
-    }
-
-    private Processo buscarParaAlterar(Long id) {
         Long gerenciamentoId = processoRepository.buscarGerenciamentoId(id)
                 .orElseThrow(() -> new RuntimeException("Processo não encontrado."));
-        guard.exigirAtivo(gerenciamentoId);
-        return buscarPorId(id);
+        Gerenciamento quadro = guard.exigirAtivo(gerenciamentoId);
+        guard.exigirAdministracao(quadro, usuario);
+        throw new ApiException(HttpStatus.CONFLICT,
+                "Exclusão definitiva indisponível. Use o arquivamento da demanda.");
     }
+
 }
