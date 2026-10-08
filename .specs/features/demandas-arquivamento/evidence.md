@@ -555,3 +555,31 @@ Check A: cobertura/outcome por assertion; Check C: mapeamento reverso.
 | ARQ-19/20 | `frontend/src/services/apiArquivo.test.js:78` — `expect(await editarDemanda("sessao", 9, anterior, { ...anterior, versao: 2 })).toEqual(r);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
 
 A/B/C/D PASS: asserts de resultado e payload por valor; casos ligados aos ACs/bordas/Done when. Nenhum skip/delete/enfraquecimento. Padrões docs/OPERACAO.md, Vitest/Testing Library. Implemented, Verifier independente pendente.
+
+## T10: criar confirmação
+
+Gate PASS: 12 Vitest; 0 failures, 0 skips. Logs TEMP arquivo-T10.log.
+Assumptions: política e contrato aprovados, stack AD-024 mantida. Files: frontend/src/pages/AcaoArquivamentoDemanda.jsx,frontend/src/pages/AcaoArquivamentoDemanda.test.jsx; registros TLC. Success: ARQ-26/27/29 efeito e etapa/status literal, teclado, pending, erro estável.
+
+Check A: cobertura/outcome por assertion; Check C: mapeamento reverso.
+
+| AC / borda | file:line + assertion exata | Outcome / manter |
+| --- | --- | --- |
+| ARQ-26 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:16` — `expect(screen.getByRole("dialog").getAttribute("aria-labelledby")).toBe("arquivo-demanda-titulo");` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-26 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:17` — `expect(screen.getByRole("heading").textContent).toBe(`${acao === "arquivar" ? "Arquivar" : "Restaurar"} demanda: Poste-1`);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-26 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:18` — `expect(screen.getByText("João")).not.toBeNull();` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-26 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:19` — `expect(screen.getByText(acao === "arquivar"` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-26 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:22` — `expect(document.activeElement).toBe(screen.getByRole("button", { name: "Cancelar" }));` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-26 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:23` — `expect(screen.queryByRole("textbox")).toBeNull(); expect(screen.queryByRole("combobox")).toBeNull();` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-26 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:27` — `expect(cancelar).toHaveBeenCalledTimes(1); expect(salvar).not.toHaveBeenCalled();` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-26 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:31` — `expect(salvar).toHaveBeenCalledExactlyOnceWith(); expect(screen.getByRole("dialog")).not.toBeNull();` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-27 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:36` — `expect(botao.disabled).toBe(true); expect(screen.getByRole("button", { name: "Cancelar" }).disabled).toBe(true);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-27 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:37` — `expect(botao.closest("form").getAttribute("aria-busy")).toBe("true");` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-27 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:39` — `expect(salvar).toHaveBeenCalledTimes(1); expect(cancelar).not.toHaveBeenCalled();` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-27 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:40` — `await act(async () => resolver()); await waitFor(() => expect(botao.disabled).toBe(false));` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-29 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:46` — `expect((await screen.findByRole("alert")).textContent).toBe("Atualize o quadro."); expect(aoErro).toHaveBeenCalledExactlyOnceWith(error);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-29 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:48` — `expect(screen.getByRole("alert").textContent).toBe("Atualize o quadro."); expect(screen.getByRole("dialog")).not.toBeNull();` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-29 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:49` — `expect(screen.getByRole("button", { name: "Cancelar" }).disabled).toBe(false); expect(salvar).toHaveBeenCalledTimes(1);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-27/29 | `frontend/src/pages/AcaoArquivamentoDemanda.test.jsx:53` — `expect(botao.disabled).toBe(true); fireEvent.submit(botao.closest("form")); expect(salvar).not.toHaveBeenCalled();` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+
+A/B/C/D PASS: asserts de resultado e payload por valor; casos ligados aos ACs/bordas/Done when. Nenhum skip/delete/enfraquecimento. Padrões docs/OPERACAO.md, Vitest/Testing Library. Implemented, Verifier independente pendente.
