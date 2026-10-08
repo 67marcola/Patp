@@ -4,7 +4,7 @@
 
 Usar tlc-spec-driven já escolhido. Autorização persistente cobre implementação, testes e commits locais, uma tarefa por vez. Não push/deploy/MySQL configurado. Até8tarefas: executar inline. Depois da última, Verifier fresco obrigatório, sensor em memória e comparação integral de porcelain antes/depois. Nenhum teste será enfraquecido, excluído ou ignorado; adaptar comportamentos antigos contraditos pelas decisões explícitas mantendo a prova de integridade.
 
-**Design:** design.md. **Status:** In Progress. Base400f8c5,390Java/475Vitest/4E2E.
+**Design:** design.md. **Status:** Complete (validação técnica independente PASS; aceitação humana pendente). Base400f8c5,390Java/475Vitest/4E2E.
 
 ## Test Coverage Matrix
 

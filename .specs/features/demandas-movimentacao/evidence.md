@@ -207,3 +207,10 @@ Novo DemandaTransicaoMensagemTests.java contém dez casos HTTP sobre serviço/DB
 Mapa reverso:4casosfechamento→MOV-14;6casosincoerentes→edgeMOV-05/10/11; helper43–45→mensagem/status/sem efeitos desses mesmos cenários. Nenhum teste reivindica requisito novo. As chamadas HTTP exercitam o serviço real e a persistência; testes de serviço existentes continuam fornecendo as provas de estado/consulta e rollback.
 
 Gates após a T8: **479/479 Java/H2**, t8-java-full.log; **122/122 selecionados MySQL fictício**, t8-mysql-selected.log; falhas/erros/skips0 e BUILD SUCCESS. Java aumentou10casos frente à T7, MySQL selecionado aumentou10. Frontend permanece byteigual à revisão independente: **661Vitest,lint/build,7E2E PASS** em verifier-vitest-2.log, verifier-lint.log, verifier-build.log e verifier-e2e.log; reutilização justificada, nenhum reparo nessa camada. Check A/B/C/D PASS, adequado aos contratos e padrões do projeto. Task status antes do commit atômico; feature permanece Implementing até novo Verifier/sensorPASS.
+## Fechamento independente — 07/10/2026
+
+Revisão independente final **PASS: 35/35 critérios e edge**, sem lacunas. Gates próprios da rodada 2: **479 Java/H2 e 122 MySQL fictício PASS**, sem falhas/erros/skips. Os gates frontend independentes **661 Vitest, lint/build e 7 Edge/H2 PASS** foram reutilizados com comprovação de fontes e testes inalterados, conforme validation.md.
+
+Sensor: rodada 1 detectou 12/14 falhas simuladas; rodada 2 detectou as duas restantes com as novas assertions HTTP (M08: 6 falhas; M09: 4 falhas). Controles da rodada 2: 122/122 antes e depois; SHA256/porcelain de 4.178 arquivos preservados. Relatório final conserva o FAIL da primeira rodada e sua proveniência; validate_state PASS.
+
+MySQL fictício próprio encerrado via mysqladmin após conferir datadir, porta 33819, PID e versão; listener ausente e Shutdown complete confirmados. Evidências de encerramento em TEMP/mysql. Nenhum banco real, push ou deploy. Roteiro humano em docs/OPERACAO.md disponível; aceitação humana ainda pendente. AD-023 registra edição futura pelo criador/admin, sem acrescentar edição ao escopo da movimentação entregue.

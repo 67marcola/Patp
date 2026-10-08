@@ -1,3 +1,75 @@
+# Diagnóstico e resumo atual do sistema Creral
+
+**Atualizado em 07/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
+
+## Como o sistema está organizado
+
+Cada **gerenciamento é um quadro** com várias **demandas**. As etapas são as colunas desse quadro. Por exemplo: um quadro de instalações de postes pode acompanhar diferentes solicitações, passando por Comprar, Verificar local e Instalar. Cada demanda tem sua própria etapa atual. “Criar processo”, na interface, cadastra uma demanda.
+
+A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no servidor, interface web e MySQL como banco previsto para uso; os testes também usam H2 isolado. Workbench é a ferramenta indicada para administrar o MySQL.
+
+## O que está pronto e validado
+
+| Entrega | O que já é possível fazer | Evidência |
+| --- | --- | --- |
+| Gerenciamentos | Criar, listar, consultar, editar, arquivar e restaurar quadros. Todos os usuários autenticados podem criar e consultar; edição e administração ficam com o criador ou administradores. Arquivar preserva os dados e deixa o conteúdo somente para consulta. | [41 critérios aprovados](features/gerenciamentos/validation.md). |
+| Etapas de trabalho | Criar, renomear, definir setor, escolher posição e remover colunas vazias. A ordem das demais se ajusta automaticamente. Uma etapa com demandas não pode ser removida. Somente criador/admin configura etapas de quadros ativos. | [30 critérios aprovados](features/etapas/validation.md). |
+| Entrada após cadastro | Cadastro confirmado abre o sistema sem exigir outro login. Há proteção contra envio duplicado, tratamento de erros e preservação dos campos. Contas comuns começam como funcionário; respostas e dados da sessão não expõem senha ou hash. | [14 critérios aprovados](features/autocadastro/validation.md). |
+| Retirada do PM | Os blocos PM foram removidos do login e cadastro, incluindo seus estilos exclusivos. As telas foram verificadas em desktop e celular. | [4 critérios aprovados](features/marca-login/validation.md). |
+| Etapas finais obrigatórias | Novos quadros recebem Concluídos e Cancelados. Essas colunas são identificadas por categoria e protegidas contra edição e remoção. Existe ferramenta explícita de preparação para dados antigos, com plano sem gravação e aplicação transacional/idempotente. | [30 critérios aprovados](features/etapas-finais/validation.md). |
+| Cadastro e consulta de demandas | O botão Criar processo funciona. Número e cliente/solicitante são obrigatórios; os demais campos do cadastro são opcionais. A demanda começa na primeira etapa de trabalho. O número é único no sistema, inclusive entre quadros e sem distinguir maiúsculas de minúsculas. Cartões mostram dados reais, com contagens e preservação após recarga. | [41 critérios aprovados](features/demandas-cadastro/validation.md). |
+| Movimentação e encerramento de demandas | Criador/admin move ou pula etapas, conclui, cancela com motivo e reabre para trabalho escolhido. Cartões, contagens, versão e histórico são preservados. | [35 critérios e edge aprovados](features/demandas-movimentacao/validation.md). |
+
+A criação de demandas registra histórico com autoria da sessão e é transacional: uma falha não deve deixar apenas parte dos dados gravada. O frontend confirma que a resposta contém a demanda solicitada antes de fechar o formulário; respostas incompletas ou divergentes preservam o rascunho e exigem atualização manual.
+
+## Movimentação e encerramento de demandas
+
+**Movimentação, salto de etapas, conclusão, cancelamento e reabertura de demandas** estão implementados e validados independentemente. T1 a T8 estão concluídas, incluindo a correção de duas lacunas de teste encontradas pelo Verifier. Consulte [tarefas](features/demandas-movimentacao/tasks.md), [evidências](features/demandas-movimentacao/evidence.md) e [validação independente](features/demandas-movimentacao/validation.md).
+
+Já foram implementados e testados o serviço de transição, as quatro rotas da API, a confirmação de respostas no frontend e os diálogos das ações. As regras implementadas incluem:
+
+- Somente criador do quadro ou administrador pode executar essas ações em gerenciamento ativo.
+- Mover/pular permite escolher outra etapa de trabalho do mesmo quadro, inclusive anterior ou não consecutiva.
+- Concluir leva automaticamente a Concluídos; cancelar leva a Cancelados e exige justificativa.
+- Reabrir permite escolher uma etapa de trabalho, retorna para Em andamento e limpa os campos atuais de encerramento, preservando os valores anteriores no histórico.
+- Status antigos desconhecidos permanecem consultáveis, mas as ações ficam bloqueadas até correção explícita.
+- Versão do quadro, permissões, histórico e gravação transacional protegem contra alterações conflitantes e resultados parciais.
+
+**Validação desta entrega:** 479 testes Java/H2, 661 da interface, lint/build, 7 fluxos Edge/H2 e 122 testes selecionados em MySQL fictício aprovados. O Verifier confirmou 35/35 critérios e o edge de estado incompatível. As 14 falhas simuladas foram detectadas após duas rodadas: 12 na primeira e as duas mensagens restantes depois dos dez novos casos HTTP. O código da aplicação não precisou de alteração nessa correção; nenhum teste anterior foi excluído ou enfraquecido. A aceitação humana permanece pendente.
+
+## O que ainda falta nos requisitos originais
+
+| Requisito | Situação atual / próximo trabalho |
+| --- | --- |
+| CRUD completo de demandas | Criação, consulta e transições estão prontas. Próxima entrega: edição de dados informativos somente por criador/admin, escolhida em AD-023 e ainda não implementada. Falta decidir a retirada de demandas: foi recomendado arquivar/restaurar preservando dados; exclusão definitiva é a alternativa, ainda sem resposta. Rotas antigas não equivalem ao CRUD completo validado. |
+| Lateral de comentários de vários usuários, com data | Existe base de comentários por demanda no backend. Falta definir o alcance da conversa (quadro/demanda), suas permissões e implementar a experiência lateral pedida. |
+| Logs em cada gerenciamento | Há registros de histórico associados às demandas e proteções nos fluxos entregues. Falta a entrega completa de atividade por gerenciamento, com eventos, autoria, consulta e apresentação definidos. |
+| Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
+| Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
+| Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |
+
+## Testes já registrados
+
+Os números abaixo são registros das execuções aprovadas, não uma nova execução realizada para escrever este resumo. Eles não devem ser somados, pois as suítes acumulam testes de entregas anteriores.
+
+- Cadastro e consulta de demandas (entrega anterior): **390 testes Java/H2, 475 testes da interface, 4 fluxos Edge/H2 e 145 testes selecionados em MySQL temporário**, além de build/lint e revisão independente. O sensor dessa revisão detectou 8 de 8 falhas simuladas.
+- Movimentação concluída: **479 Java/H2, 661 testes da interface, 7 fluxos Edge/H2 e 122 selecionados em MySQL fictício**, lint/build e revisão independente PASS. Sensor final: 14 padrões de falha detectados, após corrigir duas lacunas de mensagens. Logs de tentativas com timeout/conexão/conversão de data permanecem nas evidências; gates finais e limites documentados no relatório.
+- As entregas anteriores têm seus próprios resultados e limites nos relatórios vinculados acima. MySQL foi verificado com dados fictícios em ambiente temporário.
+
+## Onde acompanhar o projeto
+
+- [STATE.md](STATE.md): decisões de negócio AD-001 a AD-023 e ponto de retomada.
+- [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega.
+- [OPERACAO.md](../docs/OPERACAO.md): orientações de execução e verificação com dados fictícios.
+
+Este arquivo registra o diagnóstico do projeto. A skill `tlc-spec-driven` fornece o método de especificação, execução e verificação; suas instruções não foram alteradas para guardar o resumo.
+
+---
+
+## Registro histórico do diagnóstico inicial e das entregas
+
+**As seções abaixo preservam a análise da base de 04/10/2026 e atualizações anteriores. Afirmações como “botão sem ação” ou “decisão pendente” descrevem aquele momento. Para a situação atual, use o resumo acima e os relatórios vinculados.**
+
 # Diagnóstico inicial do sistema Creral
 
 Data: 2026-10-04. Branch analisada: `testes`. Base: `5d8beb9`.

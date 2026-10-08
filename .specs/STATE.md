@@ -193,16 +193,19 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Status**: active
 ## Handoff
 
-- **Feature:** demandas-movimentacao; branch testes.
-- **Completed:** T1–T8. T6 527d18b, T7 5defae7. T8:479Java/H2 e122MySQL fictício PASS,10assertioncenários novos; fonte da aplicação inalterada. Gates independentes anteriores661Vitest/lint/build/7Edge preservados.
-- **In progress:** re-verificação independente dos mutantes M08/M09 após commit T8. Rodada1FAIL34/35 +edgeparcial;14mutantes/12killed/2survived,isolamento4173arquivos confirmado,lessonsL-004/L-005 candidates.
-- **Next step:** re-dispatch Verifier após commitT8; confirmar35/35+edge,sensorM08/M09mortos evalidate_state. Somente depois atualizar DIAGNOSTICO eencerrar MySQL próprio.
-- **Blockers:** nenhum. T8 fecha mensagens ausentes das assertions sem mudar testes antigos.
-- **User preference:** explicar alterações e recomendar uma opção em cada pergunta. Edição futura criador/admin confirmada em AD-023; política de retirada/exclusão perguntada, ainda sem resposta.
-- **Environment:** TEMP/creral-tlc-retomada-e09b0601b70b48dc82f7ea9b26cf3efc;MySQL8.0.43/127.0.0.1:33819/schema creral_mov_tests;JDK25.0.2;connectionTimeZone=LOCAL. Sensor somente scratch,sem stash. Encerrar MySQL próprio após aprovação.
-- **Uncommitted files:** DIAGNOSTICO do usuário preservado; node_modules/target/test-results são artefatos gerados fora dos commits de fonte.
-- **Restrictions:** sem push/deploy/banco real. Testes fictícios e commits locais autorizados.
-## Próxima conversa: destinos finais e movimentação
+- **Feature:** demandas-movimentacao concluída e validada; branch testes.
+- **Completed:** T1–T8. Commits de fechamento: 527d18b (T6), 5defae7 (T7), 4780ed2 (T8). Verifier rodada 2: PASS, 35/35 critérios e edge. As 14 falhas simuladas foram detectadas após fechar duas lacunas de teste.
+- **Latest evidence:** 479 Java/H2, 661 Vitest, lint/build, 7 Edge/H2 e 122 MySQL fictício PASS. Relatório: features/demandas-movimentacao/validation.md. Logs preservados em TEMP/creral-tlc-retomada-e09b0601b70b48dc82f7ea9b26cf3efc. Sensor R2: 2/2 detectados, controles 122 antes/depois e 4.178 arquivos/porcelain preservados. validate_state PASS.
+- **Next step:** edição de demandas conforme AD-023 (criador/admin). A política de retirada é uma decisão separada: arquivar/restaurar foi recomendado frente à exclusão definitiva; pergunta ainda sem resposta. Número e detalhes da edição precisam de contrato próprio.
+- **Pending UAT:** roteiro humano em docs/OPERACAO.md, ainda sem teste ou aceitação do usuário. Capturas e testes automáticos não são UAT humano.
+- **User preference:** explicar o que será colocado no sistema e indicar recomendação e efeito nas perguntas.
+- **Environment:** MySQL próprio na porta 33819 encerrado após conferir SQL, datadir, porta e PID. Evidências preservadas; nenhum banco real, push ou deploy operado.
+- **Uncommitted files:** artefatos gerados rastreados de node_modules/target/test-results preservados e fora dos commits de fonte; não usar git add geral. Diagnóstico preserva o resumo acrescentado pelo usuário e o registro histórico.
+- **Restrictions:** implementação, testes fictícios e commits locais autorizados; banco real, push e deploy exigem autorização específica.
+
+## Registro histórico das conversas sobre destinos e movimentação
+
+As notas abaixo registram as conversas anteriores. O estado atual é o Handoff acima; transições foram entregues e validadas em 07/10/2026, e AD-023 decide a próxima edição.
 
 Confirmado em AD-011: somente Concluídos e Cancelados, com destino automático conforme a ação. As colunas obrigatórias já estão implementadas e verificadas; os fluxos de finalizar/cancelar continuam na próxima entrega.
 
