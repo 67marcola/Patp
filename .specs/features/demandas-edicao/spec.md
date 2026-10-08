@@ -1,6 +1,6 @@
 # Edição de demandas Specification
 
-**Status:** autorizado para implementação local em 07/10/2026. Número fixo e correção informativa de encerradas confirmados pelo usuário. Revisão independente obrigatória após T8.
+**Status:** implementado e validado independentemente em 08/10/2026, 29/29 critérios e edges PASS. Aceitação humana pendente; relatório validation.md.
 
 ## Problem Statement
 
@@ -8,9 +8,9 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 
 ## Goals
 
-- [ ] Editar dados informativos com autorização, validação e persistência transacional.
-- [ ] Oferecer formulário preenchido e confirmar o resultado antes de fechar.
-- [ ] Registrar conclusão e evidências no diagnóstico após testes e revisão independente.
+- [x] Editar dados informativos com autorização, validação e persistência transacional.
+- [x] Oferecer formulário preenchido e confirmar o resultado antes de fechar.
+- [x] Registrar conclusão e evidências no diagnóstico após testes e revisão independente.
 
 ## Out of Scope
 
@@ -129,43 +129,43 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| EDI-01 | P1: Autorização | Tasks | Implementing |
-| EDI-02 | P1: Autorização | Tasks | Implementing |
-| EDI-03 | P1: Autorização | Tasks | Implementing |
-| EDI-04 | P1: Autorização | Tasks | Implementing |
-| EDI-05 | P1: Dados | Tasks | Implementing |
-| EDI-06 | P1: Dados | Tasks | Implementing |
-| EDI-07 | P1: Dados | Tasks | Implementing |
-| EDI-08 | P1: Dados | Tasks | Implementing |
-| EDI-09 | P1: Dados | Tasks | Implementing |
-| EDI-10 | P1: Ciclo preservado | Tasks | Implementing |
-| EDI-11 | P1: Dados | Tasks | Implementing |
-| EDI-12 | P1: Dados | Tasks | Implementing |
-| EDI-13 | P1: Consistência | Tasks | Implementing |
-| EDI-14 | P1: Consistência | Tasks | Implementing |
-| EDI-15 | P1: Consistência | Tasks | Implementing |
-| EDI-16 | P1: Histórico | Tasks | Implementing |
-| EDI-17 | P1: Consistência | Tasks | Implementing |
-| EDI-18 | P1: Consistência | Tasks | Implementing |
-| EDI-19 | P1: Rota legada | Tasks | Implementing |
-| EDI-20 | P1: Interface | Tasks | Implementing |
-| EDI-21 | P1: Interface | Tasks | Implementing |
-| EDI-22 | P1: Interface | Tasks | Implementing |
-| EDI-23 | P1: Interface | Tasks | Implementing |
-| EDI-24 | P1: Interface | Tasks | Implementing |
-| EDI-25 | P1: Interface | Tasks | Implementing |
-| EDI-26 | P1: Interface | Tasks | Implementing |
+| EDI-01 | P1: Autorização | Tasks | Verified |
+| EDI-02 | P1: Autorização | Tasks | Verified |
+| EDI-03 | P1: Autorização | Tasks | Verified |
+| EDI-04 | P1: Autorização | Tasks | Verified |
+| EDI-05 | P1: Dados | Tasks | Verified |
+| EDI-06 | P1: Dados | Tasks | Verified |
+| EDI-07 | P1: Dados | Tasks | Verified |
+| EDI-08 | P1: Dados | Tasks | Verified |
+| EDI-09 | P1: Dados | Tasks | Verified |
+| EDI-10 | P1: Ciclo preservado | Tasks | Verified |
+| EDI-11 | P1: Dados | Tasks | Verified |
+| EDI-12 | P1: Dados | Tasks | Verified |
+| EDI-13 | P1: Consistência | Tasks | Verified |
+| EDI-14 | P1: Consistência | Tasks | Verified |
+| EDI-15 | P1: Consistência | Tasks | Verified |
+| EDI-16 | P1: Histórico | Tasks | Verified |
+| EDI-17 | P1: Consistência | Tasks | Verified |
+| EDI-18 | P1: Consistência | Tasks | Verified |
+| EDI-19 | P1: Rota legada | Tasks | Verified |
+| EDI-20 | P1: Interface | Tasks | Verified |
+| EDI-21 | P1: Interface | Tasks | Verified |
+| EDI-22 | P1: Interface | Tasks | Verified |
+| EDI-23 | P1: Interface | Tasks | Verified |
+| EDI-24 | P1: Interface | Tasks | Verified |
+| EDI-25 | P1: Interface | Tasks | Verified |
+| EDI-26 | P1: Interface | Tasks | Verified |
 
-| EDI-27 | P1: Número fixo | Tasks | Implementing |
-| EDI-28 | P1: Encerradas | Tasks | Implementing |
-| EDI-29 | P1: Legados | Tasks | Implementing |
+| EDI-27 | P1: Número fixo | Tasks | Verified |
+| EDI-28 | P1: Encerradas | Tasks | Verified |
+| EDI-29 | P1: Legados | Tasks | Verified |
 
-**Coverage:** 29 critérios mapeados a T1–T8; nenhuma conclusão antecipada.
+**Coverage:** 29 critérios mapeados a T1–T8 e verificados independentemente; evidência por critério em validation.md. Aceitação humana separada, pendente.
 
 ## Success Criteria
 
 - [x] Decisões de número e estados fechadas e incorporadas aos critérios.
-- [ ] Todas as provas de autorização, validação, persistência, conflito e UI aprovadas.
-- [ ] Suítes anteriores preservadas; mudanças em testes antigos apresentadas de forma concreta antes de alterá-los.
-- [ ] Verifier independente, sensor de falhas e validate_state PASS.
-- [ ] DIAGNOSTICO.md atualizado com a conclusão técnica e a aceitação humana identificada separadamente.
+- [x] Todas as provas de autorização, validação, persistência, conflito e UI aprovadas.
+- [x] Suítes anteriores preservadas; mudanças em testes antigos apresentadas de forma concreta antes de alterá-los.
+- [x] Verifier independente, sensor de falhas e validate_state PASS.
+- [x] DIAGNOSTICO.md atualizado com a conclusão técnica e a aceitação humana identificada separadamente.

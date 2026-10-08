@@ -217,15 +217,15 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature:** demandas-edicao; branch testes; implementação local autorizada conforme AD-023–026.
-- **Completed:** demandas-edicao T1–T8. Último gate: 9 Edge/H2 PASS em seis arquivos, 213 selecionados MySQL PASS; lint PASS; t8-e2e.log, t8-mysql.log e t8-lint.log. QA desktop/mobile em TEMP/creral-edicao-qa-yAeiwS aprovada visualmente. Java completo 570 e Vitest 721 anteriores permanecem válidos por fontes inalteradas. Movimentacao anterior concluída.
-- **In progress:** Verifier independente pendente.
-- **Next step:** executar T2–T8 com gates/commits e depois Verifier independente. As duas adequações de testes foram autorizadas por pode continuar; não pedir novamente.
-- **Blocker:** nenhum; produto e adequações concretas de testes autorizados.
-- **User preference:** explicar funcionalidades e recomendação nas perguntas. Registrar cada requisito concluído e verificado no DIAGNOSTICO; progresso parcial deve continuar identificado como parcial.
-- **Environment:** JDK C:/Program Files/Java/jdk-25.0.2; Maven C:/Users/Marco/apache-maven-3.9.16/bin/mvn.cmd; Mockito 5.23.0 javaagent. Logs em C:/Users/Marco/AppData/Local/Temp/creral-edicao-32565590f1a14a198df2fc432b1bdfeb. Só H2 de teste usado. MySQL anterior na porta33819 encerrado.
-- **Uncommitted files:** alterações da tarefa atual e status em fechamento; artefatos target/node_modules/test-results preservados fora dos commits de fonte. Não git add geral.
-- **Restrictions:** sem push/deploy/banco real. Não enfraquecer/excluir/ignorar testes. Adequações concretas aguardam respostas; não inferir aprovação por decurso de tempo.
+- **Feature:** demandas-edicao concluída tecnicamente em 08/10/2026; branch testes. AD-023–026 implementadas.
+- **Completed:** T1–T8 nos commits 89e4abe, 429604e, 58b14d7, 227e699, 2ac0db2, af4d860, e7c32d4 e c20a1bf. Verifier independente PASS 29/29 e edges; sensor 9/9 em scratch, isolamento integral comprovado. Relatório features/demandas-edicao/validation.md. Gates: 570 Java/H2, 721 Vitest, 9 Edge/H2, 213 selecionados MySQL fictício, lint/build PASS. Movimentação anterior permanece concluída.
+- **In progress:** nenhum requisito desta entrega. Aceitação humana ainda não realizada; roteiro docs/OPERACAO.md.
+- **Next step:** decidir a política de retirada de demandas antes de implementar: arquivar/restaurar preservando dados foi recomendado; exclusão definitiva é alternativa ainda sem resposta. Comentários laterais, atividade por quadro e gráficos continuam entregas próprias.
+- **Blocker:** nenhum para a edição entregue. Não inferir decisão de retirada a partir de pode continuar.
+- **User preference:** explicar funcionalidades, efeitos e recomendação nas perguntas. Registrar cada requisito concluído e verificado no DIAGNOSTICO, distinguindo progresso parcial e aceitação humana.
+- **Environment:** tecnologias AD-024 preservadas. JDK25.0.2/Maven3.9.16/Mockito5.23.0. Logs do autor em C:/Users/Marco/AppData/Local/Temp/creral-edicao-32565590f1a14a198df2fc432b1bdfeb; logs independentes referenciados no relatório. MySQL fictício8.0.43 porta33821 inativo no fechamento; H2 somente testes. Nenhum banco real usado.
+- **Uncommitted files:** artefatos gerados preexistentes em target/node_modules/test-results preservados fora dos commits. Fontes e documentação da entrega em commits locais; não usar git add geral.
+- **Restrictions:** sem push/deploy/banco real. Não enfraquecer/excluir/ignorar testes. Adequações concretas anteriores autorizadas; nenhuma autorização nova para ações externas.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

@@ -481,3 +481,9 @@ Mapa reverso: entrada→EDI-05/09/13; campos proibidos→EDI-12/27; versões→E
 | frontend/e2e/edicao.spec.js:93 `expect(numero.status()).toBe(400); expect((await numero.json()).erro).toBe("O número da demanda não pode ser alterado após o cadastro."); expect(await c.consultar()).toEqual(antes);` | EDI-02,05,10,14,15,16,20,21,23,24,26,27,28 | Sim |
 
 **Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.
+
+## Encerramento técnico independente — 08/10/2026
+
+Verifier independente em validation.md: 29/29 critérios e edges PASS, com evidência literal file:line/assertion. Gates finais 570 Java/H2, 721 Vitest, 9 Edge/H2, 213 selecionados MySQL fictício, lint/build PASS; todos esses gates foram repetidos independentemente. Sensor 9/9 em scratch e isolamento da árvore real comprovado. Nenhum teste removido/ignorado. validate_spec/validate_tasks estritos e validate_state aprovados no fechamento. DIAGNOSTICO atualizado por entrega e requisito.
+
+MySQL temporário8.0.43 porta33821 já não estava ativo na retomada. Ausência do listener33821 e do mysqld próprio19656 conferida no fechamento; o antigo PID launcher1680 foi reutilizado pelo dwm.exe após reinício da sessão; log mysql/closure-status.log. Nenhum processo MySQL externo foi encerrado. Nenhum banco real usado. Aceitação humana não realizada; roteiro docs/OPERACAO.md, sem presumir aprovação do usuário. Histórico de falhas e adequações acima preservado.
