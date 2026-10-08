@@ -41,6 +41,10 @@ public class ComentarioService {
         Processo processo = processoRepository.findById(processoId)
                 .orElseThrow(() ->
                         new RuntimeException("Processo não encontrado."));
+        if (processo.isArquivado()) {
+            throw new com.patp.sistema.exception.ApiException(org.springframework.http.HttpStatus.CONFLICT,
+                    "Demanda arquivada. Restaure-a antes de alterar.");
+        }
 
         Comentario comentario = new Comentario();
 
