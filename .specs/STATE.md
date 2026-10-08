@@ -218,8 +218,8 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** demandas-edicao; branch testes; implementação local autorizada conforme AD-023–026.
-- **Completed:** demandas-edicao T1–T7. Último gate: 721 Vitest PASS, 19 arquivos; lint/build TEMP PASS; t7-vitest.log, t7-lint.log e t7-build.log. Quinze novos casos; três expectativas antigas incluem Editar e preservam as transições. Movimentacao anterior concluída.
-- **In progress:** T8; tarefas seguintes pendentes.
+- **Completed:** demandas-edicao T1–T8. Último gate: 9 Edge/H2 PASS em seis arquivos, 213 selecionados MySQL PASS; lint PASS; t8-e2e.log, t8-mysql.log e t8-lint.log. QA desktop/mobile em TEMP/creral-edicao-qa-yAeiwS aprovada visualmente. Java completo 570 e Vitest 721 anteriores permanecem válidos por fontes inalteradas. Movimentacao anterior concluída.
+- **In progress:** Verifier independente pendente.
 - **Next step:** executar T2–T8 com gates/commits e depois Verifier independente. As duas adequações de testes foram autorizadas por pode continuar; não pedir novamente.
 - **Blocker:** nenhum; produto e adequações concretas de testes autorizados.
 - **User preference:** explicar funcionalidades e recomendação nas perguntas. Registrar cada requisito concluído e verificado no DIAGNOSTICO; progresso parcial deve continuar identificado como parcial.
