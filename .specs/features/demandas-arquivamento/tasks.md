@@ -97,9 +97,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8 → T9 → T10 → T11 → T
 
 **Done when:**
 
-- [ ] DemandaArquivoLeituraTests: nulo/false/true, listas/contagens, quadro arquivado, mutação de etapas e remoção bloqueada.
-- [ ] Gate Quick PASS, contagem registrada e nenhum skip/remoção não autorizado.
-- [ ] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
+- [x] DemandaArquivoLeituraTests: nulo/false/true, listas/contagens, quadro arquivado, mutação de etapas e remoção bloqueada.
+- [x] Gate Quick PASS, contagem registrada e nenhum skip/remoção não autorizado.
+- [x] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
 
 **Tests:** integration
 **Gate:** Quick

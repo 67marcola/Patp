@@ -229,3 +229,5 @@ Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etap
 Progresso parcial demandas-arquivamento T1: persistir marcador de arquivo; gate 5 testes/0 skips. Implemented, sem conclusão de requisito antes do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
 
 Progresso parcial demandas-arquivamento T2: estender snapshot; gate 2 testes/0 skips. Implemented, sem conclusão de requisito antes do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
+
+Progresso parcial demandas-arquivamento T3: separar arquivo nas leituras; gate 5 testes/0 skips. Implemented, sem conclusão de requisito antes do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
