@@ -109,7 +109,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8
 **Requirement:** EDI-05–09/20–23/27
 **Tests:** unit, EditorDemandaEdicao.test.jsx; cadastro anterior preservado.
 **Gate:** Full
-**Done when:** [ ] Preenchimento, limpeza, limites e pending/cancelamento provados.
+**Done when:** [x] Preenchimento, limpeza, limites e pending/cancelamento provados.
+
+**Result:** T6 Complete. 706 Vitest PASS, 18 arquivos, nenhum skip; t6-vitest.log. Onze novos casos e cadastro anterior preservado
 
 ### T7: Integrar edição aos cartões
 **What:** Estado e ações do quadro para edição permitida.

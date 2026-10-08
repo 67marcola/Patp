@@ -218,8 +218,8 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** demandas-edicao; branch testes; implementação local autorizada conforme AD-023–026.
-- **Completed:** demandas-edicao T1–T5. Último gate: 695 Vitest PASS, 17 arquivos, nenhum skip; t5-vitest.log. Mais 34 casos, nenhuma regressão perdida. Movimentacao anterior concluída.
-- **In progress:** T6; tarefas seguintes pendentes.
+- **Completed:** demandas-edicao T1–T6. Último gate: 706 Vitest PASS, 18 arquivos, nenhum skip; t6-vitest.log. Onze novos casos e cadastro anterior preservado. Movimentacao anterior concluída.
+- **In progress:** T7; tarefas seguintes pendentes.
 - **Next step:** executar T2–T8 com gates/commits e depois Verifier independente. As duas adequações de testes foram autorizadas por pode continuar; não pedir novamente.
 - **Blocker:** nenhum; produto e adequações concretas de testes autorizados.
 - **User preference:** explicar funcionalidades e recomendação nas perguntas. Registrar cada requisito concluído e verificado no DIAGNOSTICO; progresso parcial deve continuar identificado como parcial.
