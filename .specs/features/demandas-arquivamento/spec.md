@@ -164,15 +164,15 @@ Criação, leitura, edição e transições estão entregues. Falta retirar dema
 | ARQ-21 | P1: Leitura | Execute | Implemented |
 | ARQ-22 | P1: Proteção | Execute | Implemented |
 | ARQ-23 | P1: Proteção | Execute | Implemented |
-| ARQ-24 | P1: Interface | Specify | Pending |
-| ARQ-25 | P1: Interface | Specify | Pending |
-| ARQ-26 | P1: Interface | Specify | Pending |
-| ARQ-27 | P1: Interface | Specify | Pending |
-| ARQ-28 | P1: Interface | Specify | Pending |
-| ARQ-29 | P1: Interface | Specify | Pending |
-| ARQ-30 | P1: Interface | Specify | Pending |
+| ARQ-24 | P1: Interface | Execute | Implemented |
+| ARQ-25 | P1: Interface | Execute | Implemented |
+| ARQ-26 | P1: Interface | Execute | Implemented |
+| ARQ-27 | P1: Interface | Execute | Implemented |
+| ARQ-28 | P1: Interface | Execute | Implemented |
+| ARQ-29 | P1: Interface | Execute | Implemented |
+| ARQ-30 | P1: Interface | Execute | Implemented |
 
-**Coverage:** 23 critérios do servidor Implemented; 7 critérios da interface pendentes. Nenhum Verified antecipado; revisão independente após T12.
+**Coverage:** 30 critérios Implemented; fluxo real T12 e revisão independente pendentes. Nenhum Verified antecipado; revisão independente após T12.
 
 ## Success Criteria
 
