@@ -2,7 +2,7 @@
 
 ## Execution Protocol
 
-Skill tlc-spec-driven invocada. **Status:** Draft para revisão; não executar antes da escolha de agentes e adequações concretas. Base3f9d78a;570Java/H2,721Vitest,9Edge. Doze tarefas atômicas, fases8+4. Servidor termina antes de interface; Verifier fresco obrigatório no final. Sem push/deploy/banco real. Registrar diagnóstico parcial por tarefa, conclusão só após PASS independente. Cada tarefa inclui testes/gate/commit próprio. Ferramentas locais arquivos/shell/Git e TLC conforme preferências existentes; nenhuma ferramenta externa.
+Skill tlc-spec-driven invocada. **Status:** execução autorizada pelo “Pode continuar” após apresentação da proposta, dois lotes sequenciais e adequações concretas. Base3f9d78a;570Java/H2,721Vitest,9Edge. Doze tarefas atômicas, fases8+4. Servidor termina antes de interface; Verifier fresco obrigatório no final. Sem push/deploy/banco real. Registrar diagnóstico parcial por tarefa, conclusão só após PASS independente. Cada tarefa inclui testes/gate/commit próprio. Ferramentas locais arquivos/shell/Git e TLC conforme preferências existentes; nenhuma ferramenta externa.
 
 **Design:** design.md.
 
@@ -314,7 +314,7 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8 → T9 → T10 → T11 → T
 
 Um arquivo/componente primário por tarefa e seus testes no mesmo commit. Sem teste adiado; T12 acrescenta fluxo real, não substitui provas anteriores. Documentos/evidências acompanham cada commit apropriado.
 
-## Adequações antigas propostas, ainda não autorizadas
+## Adequações antigas autorizadas em 08/10/2026
 
 - ProcessoArchiveTests.java:128: DELETE ativo passa de500 acidental para409 explícito e mensagem de usar arquivo. Manter snapshot sem efeitos e acrescentar versão inalterada.
 - QuadroTransicoes.test.jsx:44: três listas de botões incluem Arquivar ao fim; manter Editar e todas as ações de ciclo anteriores. Casos de usuário/quadro/status desconhecido preservados.
