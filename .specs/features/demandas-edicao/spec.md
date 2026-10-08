@@ -153,8 +153,8 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 | EDI-22 | P1: Interface | Tasks | Implementing |
 | EDI-23 | P1: Interface | Tasks | Implementing |
 | EDI-24 | P1: Interface | Tasks | Implementing |
-| EDI-25 | P1: Interface | Tasks | Pending |
-| EDI-26 | P1: Interface | Tasks | Pending |
+| EDI-25 | P1: Interface | Tasks | Implementing |
+| EDI-26 | P1: Interface | Tasks | Implementing |
 
 | EDI-27 | P1: Número fixo | Tasks | Implementing |
 | EDI-28 | P1: Encerradas | Tasks | Implementing |

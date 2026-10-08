@@ -315,3 +315,78 @@ Mapa reverso: entrada→EDI-05/09/13; campos proibidos→EDI-12/27; versões→E
 | frontend/src/pages/EditorDemandaEdicao.test.jsx:73 `expect(salvar).toHaveBeenCalledTimes(1);` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
 
 **Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.
+
+
+## T7 — Editar nos cartões com bloqueio global, rascunho, foco e cache — Complete
+
+721 Vitest PASS, 19 arquivos; lint/build TEMP PASS; t7-vitest.log, t7-lint.log e t7-build.log. Quinze novos casos; três expectativas antigas incluem Editar e preservam as transições
+
+### Check A: AC → assertions
+
+| AC/teste | Evidência file:line e assertion | Outcome |
+| --- | --- | --- |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:29 `await abrir(user); expect(screen.getByLabelText("Cliente/solicitante").value).toBe("João");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:30 `expect(screen.getByLabelText("Número da demanda").readOnly).toBe(true);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:35 `expect(within(card).queryByRole("button", { name: "Editar demanda P-1" })).toBeNull();` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:36 `expect(card.textContent).toContain("Anterior");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:42 `expect(screen.queryByRole("form", { name: "Editar demanda" })).toBeNull(); expect(document.activeElement).toBe(botao);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:43 `expect(f.mock.calls.map(([, r]) => r.method)).toEqual(["GET"]);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:50 `await waitFor(() => expect(screen.queryByRole("form")).toBeNull());` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:52 `expect(card.textContent).toContain("Cancelado"); expect(card.textContent).toContain("04/03/2021"); expect(card.textContent).toContain("Literal antigo");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:53 `expect(card.closest("section").getAttribute("aria-labelledby")).toBe("etapa-titulo-13");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:54 `expect(screen.getByRole("region", { name: "Cancelados" }).textContent).toContain("1 demanda");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:55 `expect(atualizar.mock.calls.at(-1)[0].versao).toBe(3); expect(aoOcupar.mock.calls.map(([v]) => v)).toEqual([true, false]);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:56 `expect(document.activeElement).toBe(within(card).getByRole("button", { name: "Editar demanda P-1" }));` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:57 `expect(JSON.parse(f.mock.calls[1][1].body)).toEqual({ versao: 2, pessoa: "Maria", responsavel: "Ana", prioridade: "Alta",` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:64 `expect(screen.getByRole("button", { name, exact: true }).disabled).toBe(true);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:66 `expect(voltar).not.toHaveBeenCalled(); expect(f).toHaveBeenCalledTimes(2);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:68 `await waitFor(() => expect(screen.queryByRole("form")).toBeNull());` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:79 `expect(screen.getByLabelText("Cliente/solicitante").value).toBe(" Rascunho ");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:80 `expect(screen.getByRole("button", { name: "Salvar alterações" }).disabled).toBe(true);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:81 `expect(screen.getByRole("alert").textContent).toBe(caso === "conflito" ? "Conflito" : "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:82 `expect(f.mock.calls.map(([, r]) => r.method)).toEqual(["GET", "PUT"]);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:84 `await waitFor(() => expect(screen.getByRole("button", { name: "Salvar alterações" }).disabled).toBe(false));` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:85 `expect(screen.getByLabelText("Cliente/solicitante").value).toBe(" Rascunho ");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:86 `expect(f.mock.calls.map(([, r]) => r.method)).toEqual(["GET", "PUT", "GET"]);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:88 `await waitFor(() => expect(screen.queryByRole("form")).toBeNull());` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:89 `expect(screen.getByRole("article", { name: "P-1 — Rascunho" })).not.toBeNull();` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:90 `expect(JSON.parse(f.mock.calls[3][1].body).versao).toBe(4);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:98 `await waitFor(() => expect(screen.queryByRole("form")).toBeNull());` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:100 `expect(screen.getByRole("heading", { name: "Outro" })).not.toBeNull(); expect(screen.queryByRole("article")).toBeNull();` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-20,21,22,23,24,25,26,27,28,29 | frontend/src/pages/QuadroEdicao.test.jsx:101 `expect(atualizar.mock.calls.some(([q]) => q.id === 9 && q.versao === 3)).toBe(false);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+
+### Check C: assertions → AC
+
+| Assertion | Maps to | Keep |
+| --- | --- | --- |
+| frontend/src/pages/QuadroEdicao.test.jsx:29 `await abrir(user); expect(screen.getByLabelText("Cliente/solicitante").value).toBe("João");` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:30 `expect(screen.getByLabelText("Número da demanda").readOnly).toBe(true);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:35 `expect(within(card).queryByRole("button", { name: "Editar demanda P-1" })).toBeNull();` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:36 `expect(card.textContent).toContain("Anterior");` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:42 `expect(screen.queryByRole("form", { name: "Editar demanda" })).toBeNull(); expect(document.activeElement).toBe(botao);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:43 `expect(f.mock.calls.map(([, r]) => r.method)).toEqual(["GET"]);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:50 `await waitFor(() => expect(screen.queryByRole("form")).toBeNull());` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:52 `expect(card.textContent).toContain("Cancelado"); expect(card.textContent).toContain("04/03/2021"); expect(card.textContent).toContain("Literal antigo");` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:53 `expect(card.closest("section").getAttribute("aria-labelledby")).toBe("etapa-titulo-13");` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:54 `expect(screen.getByRole("region", { name: "Cancelados" }).textContent).toContain("1 demanda");` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:55 `expect(atualizar.mock.calls.at(-1)[0].versao).toBe(3); expect(aoOcupar.mock.calls.map(([v]) => v)).toEqual([true, false]);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:56 `expect(document.activeElement).toBe(within(card).getByRole("button", { name: "Editar demanda P-1" }));` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:57 `expect(JSON.parse(f.mock.calls[1][1].body)).toEqual({ versao: 2, pessoa: "Maria", responsavel: "Ana", prioridade: "Alta",` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:64 `expect(screen.getByRole("button", { name, exact: true }).disabled).toBe(true);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:66 `expect(voltar).not.toHaveBeenCalled(); expect(f).toHaveBeenCalledTimes(2);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:68 `await waitFor(() => expect(screen.queryByRole("form")).toBeNull());` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:79 `expect(screen.getByLabelText("Cliente/solicitante").value).toBe(" Rascunho ");` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:80 `expect(screen.getByRole("button", { name: "Salvar alterações" }).disabled).toBe(true);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:81 `expect(screen.getByRole("alert").textContent).toBe(caso === "conflito" ? "Conflito" : "Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.");` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:82 `expect(f.mock.calls.map(([, r]) => r.method)).toEqual(["GET", "PUT"]);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:84 `await waitFor(() => expect(screen.getByRole("button", { name: "Salvar alterações" }).disabled).toBe(false));` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:85 `expect(screen.getByLabelText("Cliente/solicitante").value).toBe(" Rascunho ");` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:86 `expect(f.mock.calls.map(([, r]) => r.method)).toEqual(["GET", "PUT", "GET"]);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:88 `await waitFor(() => expect(screen.queryByRole("form")).toBeNull());` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:89 `expect(screen.getByRole("article", { name: "P-1 — Rascunho" })).not.toBeNull();` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:90 `expect(JSON.parse(f.mock.calls[3][1].body).versao).toBe(4);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:98 `await waitFor(() => expect(screen.queryByRole("form")).toBeNull());` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:100 `expect(screen.getByRole("heading", { name: "Outro" })).not.toBeNull(); expect(screen.queryByRole("article")).toBeNull();` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+| frontend/src/pages/QuadroEdicao.test.jsx:101 `expect(atualizar.mock.calls.some(([q]) => q.id === 9 && q.versao === 3)).toBe(false);` | EDI-20,21,22,23,24,25,26,27,28,29 | Sim |
+
+**Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.

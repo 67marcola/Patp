@@ -53,7 +53,7 @@ Já foram implementados e testados o serviço de transição, as quatro rotas da
 
 **Próxima entrega iniciada — edição de demandas (07/10/2026):** [especificação em draft](features/demandas-edicao/spec.md) e [contexto](features/demandas-edicao/context.md) preparados. A permissão criador/admin e as tecnologias estão confirmadas. Número fixo e correção informativa de demandas encerradas foram confirmados (AD-025/026); implementação autorizada. Não considerar a edição implementada ou concluída; o draft define formulário preenchido, validação, autoria, preservação do ciclo e proteção contra conflitos.
 
-**Progresso parcial da edição:** T1–T6 concluídas. Formulário preenchido com número somente leitura. 706 Vitest PASS, 18 arquivos, nenhum skip; t6-vitest.log. Onze novos casos e cadastro anterior preservado. Entrega completa ainda depende das tarefas restantes e do Verifier; [evidências](features/demandas-edicao/evidence.md).
+**Progresso parcial da edição:** T1–T7 concluídas. Editar nos cartões com bloqueio global, rascunho, foco e cache. 721 Vitest PASS, 19 arquivos; lint/build TEMP PASS; t7-vitest.log, t7-lint.log e t7-build.log. Quinze novos casos; três expectativas antigas incluem Editar e preservam as transições. Entrega completa ainda depende das tarefas restantes e do Verifier; [evidências](features/demandas-edicao/evidence.md).
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { buscarConfiguracaoEtapas, criarDemanda, criarEtapa, editarEtapa, removerEtapa, transicionarDemanda } from "../services/api";
+import { buscarConfiguracaoEtapas, criarDemanda, criarEtapa, editarDemanda, editarEtapa, removerEtapa, transicionarDemanda } from "../services/api";
 import EditorEtapa from "./EditorEtapa";
 import EditorDemanda from "./EditorDemanda";
 import AcaoDemanda from "./AcaoDemanda";
@@ -31,6 +31,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const [tentativa, setTentativa] = useState(0);
     const [editor, setEditor] = useState(null);
     const [editorDemanda, setEditorDemanda] = useState(false);
+    const [edicaoDemanda, setEdicaoDemanda] = useState(null);
     const [acaoDemanda, setAcaoDemanda] = useState(null);
     const [confirmacao, setConfirmacao] = useState(null);
     const [erroRemocao, setErroRemocao] = useState("");
@@ -57,7 +58,10 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const acaoAtual = acaoDemanda?.gerenciamentoId === gerenciamento.id ? acaoDemanda : null;
     const demandaAtual = acaoAtual && demandas.find(demanda => demanda.id === acaoAtual.demanda.id);
     const podeExecutarAcao = podeConfigurar && !!demandaAtual && acoesDaDemanda(demandaAtual).includes(acaoAtual.acao);
-    const formularioAberto = !!editor || !!confirmacao || editorDemanda || !!acaoAtual;
+    const edicaoAtual = edicaoDemanda?.gerenciamentoId === gerenciamento.id ? edicaoDemanda : null;
+    const demandaEmEdicao = edicaoAtual && demandas.find(demanda => demanda.id === edicaoAtual.demanda.id);
+    const podeEditarDemanda = podeConfigurar && !!demandaEmEdicao && acoesDaDemanda(demandaEmEdicao).length > 0;
+    const formularioAberto = !!editor || !!confirmacao || editorDemanda || !!acaoAtual || !!edicaoAtual;
 
     function finalNoSnapshot(etapa) {
         return etapaFinal(etapa) || etapaFinal(etapas.find(atual => atual.id === etapa?.id));
@@ -82,6 +86,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
             setConfiguracao(null);
             setEditor(null);
             setEditorDemanda(false);
+            setEdicaoDemanda(null);
             setAcaoDemanda(null);
             setConfirmacao(null);
             setPrecisaAtualizar(false);
@@ -109,11 +114,11 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
 
     useEffect(() => {
         if (confirmacao) cancelarConfirmacao.current?.focus();
-        else if (!editor && !editorDemanda && !acaoAtual && origem.current) {
+        else if (!editor && !editorDemanda && !acaoAtual && !edicaoAtual && origem.current) {
             if (origem.current.isConnected) origem.current.focus();
             else (novaEtapa.current || criarProcesso.current || botaoVoltar.current)?.focus();
         }
-    }, [editor, editorDemanda, confirmacao, acaoAtual]);
+    }, [editor, editorDemanda, confirmacao, acaoAtual, edicaoAtual]);
 
     function abrirEditor(event, etapa = null) {
         if (bloqueado || formularioAberto || !podeConfigurar || finalNoSnapshot(etapa)) return;
@@ -141,10 +146,17 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
         setAcaoDemanda({ gerenciamentoId: quadro.id, demanda, acao });
     }
 
+    function abrirEdicaoDemanda(event, demanda) {
+        if (bloqueado || formularioAberto || !podeConfigurar || acoesDaDemanda(demanda).length === 0) return;
+        origem.current = event.currentTarget;
+        setEdicaoDemanda({ gerenciamentoId: quadro.id, demanda });
+    }
+
     function cancelar() {
         if (operando.current) return;
         setEditor(null);
         setEditorDemanda(false);
+        setEdicaoDemanda(null);
         setAcaoDemanda(null);
         setConfirmacao(null);
         setErroRemocao("");
@@ -177,6 +189,22 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
         try {
             const salvo = await criarDemanda(localStorage.getItem("token"), quadro.id, { ...dados, versao: quadro.versao });
             if (aplicarConfiguracao(salvo)) setEditorDemanda(false);
+        } finally {
+            operando.current = false;
+            aoOcupar?.(false);
+            setOcupado(false);
+        }
+    }
+
+    async function salvarEdicaoDemanda(dados) {
+        if (operando.current || bloqueado || !podeEditarDemanda) return;
+        operando.current = true;
+        aoOcupar?.(true);
+        setOcupado(true);
+        try {
+            const salvo = await editarDemanda(localStorage.getItem("token"), quadro.id, demandaEmEdicao,
+                { ...dados, versao: quadro.versao });
+            if (aplicarConfiguracao(salvo)) setEdicaoDemanda(null);
         } finally {
             operando.current = false;
             aoOcupar?.(false);
@@ -253,6 +281,9 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                 aoErro={() => { if (montado.current && quadro.id === quadroAtual.current) setPrecisaAtualizar(true); }} />}
             {editorDemanda && <EditorDemanda salvar={salvarDemanda} cancelar={cancelar} bloqueado={bloqueado || !podeCriar}
                 aoErro={() => { if (montado.current && quadro.id === quadroAtual.current) setPrecisaAtualizar(true); }} />}
+            {edicaoAtual && <EditorDemanda key={`editar-${edicaoAtual.demanda.id}`} demanda={demandaEmEdicao || edicaoAtual.demanda}
+                salvar={salvarEdicaoDemanda} cancelar={cancelar} bloqueado={bloqueado || !podeEditarDemanda}
+                aoErro={() => { if (montado.current && quadro.id === quadroAtual.current) setPrecisaAtualizar(true); }} />}
             {acaoAtual && <AcaoDemanda acao={acaoAtual.acao} demanda={demandaAtual || acaoAtual.demanda} etapas={etapas}
                 salvar={salvarAcao} cancelar={cancelar} bloqueado={bloqueado || !podeExecutarAcao}
                 aoErro={() => { if (montado.current && quadro.id === quadroAtual.current) setPrecisaAtualizar(true); }} />}
@@ -323,6 +354,9 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                                     </div>)}</dl>
                                     {acoesDaDemanda(demanda).length === 0 && <p>Status antigo não reconhecido. Solicite a correção do registro.</p>}
                                     {podeConfigurar && acoesDaDemanda(demanda).length > 0 && <div className="acoes-form">
+                                        <button className="btn-secundario" disabled={bloqueado || formularioAberto}
+                                            aria-label={`Editar demanda ${demanda.numeroProcesso}`}
+                                            onClick={event => abrirEdicaoDemanda(event, demanda)}>Editar</button>
                                         {acoesDaDemanda(demanda).map(acao => <button key={acao} className="btn-secundario"
                                             disabled={bloqueado || formularioAberto} aria-label={`${nomesAcoes[acao]} demanda ${demanda.numeroProcesso}`}
                                             onClick={event => abrirAcao(event, demanda, acao)}>{nomesAcoes[acao]}</button>)}
