@@ -131,7 +131,7 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8
 **Requirement:** EDI-02/05/10/15/16/20–28
 **Tests:** e2e, persistência HTTP e histórico, desktop/mobile/teclado.
 **Gate:** Build
-**Done when:** [ ] E2E integral PASS; documentação operacional atualizada; disparar Verifier independente.
+**Done when:** [x] E2E integral PASS; documentação operacional atualizada; disparar Verifier independente.
 
 ## Task Granularity Check
 
@@ -162,3 +162,5 @@ Cada tarefa altera um DTO, uma função, um endpoint ou um componente/fluxo. Tes
 | T6 | Formulário | unit | unit | Match |
 | T7 | Quadro | unit | unit | Match |
 | T8 | Navegador | e2e | e2e | Match |
+
+**Result:** T8 Complete. 9 Edge/H2 PASS em seis arquivos, 213 selecionados MySQL PASS; lint PASS; t8-e2e.log, t8-mysql.log e t8-lint.log. QA desktop/mobile em TEMP/creral-edicao-qa-yAeiwS aprovada visualmente. Java completo 570 e Vitest 721 anteriores permanecem válidos por fontes inalteradas

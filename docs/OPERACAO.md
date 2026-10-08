@@ -26,7 +26,7 @@ Requer as dependências npm instaladas, Maven no PATH e `JAVA_HOME` apontando pa
 
 Os dados ficam em memória enquanto o comando está aberto. Recarregar a página conserva esses dados; encerrar com **Ctrl+C** fecha os dois serviços e descarta o banco fictício. Se o Windows perguntar `Terminate batch job (Y/N)?`, responda `Y`. Uma nova execução começa vazia. O proxy e o ajuste de Origin são habilitados somente nesse ambiente isolado; a configuração normal de CORS permanece a mesma.
 
-Para repetir o teste automático de navegador, execute `npm.cmd run test:e2e` na mesma pasta, com Microsoft Edge instalado. Os quatro cenários percorrem o cadastro direto, os CRUDs de gerenciamentos/etapas e o cadastro/leitura de demandas usando Tab/Enter, conferem persistência após recarga e encerram os serviços no final. Cada arquivo de teste usa um H2 novo e contas fictícias próprias. O console informa a pasta temporária das capturas desktop/mobile dos CRUDs e demandas. Não mantenha o preview aberto ao iniciar esse teste, pois ambos usam as mesmas portas.
+Para repetir o teste automático de navegador, execute `npm.cmd run test:e2e` na mesma pasta, com Microsoft Edge instalado. Os cenários percorrem cadastro direto, CRUDs de gerenciamentos/etapas, cadastro/leitura, transições e edição de demandas usando teclado, conferem persistência após recarga e encerram os serviços no final. Cada arquivo de teste usa um H2 novo e contas fictícias próprias. O console informa a pasta temporária das capturas desktop/mobile. Não mantenha o preview aberto ao iniciar esse teste, pois ambos usam as mesmas portas.
 
 ## Primeiro teste de uso do cadastro direto
 
@@ -162,7 +162,31 @@ Concluir envia para Concluídos e registra a data atual do servidor. Cancelar ex
 
 As quatro rotas PUT `/api/gerenciamentos/{quadroId}/demandas/{demandaId}/{acao}` respondem HTTP 200 com o snapshot completo. Mover/reabrir recebem `{versao,etapaId}`; concluir `{versao}`; cancelar `{versao,motivo}`. Versão deve ser a do snapshot consultado. Cada ação aceita grava demanda, um evento e versão+1 na mesma transação, sob lock do quadro. Versão antiga recebe 409 sem efeitos. Repetição de encerramento, mesmo destino, estado incompatível ou desconhecido também recebe 409. Destino externo/inexistente recebe 404; destino final para mover/reabrir ou motivo inválido recebe 400. Sessão inválida recebe 401; usuário sem permissão recebe 403. Quadro arquivado exige restauração.
 
-As rotas antigas de mover/concluir/cancelar preservam HTTP 200 com entidade e seguem as mesmas regras de permissão, estado, histórico e transação, incrementando a versão. PUT genérico não permite mudar etapa, status ou campos de encerramento; edição dos demais campos mantém a política existente. Quadro antigo sem a final necessária deve passar pela preparação explícita em ambiente autorizado. As ações normais não migram colunas ou registros.
+As rotas antigas de mover/concluir/cancelar preservam HTTP 200 com entidade e seguem as mesmas regras de permissão, estado, histórico e transação, incrementando a versão. PUT genérico não permite mudar etapa, status ou campos de encerramento; edição informativa agora segue criador/admin e número fixo, conforme o contrato abaixo. Quadro antigo sem a final necessária deve passar pela preparação explícita em ambiente autorizado. As ações normais não migram colunas ou registros.
+
+## Edição informativa de demandas
+
+Em quadro ativo, o criador ou administrador pode usar Editar no cartão. O formulário abre preenchido e permite corrigir cliente/solicitante, responsável, prioridade, data de emissão, prazo da etapa, prazo geral e observações. O número aparece somente para leitura. Demandas concluídas/canceladas podem receber essas correções sem reabertura: status, etapa, datas de encerramento e motivo ficam literalmente preservados. Quadros arquivados e demandas com status antigo desconhecido continuam somente consulta.
+
+Cliente é obrigatório, de 1 a 255 unidades UTF-16 após normalização nas bordas. Responsável e prioridade são opcionais até 255; observações até 10000. Campos opcionais vazios viram null; datas opcionais usam ISO ou null. Não há exigência nova de ordem entre datas. Salvar registra um evento EDICAO com autor real da sessão, descrição Processo alterado. e data/hora; demanda, evento e versão são gravados numa transação. Mesmo um envio válido sem diferenças registra a edição explícita.
+
+`PUT /api/gerenciamentos/{id}/demandas/{demandaId}` recebe o formulário completo:
+
+```json
+{"versao":2,"pessoa":"Cliente corrigido","responsavel":null,"prioridade":null,"dataEmissao":null,"prazoEtapa":"2026-10-07","prazoGeral":null,"observacoes":"Informação corrigida"}
+```
+
+Responde HTTP 200 com `{gerenciamento,etapas,demandas}` e versão anterior +1. Número, ID, status, etapa e encerramentos não pertencem à entrada. A rota antiga `PUT /api/processos/{id}` conserva retorno de entidade e entrada sem versão, mas aplica o mesmo lock, permissão, validação, preservação e incremento. Número omitido ou idêntico conserva a referência; diferente recebe 400 com O número da demanda não pode ser alterado após o cadastro. Essa compatibilidade não permite contornar o ciclo.
+
+Durante envio, formulário e demais mutações/saída ficam bloqueados. Cancelar fecha sem gravar. Erro HTTP, rede ou resposta não confirmada preserva o rascunho e exige Atualizar quadro antes de novo envio manual. A atualização não substitui os campos digitados nem repete a mutação automaticamente. Só uma resposta que confirma demanda, novos campos, ciclo e versão fecha o formulário. Se o quadro exibido mudar, respostas antigas não são aplicadas nele.
+
+### Roteiro humano da edição
+
+No preview fictício, entre como criador, abra um quadro ativo e cadastre uma demanda. Use Editar por teclado, confira número somente leitura, altere cliente e observações e limpe responsável. Salve: cartão e recarga devem conservar os novos valores e mostrar Não informado para responsável. Abra Editar novamente e cancele após digitar; os dados gravados devem continuar iguais.
+
+Conclua a demanda e edite somente cliente ou observações. Ela deve continuar em Concluídos, com a mesma data de conclusão. Reabra e cancele com justificativa; edite informações novamente e confira Cancelados, data e motivo preservados. Confira EDICAO e autoria no histórico disponível pela API. Entre como outra conta comum: ela consulta o cartão, mas não vê Editar. Arquive o quadro: edição deixa de estar disponível até a restauração.
+
+Para conflito, mantenha Editar aberto numa aba e altere o quadro noutra sessão do criador/admin. Salvar com versão antiga deve anunciar o conflito, manter os campos e oferecer atualização manual. Depois de Atualizar quadro, revise o rascunho e envie somente se desejar aplicar aquelas informações. Informe o resultado observado; este roteiro humano ainda não foi declarado executado pelos usuários da Creral.
 
 Enquanto uma ação está pendente, campos e outros controles de alteração, Voltar, Sair e Voltar sem alterar ficam bloqueados. Erro HTTP, rede ou resposta sem confirmação conserva diálogo e rascunho e exige Atualizar quadro antes de tentar manualmente. Não há repetição automática da gravação. Resposta confirmada atualiza cartões, contagens e versão e fecha o diálogo com foco em controle existente.
 
