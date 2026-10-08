@@ -27,7 +27,7 @@ public class HistoricoController {
             @PathVariable Long processoId,
             @RequestBody CriarHistoricoRequest request) {
 
-        return historicoService.registrar(
+        return historicoService.registrarExterno(
                 processoId,
                 request.acao(),
                 request.descricao(),
