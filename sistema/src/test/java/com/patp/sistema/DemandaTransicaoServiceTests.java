@@ -202,7 +202,7 @@ class DemandaTransicaoServiceTests extends ApiIntegrationSupport {
     @ParameterizedTest @ValueSource(strings={"status","etapa","dataConclusao","dataCancelamento","motivo"})
     void edicaoGenericaNaoContornaTransicao(String campo) {
         var dono=usuario("Dono");var q=quadro(dono);var origem=etapa(q,"Trabalho",1);var destino=etapa(q,"Destino",2);var p=demanda(origem);
-        var dados=new Processo();dados.setNumeroProcesso("Alterada");dados.setPessoa("Outra");
+        var dados=new Processo();dados.setNumeroProcesso(p.getNumeroProcesso());dados.setPessoa("Outra");
         switch(campo) {
             case "status" -> dados.setStatus("Cancelado");case "etapa" -> dados.setEtapa(destino);
             case "dataConclusao" -> dados.setDataConclusao(LocalDate.now());case "dataCancelamento" -> dados.setDataCancelamento(LocalDate.now());
@@ -213,12 +213,12 @@ class DemandaTransicaoServiceTests extends ApiIntegrationSupport {
 
     @Test void edicaoDeOutrosCamposNaoLimpaStatusOuEtapaOmitidos() {
         var dono=usuario("Dono");var q=quadro(dono);var origem=etapa(q,"Trabalho",1);var p=demanda(origem);
-        var dados=new Processo();dados.setNumeroProcesso("Alterada");dados.setPessoa("Outra");
-        service.editar(p.getId(),dados,sessao(usuario("Colaborador")));
+        var dados=new Processo();dados.setNumeroProcesso(p.getNumeroProcesso());dados.setPessoa("Outra");
+        service.editar(p.getId(),dados,sessao(dono));
         var salvo=processos.findById(p.getId()).orElseThrow();assertThat(salvo.getStatus()).isEqualTo("Em andamento");
-        assertThat(salvo.getEtapa().getId()).isEqualTo(origem.getId());assertThat(salvo.getNumeroProcesso()).isEqualTo("Alterada");
+        assertThat(salvo.getEtapa().getId()).isEqualTo(origem.getId());assertThat(salvo.getNumeroProcesso()).isEqualTo(p.getNumeroProcesso());
         assertThat(jdbc.queryForList("select acao from historicos",String.class)).containsExactly("EDICAO");
-        assertThat(jdbc.queryForList("select usuario from historicos",String.class)).containsExactly("Colaborador");
+        assertThat(jdbc.queryForList("select usuario from historicos",String.class)).containsExactly("Dono");
     }
 
     @ParameterizedTest @ValueSource(strings={"processos","historicos","gerenciamentos"})

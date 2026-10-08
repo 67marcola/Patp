@@ -97,26 +97,26 @@ class ProcessoArchiveTests extends ApiIntegrationSupport {
                 .andExpect(status().isOk()).andExpect(jsonPath("$.etapa.gerenciamento.id").value(quadro.getId()));
         var demanda = processos.findAll().get(0);
         String base = "/api/processos/" + demanda.getId();
-        mvc.perform(put(base).header("Authorization", token).contentType(MediaType.APPLICATION_JSON)
-                .content("{\"numeroProcesso\":\"Editado\",\"pessoa\":\"Outra\",\"status\":\"Em andamento\",\"observacoes\":\"Observada\"}"))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.numeroProcesso").value("Editado"));
+        mvc.perform(put(base).header("Authorization", token(criador)).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"numeroProcesso\":\"Ativo\",\"pessoa\":\"Outra\",\"status\":\"Em andamento\",\"observacoes\":\"Observada\"}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.numeroProcesso").value("Ativo"));
         mvc.perform(put(base + "/etapa/" + destino.getId()).header("Authorization", token(criador))).andExpect(status().isOk())
                 .andExpect(jsonPath("$.etapa.id").value(destino.getId()));
         mvc.perform(put(base + "/concluir").header("Authorization", token(criador))).andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("Concluido")).andExpect(jsonPath("$.dataConclusao").isNotEmpty());
         transicoes.transicionar(token(criador).substring(7), quadro.getId(), demanda.getId(),
-                com.patp.sistema.service.ProcessoService.Acao.REABRIR, destino.getId(), null, 2L);
+                com.patp.sistema.service.ProcessoService.Acao.REABRIR, destino.getId(), null, 3L);
         mvc.perform(put(base + "/cancelar").header("Authorization", token(criador)).contentType(MediaType.APPLICATION_JSON).content("{\"motivo\":\"Solicitado\"}"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("Cancelado"))
                 .andExpect(jsonPath("$.motivoCancelamento").value("Solicitado")).andExpect(jsonPath("$.dataCancelamento").isNotEmpty());
         var salvo = processos.findById(demanda.getId()).orElseThrow();
-        assertThat(salvo.getNumeroProcesso()).isEqualTo("Editado");
+        assertThat(salvo.getNumeroProcesso()).isEqualTo("Ativo");
         assertThat(salvo.getEtapa().getId()).isEqualTo(cancelada.getId());
         assertThat(salvo.getStatus()).isEqualTo("Cancelado");
         assertThat(salvo.getMotivoCancelamento()).isEqualTo("Solicitado");
         assertThat(jdbc.queryForList("select acao from historicos order by id", String.class))
                 .containsExactly("CRIACAO", "EDICAO", "MUDANCA_ETAPA", "CONCLUSAO", "REABERTURA", "CANCELAMENTO");
-        assertThat(jdbc.queryForList("select usuario from historicos order by id", String.class)).containsExactly("Outro", "Outro", "Criador", "Criador", "Criador", "Criador");
+        assertThat(jdbc.queryForList("select usuario from historicos order by id", String.class)).containsExactly("Outro", "Criador", "Criador", "Criador", "Criador", "Criador");
     }
 
     @Test

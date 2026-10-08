@@ -209,12 +209,12 @@ public class ProcessoService {
     public ConfiguracaoEtapasResponse editarDados(String token, Long gerenciamentoId, Long demandaId,
             EditarDemandaRequest request) {
         Usuario usuario = sessaoService.buscarUsuario(token);
-        Processo salvo = executarEdicao(usuario, gerenciamentoId, demandaId, request, true);
+        Processo salvo = executarEdicao(usuario, gerenciamentoId, demandaId, request, true, null);
         return etapas.resposta(salvo.getEtapa().getGerenciamento(), usuario);
     }
 
     private Processo executarEdicao(Usuario usuario, Long gerenciamentoId, Long id,
-            EditarDemandaRequest request, boolean exigeVersao) {
+            EditarDemandaRequest request, boolean exigeVersao, Processo legado) {
         Long persistido = processoRepository.buscarGerenciamentoId(id).orElseThrow(() ->
                 new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento."));
         if (gerenciamentoId != null && !Objects.equals(gerenciamentoId, persistido)) {
@@ -228,6 +228,18 @@ public class ProcessoService {
         if (!"Em andamento".equals(processo.getStatus()) && !"Concluido".equals(processo.getStatus())
                 && !"Cancelado".equals(processo.getStatus())) {
             throw new ApiException(HttpStatus.CONFLICT, "Status antigo não reconhecido. Solicite a correção do registro.");
+        }
+        if (legado != null) {
+            if (legado.getStatus() != null && !Objects.equals(legado.getStatus(), processo.getStatus())
+                    || legado.getEtapa() != null && !Objects.equals(legado.getEtapa().getId(), processo.getEtapa().getId())
+                    || legado.getDataConclusao() != null && !Objects.equals(legado.getDataConclusao(), processo.getDataConclusao())
+                    || legado.getDataCancelamento() != null && !Objects.equals(legado.getDataCancelamento(), processo.getDataCancelamento())
+                    || legado.getMotivoCancelamento() != null && !Objects.equals(legado.getMotivoCancelamento(), processo.getMotivoCancelamento())) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "Use as ações de mover, concluir, cancelar ou reabrir para alterar o ciclo da demanda.");
+            }
+            if (legado.getNumeroProcesso() != null && !Objects.equals(legado.getNumeroProcesso(), processo.getNumeroProcesso())) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "O número da demanda não pode ser alterado após o cadastro.");
+            }
         }
         processo.setPessoa(obrigatorio(request.pessoa(), "Informe um cliente/solicitante entre 1 e 255 caracteres."));
         processo.setResponsavel(opcional(request.responsavel(), 255, "Informe um responsável com até 255 caracteres."));
@@ -244,70 +256,12 @@ public class ProcessoService {
         return salvo;
     }
 
-    // Editar processo
+    // Compatibilidade: edição legada usa a mesma autorização e transação.
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Processo editar(
-            Long id,
-            Processo dados,
-            String token) {
-
-        Usuario usuario = sessaoService.buscarUsuario(token);
-
-        Processo processo = buscarParaAlterar(id);
-
-        if (dados.getStatus() != null && !Objects.equals(dados.getStatus(), processo.getStatus())
-                || dados.getEtapa() != null && !Objects.equals(dados.getEtapa().getId(), processo.getEtapa().getId())
-                || dados.getDataConclusao() != null && !Objects.equals(dados.getDataConclusao(), processo.getDataConclusao())
-                || dados.getDataCancelamento() != null && !Objects.equals(dados.getDataCancelamento(), processo.getDataCancelamento())
-                || dados.getMotivoCancelamento() != null && !Objects.equals(dados.getMotivoCancelamento(), processo.getMotivoCancelamento())) {
-            throw new ApiException(HttpStatus.BAD_REQUEST, "Use as ações de mover, concluir, cancelar ou reabrir para alterar o ciclo da demanda.");
-        }
-
-        String descricao = "Processo alterado.";
-
-        processo.setNumeroProcesso(
-                dados.getNumeroProcesso()
-        );
-
-        processo.setPessoa(
-                dados.getPessoa()
-        );
-
-        processo.setResponsavel(
-                dados.getResponsavel()
-        );
-
-        processo.setPrioridade(
-                dados.getPrioridade()
-        );
-
-        processo.setDataEmissao(
-                dados.getDataEmissao()
-        );
-
-        processo.setPrazoEtapa(
-                dados.getPrazoEtapa()
-        );
-
-        processo.setPrazoGeral(
-                dados.getPrazoGeral()
-        );
-
-        processo.setObservacoes(
-                dados.getObservacoes()
-        );
-
-        Processo salvo =
-                processoRepository.save(processo);
-
-        historicoService.registrar(
-                salvo.getId(),
-                "EDICAO",
-                descricao,
-                usuario.getNome()
-        );
-
-        return salvo;
+    public Processo editar(Long id, Processo dados, String token) {
+        return executarEdicao(sessaoService.buscarUsuario(token), null, id,
+                new EditarDemandaRequest(null, dados.getPessoa(), dados.getResponsavel(), dados.getPrioridade(),
+                        dados.getDataEmissao(), dados.getPrazoEtapa(), dados.getPrazoGeral(), dados.getObservacoes()), false, dados);
     }
 
     public enum Acao { MOVER, CONCLUIR, CANCELAR, REABRIR }

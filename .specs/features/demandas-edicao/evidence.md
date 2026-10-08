@@ -149,3 +149,32 @@ Mapa reverso: entrada→EDI-05/09/13; campos proibidos→EDI-12/27; versões→E
 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoConcurrencyTests.java:66 `assertThat(jdbc.queryForList("select usuario from historicos",String.class)).allMatch("Dono"::equals);` | EDI-18/10 | Sim |
 
 **Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.
+
+
+## T3 — Rota legada protegida sem renumerar nem alterar ciclo — Complete
+
+92 testes H2 PASS, zero falhas/erros/skips; t3.log. Nove novos casos de compatibilidade, demais casos anteriores preservados
+
+### Check A: AC → assertions
+
+| AC/teste | Evidência file:line e assertion | Outcome |
+| --- | --- | --- |
+| EDI-19/27/28 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:20 `.andExpect(status().isOk()).andExpect(jsonPath("$.numeroProcesso").value(p.getNumeroProcesso())).andExpect(jsonPath("$.pessoa").value("Corrigida"));` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-19/27/28 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:21 `var salvo=processos.findById(p.getId()).orElseThrow();assertThat(salvo).extracting("status","dataConclusao","dataCancelamento","motivoCancelamento").containsExactly(status,p.getDataConclusao(),p.getDataCancelamento(),p.getMotivoCancelamento());` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-19/27/28 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:22 `assertThat(salvo.getEtapa().getId()).isEqualTo(e.getId());assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isEqualTo(1L);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-19/27/28 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:23 `assertThat(jdbc.queryForList("select acao from historicos",String.class)).containsExactly("EDICAO");assertThat(jdbc.queryForList("select usuario from historicos",String.class)).containsExactly("Dono");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-02/06/19/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:32 `.andExpect(status().is(caso.equals("terceiro")?403:400)).andExpect(jsonPath("$.erro").value(mensagem));` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-02/06/19/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:33 `assertThat(conteudoPersistido()).isEqualTo(antes);assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isZero();` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+
+### Check C: assertions → AC
+
+| Assertion | Maps to | Keep |
+| --- | --- | --- |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:20 `.andExpect(status().isOk()).andExpect(jsonPath("$.numeroProcesso").value(p.getNumeroProcesso())).andExpect(jsonPath("$.pessoa").value("Corrigida"));` | EDI-19/27/28 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:21 `var salvo=processos.findById(p.getId()).orElseThrow();assertThat(salvo).extracting("status","dataConclusao","dataCancelamento","motivoCancelamento").containsExactly(status,p.getDataConclusao(),p.getDataCancelamento(),p.getMotivoCancelamento());` | EDI-19/27/28 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:22 `assertThat(salvo.getEtapa().getId()).isEqualTo(e.getId());assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isEqualTo(1L);` | EDI-19/27/28 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:23 `assertThat(jdbc.queryForList("select acao from historicos",String.class)).containsExactly("EDICAO");assertThat(jdbc.queryForList("select usuario from historicos",String.class)).containsExactly("Dono");` | EDI-19/27/28 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:32 `.andExpect(status().is(caso.equals("terceiro")?403:400)).andExpect(jsonPath("$.erro").value(mensagem));` | EDI-02/06/19/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:33 `assertThat(conteudoPersistido()).isEqualTo(antes);assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isZero();` | EDI-02/06/19/27 | Sim |
+
+**Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.
