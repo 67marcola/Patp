@@ -1,6 +1,6 @@
 # Edição de demandas — contexto
 
-**Gathered:** 2026-10-07. **Status:** Em definição; duas decisões de produto aguardam resposta. Nenhum código da edição foi implementado.
+**Gathered:** 2026-10-07. **Status:** Regras autorizadas para implementação local em 07/10/2026.
 
 ## Feature Boundary
 
@@ -13,12 +13,12 @@ Acrescentar edição de dados informativos aos cartões de demandas. Criador do 
 - Usuário pediu que cada requisito concluído e verificado seja registrado no DIAGNOSTICO.md. Progresso parcial será identificado como parcial até a revisão independente da entrega.
 - Usuário pediu explicação das funcionalidades e da opção recomendada em cada pergunta.
 
-### Decisões perguntadas, ainda sem resposta
+### Decisões confirmadas em 07/10/2026
 
-1. Número: foi recomendado manter fixo após cadastro, preservando a referência da demanda. Alternativa: permitir correção com unicidade global.
-2. Encerradas: foi recomendado permitir correção informativa em quadro ativo, sem alterar status, etapa, datas de encerramento ou motivo. Alternativa: somente demandas em andamento.
+1. Número fixo após cadastro. Não permitir alteração pela rota antiga.
+2. Permitir correções informativas em demandas concluídas/canceladas de quadro ativo, preservando encerramento.
 
-As duas propostas aparecem como propostas na spec, sem aprovação implícita. Não iniciar implementação dependente enquanto aguardam resposta.
+Usuário respondeu: pode continuar e implementar essas propostas. Não pedir novamente autorização de implementação local. Após apresentação das duas adequações concretas de testes, respondeu pode continuar, autorizando os ajustes de testes antigos e a expectativa exata do novo teste de versão. Preservar todos os casos e suas provas.
 
 ### Defaults de implementação propostos
 

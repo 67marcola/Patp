@@ -1,6 +1,6 @@
 # Edição de demandas Specification
 
-**Status:** Draft de 07/10/2026. Permissão e tecnologias confirmadas; número e edição de encerradas aguardam resposta. Nenhuma implementação da nova edição. Este draft é revisável, mas ainda não autoriza fechar a especificação.
+**Status:** autorizado para implementação local em 07/10/2026. Número fixo e correção informativa de encerradas confirmados pelo usuário. Revisão independente obrigatória após T8.
 
 ## Problem Statement
 
@@ -28,15 +28,15 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 | --- | --- | --- | --- |
 | Permissão | Criador/admin em quadro ativo; sem criador, apenas admin | AD-023 e AD-005/006 | Sim |
 | Tecnologias | Conjunto atual, H2 somente testes | AD-024 | Sim |
-| Número | Proposta: fixo após cadastro | Preservar identificação e referências | Pergunta pendente; não implementar ainda |
-| Estado encerrado | Proposta: permitir correção informativa sem alterar ciclo | Corrigir informação não deve reabrir trabalho | Pergunta pendente; não implementar ainda |
-| Campos e limites | Cliente obrigatório 1–255; responsável/prioridade opcionais até 255; observações opcionais até 10000; três datas opcionais | Reutilizar cadastro existente, sem nova regra de cronologia | Default proposto |
-| Normalização | Mesma normalização do cadastro; opcional em branco vira null; limites em unidades UTF-16 | Contrato consistente entre criação e edição | Default proposto |
-| Rascunho e conflito | Preservar campos e exigir atualização manual, sem repetir mutação | Padrão já validado no quadro | Default proposto |
-| Envio sem diferenças | Salvar explicitamente ainda registra EDICAO e incrementa versão uma vez | Não introduzir comportamento silencioso especial; consistente com edição de quadros/etapas | Default proposto |
-| Registro legado com status desconhecido | Proposta conservadora: permanece consulta até regra explícita de correção | Manter orientação existente e evitar ampliar correção de estado neste corte | Default proposto |
+| Número | Fixo após cadastro | Preservar identificação e referências | Sim, resposta explícita em 07/10/2026 |
+| Estado encerrado | Permitir correção informativa de encerradas sem alterar ciclo | Corrigir informação não deve reabrir trabalho | Sim, resposta explícita em 07/10/2026 |
+| Campos e limites | Cliente obrigatório 1–255; responsável/prioridade opcionais até 255; observações opcionais até 10000; três datas opcionais | Reutilizar cadastro existente, sem nova regra de cronologia | Default documentado |
+| Normalização | Mesma normalização do cadastro; opcional em branco vira null; limites em unidades UTF-16 | Contrato consistente entre criação e edição | Default documentado |
+| Rascunho e conflito | Preservar campos e exigir atualização manual, sem repetir mutação | Padrão já validado no quadro | Default documentado |
+| Envio sem diferenças | Salvar explicitamente ainda registra EDICAO e incrementa versão uma vez | Não introduzir comportamento silencioso especial; consistente com edição de quadros/etapas | Default documentado |
+| Registro legado com status desconhecido | Permanece consulta até regra explícita de correção | Manter orientação existente e evitar ampliar correção de estado neste corte | Default documentado |
 
-**Open questions:** número e edição de encerradas têm perguntas enviadas. A política de retirada pertence a outra feature. Após respostas, fechar o contrato e validar novamente antes de Execute.
+**Open questions:** none para esta entrega. Retirada de demandas continua decisão de outra feature.
 
 ## User Stories
 
@@ -93,6 +93,10 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 - **EDI-25:** WHEN o gerenciamento exibido mudar THEN a interface SHALL descartar o formulário anterior e ignorar respostas tardias daquele gerenciamento.
 - **EDI-26:** WHILE o usuário não tiver permissão ou o quadro estiver arquivado a interface SHALL exibir os dados para consulta sem botão Editar demanda.
 
+- **EDI-27:** The sistema SHALL manter o número original em toda edição; a rota dedicada não recebe numeroProcesso e a legada aceita número omitido ou idêntico, recusando diferente com HTTP 400 e `O número da demanda não pode ser alterado após o cadastro.` sem efeitos.
+- **EDI-28:** WHILE uma demanda reconhecida estiver concluída ou cancelada em quadro ativo o sistema SHALL permitir edição informativa por criador/admin, preservando literalmente todos os campos do encerramento e a etapa.
+- **EDI-29:** IF uma demanda tiver status nulo, vazio ou desconhecido THEN o sistema SHALL recusar edição com HTTP 409 e `Status antigo não reconhecido. Solicite a correção do registro.`, sem efeitos; a interface mantém consulta sem Editar.
+
 ## Edge Cases
 
 - Valores exatamente 255/10000 são aceitos; acima disso são recusados, incluindo caracteres que ocupam duas unidades UTF-16.
@@ -101,7 +105,11 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 - Encerramentos antigos com null, datas ou motivos longos não são normalizados por edição informativa.
 - Criador nulo não é atribuído automaticamente.
 - Uma edição não deve mover demanda nem mudar contagens das etapas.
-- Número e estados permitidos serão incorporados como critérios específicos após as duas respostas; este draft não presume essas escolhas.
+- O número aparece somente para leitura no formulário de edição e não é enviado ao endpoint dedicado.
+- PUT dedicado recebe {versao,pessoa,responsavel,prioridade,dataEmissao,prazoEtapa,prazoGeral,observacoes}; resposta 200 é o snapshot completo. Cliente omitido é inválido; opcionais omitidos equivalem a null, pois é formulário completo.
+- Rota legada conserva retorno entidade e não exige versão enviada, mas usa o mesmo lock/permissão/validação/incremento. Campos do ciclo idênticos ou omitidos preservam o ciclo; divergentes recebem a mensagem existente de usar as ações próprias. Número diferente é recusado.
+- Erros de responsável/prioridade/observações usam, respectivamente: Informe um responsável com até 255 caracteres.; Informe uma prioridade com até 255 caracteres.; Informe observações com até 10000 caracteres.
+- Versão inválida: Informe uma versão válida do gerenciamento. Destino/demanda fora do quadro: Demanda não encontrada neste gerenciamento. Dados JSON desconhecidos/invalidáveis: Dados da requisição inválidos. Erro sem confirmação usa a mensagem atual da API e exige GET manual.
 
 ## Implicit Requirement Dimensions
 
@@ -121,38 +129,42 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| EDI-01 | P1: Autorização | Specify | Pending |
-| EDI-02 | P1: Autorização | Specify | Pending |
-| EDI-03 | P1: Autorização | Specify | Pending |
-| EDI-04 | P1: Autorização | Specify | Pending |
-| EDI-05 | P1: Dados | Specify | Pending |
-| EDI-06 | P1: Dados | Specify | Pending |
-| EDI-07 | P1: Dados | Specify | Pending |
-| EDI-08 | P1: Dados | Specify | Pending |
-| EDI-09 | P1: Dados | Specify | Pending |
-| EDI-10 | P1: Ciclo preservado | Specify | Pending |
-| EDI-11 | P1: Dados | Specify | Pending |
-| EDI-12 | P1: Dados | Specify | Pending |
-| EDI-13 | P1: Consistência | Specify | Pending |
-| EDI-14 | P1: Consistência | Specify | Pending |
-| EDI-15 | P1: Consistência | Specify | Pending |
-| EDI-16 | P1: Histórico | Specify | Pending |
-| EDI-17 | P1: Consistência | Specify | Pending |
-| EDI-18 | P1: Consistência | Specify | Pending |
-| EDI-19 | P1: Rota legada | Specify | Pending |
-| EDI-20 | P1: Interface | Specify | Pending |
-| EDI-21 | P1: Interface | Specify | Pending |
-| EDI-22 | P1: Interface | Specify | Pending |
-| EDI-23 | P1: Interface | Specify | Pending |
-| EDI-24 | P1: Interface | Specify | Pending |
-| EDI-25 | P1: Interface | Specify | Pending |
-| EDI-26 | P1: Interface | Specify | Pending |
+| EDI-01 | P1: Autorização | Tasks | Pending |
+| EDI-02 | P1: Autorização | Tasks | Pending |
+| EDI-03 | P1: Autorização | Tasks | Pending |
+| EDI-04 | P1: Autorização | Tasks | Pending |
+| EDI-05 | P1: Dados | Tasks | Pending |
+| EDI-06 | P1: Dados | Tasks | Pending |
+| EDI-07 | P1: Dados | Tasks | Pending |
+| EDI-08 | P1: Dados | Tasks | Pending |
+| EDI-09 | P1: Dados | Tasks | Implementing |
+| EDI-10 | P1: Ciclo preservado | Tasks | Pending |
+| EDI-11 | P1: Dados | Tasks | Pending |
+| EDI-12 | P1: Dados | Tasks | Implementing |
+| EDI-13 | P1: Consistência | Tasks | Implementing |
+| EDI-14 | P1: Consistência | Tasks | Pending |
+| EDI-15 | P1: Consistência | Tasks | Pending |
+| EDI-16 | P1: Histórico | Tasks | Pending |
+| EDI-17 | P1: Consistência | Tasks | Pending |
+| EDI-18 | P1: Consistência | Tasks | Pending |
+| EDI-19 | P1: Rota legada | Tasks | Pending |
+| EDI-20 | P1: Interface | Tasks | Pending |
+| EDI-21 | P1: Interface | Tasks | Pending |
+| EDI-22 | P1: Interface | Tasks | Pending |
+| EDI-23 | P1: Interface | Tasks | Pending |
+| EDI-24 | P1: Interface | Tasks | Pending |
+| EDI-25 | P1: Interface | Tasks | Pending |
+| EDI-26 | P1: Interface | Tasks | Pending |
 
-**Coverage:** 26 critérios em draft; nenhum implementado nesta entrega, nenhum declarado Verified. Tarefas serão produzidas após as decisões de produto.
+| EDI-27 | P1: Número fixo | Tasks | Implementing |
+| EDI-28 | P1: Encerradas | Tasks | Pending |
+| EDI-29 | P1: Legados | Tasks | Pending |
+
+**Coverage:** 29 critérios mapeados a T1–T8; nenhuma conclusão antecipada.
 
 ## Success Criteria
 
-- [ ] Decisões de número e estados fechadas e incorporadas aos critérios.
+- [x] Decisões de número e estados fechadas e incorporadas aos critérios.
 - [ ] Todas as provas de autorização, validação, persistência, conflito e UI aprovadas.
 - [ ] Suítes anteriores preservadas; mudanças em testes antigos apresentadas de forma concreta antes de alterá-los.
 - [ ] Verifier independente, sensor de falhas e validate_state PASS.
