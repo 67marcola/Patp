@@ -211,9 +211,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8 → T9 → T10 → T11 → T
 
 **Done when:**
 
-- [ ] apiArquivo.test.js: ações, cada divergência de campo/lista/ID/contagem/permissão/versão, HTTP/rede/201/204.
-- [ ] Gate Quick PASS, contagem registrada e nenhum skip/remoção não autorizado.
-- [ ] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
+- [x] apiArquivo.test.js: ações, cada divergência de campo/lista/ID/contagem/permissão/versão, HTTP/rede/201/204.
+- [x] Gate Quick PASS, contagem registrada e nenhum skip/remoção não autorizado.
+- [x] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
 
 **Tests:** unit
 **Gate:** Quick

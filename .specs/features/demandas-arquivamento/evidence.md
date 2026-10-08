@@ -531,3 +531,27 @@ Mapeamento reverso consolidado:
 | `sistema/src/test/java/com/patp/sistema/DemandaArquivoLegadaTests.java:27` — `mvc.perform(delete("/api/processos/"+p.getId()).header("Authorization",token(u))).andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value("Exclusão definitiva indisponível. Use o arquivamento da demanda."));` | ARQ-23 | Sim |
 
 Servidor Implemented. Interface T9–T12 e Verifier fresco pendentes. Todas AC1–23 têm outcome localizado; payloads são comparados por valor/físico, falhas preservam versão. A/B/C/D PASS; nenhuma evidência antecipada de Verified.
+
+## T9: confirmar api frontend
+
+Gate PASS: 106 Vitest; 0 failures, 0 skips. Logs TEMP arquivo-T9.log.
+Assumptions: política e contrato aprovados, stack AD-024 mantida. Files: frontend/src/services/api.js,frontend/src/services/apiArquivo.test.js; registros TLC. Success: ARQ-19/20/28/29 e 14 campos, listas, contagens, versões, HTTP/rede sem retry.
+
+Check A: cobertura/outcome por assertion; Check C: mapeamento reverso.
+
+| AC / borda | file:line + assertion exata | Outcome / manter |
+| --- | --- | --- |
+| ARQ-05/06/28 | `frontend/src/services/apiArquivo.test.js:23` — `expect(await executar("sessao", 9, { ...anterior, status }, 2)).toEqual(r);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-05/06/28 | `frontend/src/services/apiArquivo.test.js:25` — `expect(url).toBe(`http://localhost:8081/api/gerenciamentos/9/demandas/21/${acao}`);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-05/06/28 | `frontend/src/services/apiArquivo.test.js:26` — `expect(req.method).toBe("PUT"); expect(req.headers).toEqual({ Authorization: "Bearer sessao", "Content-Type": "application/json" });` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-05/06/28 | `frontend/src/services/apiArquivo.test.js:27` — `expect(JSON.parse(req.body)).toEqual({ versao: 2 }); expect(f).toHaveBeenCalledTimes(1);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-19/20/28 | `frontend/src/services/apiArquivo.test.js:52` — `await expect(executar("sessao", 9, anterior, 2)).rejects.toMatchObject({ name: "ApiError", status: 200, message: mensagem });` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-19/20/28 | `frontend/src/services/apiArquivo.test.js:53` — `expect(f).toHaveBeenCalledTimes(1);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-28 | `frontend/src/services/apiArquivo.test.js:56` — `preparar(snapshot(acao), status); await expect(executar("sessao", 9, anterior, 2)).rejects.toMatchObject({ status, message: mensagem });` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-29 | `frontend/src/services/apiArquivo.test.js:60` — `await expect(executar("sessao", 9, anterior, 2)).rejects.toMatchObject({ status, message: "Mensagem do servidor" }); expect(f).toHaveBeenCalledTimes(1);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-29 | `frontend/src/services/apiArquivo.test.js:64` — `await expect(executar("sessao", 9, anterior, 2)).rejects.toMatchObject({ status: 0, message: mensagem }); expect(f).toHaveBeenCalledTimes(1);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-19 | `frontend/src/services/apiArquivo.test.js:69` — `expect(await buscarConfiguracaoEtapas("sessao", 9)).toEqual(r);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-19 | `frontend/src/services/apiArquivo.test.js:73` — `await expect(buscarConfiguracaoEtapas("sessao", 9)).rejects.toMatchObject({ status: 200, message: mensagem });` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+| ARQ-19/20 | `frontend/src/services/apiArquivo.test.js:78` — `expect(await editarDemanda("sessao", 9, anterior, { ...anterior, versao: 2 })).toEqual(r);` | Spec define transferência literal / confirmação / consulta / proteção; manter |
+
+A/B/C/D PASS: asserts de resultado e payload por valor; casos ligados aos ACs/bordas/Done when. Nenhum skip/delete/enfraquecimento. Padrões docs/OPERACAO.md, Vitest/Testing Library. Implemented, Verifier independente pendente.
