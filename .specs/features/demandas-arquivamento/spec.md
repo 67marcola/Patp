@@ -141,29 +141,29 @@ Criação, leitura, edição e transições estão entregues. Falta retirar dema
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| ARQ-01 | P1: Autorização | Specify | Implemented parcial |
-| ARQ-02 | P1: Autorização | Specify | Implemented |
-| ARQ-03 | P1: Autorização | Specify | Implemented |
-| ARQ-04 | P1: Autorização | Specify | Implemented |
-| ARQ-05 | P1: Preservação | Specify | Implemented |
-| ARQ-06 | P1: Preservação | Specify | Implemented |
-| ARQ-07 | P1: Preservação | Specify | Implemented |
-| ARQ-08 | P1: Consistência | Specify | Implemented |
-| ARQ-09 | P1: Consistência | Specify | Implemented |
-| ARQ-10 | P1: Consistência | Specify | Pending |
-| ARQ-11 | P1: Consistência | Specify | Implemented |
-| ARQ-12 | P1: Consistência | Specify | Implemented |
-| ARQ-13 | P1: Consistência | Specify | Implemented |
-| ARQ-14 | P1: Histórico | Specify | Implemented |
-| ARQ-15 | P1: Consistência | Specify | Implemented |
-| ARQ-16 | P1: Consistência | Specify | Implemented parcial |
-| ARQ-17 | P1: Leitura | Specify | Implemented |
-| ARQ-18 | P1: Leitura | Specify | Implemented |
-| ARQ-19 | P1: Leitura | Specify | Implemented |
-| ARQ-20 | P1: Leitura | Specify | Implemented |
-| ARQ-21 | P1: Leitura | Specify | Implemented |
-| ARQ-22 | P1: Proteção | Specify | Implemented parcial |
-| ARQ-23 | P1: Proteção | Specify | Implemented |
+| ARQ-01 | P1: Autorização | Execute | Implemented |
+| ARQ-02 | P1: Autorização | Execute | Implemented |
+| ARQ-03 | P1: Autorização | Execute | Implemented |
+| ARQ-04 | P1: Autorização | Execute | Implemented |
+| ARQ-05 | P1: Preservação | Execute | Implemented |
+| ARQ-06 | P1: Preservação | Execute | Implemented |
+| ARQ-07 | P1: Preservação | Execute | Implemented |
+| ARQ-08 | P1: Consistência | Execute | Implemented |
+| ARQ-09 | P1: Consistência | Execute | Implemented |
+| ARQ-10 | P1: Consistência | Execute | Implemented |
+| ARQ-11 | P1: Consistência | Execute | Implemented |
+| ARQ-12 | P1: Consistência | Execute | Implemented |
+| ARQ-13 | P1: Consistência | Execute | Implemented |
+| ARQ-14 | P1: Histórico | Execute | Implemented |
+| ARQ-15 | P1: Consistência | Execute | Implemented |
+| ARQ-16 | P1: Consistência | Execute | Implemented |
+| ARQ-17 | P1: Leitura | Execute | Implemented |
+| ARQ-18 | P1: Leitura | Execute | Implemented |
+| ARQ-19 | P1: Leitura | Execute | Implemented |
+| ARQ-20 | P1: Leitura | Execute | Implemented |
+| ARQ-21 | P1: Leitura | Execute | Implemented |
+| ARQ-22 | P1: Proteção | Execute | Implemented |
+| ARQ-23 | P1: Proteção | Execute | Implemented |
 | ARQ-24 | P1: Interface | Specify | Pending |
 | ARQ-25 | P1: Interface | Specify | Pending |
 | ARQ-26 | P1: Interface | Specify | Pending |
@@ -172,7 +172,7 @@ Criação, leitura, edição e transições estão entregues. Falta retirar dema
 | ARQ-29 | P1: Interface | Specify | Pending |
 | ARQ-30 | P1: Interface | Specify | Pending |
 
-**Coverage:** 30 critérios; implementação pendente, nenhum Verified antecipado.
+**Coverage:** 23 critérios do servidor Implemented; 7 critérios da interface pendentes. Nenhum Verified antecipado; revisão independente após T12.
 
 ## Success Criteria
 
