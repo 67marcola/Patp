@@ -233,15 +233,15 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature:** demandas-arquivamento, spec/context/design/tasks concretos em revisão. Branch testes; base 3f9d78a.
+- **Feature:** demandas-arquivamento em execução autorizada. Branch testes; base 3f9d78a, planejamento 674e05d.
 - **Completed:** edição concluída, 29/29 critérios e sensor 9/9; 570 H2, 721 Vitest, 213 MySQL e 9 Edge. Produto do arquivo confirmado em AD-027/028: três estados, criador/admin, quadro ativo.
-- **In progress:** preparação; zero tarefas de código executadas. Proposta de 12 tarefas, fases 8+4; revisão concreta/oferta de agentes pendentes.
-- **Next step:** revisar proposta, escolher dois lotes por agentes ou inline e autorizar duas adequações concretas: ProcessoArchiveTests.java:128 (DELETE500 vira recusa409 sem efeito), QuadroTransicoes.test.jsx:44 (3listas incluem Arquivar mantendo ações anteriores). Não repetir políticas/tecnologias respondidas.
-- **Blocker:** nenhum técnico; aguardar apenas decisões apresentadas, sem inferir resposta por tempo.
+- **In progress:** início do servidor T1–T8; usuário autorizou pelo “Pode continuar” a proposta concreta, dois lotes sequenciais e as duas adequações de testes apresentadas.
+- **Next step:** concluir servidor antes de iniciar interface T9–T12; testes, evidências, diagnóstico parcial e commit por tarefa. Verifier fresco após T12. Adequações autorizadas: ProcessoArchiveTests.java:128 (DELETE500 vira recusa409 sem efeito e versão preservada), QuadroTransicoes.test.jsx:44 (3listas incluem Arquivar mantendo ações anteriores).
+- **Blocker:** nenhum.
 - **User preference:** explicar o que será colocado e recomendar efeitos/opções. Registrar requisito concluído no diagnóstico só após testes e Verifier.
 - **Environment:** AD-024; JDK 25/Maven 3.9.16/Mockito 5.23.0. Logs em TEMP. MySQL 33821 da edição inativo; nenhum banco real. Gates da nova implementação ainda não executados.
-- **Uncommitted files:** documentos desta preparação em fechamento; gerados target/node_modules/test-results preexistentes preservados. Add explícito.
-- **Restrictions:** sem exclusão física/push/deploy/migração real; preservar testes; Verifier fresco ao fim. Não spawn workers sem aceitar oferta.
+- **Uncommitted files:** registro da autorização em fechamento; gerados target/node_modules/test-results preexistentes preservados. Add explícito.
+- **Restrictions:** sem exclusão física/push/deploy/migração real; preservar testes; Verifier fresco ao fim. Oferta dos dois lotes aceita nesta retomada.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

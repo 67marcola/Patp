@@ -1,6 +1,6 @@
 # Arquivamento de demandas Design
 
-**Spec:** spec.md. **Status:** Draft técnico para revisão; decisões de produto fixadas.
+**Spec:** spec.md. **Status:** desenho autorizado em 08/10/2026; decisões de produto fixadas.
 
 ## Architecture Overview
 

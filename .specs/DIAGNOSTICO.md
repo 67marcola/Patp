@@ -62,7 +62,7 @@ Demandas concluídas ou canceladas também permitem essas correções, preservan
 
 ## O que ainda falta nos requisitos originais
 
-**Próxima entrega em preparação — arquivamento/restauração (08/10/2026):** usuário confirmou preservar dados e permitir arquivo nos três estados, por criador/admin em quadro ativo. [Spec](features/demandas-arquivamento/spec.md), [contexto](features/demandas-arquivamento/context.md), [desenho](features/demandas-arquivamento/design.md) e [12 tarefas](features/demandas-arquivamento/tasks.md) preparados para revisão. Proposta: área Arquivadas, restauração na etapa/estado original, número reservado e rotas antigas protegidas. **Nenhum requisito desta entrega está concluído ou implementado.**
+**Entrega em execução — arquivamento/restauração (08/10/2026):** usuário autorizou a proposta concreta e os dois lotes sequenciais, servidor T1–T8 e interface T9–T12, com as duas adequações antigas descritas nas [tarefas](features/demandas-arquivamento/tasks.md). [Spec](features/demandas-arquivamento/spec.md), [contexto](features/demandas-arquivamento/context.md) e [desenho](features/demandas-arquivamento/design.md) fixam a área Arquivadas, restauração na etapa/estado original, número reservado e rotas antigas protegidas. **Execução iniciada; nenhum requisito foi marcado concluído antecipadamente.**
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |

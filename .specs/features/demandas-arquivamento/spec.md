@@ -1,6 +1,6 @@
 # Arquivamento e restauração de demandas Specification
 
-**Status:** draft concreto para revisão em 08/10/2026; produto confirmado, implementação ainda não iniciada. Base 3f9d78a.
+**Status:** implementação autorizada em 08/10/2026 após apresentação da proposta concreta; execução em dois lotes sequenciais (servidor e interface). Base 3f9d78a.
 
 ## Problem Statement
 
@@ -40,7 +40,7 @@ Criação, leitura, edição e transições estão entregues. Falta retirar dema
 | UI e falhas | Confirmação por teclado, pending global, GET manual sem retry | Padrão validado | Default documentado |
 | Tecnologias | AD-024, sem biblioteca nova | Reutilizar conjunto atual | Confirmadas anteriormente |
 
-**Open questions:** none — decisões de produto resolvidas ou defaults registrados acima; proposta técnica e adequações concretas de testes em revisão antes de executar.
+**Open questions:** none. Produto, proposta técnica, dois lotes sequenciais e duas adequações concretas de testes autorizados pelo “Pode continuar” após sua apresentação.
 
 ## User Stories
 
