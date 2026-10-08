@@ -66,4 +66,16 @@ public class DemandaController {
         return processos.transicionar(authorization.substring(7), gerenciamentoId, demandaId,
                 Acao.REABRIR, request.etapaId(), null, request.versao());
     }
+
+    @PutMapping("/{gerenciamentoId}/demandas/{demandaId}/arquivar")
+    public ConfiguracaoEtapasResponse arquivar(@RequestHeader("Authorization") String authorization,
+            @PathVariable Long gerenciamentoId, @PathVariable Long demandaId, @RequestBody TransicaoVersaoRequest request) {
+        return processos.arquivar(authorization.substring(7), gerenciamentoId, demandaId, request.versao());
+    }
+
+    @PutMapping("/{gerenciamentoId}/demandas/{demandaId}/restaurar")
+    public ConfiguracaoEtapasResponse restaurar(@RequestHeader("Authorization") String authorization,
+            @PathVariable Long gerenciamentoId, @PathVariable Long demandaId, @RequestBody TransicaoVersaoRequest request) {
+        return processos.restaurar(authorization.substring(7), gerenciamentoId, demandaId, request.versao());
+    }
 }

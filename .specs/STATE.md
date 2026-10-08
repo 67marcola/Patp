@@ -234,9 +234,9 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** demandas-arquivamento; branch testes, base ecde314.
-- **Completed:** servidor T1–T7 com commits atômicos e gates locais; último 19 testes/0 skips.
-- **In progress:** servidor; Implemented, não Verified.
-- **Next step:** T8; servidor termina antes da interface. Verifier fresco após T12.
+- **Completed:** servidor T1–T8 com commits atômicos e gates locais; último 747 testes/0 skips.
+- **In progress:** interface T9–T12 pendente; servidor concluído com 747 Java/H2. Implemented, não Verified.
+- **Next step:** T9; servidor termina antes da interface. Verifier fresco após T12.
 - **Blocker:** nenhum.
 - **Environment:** JDK25/Maven3.9.16/Mockito5.23.0; H2 fictício/create-drop/port0, logs TEMP arquivo-T*.log.
 - **Uncommitted files:** gerados preexistentes target/node_modules/test-results preservados; add explícito.
