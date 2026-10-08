@@ -128,6 +128,21 @@ function transicaoConfirmada(resposta, id, anterior, acao, enviados, status) {
             : demanda.dataCancelamento !== null && demanda.dataConclusao === null && demanda.motivoCancelamento === enviados.motivo.trim());
 }
 
+function edicaoConfirmada(resposta, id, anterior, enviados, status) {
+    if (status !== 200 || !snapshotValido(resposta, id) || resposta.gerenciamento.arquivado
+        || !resposta.gerenciamento.podeAdministrar || resposta.gerenciamento.versao !== enviados.versao + 1) return false;
+    const demanda = resposta.demandas.find(atual => atual.id === anterior.id);
+    if (!demanda || !["id", "numeroProcesso", "status", "etapaId", "dataConclusao", "dataCancelamento", "motivoCancelamento"]
+        .every(campo => demanda[campo] === anterior[campo])) return false;
+    const campos = { dataEmissao: enviados.dataEmissao ?? null, prazoEtapa: enviados.prazoEtapa ?? null,
+        prazoGeral: enviados.prazoGeral ?? null };
+    for (const campo of ["pessoa", "responsavel", "prioridade", "observacoes"]) {
+        const valor = enviados[campo];
+        campos[campo] = typeof valor === "string" ? valor.trim() || null : valor ?? null;
+    }
+    return Object.entries(campos).every(([campo, valor]) => demanda[campo] === valor);
+}
+
 async function autenticar(caminho, dados) {
     const resposta = await requisicao(caminho, { method: "POST", dados });
     if (!resposta || typeof resposta !== "object" || Array.isArray(resposta)
@@ -208,4 +223,9 @@ export function criarDemanda(token, id, dados) {
 export function transicionarDemanda(token, id, demanda, acao, dados) {
     return requisicao(`/gerenciamentos/${id}/demandas/${demanda.id}/${acao}`, { token, method: "PUT", dados,
         validar: (resposta, status) => transicaoConfirmada(resposta, id, demanda, acao, dados, status) });
+}
+
+export function editarDemanda(token, id, demanda, dados) {
+    return requisicao(`/gerenciamentos/${id}/demandas/${demanda.id}`, { token, method: "PUT", dados,
+        validar: (resposta, status) => edicaoConfirmada(resposta, id, demanda, dados, status) });
 }

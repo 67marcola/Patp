@@ -223,3 +223,42 @@ Mapa reverso: entrada→EDI-05/09/13; campos proibidos→EDI-12/27; versões→E
 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:37 `assertThat(jdbc.queryForList("select descricao from historicos",String.class)).containsExactly("Processo alterado.");` | EDI-05/08/10/15/16/27 | Sim |
 
 **Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.
+
+
+## T5 — Confirmação dos campos e ciclo na resposta da API frontend — Complete
+
+695 Vitest PASS, 17 arquivos, nenhum skip; t5-vitest.log. Mais 34 casos, nenhuma regressão perdida
+
+### Check A: AC → assertions
+
+| AC/teste | Evidência file:line e assertion | Outcome |
+| --- | --- | --- |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:22 `expect(await editarDemanda("sessao", 9, { ...anterior, status }, enviados)).toEqual(r);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:24 `expect(url).toBe("http://localhost:8081/api/gerenciamentos/9/demandas/21"); expect(req.method).toBe("PUT");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:25 `expect(req.headers).toEqual({ Authorization: "Bearer sessao", "Content-Type": "application/json" });` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:26 `expect(JSON.parse(req.body)).toEqual(enviados); expect(fetchMock).toHaveBeenCalledTimes(1);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:44 `await expect(editarDemanda("sessao", 9, anterior, enviados)).rejects.toMatchObject({ name: "ApiError", status: 200,` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:46 `expect(fetchMock).toHaveBeenCalledTimes(1);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:49 `preparar(resposta(), status); await expect(editarDemanda("sessao", 9, anterior, enviados)).rejects.toMatchObject({ name: "ApiError", status });` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:53 `await expect(editarDemanda("sessao", 9, anterior, enviados)).rejects.toMatchObject({ status, message: "Mensagem do servidor" });` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:54 `expect(f).toHaveBeenCalledTimes(1);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:58 `await expect(editarDemanda("sessao", 9, anterior, enviados)).rejects.toMatchObject({ status: 0,` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-23,24,27,28 | frontend/src/services/apiEdicao.test.js:60 `expect(f).toHaveBeenCalledTimes(1);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+
+### Check C: assertions → AC
+
+| Assertion | Maps to | Keep |
+| --- | --- | --- |
+| frontend/src/services/apiEdicao.test.js:22 `expect(await editarDemanda("sessao", 9, { ...anterior, status }, enviados)).toEqual(r);` | EDI-23,24,27,28 | Sim |
+| frontend/src/services/apiEdicao.test.js:24 `expect(url).toBe("http://localhost:8081/api/gerenciamentos/9/demandas/21"); expect(req.method).toBe("PUT");` | EDI-23,24,27,28 | Sim |
+| frontend/src/services/apiEdicao.test.js:25 `expect(req.headers).toEqual({ Authorization: "Bearer sessao", "Content-Type": "application/json" });` | EDI-23,24,27,28 | Sim |
+| frontend/src/services/apiEdicao.test.js:26 `expect(JSON.parse(req.body)).toEqual(enviados); expect(fetchMock).toHaveBeenCalledTimes(1);` | EDI-23,24,27,28 | Sim |
+| frontend/src/services/apiEdicao.test.js:44 `await expect(editarDemanda("sessao", 9, anterior, enviados)).rejects.toMatchObject({ name: "ApiError", status: 200,` | EDI-23,24,27,28 | Sim |
+| frontend/src/services/apiEdicao.test.js:46 `expect(fetchMock).toHaveBeenCalledTimes(1);` | EDI-23,24,27,28 | Sim |
+| frontend/src/services/apiEdicao.test.js:49 `preparar(resposta(), status); await expect(editarDemanda("sessao", 9, anterior, enviados)).rejects.toMatchObject({ name: "ApiError", status });` | EDI-23,24,27,28 | Sim |
+| frontend/src/services/apiEdicao.test.js:53 `await expect(editarDemanda("sessao", 9, anterior, enviados)).rejects.toMatchObject({ status, message: "Mensagem do servidor" });` | EDI-23,24,27,28 | Sim |
+| frontend/src/services/apiEdicao.test.js:54 `expect(f).toHaveBeenCalledTimes(1);` | EDI-23,24,27,28 | Sim |
+| frontend/src/services/apiEdicao.test.js:58 `await expect(editarDemanda("sessao", 9, anterior, enviados)).rejects.toMatchObject({ status: 0,` | EDI-23,24,27,28 | Sim |
+| frontend/src/services/apiEdicao.test.js:60 `expect(f).toHaveBeenCalledTimes(1);` | EDI-23,24,27,28 | Sim |
+
+**Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.
