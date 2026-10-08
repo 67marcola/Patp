@@ -98,7 +98,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8
 **Requirement:** EDI-23/24/27/28
 **Tests:** unit, apiEdicao.test.js, payload correto e resposta divergente/rede/HTTP.
 **Gate:** Full
-**Done when:** [ ] Confirmação prova campos, ciclo e versão e preserva erros.
+**Done when:** [x] Confirmação prova campos, ciclo e versão e preserva erros.
+
+**Result:** T5 Complete. 695 Vitest PASS, 17 arquivos, nenhum skip; t5-vitest.log. Mais 34 casos, nenhuma regressão perdida
 
 ### T6: Acrescentar modo edição ao formulário
 **What:** Formulário preenchido com número somente leitura e validação.
