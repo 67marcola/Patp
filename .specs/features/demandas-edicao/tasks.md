@@ -120,7 +120,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8
 **Requirement:** EDI-20–29
 **Tests:** unit, QuadroEdicao.test.jsx e casos antigos autorizados; erro/recarga manual/troca/foco/cache.
 **Gate:** Build
-**Done when:** [ ] Vitest integral, lint/build e integração aprovados.
+**Done when:** [x] Vitest integral, lint/build e integração aprovados.
+
+**Result:** T7 Complete. 721 Vitest PASS, 19 arquivos; lint/build TEMP PASS; t7-vitest.log, t7-lint.log e t7-build.log. Quinze novos casos; três expectativas antigas incluem Editar e preservam as transições
 
 ### T8: Provar edição real no navegador
 **What:** Fluxos reais de edição/encerramento/recarga e permissão.

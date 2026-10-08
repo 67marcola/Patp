@@ -41,7 +41,7 @@ async function abrir(user, acao) {
 test.each(["Em andamento", "Concluido", "Cancelado"])("MOV-28: status%s mostra somente ações permitidas", async status => {
     preparar(() => json(snapshot([{ ...demanda, status, etapaId: status === "Concluido" ? 14 : status === "Cancelado" ? 15 : 11 }])));
     const card = await screen.findByRole("article", { name: "Poste-1 — João" });
-    expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(status === "Em andamento" ? ["Mover/pular etapa", "Concluir", "Cancelar"] : ["Reabrir"]);
+    expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(status === "Em andamento" ? ["Editar", "Mover/pular etapa", "Concluir", "Cancelar"] : ["Editar", "Reabrir"]);
 });
 
 test.each([{ podeAdministrar: false }, { arquivado: true }])("MOV-28: sem permissão/arquivado%s só consulta", async flags => {
