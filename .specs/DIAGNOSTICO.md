@@ -8,6 +8,18 @@ Cada **gerenciamento é um quadro** com várias **demandas**. As etapas são as 
 
 A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no servidor, interface web e MySQL como banco previsto para uso; os testes também usam H2 isolado. Workbench é a ferramenta indicada para administrar o MySQL.
 
+**Tecnologias confirmadas pelo usuário em 07/10/2026 (AD-024):**
+
+| Parte | Tecnologias e finalidade |
+| --- | --- |
+| Servidor | Java, Spring Boot, Spring Web MVC e Spring Data JPA/Hibernate para API, regras de negócio e persistência. |
+| Dados | MySQL como banco do sistema; MySQL Workbench para administração do banco. |
+| Interface | React, JavaScript, HTML/CSS e Vite. |
+| Construção | Maven no servidor; Node.js/npm na interface. |
+| Testes | JUnit e H2 isolado; Vitest, Testing Library e Playwright. H2 é usado somente nos testes. |
+
+**Acompanhamento combinado:** cada requisito concluído e verificado será registrado neste diagnóstico. Tarefas e critérios parcialmente concluídos serão identificados como progresso parcial até a aprovação técnica da entrega.
+
 ## O que está pronto e validado
 
 | Entrega | O que já é possível fazer | Evidência |
@@ -39,6 +51,8 @@ Já foram implementados e testados o serviço de transição, as quatro rotas da
 
 ## O que ainda falta nos requisitos originais
 
+**Próxima entrega iniciada — edição de demandas (07/10/2026):** [especificação em draft](features/demandas-edicao/spec.md) e [contexto](features/demandas-edicao/context.md) preparados. A permissão criador/admin e as tecnologias estão confirmadas. Aguardam resposta as escolhas sobre alterar o número e corrigir dados de demandas encerradas. Não considerar a edição implementada ou concluída; o draft define formulário preenchido, validação, autoria, preservação do ciclo e proteção contra conflitos.
+
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
 | CRUD completo de demandas | Criação, consulta e transições estão prontas. Próxima entrega: edição de dados informativos somente por criador/admin, escolhida em AD-023 e ainda não implementada. Falta decidir a retirada de demandas: foi recomendado arquivar/restaurar preservando dados; exclusão definitiva é a alternativa, ainda sem resposta. Rotas antigas não equivalem ao CRUD completo validado. |
@@ -58,8 +72,8 @@ Os números abaixo são registros das execuções aprovadas, não uma nova execu
 
 ## Onde acompanhar o projeto
 
-- [STATE.md](STATE.md): decisões de negócio AD-001 a AD-023 e ponto de retomada.
-- [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega.
+- [STATE.md](STATE.md): decisões de negócio AD-001 a AD-024 e ponto de retomada.
+- [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-edicao está em definição, sem conclusão técnica.
 - [OPERACAO.md](../docs/OPERACAO.md): orientações de execução e verificação com dados fictícios.
 
 Este arquivo registra o diagnóstico do projeto. A skill `tlc-spec-driven` fornece o método de especificação, execução e verificação; suas instruções não foram alteradas para guardar o resumo.

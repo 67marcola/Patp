@@ -191,14 +191,22 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Scope**: próxima entrega de edição de cliente, responsável, prioridade, prazos e observações em quadro ativo. Não alterar permissões de criação, transições ou campos de encerramento; arquivados continuam somente consulta. A regra foi decidida, mas ainda não está implementada neste corte de movimentação. Número e política de retirada/exclusão continuam com escolhas próprias pendentes.
 - **Date**: 2026-10-07
 - **Status**: active
+### AD-024
+- **Decision**: manter as tecnologias atuais: Java, Spring Boot, Spring Data JPA/Hibernate, MySQL e Workbench; React, JavaScript, HTML/CSS e Vite; Maven e Node.js/npm; JUnit/H2, Vitest/Testing Library e Playwright nos testes.
+- **Reason**: usuário confirmou explicitamente a recomendação de manter o conjunto integrado e testado no projeto em 07/10/2026.
+- **Trade-off**: a próxima entrega reutiliza a infraestrutura existente. Workbench administra o MySQL; H2 fica restrito aos testes e não substitui o banco do sistema.
+- **Scope**: próximas entregas do sistema Creral. A confirmação não autoriza atualizar versões, migrar dados reais ou implantar o sistema.
+- **Date**: 2026-10-07
+- **Status**: active
+
 ## Handoff
 
 - **Feature:** demandas-movimentacao concluída e validada; branch testes.
 - **Completed:** T1–T8. Commits de fechamento: 527d18b (T6), 5defae7 (T7), 4780ed2 (T8). Verifier rodada 2: PASS, 35/35 critérios e edge. As 14 falhas simuladas foram detectadas após fechar duas lacunas de teste.
 - **Latest evidence:** 479 Java/H2, 661 Vitest, lint/build, 7 Edge/H2 e 122 MySQL fictício PASS. Relatório: features/demandas-movimentacao/validation.md. Logs preservados em TEMP/creral-tlc-retomada-e09b0601b70b48dc82f7ea9b26cf3efc. Sensor R2: 2/2 detectados, controles 122 antes/depois e 4.178 arquivos/porcelain preservados. validate_state PASS.
-- **Next step:** edição de demandas conforme AD-023 (criador/admin). A política de retirada é uma decisão separada: arquivar/restaurar foi recomendado frente à exclusão definitiva; pergunta ainda sem resposta. Número e detalhes da edição precisam de contrato próprio.
+- **Next step:** demandas-edicao em definição, com spec.md/context.md em draft e zero código implementado. AD-023 confirma criador/admin; AD-024 confirma tecnologias. Duas perguntas pendentes: número fixo (recomendado) ou corrigível; permitir correção informativa de encerradas (recomendado) ou somente andamento. Após respostas, fechar spec, criar tarefas e implementar com gates/Verifier. A política de retirada é uma decisão separada, ainda sem resposta.
 - **Pending UAT:** roteiro humano em docs/OPERACAO.md, ainda sem teste ou aceitação do usuário. Capturas e testes automáticos não são UAT humano.
-- **User preference:** explicar o que será colocado no sistema e indicar recomendação e efeito nas perguntas.
+- **User preference:** explicar o que será colocado no sistema e indicar recomendação e efeito nas perguntas. Registrar no DIAGNOSTICO.md cada requisito concluído e verificado; registrar progresso parcial como parcial, sem antecipar a conclusão da entrega.
 - **Environment:** MySQL próprio na porta 33819 encerrado após conferir SQL, datadir, porta e PID. Evidências preservadas; nenhum banco real, push ou deploy operado.
 - **Uncommitted files:** artefatos gerados rastreados de node_modules/target/test-results preservados e fora dos commits de fonte; não usar git add geral. Diagnóstico preserva o resumo acrescentado pelo usuário e o registro histórico.
 - **Restrictions:** implementação, testes fictícios e commits locais autorizados; banco real, push e deploy exigem autorização específica.
