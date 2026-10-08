@@ -53,7 +53,7 @@ Já foram implementados e testados o serviço de transição, as quatro rotas da
 
 **Próxima entrega iniciada — edição de demandas (07/10/2026):** [especificação em draft](features/demandas-edicao/spec.md) e [contexto](features/demandas-edicao/context.md) preparados. A permissão criador/admin e as tecnologias estão confirmadas. Número fixo e correção informativa de demandas encerradas foram confirmados (AD-025/026); implementação autorizada. Não considerar a edição implementada ou concluída; o draft define formulário preenchido, validação, autoria, preservação do ciclo e proteção contra conflitos.
 
-**Progresso parcial da edição:** T1–T2 concluídas. Serviço transacional com ciclo preservado e concorrência. 32 testes H2 PASS, zero falhas/erros/skips; t2-2.log. Primeira compilação falhou por adaptação do helper Runnable, corrigida sem mudar assertions. Entrega completa ainda depende das tarefas restantes e do Verifier; [evidências](features/demandas-edicao/evidence.md).
+**Progresso parcial da edição:** T1–T3 concluídas. Rota legada protegida sem renumerar nem alterar ciclo. 92 testes H2 PASS, zero falhas/erros/skips; t3.log. Nove novos casos de compatibilidade, demais casos anteriores preservados. Entrega completa ainda depende das tarefas restantes e do Verifier; [evidências](features/demandas-edicao/evidence.md).
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |

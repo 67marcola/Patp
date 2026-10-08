@@ -147,7 +147,7 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 | EDI-16 | P1: Histórico | Tasks | Implementing |
 | EDI-17 | P1: Consistência | Tasks | Implementing |
 | EDI-18 | P1: Consistência | Tasks | Implementing |
-| EDI-19 | P1: Rota legada | Tasks | Pending |
+| EDI-19 | P1: Rota legada | Tasks | Implementing |
 | EDI-20 | P1: Interface | Tasks | Pending |
 | EDI-21 | P1: Interface | Tasks | Pending |
 | EDI-22 | P1: Interface | Tasks | Pending |

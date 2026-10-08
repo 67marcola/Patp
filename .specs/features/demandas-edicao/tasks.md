@@ -76,7 +76,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8
 **Requirement:** EDI-19/27
 **Tests:** integration, rota antiga e autorização/renumeração/ciclo; adequações antigas autorizadas.
 **Gate:** Quick
-**Done when:** [ ] Rota antiga não contorna número, autorização ou ciclo e incrementa versão.
+**Done when:** [x] Rota antiga não contorna número, autorização ou ciclo e incrementa versão.
+
+**Result:** T3 Complete. 92 testes H2 PASS, zero falhas/erros/skips; t3.log. Nove novos casos de compatibilidade, demais casos anteriores preservados
 
 ### T4: Expor API de edição
 **What:** Endpoint dedicado PUT com DTO e snapshot.
