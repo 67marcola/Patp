@@ -1,6 +1,7 @@
 package com.patp.sistema.model;
 
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +30,10 @@ public class Processo {
 
     private String status;
 
+    @Column(columnDefinition = "boolean default false")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Boolean arquivado = false;
+
     private String prioridade;
 
     private LocalDate dataEmissao;
@@ -52,6 +57,14 @@ public class Processo {
     private Etapa etapa;
 
     public Processo() {
+    }
+
+    public boolean isArquivado() {
+        return Boolean.TRUE.equals(arquivado);
+    }
+
+    public void setArquivado(Boolean arquivado) {
+        this.arquivado = arquivado;
     }
 
     public Long getId() {

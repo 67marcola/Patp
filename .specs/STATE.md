@@ -233,15 +233,15 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature:** demandas-arquivamento em execução autorizada. Branch testes; base 3f9d78a, planejamento 674e05d.
-- **Completed:** edição concluída, 29/29 critérios e sensor 9/9; 570 H2, 721 Vitest, 213 MySQL e 9 Edge. Produto do arquivo confirmado em AD-027/028: três estados, criador/admin, quadro ativo.
-- **In progress:** início do servidor T1–T8; usuário autorizou pelo “Pode continuar” a proposta concreta, dois lotes sequenciais e as duas adequações de testes apresentadas.
-- **Next step:** concluir servidor antes de iniciar interface T9–T12; testes, evidências, diagnóstico parcial e commit por tarefa. Verifier fresco após T12. Adequações autorizadas: ProcessoArchiveTests.java:128 (DELETE500 vira recusa409 sem efeito e versão preservada), QuadroTransicoes.test.jsx:44 (3listas incluem Arquivar mantendo ações anteriores).
+- **Feature:** demandas-arquivamento; branch testes, base ecde314.
+- **Completed:** servidor T1–T1 com commits atômicos e gates locais; último 5 testes/0 skips.
+- **In progress:** servidor; Implemented, não Verified.
+- **Next step:** T2; servidor termina antes da interface. Verifier fresco após T12.
 - **Blocker:** nenhum.
-- **User preference:** explicar o que será colocado e recomendar efeitos/opções. Registrar requisito concluído no diagnóstico só após testes e Verifier.
-- **Environment:** AD-024; JDK 25/Maven 3.9.16/Mockito 5.23.0. Logs em TEMP. MySQL 33821 da edição inativo; nenhum banco real. Gates da nova implementação ainda não executados.
-- **Uncommitted files:** registro da autorização em fechamento; gerados target/node_modules/test-results preexistentes preservados. Add explícito.
-- **Restrictions:** sem exclusão física/push/deploy/migração real; preservar testes; Verifier fresco ao fim. Oferta dos dois lotes aceita nesta retomada.
+- **Environment:** JDK25/Maven3.9.16/Mockito5.23.0; H2 fictício/create-drop/port0, logs TEMP arquivo-T*.log.
+- **Uncommitted files:** gerados preexistentes target/node_modules/test-results preservados; add explícito.
+- **Restrictions:** sem push/deploy/banco real/exclusão física; decisões AD-027/028 intactas.
+- **User preference:** diagnóstico de requisito concluído somente após Verifier; dois lotes sequenciais autorizados.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

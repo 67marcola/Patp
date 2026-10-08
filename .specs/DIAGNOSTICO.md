@@ -225,3 +225,5 @@ As questões técnicas descobríveis pelo código serão resolvidas pela anális
 - Avançar ao próximo requisito mantendo a cobertura dos pedidos da tabela inicial.
 
 Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias e criação/consulta de demandas já foram entregues e verificados, um requisito por vez. Movimentação/finalização/reabertura seguirão as decisões registradas e a resposta pendente sobre os campos ao reabrir. Edição/exclusão, comentários, logs, gráficos e demais melhorias de aparência terão suas próprias entregas e testes.
+
+Progresso parcial demandas-arquivamento T1: persistir marcador de arquivo; gate 5 testes/0 skips. Implemented, sem conclusão de requisito antes do Verifier. Evidências em features/demandas-arquivamento/evidence.md.

@@ -158,7 +158,7 @@ Criação, leitura, edição e transições estão entregues. Falta retirar dema
 | ARQ-15 | P1: Consistência | Specify | Pending |
 | ARQ-16 | P1: Consistência | Specify | Pending |
 | ARQ-17 | P1: Leitura | Specify | Pending |
-| ARQ-18 | P1: Leitura | Specify | Pending |
+| ARQ-18 | P1: Leitura | Specify | Implemented |
 | ARQ-19 | P1: Leitura | Specify | Pending |
 | ARQ-20 | P1: Leitura | Specify | Pending |
 | ARQ-21 | P1: Leitura | Specify | Pending |
