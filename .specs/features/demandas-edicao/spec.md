@@ -130,23 +130,23 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
 | EDI-01 | P1: Autorização | Tasks | Pending |
-| EDI-02 | P1: Autorização | Tasks | Pending |
-| EDI-03 | P1: Autorização | Tasks | Pending |
-| EDI-04 | P1: Autorização | Tasks | Pending |
-| EDI-05 | P1: Dados | Tasks | Pending |
-| EDI-06 | P1: Dados | Tasks | Pending |
-| EDI-07 | P1: Dados | Tasks | Pending |
-| EDI-08 | P1: Dados | Tasks | Pending |
+| EDI-02 | P1: Autorização | Tasks | Implementing |
+| EDI-03 | P1: Autorização | Tasks | Implementing |
+| EDI-04 | P1: Autorização | Tasks | Implementing |
+| EDI-05 | P1: Dados | Tasks | Implementing |
+| EDI-06 | P1: Dados | Tasks | Implementing |
+| EDI-07 | P1: Dados | Tasks | Implementing |
+| EDI-08 | P1: Dados | Tasks | Implementing |
 | EDI-09 | P1: Dados | Tasks | Implementing |
-| EDI-10 | P1: Ciclo preservado | Tasks | Pending |
-| EDI-11 | P1: Dados | Tasks | Pending |
+| EDI-10 | P1: Ciclo preservado | Tasks | Implementing |
+| EDI-11 | P1: Dados | Tasks | Implementing |
 | EDI-12 | P1: Dados | Tasks | Implementing |
 | EDI-13 | P1: Consistência | Tasks | Implementing |
-| EDI-14 | P1: Consistência | Tasks | Pending |
-| EDI-15 | P1: Consistência | Tasks | Pending |
-| EDI-16 | P1: Histórico | Tasks | Pending |
-| EDI-17 | P1: Consistência | Tasks | Pending |
-| EDI-18 | P1: Consistência | Tasks | Pending |
+| EDI-14 | P1: Consistência | Tasks | Implementing |
+| EDI-15 | P1: Consistência | Tasks | Implementing |
+| EDI-16 | P1: Histórico | Tasks | Implementing |
+| EDI-17 | P1: Consistência | Tasks | Implementing |
+| EDI-18 | P1: Consistência | Tasks | Implementing |
 | EDI-19 | P1: Rota legada | Tasks | Pending |
 | EDI-20 | P1: Interface | Tasks | Pending |
 | EDI-21 | P1: Interface | Tasks | Pending |
@@ -157,8 +157,8 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 | EDI-26 | P1: Interface | Tasks | Pending |
 
 | EDI-27 | P1: Número fixo | Tasks | Implementing |
-| EDI-28 | P1: Encerradas | Tasks | Pending |
-| EDI-29 | P1: Legados | Tasks | Pending |
+| EDI-28 | P1: Encerradas | Tasks | Implementing |
+| EDI-29 | P1: Legados | Tasks | Implementing |
 
 **Coverage:** 29 critérios mapeados a T1–T8; nenhuma conclusão antecipada.
 

@@ -65,7 +65,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8
 **Requirement:** EDI-01–08/10/11/13–18/27–29
 **Tests:** integration, serviço/DB, cada recusa/limite/rollback e disputas de commit.
 **Gate:** Quick
-**Done when:** [ ] Campos/ciclo/evento/autor/versão provados, sem efeitos nos erros.
+**Done when:** [x] Campos/ciclo/evento/autor/versão provados, sem efeitos nos erros.
+
+**Result:** T2 Complete. 32 testes H2 PASS, zero falhas/erros/skips; t2-2.log. Primeira compilação falhou por adaptação do helper Runnable, corrigida sem mudar assertions
 
 ### T3: Proteger edição legada
 **What:** Adaptador da edição antiga ao mesmo núcleo.

@@ -218,13 +218,13 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** demandas-edicao; branch testes; implementação local autorizada conforme AD-023–026.
-- **Completed:** demandas-edicao T1, 19 testes PASS. Planejamento/spec/tasks validados. Entrega anterior movimentacao permanece concluída.
-- **In progress:** T2 serviço transacional; T3–T8 pendentes.
+- **Completed:** demandas-edicao T1–T2. Último gate: 32 testes H2 PASS, zero falhas/erros/skips; t2-2.log. Primeira compilação falhou por adaptação do helper Runnable, corrigida sem mudar assertions. Movimentacao anterior concluída.
+- **In progress:** T3; tarefas seguintes pendentes.
 - **Next step:** executar T2–T8 com gates/commits e depois Verifier independente. As duas adequações de testes foram autorizadas por pode continuar; não pedir novamente.
 - **Blocker:** nenhum; produto e adequações concretas de testes autorizados.
 - **User preference:** explicar funcionalidades e recomendação nas perguntas. Registrar cada requisito concluído e verificado no DIAGNOSTICO; progresso parcial deve continuar identificado como parcial.
 - **Environment:** JDK C:/Program Files/Java/jdk-25.0.2; Maven C:/Users/Marco/apache-maven-3.9.16/bin/mvn.cmd; Mockito 5.23.0 javaagent. Logs em C:/Users/Marco/AppData/Local/Temp/creral-edicao-32565590f1a14a198df2fc432b1bdfeb. Só H2 de teste usado. MySQL anterior na porta33819 encerrado.
-- **Uncommitted files:** planejamento/decisões/diagnóstico de edição e dois arquivos novos da T1, sem commit de implementação porque gate ainda FAIL; nenhum teste antigo alterado. Artefatos node_modules/target de testes preservados e excluídos de commits de fonte. Não usar git add geral.
+- **Uncommitted files:** alterações da tarefa atual e status em fechamento; artefatos target/node_modules/test-results preservados fora dos commits de fonte. Não git add geral.
 - **Restrictions:** sem push/deploy/banco real. Não enfraquecer/excluir/ignorar testes. Adequações concretas aguardam respostas; não inferir aprovação por decurso de tempo.
 
 ## Registro histórico das conversas sobre destinos e movimentação
