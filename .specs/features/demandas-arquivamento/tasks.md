@@ -154,9 +154,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8 → T9 → T10 → T11 → T
 
 **Done when:**
 
-- [ ] DemandaArquivoHistoricoTests: externo ativo/arquivo409, nome forjado sem bypass, interno aceito e histórico anterior literal.
-- [ ] Gate Quick PASS, contagem registrada e nenhum skip/remoção não autorizado.
-- [ ] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
+- [x] DemandaArquivoHistoricoTests: externo ativo/arquivo409, nome forjado sem bypass, interno aceito e histórico anterior literal.
+- [x] Gate Quick PASS, contagem registrada e nenhum skip/remoção não autorizado.
+- [x] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
 
 **Tests:** integration
 **Gate:** Quick

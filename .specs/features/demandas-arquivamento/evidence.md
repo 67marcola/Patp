@@ -327,3 +327,43 @@ Check C, necessidade:
 | `sistema/src/test/java/com/patp/sistema/DemandaArquivoComentarioTests.java:60` — `assertThat(jdbc.queryForList("select acao from historicos",String.class)).containsExactly(arquivar?"ARQUIVAMENTO":"RESTAURACAO");` | ARQ-16/17/22 | Sim |
 
 Adequação A/B/C/D PASS: outcomes/campos por valor, nenhuma tautologia; casos ligados a critérios/bordas. Padrão ApiIntegrationSupport, docs/OPERACAO.md/pom.xml. Sem SPEC_DEVIATION. Status Implemented; revisão independente pendente.
+
+## T6: separar história externa
+
+Premissas: contrato/bordas spec.md, dependências concluídas e nenhuma mudança de política. Arquivos: sistema/src/main/java/com/patp/sistema/service/HistoricoService.java, sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java. Documentos: tasks/spec/evidence/DIAGNOSTICO e somente Handoff do STATE. Sucesso: outcomes exatos, estado persistido/DTO e gate.
+
+Gate PASS: 21 testes, 0 falhas/erros/skips. Log `C:/Users/Marco/AppData/Local/Temp/arquivo-T6.log`. Maven test selecionado; T8 verify completo, JDK25/H2/create-drop/port0/Mockito5.23.0. Sem skip/remoção; adequação antiga autorizada somente em T4.
+
+Check A, suficiência:
+
+| Critério/borda | Evidência/assert exato | Outcome | Coberto |
+| --- | --- | --- | --- |
+| ARQ-18/22 | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:23` — `assertThat(r).extracting("acao","descricao","usuario").containsExactly("MANUAL","  Texto\n literal  ","Informado");assertThat(r.getProcesso().getId()).isEqualTo(p.getId());assertThat(r.getDataHora()).isBetween(inicio,LocalDateTime.now().plusSeconds(1));` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+| ARQ-18/22 | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:24` — `assertThat(jdbc.queryForObject("select count(*) from historicos",Long.class)).isEqualTo(1L);` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+| ARQ-18/22 | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:25` — `assertThat(jdbc.queryForMap("select * from historicos")).containsEntry("acao","MANUAL").containsEntry("descricao","  Texto\n literal  ").containsEntry("usuario","Informado").containsEntry("processo_id",p.getId());` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+| ARQ-18/22 | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:26` — `assertThat(jdbc.queryForList("select * from processos")).isEqualTo(processoAntes);assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isZero();` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+| ARQ-22 | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:32` — `assertThatThrownBy(()->historico.registrarExterno(p.getId(),acao,"Forjado","Forjado")).isInstanceOfSatisfying(ApiException.class,x->{assertThat(x.getStatus().value()).isEqualTo(409);assertThat(x.getMessage()).isEqualTo("Demanda arquivada. Restaure-a antes de alterar.");});` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+| ARQ-22 | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:33` — `assertThat(conteudoPersistido()).isEqualTo(antes);assertThat(jdbc.queryForList("select * from gerenciamentos")).isEqualTo(quadroAntes);` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+| ARQ-14/17 borda interno | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:38` — `assertThat(r).extracting("acao","descricao","usuario").containsExactly("ADMINISTRATIVO","  Interno\n  ","Operação interna");assertThat(r.getProcesso().getId()).isEqualTo(p.getId());assertThat(r.getDataHora()).isBetween(inicio,LocalDateTime.now().plusSeconds(1));` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+| ARQ-14/17 borda interno | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:40` — `assertThat(jdbc.queryForMap("select * from historicos where acao='ANTIGO'")).isEqualTo(antigo);` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+| ARQ-14/17 borda interno | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:41` — `assertThat(jdbc.queryForList("select acao from historicos order by id",String.class)).containsExactly("ANTIGO","ARQUIVAMENTO","ADMINISTRATIVO","RESTAURACAO");` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+| ARQ-14/17 borda interno | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:42` — `assertThat(jdbc.queryForMap("select * from historicos where acao='ADMINISTRATIVO'")).containsEntry("descricao","  Interno\n  ").containsEntry("usuario","Operação interna").containsEntry("processo_id",p.getId());` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+| ARQ-14/17 borda interno | `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:43` — `assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isEqualTo(2L);` | valor literal/estado exigido pelo critério, expresso no assert | Sim |
+
+Check C, necessidade:
+
+| Evidência/assert | Critério/borda | Manter |
+| --- | --- | --- |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:23` — `assertThat(r).extracting("acao","descricao","usuario").containsExactly("MANUAL","  Texto\n literal  ","Informado");assertThat(r.getProcesso().getId()).isEqualTo(p.getId());assertThat(r.getDataHora()).isBetween(inicio,LocalDateTime.now().plusSeconds(1));` | ARQ-18/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:24` — `assertThat(jdbc.queryForObject("select count(*) from historicos",Long.class)).isEqualTo(1L);` | ARQ-18/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:25` — `assertThat(jdbc.queryForMap("select * from historicos")).containsEntry("acao","MANUAL").containsEntry("descricao","  Texto\n literal  ").containsEntry("usuario","Informado").containsEntry("processo_id",p.getId());` | ARQ-18/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:26` — `assertThat(jdbc.queryForList("select * from processos")).isEqualTo(processoAntes);assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isZero();` | ARQ-18/22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:32` — `assertThatThrownBy(()->historico.registrarExterno(p.getId(),acao,"Forjado","Forjado")).isInstanceOfSatisfying(ApiException.class,x->{assertThat(x.getStatus().value()).isEqualTo(409);assertThat(x.getMessage()).isEqualTo("Demanda arquivada. Restaure-a antes de alterar.");});` | ARQ-22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:33` — `assertThat(conteudoPersistido()).isEqualTo(antes);assertThat(jdbc.queryForList("select * from gerenciamentos")).isEqualTo(quadroAntes);` | ARQ-22 | Sim |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:38` — `assertThat(r).extracting("acao","descricao","usuario").containsExactly("ADMINISTRATIVO","  Interno\n  ","Operação interna");assertThat(r.getProcesso().getId()).isEqualTo(p.getId());assertThat(r.getDataHora()).isBetween(inicio,LocalDateTime.now().plusSeconds(1));` | ARQ-14/17 borda interno | Sim |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:40` — `assertThat(jdbc.queryForMap("select * from historicos where acao='ANTIGO'")).isEqualTo(antigo);` | ARQ-14/17 borda interno | Sim |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:41` — `assertThat(jdbc.queryForList("select acao from historicos order by id",String.class)).containsExactly("ANTIGO","ARQUIVAMENTO","ADMINISTRATIVO","RESTAURACAO");` | ARQ-14/17 borda interno | Sim |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:42` — `assertThat(jdbc.queryForMap("select * from historicos where acao='ADMINISTRATIVO'")).containsEntry("descricao","  Interno\n  ").containsEntry("usuario","Operação interna").containsEntry("processo_id",p.getId());` | ARQ-14/17 borda interno | Sim |
+| `sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java:43` — `assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isEqualTo(2L);` | ARQ-14/17 borda interno | Sim |
+
+Adequação A/B/C/D PASS: outcomes/campos por valor, nenhuma tautologia; casos ligados a critérios/bordas. Padrão ApiIntegrationSupport, docs/OPERACAO.md/pom.xml. Sem SPEC_DEVIATION. Status Implemented; revisão independente pendente.
