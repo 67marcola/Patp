@@ -151,14 +151,17 @@ public class EtapaService {
     }
 
     ConfiguracaoEtapasResponse resposta(Gerenciamento gerenciamento, Usuario usuario) {
-        List<DemandaResponse> demandas = processos.findByEtapaGerenciamentoIdOrderByIdAsc(gerenciamento.getId()).stream()
+        var todas = processos.findByEtapaGerenciamentoIdOrderByIdAsc(gerenciamento.getId());
+        List<DemandaResponse> demandas = todas.stream().filter(p -> !p.isArquivado())
+                .map(DemandaResponse::de).toList();
+        List<DemandaResponse> arquivadas = todas.stream().filter(p -> p.isArquivado())
                 .map(DemandaResponse::de).toList();
         Map<Long, Long> quantidades = demandas.stream()
                 .collect(Collectors.groupingBy(DemandaResponse::etapaId, Collectors.counting()));
         List<EtapaResponse> resumos = finais.ordenar(etapas.findByGerenciamentoIdOrderByOrdemAscIdAsc(gerenciamento.getId())).stream()
                 .map(e -> new EtapaResponse(e.getId(), e.getNome(), e.getSetor(), e.getOrdem(), quantidades.getOrDefault(e.getId(), 0L), e.getCategoria()))
                 .toList();
-        return new ConfiguracaoEtapasResponse(gerenciamentos.resposta(gerenciamento, usuario), resumos, demandas);
+        return new ConfiguracaoEtapasResponse(gerenciamentos.resposta(gerenciamento, usuario), resumos, demandas, arquivadas);
     }
 
     private static String validarCampo(String valor, String mensagem) {

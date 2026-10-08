@@ -160,8 +160,8 @@ Criação, leitura, edição e transições estão entregues. Falta retirar dema
 | ARQ-17 | P1: Leitura | Specify | Pending |
 | ARQ-18 | P1: Leitura | Specify | Implemented |
 | ARQ-19 | P1: Leitura | Specify | Implemented |
-| ARQ-20 | P1: Leitura | Specify | Pending |
-| ARQ-21 | P1: Leitura | Specify | Pending |
+| ARQ-20 | P1: Leitura | Specify | Implemented |
+| ARQ-21 | P1: Leitura | Specify | Implemented |
 | ARQ-22 | P1: Proteção | Specify | Pending |
 | ARQ-23 | P1: Proteção | Specify | Pending |
 | ARQ-24 | P1: Interface | Specify | Pending |
