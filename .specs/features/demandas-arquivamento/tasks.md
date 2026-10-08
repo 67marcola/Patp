@@ -230,9 +230,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8 → T9 → T10 → T11 → T
 
 **Done when:**
 
-- [ ] AcaoArquivamentoDemanda.test.jsx: efeitos/etapa/estado, teclado/cancelar, duplicate/pending e erro sem fechar.
-- [ ] Gate Quick PASS, contagem registrada e nenhum skip/remoção não autorizado.
-- [ ] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
+- [x] AcaoArquivamentoDemanda.test.jsx: efeitos/etapa/estado, teclado/cancelar, duplicate/pending e erro sem fechar.
+- [x] Gate Quick PASS, contagem registrada e nenhum skip/remoção não autorizado.
+- [x] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
 
 **Tests:** unit
 **Gate:** Quick

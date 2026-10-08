@@ -234,9 +234,9 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** demandas-arquivamento; branch testes, base ecde314.
-- **Completed:** servidor T1–T8; interface até T9 com gates e commits atômicos.
-- **In progress:** Implemented, não Verified; 106 Vitest.
-- **Next step:** T10. Verifier fresco gerenciado pelo orchestrator após T12.
+- **Completed:** servidor T1–T8; interface até T10 com gates e commits atômicos.
+- **In progress:** Implemented, não Verified; 12 Vitest.
+- **Next step:** T11. Verifier fresco gerenciado pelo orchestrator após T12.
 - **Blocker:** nenhum.
 - **Environment:** JDK25/Maven3.9.16/Mockito5.23.0; H2 fictício, MySQL TEMP fixture do orchestrator; logs arquivo-T*.log.
 - **Uncommitted files:** gerados target/node_modules/test-results preservados; add explícito.

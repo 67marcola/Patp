@@ -243,3 +243,5 @@ Progresso parcial demandas-arquivamento T7: proteger endpoint de histórico; gat
 Progresso parcial demandas-arquivamento T8: expor ações dedicadas; gate 747 testes/0 skips. Implemented, sem conclusão de requisito antes do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
 
 Progresso parcial demandas-arquivamento T9: confirmar api frontend; gate 106 Vitest. Implemented, conclusão de requisito depende do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
+
+Progresso parcial demandas-arquivamento T10: criar confirmação; gate 12 Vitest. Implemented, conclusão de requisito depende do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
