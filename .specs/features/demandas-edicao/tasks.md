@@ -87,7 +87,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8
 **Requirement:** EDI-01–19/27–29
 **Tests:** integration, HTTP feliz/erros e ausência de efeitos persistidos.
 **Gate:** Full
-**Done when:** [ ] API e suíte Java completa aprovadas, nenhum caso anterior removido.
+**Done when:** [x] API e suíte Java completa aprovadas, nenhum caso anterior removido.
+
+**Result:** T4 Complete. 570 Java/H2 e 661 Vitest PASS, zero falhas/erros/skips; t4-java-2.log e t4-vitest.log. Primeiro gate 569/570 por autoria antiga em EtapaDemandConcurrencyTests: adequação autorizada mantém todas as assertions
 
 ### T5: Confirmar resposta de edição
 **What:** Função da API frontend com confirmação estrita.

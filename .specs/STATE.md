@@ -218,8 +218,8 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** demandas-edicao; branch testes; implementação local autorizada conforme AD-023–026.
-- **Completed:** demandas-edicao T1–T3. Último gate: 92 testes H2 PASS, zero falhas/erros/skips; t3.log. Nove novos casos de compatibilidade, demais casos anteriores preservados. Movimentacao anterior concluída.
-- **In progress:** T4; tarefas seguintes pendentes.
+- **Completed:** demandas-edicao T1–T4. Último gate: 570 Java/H2 e 661 Vitest PASS, zero falhas/erros/skips; t4-java-2.log e t4-vitest.log. Primeiro gate 569/570 por autoria antiga em EtapaDemandConcurrencyTests: adequação autorizada mantém todas as assertions. Movimentacao anterior concluída.
+- **In progress:** T5; tarefas seguintes pendentes.
 - **Next step:** executar T2–T8 com gates/commits e depois Verifier independente. As duas adequações de testes foram autorizadas por pode continuar; não pedir novamente.
 - **Blocker:** nenhum; produto e adequações concretas de testes autorizados.
 - **User preference:** explicar funcionalidades e recomendação nas perguntas. Registrar cada requisito concluído e verificado no DIAGNOSTICO; progresso parcial deve continuar identificado como parcial.

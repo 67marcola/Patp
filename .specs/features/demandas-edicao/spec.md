@@ -129,7 +129,7 @@ O quadro permite cadastrar e acompanhar demandas, mas não oferece edição dos 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| EDI-01 | P1: Autorização | Tasks | Pending |
+| EDI-01 | P1: Autorização | Tasks | Implementing |
 | EDI-02 | P1: Autorização | Tasks | Implementing |
 | EDI-03 | P1: Autorização | Tasks | Implementing |
 | EDI-04 | P1: Autorização | Tasks | Implementing |

@@ -178,3 +178,48 @@ Mapa reverso: entrada→EDI-05/09/13; campos proibidos→EDI-12/27; versões→E
 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoLegadaTests.java:33 `assertThat(conteudoPersistido()).isEqualTo(antes);assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isZero();` | EDI-02/06/19/27 | Sim |
 
 **Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.
+
+
+## T4 — API de edição dedicada e fase do servidor aprovada — Complete
+
+570 Java/H2 e 661 Vitest PASS, zero falhas/erros/skips; t4-java-2.log e t4-vitest.log. Primeiro gate 569/570 por autoria antiga em EtapaDemandConcurrencyTests: adequação autorizada mantém todas as assertions
+
+### Check A: AC → assertions
+
+| AC/teste | Evidência file:line e assertion | Outcome |
+| --- | --- | --- |
+| EDI-01,02,03,05,06,07,08,09,10,11,12,13,14,15,16,19,27,29 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:18 `mvc.perform(r).andExpect(status().is(codigo)).andExpect(jsonPath("$.erro").value(mensagem));` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-01,02,03,05,06,07,08,09,10,11,12,13,14,15,16,19,27,29 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:19 `assertThat(conteudoPersistido()).isEqualTo(antes);assertThat(quadros.findById(quadro).orElseThrow().getVersao()).isEqualTo(versao);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:26 `.andExpect(status().isOk()).andExpect(jsonPath("$.gerenciamento.id").value(q.getId())).andExpect(jsonPath("$.gerenciamento.versao").value(1))` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:27 `.andExpect(jsonPath("$.gerenciamento.podeAdministrar").value(true)).andExpect(jsonPath("$.demandas[0].id").value(p.getId()))` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:28 `.andExpect(jsonPath("$.demandas[0].numeroProcesso").value(p.getNumeroProcesso())).andExpect(jsonPath("$.demandas[0].pessoa").value("Nova"))` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:29 `.andExpect(jsonPath("$.demandas[0].responsavel").value("Ana")).andExpect(jsonPath("$.demandas[0].prioridade").isEmpty())` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:30 `.andExpect(jsonPath("$.demandas[0].dataEmissao").value("2020-02-29")).andExpect(jsonPath("$.demandas[0].prazoEtapa").isEmpty())` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:31 `.andExpect(jsonPath("$.demandas[0].prazoGeral").value("2019-01-01")).andExpect(jsonPath("$.demandas[0].observacoes").value("Texto"))` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:32 `.andExpect(jsonPath("$.demandas[0].status").value("Em andamento")).andExpect(jsonPath("$.demandas[0].etapaId").value(e.getId()))` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:33 `.andExpect(jsonPath("$.demandas[0].dataConclusao").isEmpty()).andExpect(jsonPath("$.demandas[0].dataCancelamento").isEmpty())` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:34 `.andExpect(jsonPath("$.demandas[0].motivoCancelamento").isEmpty()).andExpect(jsonPath("$.etapas[0].quantidadeDemandas").value(1))` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:35 `.andExpect(jsonPath("$..senha").doesNotExist());` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:36 `assertThat(processos.findById(p.getId()).orElseThrow().getPessoa()).isEqualTo("Nova");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05/08/10/15/16/27 | sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:37 `assertThat(jdbc.queryForList("select descricao from historicos",String.class)).containsExactly("Processo alterado.");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+
+### Check C: assertions → AC
+
+| Assertion | Maps to | Keep |
+| --- | --- | --- |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:18 `mvc.perform(r).andExpect(status().is(codigo)).andExpect(jsonPath("$.erro").value(mensagem));` | EDI-01,02,03,05,06,07,08,09,10,11,12,13,14,15,16,19,27,29 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:19 `assertThat(conteudoPersistido()).isEqualTo(antes);assertThat(quadros.findById(quadro).orElseThrow().getVersao()).isEqualTo(versao);` | EDI-01,02,03,05,06,07,08,09,10,11,12,13,14,15,16,19,27,29 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:26 `.andExpect(status().isOk()).andExpect(jsonPath("$.gerenciamento.id").value(q.getId())).andExpect(jsonPath("$.gerenciamento.versao").value(1))` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:27 `.andExpect(jsonPath("$.gerenciamento.podeAdministrar").value(true)).andExpect(jsonPath("$.demandas[0].id").value(p.getId()))` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:28 `.andExpect(jsonPath("$.demandas[0].numeroProcesso").value(p.getNumeroProcesso())).andExpect(jsonPath("$.demandas[0].pessoa").value("Nova"))` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:29 `.andExpect(jsonPath("$.demandas[0].responsavel").value("Ana")).andExpect(jsonPath("$.demandas[0].prioridade").isEmpty())` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:30 `.andExpect(jsonPath("$.demandas[0].dataEmissao").value("2020-02-29")).andExpect(jsonPath("$.demandas[0].prazoEtapa").isEmpty())` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:31 `.andExpect(jsonPath("$.demandas[0].prazoGeral").value("2019-01-01")).andExpect(jsonPath("$.demandas[0].observacoes").value("Texto"))` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:32 `.andExpect(jsonPath("$.demandas[0].status").value("Em andamento")).andExpect(jsonPath("$.demandas[0].etapaId").value(e.getId()))` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:33 `.andExpect(jsonPath("$.demandas[0].dataConclusao").isEmpty()).andExpect(jsonPath("$.demandas[0].dataCancelamento").isEmpty())` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:34 `.andExpect(jsonPath("$.demandas[0].motivoCancelamento").isEmpty()).andExpect(jsonPath("$.etapas[0].quantidadeDemandas").value(1))` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:35 `.andExpect(jsonPath("$..senha").doesNotExist());` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:36 `assertThat(processos.findById(p.getId()).orElseThrow().getPessoa()).isEqualTo("Nova");` | EDI-05/08/10/15/16/27 | Sim |
+| sistema/src/test/java/com/patp/sistema/DemandaEdicaoApiTests.java:37 `assertThat(jdbc.queryForList("select descricao from historicos",String.class)).containsExactly("Processo alterado.");` | EDI-05/08/10/15/16/27 | Sim |
+
+**Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.
