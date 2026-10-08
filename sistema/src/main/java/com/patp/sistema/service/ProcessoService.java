@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.patp.sistema.exception.ApiException;
 import com.patp.sistema.dto.ConfiguracaoEtapasResponse;
 import com.patp.sistema.dto.CriarDemandaRequest;
+import com.patp.sistema.dto.EditarDemandaRequest;
 import com.patp.sistema.model.CategoriaEtapa;
 import com.patp.sistema.model.Etapa;
 import com.patp.sistema.model.Gerenciamento;
@@ -202,6 +203,45 @@ public class ProcessoService {
     public List<Processo> listarPorEtapa(Long etapaId) {
 
         return processoRepository.findByEtapaId(etapaId);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public ConfiguracaoEtapasResponse editarDados(String token, Long gerenciamentoId, Long demandaId,
+            EditarDemandaRequest request) {
+        Usuario usuario = sessaoService.buscarUsuario(token);
+        Processo salvo = executarEdicao(usuario, gerenciamentoId, demandaId, request, true);
+        return etapas.resposta(salvo.getEtapa().getGerenciamento(), usuario);
+    }
+
+    private Processo executarEdicao(Usuario usuario, Long gerenciamentoId, Long id,
+            EditarDemandaRequest request, boolean exigeVersao) {
+        Long persistido = processoRepository.buscarGerenciamentoId(id).orElseThrow(() ->
+                new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento."));
+        if (gerenciamentoId != null && !Objects.equals(gerenciamentoId, persistido)) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento.");
+        }
+        Gerenciamento quadro = guard.exigirAtivo(persistido);
+        guard.exigirAdministracao(quadro, usuario);
+        if (exigeVersao) { validarVersao(quadro, request.versao()); }
+        Processo processo = processoRepository.findById(id).orElseThrow(() ->
+                new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada neste gerenciamento."));
+        if (!"Em andamento".equals(processo.getStatus()) && !"Concluido".equals(processo.getStatus())
+                && !"Cancelado".equals(processo.getStatus())) {
+            throw new ApiException(HttpStatus.CONFLICT, "Status antigo não reconhecido. Solicite a correção do registro.");
+        }
+        processo.setPessoa(obrigatorio(request.pessoa(), "Informe um cliente/solicitante entre 1 e 255 caracteres."));
+        processo.setResponsavel(opcional(request.responsavel(), 255, "Informe um responsável com até 255 caracteres."));
+        processo.setPrioridade(opcional(request.prioridade(), 255, "Informe uma prioridade com até 255 caracteres."));
+        processo.setObservacoes(opcional(request.observacoes(), 10000, "Informe observações com até 10000 caracteres."));
+        processo.setDataEmissao(request.dataEmissao());
+        processo.setPrazoEtapa(request.prazoEtapa());
+        processo.setPrazoGeral(request.prazoGeral());
+        Processo salvo = processoRepository.saveAndFlush(processo);
+        historicoService.registrar(id, "EDICAO", "Processo alterado.", usuario.getNome());
+        entityManager.flush();
+        entityManager.lock(quadro, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        entityManager.flush();
+        return salvo;
     }
 
     // Editar processo
