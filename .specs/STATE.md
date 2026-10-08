@@ -199,17 +199,33 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-07
 - **Status**: active
 
+### AD-025
+- **Decision**: manter o número da demanda fixo após o cadastro, inclusive na edição legada.
+- **Reason**: usuário autorizou explicitamente a proposta em 07/10/2026.
+- **Trade-off**: correção do número requer uma futura operação explícita; o formulário atual não renumera registros.
+- **Scope**: edição de demandas; criação e unicidade global continuam vigentes.
+- **Date**: 2026-10-07
+- **Status**: active
+
+### AD-026
+- **Decision**: permitir correção de informações em demandas concluídas/canceladas de quadro ativo, pelo criador/admin, preservando o encerramento.
+- **Reason**: usuário autorizou explicitamente a proposta em 07/10/2026.
+- **Trade-off**: informações podem ser corrigidas sem reabrir o trabalho; a edição precisa conservar status, etapa, datas e motivo do encerramento.
+- **Scope**: edição informativa conforme AD-023; não autoriza mudanças de ciclo, arquivos ou migração real.
+- **Date**: 2026-10-07
+- **Status**: active
+
 ## Handoff
 
-- **Feature:** demandas-movimentacao concluída e validada; branch testes.
-- **Completed:** T1–T8. Commits de fechamento: 527d18b (T6), 5defae7 (T7), 4780ed2 (T8). Verifier rodada 2: PASS, 35/35 critérios e edge. As 14 falhas simuladas foram detectadas após fechar duas lacunas de teste.
-- **Latest evidence:** 479 Java/H2, 661 Vitest, lint/build, 7 Edge/H2 e 122 MySQL fictício PASS. Relatório: features/demandas-movimentacao/validation.md. Logs preservados em TEMP/creral-tlc-retomada-e09b0601b70b48dc82f7ea9b26cf3efc. Sensor R2: 2/2 detectados, controles 122 antes/depois e 4.178 arquivos/porcelain preservados. validate_state PASS.
-- **Next step:** demandas-edicao em definição, com spec.md/context.md em draft e zero código implementado. AD-023 confirma criador/admin; AD-024 confirma tecnologias. Duas perguntas pendentes: número fixo (recomendado) ou corrigível; permitir correção informativa de encerradas (recomendado) ou somente andamento. Após respostas, fechar spec, criar tarefas e implementar com gates/Verifier. A política de retirada é uma decisão separada, ainda sem resposta.
-- **Pending UAT:** roteiro humano em docs/OPERACAO.md, ainda sem teste ou aceitação do usuário. Capturas e testes automáticos não são UAT humano.
-- **User preference:** explicar o que será colocado no sistema e indicar recomendação e efeito nas perguntas. Registrar no DIAGNOSTICO.md cada requisito concluído e verificado; registrar progresso parcial como parcial, sem antecipar a conclusão da entrega.
-- **Environment:** MySQL próprio na porta 33819 encerrado após conferir SQL, datadir, porta e PID. Evidências preservadas; nenhum banco real, push ou deploy operado.
-- **Uncommitted files:** artefatos gerados rastreados de node_modules/target/test-results preservados e fora dos commits de fonte; não usar git add geral. Diagnóstico preserva o resumo acrescentado pelo usuário e o registro histórico.
-- **Restrictions:** implementação, testes fictícios e commits locais autorizados; banco real, push e deploy exigem autorização específica.
+- **Feature:** demandas-edicao; branch testes; implementação local autorizada conforme AD-023–026.
+- **Completed:** demandas-edicao T1, 19 testes PASS. Planejamento/spec/tasks validados. Entrega anterior movimentacao permanece concluída.
+- **In progress:** T2 serviço transacional; T3–T8 pendentes.
+- **Next step:** executar T2–T8 com gates/commits e depois Verifier independente. As duas adequações de testes foram autorizadas por pode continuar; não pedir novamente.
+- **Blocker:** nenhum; produto e adequações concretas de testes autorizados.
+- **User preference:** explicar funcionalidades e recomendação nas perguntas. Registrar cada requisito concluído e verificado no DIAGNOSTICO; progresso parcial deve continuar identificado como parcial.
+- **Environment:** JDK C:/Program Files/Java/jdk-25.0.2; Maven C:/Users/Marco/apache-maven-3.9.16/bin/mvn.cmd; Mockito 5.23.0 javaagent. Logs em C:/Users/Marco/AppData/Local/Temp/creral-edicao-32565590f1a14a198df2fc432b1bdfeb. Só H2 de teste usado. MySQL anterior na porta33819 encerrado.
+- **Uncommitted files:** planejamento/decisões/diagnóstico de edição e dois arquivos novos da T1, sem commit de implementação porque gate ainda FAIL; nenhum teste antigo alterado. Artefatos node_modules/target de testes preservados e excluídos de commits de fonte. Não usar git add geral.
+- **Restrictions:** sem push/deploy/banco real. Não enfraquecer/excluir/ignorar testes. Adequações concretas aguardam respostas; não inferir aprovação por decurso de tempo.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

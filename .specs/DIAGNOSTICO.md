@@ -51,7 +51,9 @@ Já foram implementados e testados o serviço de transição, as quatro rotas da
 
 ## O que ainda falta nos requisitos originais
 
-**Próxima entrega iniciada — edição de demandas (07/10/2026):** [especificação em draft](features/demandas-edicao/spec.md) e [contexto](features/demandas-edicao/context.md) preparados. A permissão criador/admin e as tecnologias estão confirmadas. Aguardam resposta as escolhas sobre alterar o número e corrigir dados de demandas encerradas. Não considerar a edição implementada ou concluída; o draft define formulário preenchido, validação, autoria, preservação do ciclo e proteção contra conflitos.
+**Próxima entrega iniciada — edição de demandas (07/10/2026):** [especificação em draft](features/demandas-edicao/spec.md) e [contexto](features/demandas-edicao/context.md) preparados. A permissão criador/admin e as tecnologias estão confirmadas. Número fixo e correção informativa de demandas encerradas foram confirmados (AD-025/026); implementação autorizada. Não considerar a edição implementada ou concluída; o draft define formulário preenchido, validação, autoria, preservação do ciclo e proteção contra conflitos.
+
+**Progresso parcial da edição:** T1 concluída, DTO estrito e 19 testes PASS. Número/ciclo não são aceitos na entrada dedicada. Serviço, endpoint e interface ainda pendentes. A entrega será registrada como concluída após os gates e a revisão independente; [evidências](features/demandas-edicao/evidence.md).
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
@@ -72,7 +74,7 @@ Os números abaixo são registros das execuções aprovadas, não uma nova execu
 
 ## Onde acompanhar o projeto
 
-- [STATE.md](STATE.md): decisões de negócio AD-001 a AD-024 e ponto de retomada.
+- [STATE.md](STATE.md): decisões de negócio AD-001 a AD-026 e ponto de retomada.
 - [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-edicao está em definição, sem conclusão técnica.
 - [OPERACAO.md](../docs/OPERACAO.md): orientações de execução e verificação com dados fictícios.
 
