@@ -262,3 +262,56 @@ Mapa reverso: entrada→EDI-05/09/13; campos proibidos→EDI-12/27; versões→E
 | frontend/src/services/apiEdicao.test.js:60 `expect(f).toHaveBeenCalledTimes(1);` | EDI-23,24,27,28 | Sim |
 
 **Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.
+
+
+## T6 — Formulário preenchido com número somente leitura — Complete
+
+706 Vitest PASS, 18 arquivos, nenhum skip; t6-vitest.log. Onze novos casos e cadastro anterior preservado
+
+### Check A: AC → assertions
+
+| AC/teste | Evidência file:line e assertion | Outcome |
+| --- | --- | --- |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:18 `preparar(); expect(screen.getByRole("heading", { name: "Editar demanda" }).textContent).toBe("Editar demanda");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:19 `for (const [campo, label] of Object.entries(labels)) expect(screen.getByLabelText(label).value).toBe(demanda[campo] ?? "");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:20 `const numero = screen.getByLabelText("Número da demanda"); expect(numero.value).toBe("P-1"); expect(numero.readOnly).toBe(true);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:21 `expect(document.activeElement).toBe(screen.getByLabelText("Cliente/solicitante"));` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:22 `expect(screen.queryByLabelText(/Status / Etapa de destino / Data de conclusão / Data de cancelamento / Motivo/)).toBeNull();` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:29 `expect(salvar).toHaveBeenCalledExactlyOnceWith({ pessoa: "Maria", responsavel: null, prioridade: null,` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:31 `expect(screen.getByLabelText("Número da demanda").value).toBe("P-1");` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:38 `await user.click(screen.getByRole("button", { name: "Salvar alterações" })); expect(salvar).toHaveBeenCalledExactlyOnceWith(dados);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:50 `expect(screen.getByRole("alert").textContent).toBe(mensagem); expect(screen.getByLabelText(labels[campo]).value).toBe(valor);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:51 `expect(salvar).not.toHaveBeenCalled();` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:55 `expect(cancelar).toHaveBeenCalledTimes(1); expect(salvar).not.toHaveBeenCalled();` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:60 `for (const label of ["Número da demanda", ...Object.values(labels)]) expect(screen.getByLabelText(label).disabled).toBe(true);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:61 `expect(screen.getByRole("button", { name: "Salvando..." }).disabled).toBe(true);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:62 `const b = screen.getByRole("button", { name: "Cancelar", exact: true }); expect(b.disabled).toBe(true);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:64 `expect(salvar).toHaveBeenCalledTimes(1); expect(cancelar).not.toHaveBeenCalled();` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:71 `await waitFor(() => expect(screen.getByRole("alert").textContent).toBe("Conflito"));` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:72 `expect(screen.getByLabelText("Cliente/solicitante").value).toBe("  Corrigir  "); expect(aoErro).toHaveBeenCalledExactlyOnceWith(erro);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+| EDI-05,06,07,08,20,21,22,23,27,28 | frontend/src/pages/EditorDemandaEdicao.test.jsx:73 `expect(salvar).toHaveBeenCalledTimes(1);` | Valor/estado literal exigido pelos critérios indicados; recusa usa snapshot e versão intactos no helper. |
+
+### Check C: assertions → AC
+
+| Assertion | Maps to | Keep |
+| --- | --- | --- |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:18 `preparar(); expect(screen.getByRole("heading", { name: "Editar demanda" }).textContent).toBe("Editar demanda");` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:19 `for (const [campo, label] of Object.entries(labels)) expect(screen.getByLabelText(label).value).toBe(demanda[campo] ?? "");` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:20 `const numero = screen.getByLabelText("Número da demanda"); expect(numero.value).toBe("P-1"); expect(numero.readOnly).toBe(true);` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:21 `expect(document.activeElement).toBe(screen.getByLabelText("Cliente/solicitante"));` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:22 `expect(screen.queryByLabelText(/Status / Etapa de destino / Data de conclusão / Data de cancelamento / Motivo/)).toBeNull();` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:29 `expect(salvar).toHaveBeenCalledExactlyOnceWith({ pessoa: "Maria", responsavel: null, prioridade: null,` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:31 `expect(screen.getByLabelText("Número da demanda").value).toBe("P-1");` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:38 `await user.click(screen.getByRole("button", { name: "Salvar alterações" })); expect(salvar).toHaveBeenCalledExactlyOnceWith(dados);` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:50 `expect(screen.getByRole("alert").textContent).toBe(mensagem); expect(screen.getByLabelText(labels[campo]).value).toBe(valor);` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:51 `expect(salvar).not.toHaveBeenCalled();` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:55 `expect(cancelar).toHaveBeenCalledTimes(1); expect(salvar).not.toHaveBeenCalled();` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:60 `for (const label of ["Número da demanda", ...Object.values(labels)]) expect(screen.getByLabelText(label).disabled).toBe(true);` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:61 `expect(screen.getByRole("button", { name: "Salvando..." }).disabled).toBe(true);` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:62 `const b = screen.getByRole("button", { name: "Cancelar", exact: true }); expect(b.disabled).toBe(true);` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:64 `expect(salvar).toHaveBeenCalledTimes(1); expect(cancelar).not.toHaveBeenCalled();` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:71 `await waitFor(() => expect(screen.getByRole("alert").textContent).toBe("Conflito"));` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:72 `expect(screen.getByLabelText("Cliente/solicitante").value).toBe("  Corrigir  "); expect(aoErro).toHaveBeenCalledExactlyOnceWith(erro);` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+| frontend/src/pages/EditorDemandaEdicao.test.jsx:73 `expect(salvar).toHaveBeenCalledTimes(1);` | EDI-05,06,07,08,20,21,22,23,27,28 | Sim |
+
+**Adequação A/B/C/D:** PASS. Assertions verificam os outcomes da spec (campos/ciclo/versão/autoria ou erro/ausência de efeitos), não apenas chamadas. Nenhum teste removido/ignorado; todos mapeados a AC ou edge da tarefa. Padrões de docs/OPERACAO.md, pom.xml e configuração frontend respeitados. Sem SPEC_DEVIATION. Revisão independente da feature ainda obrigatória.

@@ -14,8 +14,9 @@ const campos = [
         mensagem: "Informe observações com até 10000 caracteres." }
 ];
 
-function EditorDemanda({ salvar, cancelar, aoErro, bloqueado = false }) {
-    const [valores, setValores] = useState(() => Object.fromEntries(campos.map(campo => [campo.nome, ""])));
+function EditorDemanda({ demanda = null, salvar, cancelar, aoErro, bloqueado = false }) {
+    const editando = !!demanda;
+    const [valores, setValores] = useState(() => Object.fromEntries(campos.map(campo => [campo.nome, demanda?.[campo.nome] ?? ""])));
     const [erro, setErro] = useState("");
     const [salvando, setSalvando] = useState(false);
     const enviando = useRef(false);
@@ -30,6 +31,7 @@ function EditorDemanda({ salvar, cancelar, aoErro, bloqueado = false }) {
         setErro("");
         const dados = {};
         for (const campo of campos) {
+            if (editando && campo.nome === "numeroProcesso") continue;
             const valor = valores[campo.nome].trim();
             if ((campo.obrigatorio && !valor) || (campo.limite && valor.length > campo.limite)) {
                 setErro(campo.mensagem);
@@ -52,25 +54,28 @@ function EditorDemanda({ salvar, cancelar, aoErro, bloqueado = false }) {
 
     return <form className="form-card editor-demanda" onSubmit={enviar} noValidate aria-busy={salvando}
         aria-labelledby="editor-demanda-titulo">
-        <h3 id="editor-demanda-titulo">Novo processo</h3>
-        <p className="ajuda-campo">A demanda começará automaticamente na primeira etapa de trabalho.</p>
+        <h3 id="editor-demanda-titulo">{editando ? "Editar demanda" : "Novo processo"}</h3>
+        <p className="ajuda-campo">{editando ? "O número, a etapa e o encerramento da demanda serão preservados."
+            : "A demanda começará automaticamente na primeira etapa de trabalho."}</p>
         <div className="campos-demanda">
             {campos.map(campo => {
                 const propriedades = { id: `demanda-${campo.nome}`, value: valores[campo.nome], disabled: desabilitado,
-                    required: !!campo.obrigatorio, "aria-describedby": "demanda-ajuda",
+                    required: !!campo.obrigatorio, readOnly: editando && campo.nome === "numeroProcesso", "aria-describedby": "demanda-ajuda",
                     onChange: event => setValores(atuais => ({ ...atuais, [campo.nome]: event.target.value })) };
                 return <div className={`campo-form${campo.tipo === "textarea" ? " campo-observacoes" : ""}`} key={campo.nome}>
                     <label htmlFor={propriedades.id}>{campo.label}</label>
                     {campo.tipo === "textarea" ? <textarea {...propriedades} rows={4} />
-                        : <input {...propriedades} type={campo.tipo || "text"} ref={campo.nome === "numeroProcesso" ? numero : null} />}
+                        : <input {...propriedades} type={campo.tipo || "text"} ref={campo.nome === (editando ? "pessoa" : "numeroProcesso") ? numero : null} />}
                 </div>;
             })}
         </div>
-        <p id="demanda-ajuda" className="ajuda-campo">Número e cliente/solicitante são obrigatórios; os demais campos são opcionais.</p>
+        <p id="demanda-ajuda" className="ajuda-campo">{editando ? "Cliente/solicitante é obrigatório; o número é fixo e os demais campos são opcionais."
+            : "Número e cliente/solicitante são obrigatórios; os demais campos são opcionais."}</p>
         {erro && <div className="erro-login" role="alert">{erro}</div>}
         <div className="acoes-form">
             <button type="button" className="btn-secundario" disabled={salvando} onClick={cancelar}>Cancelar</button>
-            <button type="submit" className="btn-criar" disabled={desabilitado}>{salvando ? "Criando..." : "Criar demanda"}</button>
+            <button type="submit" className="btn-criar" disabled={desabilitado}>{salvando ? (editando ? "Salvando..." : "Criando...")
+                : (editando ? "Salvar alterações" : "Criar demanda")}</button>
         </div>
     </form>;
 }
