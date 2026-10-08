@@ -237,3 +237,5 @@ Progresso parcial demandas-arquivamento T4: implementar arquivar/restaurar; gate
 Progresso parcial demandas-arquivamento T5: proteger comentários; gate 9 testes/0 skips. Implemented, sem conclusão de requisito antes do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
 
 Progresso parcial demandas-arquivamento T6: separar história externa; gate 21 testes/0 skips. Implemented, sem conclusão de requisito antes do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
+
+Progresso parcial demandas-arquivamento T7: proteger endpoint de histórico; gate 19 testes/0 skips. Implemented, sem conclusão de requisito antes do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
