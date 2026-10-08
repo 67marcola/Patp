@@ -64,7 +64,8 @@ function snapshotValido(dados, id) {
         || !idValido(dados.gerenciamento.id) || !Number.isSafeInteger(dados.gerenciamento.versao)
         || dados.gerenciamento.versao < 0 || typeof dados.gerenciamento.arquivado !== "boolean"
         || typeof dados.gerenciamento.podeAdministrar !== "boolean"
-        || !Array.isArray(dados.etapas) || !Array.isArray(dados.demandas)) return false;
+        || !Array.isArray(dados.etapas) || !Array.isArray(dados.demandas)
+        || Object.hasOwn(dados, "demandasArquivadas") && !Array.isArray(dados.demandasArquivadas)) return false;
     const contagens = new Map();
     for (const etapa of dados.etapas) {
         if (!objeto(etapa) || !idValido(etapa.id) || contagens.has(etapa.id)
@@ -72,7 +73,7 @@ function snapshotValido(dados, id) {
         contagens.set(etapa.id, 0);
     }
     const ids = new Set();
-    for (const demanda of dados.demandas) {
+    for (const demanda of [...dados.demandas, ...(dados.demandasArquivadas || [])]) {
         if (!objeto(demanda) || Object.keys(demanda).length !== CAMPOS_DEMANDA.length
             || !CAMPOS_DEMANDA.every(campo => Object.hasOwn(demanda, campo))
             || !idValido(demanda.id) || ids.has(demanda.id) || !idValido(demanda.etapaId)
@@ -81,9 +82,18 @@ function snapshotValido(dados, id) {
             || !TEXTOS_OPCIONAIS.every(campo => demanda[campo] === null || typeof demanda[campo] === "string")
             || !DATAS_DEMANDA.every(campo => dataIso(demanda[campo]))) return false;
         ids.add(demanda.id);
-        contagens.set(demanda.etapaId, contagens.get(demanda.etapaId) + 1);
+        if (dados.demandas.includes(demanda)) contagens.set(demanda.etapaId, contagens.get(demanda.etapaId) + 1);
     }
     return dados.etapas.every(etapa => etapa.quantidadeDemandas === contagens.get(etapa.id));
+}
+
+function arquivoConfirmado(resposta, id, anterior, acao, versao, status) {
+    if (status !== 200 || !Array.isArray(resposta?.demandasArquivadas) || !snapshotValido(resposta, id)
+        || resposta.gerenciamento.arquivado || !resposta.gerenciamento.podeAdministrar
+        || resposta.gerenciamento.versao !== versao + 1) return false;
+    const destino = acao === "arquivar" ? resposta.demandasArquivadas : resposta.demandas;
+    const demanda = destino.find(atual => atual.id === anterior.id);
+    return !!demanda && CAMPOS_DEMANDA.every(campo => demanda[campo] === anterior[campo]);
 }
 
 function cadastroConfirmado(resposta, id, enviados, status) {
@@ -228,4 +238,14 @@ export function transicionarDemanda(token, id, demanda, acao, dados) {
 export function editarDemanda(token, id, demanda, dados) {
     return requisicao(`/gerenciamentos/${id}/demandas/${demanda.id}`, { token, method: "PUT", dados,
         validar: (resposta, status) => edicaoConfirmada(resposta, id, demanda, dados, status) });
+}
+
+export function arquivarDemanda(token, id, demanda, versao) {
+    return requisicao(`/gerenciamentos/${id}/demandas/${demanda.id}/arquivar`, { token, method: "PUT", dados: { versao },
+        validar: (resposta, status) => arquivoConfirmado(resposta, id, demanda, "arquivar", versao, status) });
+}
+
+export function restaurarDemanda(token, id, demanda, versao) {
+    return requisicao(`/gerenciamentos/${id}/demandas/${demanda.id}/restaurar`, { token, method: "PUT", dados: { versao },
+        validar: (resposta, status) => arquivoConfirmado(resposta, id, demanda, "restaurar", versao, status) });
 }

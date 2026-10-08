@@ -234,14 +234,14 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** demandas-arquivamento; branch testes, base ecde314.
-- **Completed:** servidor T1–T8 com commits atômicos e gates locais; último 747 testes/0 skips.
-- **In progress:** interface T9–T12 pendente; servidor concluído com 747 Java/H2. Implemented, não Verified.
-- **Next step:** T9; servidor termina antes da interface. Verifier fresco após T12.
+- **Completed:** servidor T1–T8; interface até T9 com gates e commits atômicos.
+- **In progress:** Implemented, não Verified; 106 Vitest.
+- **Next step:** T10. Verifier fresco gerenciado pelo orchestrator após T12.
 - **Blocker:** nenhum.
-- **Environment:** JDK25/Maven3.9.16/Mockito5.23.0; H2 fictício/create-drop/port0, logs TEMP arquivo-T*.log.
-- **Uncommitted files:** gerados preexistentes target/node_modules/test-results preservados; add explícito.
-- **Restrictions:** sem push/deploy/banco real/exclusão física; decisões AD-027/028 intactas.
-- **User preference:** diagnóstico de requisito concluído somente após Verifier; dois lotes sequenciais autorizados.
+- **Environment:** JDK25/Maven3.9.16/Mockito5.23.0; H2 fictício, MySQL TEMP fixture do orchestrator; logs arquivo-T*.log.
+- **Uncommitted files:** gerados target/node_modules/test-results preservados; add explícito.
+- **Restrictions:** sem push/deploy/banco real; AD-024/027/028 intactas.
+- **User preference:** dois lotes sequenciais autorizados; conclusão no diagnóstico somente após revisão independente.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 
