@@ -2,7 +2,7 @@
 
 ## Execution Protocol
 
-Usar tlc-spec-driven já escolhido. Autorização persistente cobre implementação, testes e commits locais, uma tarefa por vez. Não push/deploy/MySQL configurado. Até7tarefas: executar inline. Depois da última, Verifier fresco obrigatório, sensor em memória e comparação integral de porcelain antes/depois. Nenhum teste será enfraquecido, excluído ou ignorado; adaptar comportamentos antigos contraditos pelas decisões explícitas mantendo a prova de integridade.
+Usar tlc-spec-driven já escolhido. Autorização persistente cobre implementação, testes e commits locais, uma tarefa por vez. Não push/deploy/MySQL configurado. Até8tarefas: executar inline. Depois da última, Verifier fresco obrigatório, sensor em memória e comparação integral de porcelain antes/depois. Nenhum teste será enfraquecido, excluído ou ignorado; adaptar comportamentos antigos contraditos pelas decisões explícitas mantendo a prova de integridade.
 
 **Design:** design.md. **Status:** In Progress. Base400f8c5,390Java/475Vitest/4E2E.
 
@@ -29,7 +29,7 @@ Gerada de docs/OPERACAO.md, sistema/pom.xml, frontend/package.json/vitest/playwr
 ### Phase 1: Implementação sequencial
 
 ```text
-T1 → T2 → T3 → T4 → T5 → T6 → T7
+T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8
 ```
 
 ## Task Breakdown
@@ -132,6 +132,20 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 **Done when:**
 - [x] 469 Java/H2, 661 Vitest, lint/build TEMP, 7 fluxos Edge/H2 e 112 selecionados MySQL fictício PASS em 07/10/2026. Dez casos novos de concorrência e três fluxos navegador; roteiro humano documentado sem declarar UAT realizado. Gates, tentativas anteriores e mapas exatos em evidence.md T7. Verifier independente e sensor são o próximo gate obrigatório.
 
+### T8: Provar orientações de preparação e correção na API
+
+**What:** Fechar os dois gaps de teste encontrados pelos mutantes M08/M09 do Verifier, sem mudar código da aplicação ou testes existentes.
+**Where:** sistema/src/test/java/com/patp/sistema/DemandaTransicaoMensagemTests.java
+**Depends on:** T7
+**Reuses:** ApiIntegrationSupport, fixtures por categoria e asserts HTTP/estado persistido.
+**Requirement:** MOV-14 e edge MOV-05/10/11 (Em andamento em coluna final)
+**Related files:** spec.md, evidence.md, validation.md (revisão independente)
+**Tools:** filesystem/terminal; skill tlc-spec-driven.
+**Tests:** integration
+**Gate:** Build
+**Done when:**
+- [x] Dez casos HTTP verificam409/mensagem/estado/versão intactos. Gate479Java/H2 e122MySQL fictício PASS; nenhum caso anterior alterado/excluído. Gates frontend661/lint/build/7Edge independentes reutilizados por ausência de mudanças nessas camadas. Mapas em evidence.md T8. Re-verificação independente M08/M09 continua obrigatória antes de fechar a feature.
+
 ## Diagram-Definition Cross-Check
 
 | Task | Depends On | Diagram Shows | Status |
@@ -143,6 +157,7 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 | T5 | T4 | T4 | Match |
 | T6 | T5 | T5 | Match |
 | T7 | T6 | T6 | Match |
+| T8 | T7 | T7 | Match |
 
 ## Test Co-location Validation
 
@@ -155,4 +170,5 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7
 | T5 | frontend | unit | unit | OK |
 | T6 | frontend | unit | unit | OK |
 | T7 | integração | e2e | e2e | OK |
+| T8 | backend | integration | integration | OK |
 
