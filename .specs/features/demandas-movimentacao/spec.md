@@ -1,6 +1,6 @@
 # Movimentação e encerramento de demandas Specification
 
-**Status:** regras fechadas pelas decisões AD-011–015/021/022 e autorização persistente de implementação local. Em execução.
+**Status:** implementado e verificado independentemente em 07/10/2026; 35/35 critérios e edge aprovados. Aceitação humana pendente; nenhuma operação em banco real.
 
 ## Problem Statement
 
@@ -137,48 +137,48 @@ IF uma demanda Em andamento estiver incoerentemente em coluna final THEN o servi
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| MOV-01 | P1: Permissões | Execute | Implementing |
-| MOV-02 | P1: Permissões | Execute | Implementing |
-| MOV-03 | P1: Permissões | Execute | Implementing |
-| MOV-04 | P1: Permissões | Execute | Implementing |
-| MOV-05 | P1: Movimentação | Execute | Implementing |
-| MOV-06 | P1: Movimentação | Execute | Implementing |
-| MOV-07 | P1: Movimentação | Execute | Implementing |
-| MOV-08 | P1: Movimentação | Execute | Implementing |
-| MOV-09 | P1: Movimentação | Execute | Implementing |
-| MOV-10 | P1: Encerramento | Execute | Implementing |
-| MOV-11 | P1: Encerramento | Execute | Implementing |
-| MOV-12 | P1: Encerramento | Execute | Implementing |
-| MOV-13 | P1: Encerramento | Execute | Implementing |
-| MOV-14 | P1: Encerramento | Execute | Implementing |
-| MOV-15 | P1: Reabertura | Execute | Implementing |
-| MOV-16 | P1: Reabertura | Execute | Implementing |
-| MOV-17 | P1: Reabertura | Execute | Implementing |
-| MOV-18 | P1: Reabertura | Execute | Implementing |
-| MOV-19 | P1: Integridade | Execute | Implementing |
-| MOV-20 | P1: Integridade | Execute | Implementing |
-| MOV-21 | P1: Integridade | Execute | Implementing |
-| MOV-22 | P1: Integridade | Execute | Implementing |
-| MOV-23 | P1: Integridade | Execute | Implementing |
-| MOV-24 | P1: Integridade | Execute | Implementing |
-| MOV-25 | P1: Integridade | Execute | Implementing |
-| MOV-26 | P1: Integridade | Execute | Implementing |
-| MOV-27 | P1: Integridade | Execute | Implementing |
-| MOV-28 | P1: Interface | Execute | Implementing |
-| MOV-29 | P1: Interface | Execute | Implementing |
-| MOV-30 | P1: Interface | Execute | Implementing |
-| MOV-31 | P1: Interface | Execute | Implementing |
-| MOV-32 | P1: Interface | Execute | Implementing |
-| MOV-33 | P1: Interface | Execute | Implementing |
-| MOV-34 | P1: Interface | Execute | Implementing |
+| MOV-01 | P1: Permissões | Execute | Verified |
+| MOV-02 | P1: Permissões | Execute | Verified |
+| MOV-03 | P1: Permissões | Execute | Verified |
+| MOV-04 | P1: Permissões | Execute | Verified |
+| MOV-05 | P1: Movimentação | Execute | Verified |
+| MOV-06 | P1: Movimentação | Execute | Verified |
+| MOV-07 | P1: Movimentação | Execute | Verified |
+| MOV-08 | P1: Movimentação | Execute | Verified |
+| MOV-09 | P1: Movimentação | Execute | Verified |
+| MOV-10 | P1: Encerramento | Execute | Verified |
+| MOV-11 | P1: Encerramento | Execute | Verified |
+| MOV-12 | P1: Encerramento | Execute | Verified |
+| MOV-13 | P1: Encerramento | Execute | Verified |
+| MOV-14 | P1: Encerramento | Execute | Verified |
+| MOV-15 | P1: Reabertura | Execute | Verified |
+| MOV-16 | P1: Reabertura | Execute | Verified |
+| MOV-17 | P1: Reabertura | Execute | Verified |
+| MOV-18 | P1: Reabertura | Execute | Verified |
+| MOV-19 | P1: Integridade | Execute | Verified |
+| MOV-20 | P1: Integridade | Execute | Verified |
+| MOV-21 | P1: Integridade | Execute | Verified |
+| MOV-22 | P1: Integridade | Execute | Verified |
+| MOV-23 | P1: Integridade | Execute | Verified |
+| MOV-24 | P1: Integridade | Execute | Verified |
+| MOV-25 | P1: Integridade | Execute | Verified |
+| MOV-26 | P1: Integridade | Execute | Verified |
+| MOV-27 | P1: Integridade | Execute | Verified |
+| MOV-28 | P1: Interface | Execute | Verified |
+| MOV-29 | P1: Interface | Execute | Verified |
+| MOV-30 | P1: Interface | Execute | Verified |
+| MOV-31 | P1: Interface | Execute | Verified |
+| MOV-32 | P1: Interface | Execute | Verified |
+| MOV-33 | P1: Interface | Execute | Verified |
+| MOV-34 | P1: Interface | Execute | Verified |
 
-| MOV-35 | P1: Integridade | Execute | Implementing |
+| MOV-35 | P1: Integridade | Execute | Verified |
 
 **Coverage:** 35 critérios mapeados nas tarefas T1–T8.
 
 ## Success Criteria
 
 - [x] Todos os critérios mapeados a assertions de estado/resultado e aprovados nos gates locais.
-- [ ] Revisão independente e sensor de falhas aprovados, com nenhum dado real operado.
+- [x] Revisão independente e sensor de falhas aprovados, com nenhum dado real operado.
 - [x] Roteiro de teste humano disponível; não declarar UAT realizado sem resposta do usuário.
 
