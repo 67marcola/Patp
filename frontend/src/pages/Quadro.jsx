@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { buscarConfiguracaoEtapas, criarDemanda, criarEtapa, editarDemanda, editarEtapa, removerEtapa, transicionarDemanda } from "../services/api";
+import { arquivarDemanda, restaurarDemanda, buscarConfiguracaoEtapas, criarDemanda, criarEtapa, editarDemanda, editarEtapa, removerEtapa, transicionarDemanda } from "../services/api";
 import EditorEtapa from "./EditorEtapa";
 import EditorDemanda from "./EditorDemanda";
 import AcaoDemanda from "./AcaoDemanda";
+import AcaoArquivamentoDemanda from "./AcaoArquivamentoDemanda";
 
 function acoesDaDemanda(demanda) {
     if (demanda?.status === "Em andamento") return ["mover", "concluir", "cancelar"];
@@ -33,6 +34,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const [editorDemanda, setEditorDemanda] = useState(false);
     const [edicaoDemanda, setEdicaoDemanda] = useState(null);
     const [acaoDemanda, setAcaoDemanda] = useState(null);
+    const [arquivoDemanda, setArquivoDemanda] = useState(null);
     const [confirmacao, setConfirmacao] = useState(null);
     const [erroRemocao, setErroRemocao] = useState("");
     const [precisaAtualizar, setPrecisaAtualizar] = useState(false);
@@ -51,6 +53,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const quadro = snapshot?.gerenciamento || gerenciamento;
     const etapas = snapshot?.etapas || [];
     const demandas = snapshot?.demandas || [];
+    const demandasArquivadas = snapshot?.demandasArquivadas || [];
     const trabalhos = etapas.filter(etapa => !etapaFinal(etapa));
     const podeConfigurar = !!snapshot && quadro.podeAdministrar && !quadro.arquivado;
     const podeCriar = !!snapshot && !quadro.arquivado && trabalhos.length > 0;
@@ -61,7 +64,11 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const edicaoAtual = edicaoDemanda?.gerenciamentoId === gerenciamento.id ? edicaoDemanda : null;
     const demandaEmEdicao = edicaoAtual && demandas.find(demanda => demanda.id === edicaoAtual.demanda.id);
     const podeEditarDemanda = podeConfigurar && !!demandaEmEdicao && acoesDaDemanda(demandaEmEdicao).length > 0;
-    const formularioAberto = !!editor || !!confirmacao || editorDemanda || !!acaoAtual || !!edicaoAtual;
+    const arquivoAtual = arquivoDemanda?.gerenciamentoId === gerenciamento.id ? arquivoDemanda : null;
+    const demandaEmArquivo = arquivoAtual && (arquivoAtual.acao === "arquivar" ? demandas : demandasArquivadas)
+        .find(demanda => demanda.id === arquivoAtual.demanda.id);
+    const podeArquivarDemanda = podeConfigurar && !!demandaEmArquivo && acoesDaDemanda(demandaEmArquivo).length > 0;
+    const formularioAberto = !!editor || !!confirmacao || editorDemanda || !!acaoAtual || !!edicaoAtual || !!arquivoAtual;
 
     function finalNoSnapshot(etapa) {
         return etapaFinal(etapa) || etapaFinal(etapas.find(atual => atual.id === etapa?.id));
@@ -88,6 +95,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
             setEditorDemanda(false);
             setEdicaoDemanda(null);
             setAcaoDemanda(null);
+            setArquivoDemanda(null);
             setConfirmacao(null);
             setPrecisaAtualizar(false);
             setErroRemocao("");
@@ -114,11 +122,11 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
 
     useEffect(() => {
         if (confirmacao) cancelarConfirmacao.current?.focus();
-        else if (!editor && !editorDemanda && !acaoAtual && !edicaoAtual && origem.current) {
+        else if (!editor && !editorDemanda && !acaoAtual && !edicaoAtual && !arquivoAtual && origem.current) {
             if (origem.current.isConnected) origem.current.focus();
             else (novaEtapa.current || criarProcesso.current || botaoVoltar.current)?.focus();
         }
-    }, [editor, editorDemanda, confirmacao, acaoAtual, edicaoAtual]);
+    }, [editor, editorDemanda, confirmacao, acaoAtual, edicaoAtual, arquivoAtual]);
 
     function abrirEditor(event, etapa = null) {
         if (bloqueado || formularioAberto || !podeConfigurar || finalNoSnapshot(etapa)) return;
@@ -158,8 +166,27 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
         setEditorDemanda(false);
         setEdicaoDemanda(null);
         setAcaoDemanda(null);
+        setArquivoDemanda(null);
         setConfirmacao(null);
         setErroRemocao("");
+    }
+
+    function abrirArquivo(event, demanda, acao) {
+        if (bloqueado || formularioAberto || !podeConfigurar || acoesDaDemanda(demanda).length === 0) return;
+        origem.current = event.currentTarget;
+        setArquivoDemanda({ gerenciamentoId: quadro.id, demanda, acao });
+    }
+
+    async function salvarArquivo() {
+        if (operando.current || bloqueado || !podeArquivarDemanda) return;
+        operando.current = true; aoOcupar?.(true); setOcupado(true);
+        try {
+            const executar = arquivoAtual.acao === "arquivar" ? arquivarDemanda : restaurarDemanda;
+            const salvo = await executar(localStorage.getItem("token"), quadro.id, demandaEmArquivo, quadro.versao);
+            if (aplicarConfiguracao(salvo)) setArquivoDemanda(null);
+        } finally {
+            operando.current = false; aoOcupar?.(false); setOcupado(false);
+        }
     }
 
     async function salvar(dados) {
@@ -287,6 +314,11 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
             {acaoAtual && <AcaoDemanda acao={acaoAtual.acao} demanda={demandaAtual || acaoAtual.demanda} etapas={etapas}
                 salvar={salvarAcao} cancelar={cancelar} bloqueado={bloqueado || !podeExecutarAcao}
                 aoErro={() => { if (montado.current && quadro.id === quadroAtual.current) setPrecisaAtualizar(true); }} />}
+            {arquivoAtual && <AcaoArquivamentoDemanda key={`arquivo-${arquivoAtual.demanda.id}`} acao={arquivoAtual.acao}
+                demanda={demandaEmArquivo || arquivoAtual.demanda}
+                etapa={etapas.find(etapa => etapa.id === (demandaEmArquivo || arquivoAtual.demanda).etapaId)}
+                salvar={salvarArquivo} cancelar={cancelar} bloqueado={bloqueado || !podeArquivarDemanda}
+                aoErro={() => { if (montado.current && quadro.id === quadroAtual.current) setPrecisaAtualizar(true); }} />}
             {confirmacao && <section className="confirmacao-arquivo confirmacao-etapa" role="dialog"
                 aria-labelledby="remover-etapa-titulo" aria-describedby="remover-etapa-descricao">
                 <h3 id="remover-etapa-titulo">Remover {confirmacao.nome}?</h3>
@@ -360,6 +392,9 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                                         {acoesDaDemanda(demanda).map(acao => <button key={acao} className="btn-secundario"
                                             disabled={bloqueado || formularioAberto} aria-label={`${nomesAcoes[acao]} demanda ${demanda.numeroProcesso}`}
                                             onClick={event => abrirAcao(event, demanda, acao)}>{nomesAcoes[acao]}</button>)}
+                                        <button className="btn-secundario" disabled={bloqueado || formularioAberto}
+                                            aria-label={`Arquivar demanda ${demanda.numeroProcesso}`}
+                                            onClick={event => abrirArquivo(event, demanda, "arquivar")}>Arquivar</button>
                                     </div>}
                                 </article>;
                             })}
@@ -367,6 +402,37 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                     </section>;
                 })}
             </div>}
+            {snapshot && <aside className="arquivo-demandas" aria-labelledby="arquivo-demandas-titulo">
+                <h2 id="arquivo-demandas-titulo">Arquivadas</h2>
+                <p>Demandas arquivadas preservam seus dados, comentários, histórico e número. Restaure e mova a demanda para liberar a etapa original.</p>
+                {demandasArquivadas.length === 0 && <p>Nenhuma demanda arquivada.</p>}
+                <div className="demandas-etapa">
+                    {demandasArquivadas.map(demanda => {
+                        const campos = [
+                            ["Etapa original", etapas.find(etapa => etapa.id === demanda.etapaId)?.nome || "Não informado"],
+                            ["Status", texto(demanda.status)], ["Responsável", texto(demanda.responsavel)],
+                            ["Prioridade", texto(demanda.prioridade)], ["Data de emissão", data(demanda.dataEmissao)],
+                            ["Prazo da etapa", data(demanda.prazoEtapa)], ["Prazo geral", data(demanda.prazoGeral)],
+                            ["Data de conclusão", data(demanda.dataConclusao)], ["Data de cancelamento", data(demanda.dataCancelamento)],
+                            ["Motivo do cancelamento", texto(demanda.motivoCancelamento)], ["Observações", texto(demanda.observacoes)]
+                        ];
+                        return <article className="card-demanda" key={demanda.id} data-demanda-id={demanda.id}
+                            aria-labelledby={`demanda-arquivo-titulo-${demanda.id}`}>
+                            <strong id={`demanda-arquivo-titulo-${demanda.id}`}>{texto(demanda.numeroProcesso)} — {texto(demanda.pessoa)}</strong>
+                            <dl>{campos.map(([label, valor]) => <div key={label}
+                                className={label === "Observações" || label === "Motivo do cancelamento" ? "campo-longo" : undefined}>
+                                <dt>{label}</dt><dd>{valor}</dd>
+                            </div>)}</dl>
+                            {acoesDaDemanda(demanda).length === 0 && <p>Status antigo não reconhecido. Solicite a correção do registro.</p>}
+                            {podeConfigurar && acoesDaDemanda(demanda).length > 0 && <div className="acoes-form">
+                                <button className="btn-secundario" disabled={bloqueado || formularioAberto}
+                                    aria-label={`Restaurar demanda ${demanda.numeroProcesso}`}
+                                    onClick={event => abrirArquivo(event, demanda, "restaurar")}>Restaurar</button>
+                            </div>}
+                        </article>;
+                    })}
+                </div>
+            </aside>}
         </main>
     );
 }

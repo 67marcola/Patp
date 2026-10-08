@@ -249,9 +249,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8 → T9 → T10 → T11 → T
 
 **Done when:**
 
-- [ ] QuadroArquivo.test.jsx: estados/permissões, arquivo/restauração, foco/cache/contagem, erroGETmanual, pending/troca; Vitest completo/lint/build.
-- [ ] Gate Full PASS, contagem registrada e nenhum skip/remoção não autorizado.
-- [ ] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
+- [x] QuadroArquivo.test.jsx: estados/permissões, arquivo/restauração, foco/cache/contagem, erroGETmanual, pending/troca; Vitest completo/lint/build.
+- [x] Gate Full PASS, contagem registrada e nenhum skip/remoção não autorizado.
+- [x] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
 
 **Tests:** unit
 **Gate:** Full

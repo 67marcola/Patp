@@ -245,3 +245,5 @@ Progresso parcial demandas-arquivamento T8: expor ações dedicadas; gate 747 te
 Progresso parcial demandas-arquivamento T9: confirmar api frontend; gate 106 Vitest. Implemented, conclusão de requisito depende do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
 
 Progresso parcial demandas-arquivamento T10: criar confirmação; gate 12 Vitest. Implemented, conclusão de requisito depende do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
+
+Progresso parcial demandas-arquivamento T11: integrar arquivo ao quadro; gate 881 Vitest; lint e build TEMP PASS. Implemented, conclusão de requisito depende do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
