@@ -110,13 +110,15 @@ Cada critério desta entrega está registrado abaixo como concluído. As asserti
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Lateral de comentários de vários usuários, com data | Existe base de comentários por demanda no backend. Falta definir o alcance da conversa (quadro/demanda), suas permissões e implementar a experiência lateral pedida. |
+| Lateral de comentários de vários usuários, com data | Em discussão em 09/10/2026: base por demanda auditada, proposta de painel registrada e duas escolhas apresentadas (alcance e participantes). Falta resposta, especificação, implementação e verificação; ainda não concluído. [Contexto e proposta](features/comentarios-lateral/context.md). |
 | Logs em cada gerenciamento | Há registros de histórico associados às demandas e proteções nos fluxos entregues. Falta a entrega completa de atividade por gerenciamento, com eventos, autoria, consulta e apresentação definidos. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |
 
 ## Testes já registrados
+
+A retomada de comentários em 09/10/2026 fez auditoria somente de leitura e registrou a proposta. Não alterou código/testes nem executou novamente as suítes das entregas anteriores. O servidor já persiste comentários, mas aceita o nome do autor enviado pelo cliente; a proposta para mensagens novas é usar a conta conectada, conservando os registros antigos. Alcance da conversa e participantes continuam aguardando escolha explícita.
 
 Os números abaixo são registros das execuções aprovadas, não uma nova execução realizada para escrever este resumo. Eles não devem ser somados, pois as suítes acumulam testes de entregas anteriores.
 
