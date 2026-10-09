@@ -247,3 +247,7 @@ Progresso parcial demandas-arquivamento T9: confirmar api frontend; gate 106 Vit
 Progresso parcial demandas-arquivamento T10: criar confirmação; gate 12 Vitest. Implemented, conclusão de requisito depende do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
 
 Progresso parcial demandas-arquivamento T11: integrar arquivo ao quadro; gate 881 Vitest; lint e build TEMP PASS. Implemented, conclusão de requisito depende do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
+
+Progresso parcial demandas-arquivamento T12: Java/H2 747, Vitest881, MySQL438 selecionados e9Edge anteriores PASS/0skips; lint PASS/buildT11 vigente. Novo E2E4falhas de expectativas próprias aguardando autorização humana (comparar campos próprios completos+vínculo processoId; HTTP204 de arquivo/restauração do quadro). T12 não concluída, sem commit/Verified; QA arquivo e Verifier pendentes. Contrato/roteiro humano em docs/OPERACAO.md; aceitação humana pendente.
+
+Progresso parcial demandas-arquivamento T12: provar fluxo real; gate 747 Java/H2; 881 Vitest; 438 MySQL; 13 Edge/H2; lint/build PASS, 0 skips. Implemented, conclusão de requisito depende do Verifier. Evidências em features/demandas-arquivamento/evidence.md.

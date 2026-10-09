@@ -268,9 +268,9 @@ T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8 → T9 → T10 → T11 → T
 
 **Done when:**
 
-- [ ] Edge/H2: comparar campos/ciclo/eventos/contagens; repetir Java/Vitest/Edge e MySQL fictício selecionado; documentar operação/UAT.
-- [ ] Gate Build PASS, contagem registrada e nenhum skip/remoção não autorizado.
-- [ ] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
+- [x] Edge/H2: comparar campos/ciclo/eventos/contagens; repetir Java/Vitest/Edge e MySQL fictício selecionado; documentar operação/UAT.
+- [x] Gate Build PASS, contagem registrada e nenhum skip/remoção não autorizado.
+- [x] Atualizar traceabilidade/evidências/diagnóstico parcial e commit atômico.
 
 **Tests:** e2e
 **Gate:** Build

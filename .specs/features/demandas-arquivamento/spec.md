@@ -172,7 +172,7 @@ Criação, leitura, edição e transições estão entregues. Falta retirar dema
 | ARQ-29 | P1: Interface | Execute | Implemented |
 | ARQ-30 | P1: Interface | Execute | Implemented |
 
-**Coverage:** 30 critérios Implemented; fluxo real T12 e revisão independente pendentes. Nenhum Verified antecipado; revisão independente após T12.
+**Coverage:** 30 critérios Implemented com gates do fluxo real T12; revisão independente/sensor pendentes. Nenhum Verified antecipado; revisão independente após T12.
 
 ## Success Criteria
 
