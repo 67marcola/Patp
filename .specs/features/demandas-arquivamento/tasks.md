@@ -2,7 +2,7 @@
 
 ## Execution Protocol
 
-Skill tlc-spec-driven invocada. **Status:** execução autorizada pelo “Pode continuar” após apresentação da proposta, dois lotes sequenciais e adequações concretas. Base3f9d78a;570Java/H2,721Vitest,9Edge. Doze tarefas atômicas, fases8+4. Servidor termina antes de interface; Verifier fresco obrigatório no final. Sem push/deploy/banco real. Registrar diagnóstico parcial por tarefa, conclusão só após PASS independente. Cada tarefa inclui testes/gate/commit próprio. Ferramentas locais arquivos/shell/Git e TLC conforme preferências existentes; nenhuma ferramenta externa.
+Skill tlc-spec-driven invocada. **Status:** doze tarefas concluídas e verificadas independentemente em 09/10/2026; 30/30 critérios, 10/10 bordas e sensor 11/11 PASS. Execução autorizada após apresentação da proposta, dois lotes sequenciais e adequações concretas. Aceitação humana pendente. Base3f9d78a;570Java/H2,721Vitest,9Edge. Doze tarefas atômicas, fases8+4. Servidor termina antes de interface; Verifier fresco obrigatório no final. Sem push/deploy/banco real. Registrar diagnóstico parcial por tarefa, conclusão só após PASS independente. Cada tarefa inclui testes/gate/commit próprio. Ferramentas locais arquivos/shell/Git e TLC conforme preferências existentes; nenhuma ferramenta externa.
 
 **Design:** design.md.
 
@@ -319,3 +319,7 @@ Um arquivo/componente primário por tarefa e seus testes no mesmo commit. Sem te
 - ProcessoArchiveTests.java:128: DELETE ativo passa de500 acidental para409 explícito e mensagem de usar arquivo. Manter snapshot sem efeitos e acrescentar versão inalterada.
 - QuadroTransicoes.test.jsx:44: três listas de botões incluem Arquivar ao fim; manter Editar e todas as ações de ciclo anteriores. Casos de usuário/quadro/status desconhecido preservados.
 - Outras alterações antigas somente após necessidade concreta; não excluir/ignorar/enfraquecer testes.
+
+## Fechamento técnico independente — 09/10/2026
+
+T1–T12 concluídas em doze commits atômicos, 52c7725..4f977ea. Relatório validation.md: 30/30 critérios e 10/10 bordas PASS; 747 Java/H2, 881 Vitest, 438 MySQL fictício, 13 Edge/H2 e lint/build aprovados pelo Verifier. Sensor 11/11; HEAD, porcelain e SHA256 dos 4.259 arquivos reais preservados após descarte do scratch. validate_state PASS. Diagnóstico registra cada critério concluído. Roteiro humano permanece pendente; nenhum banco real, push, deploy ou upgrade.

@@ -1,6 +1,6 @@
 # Arquivamento de demandas Context
 
-**Gathered:** 08/10/2026. **Spec:** spec.md. **Status:** proposta concreta autorizada; execução em andamento.
+**Gathered:** 08/10/2026. **Spec:** spec.md. **Status:** entrega técnica concluída e verificada em 09/10/2026; aceitação humana pendente.
 
 ## Feature Boundary
 

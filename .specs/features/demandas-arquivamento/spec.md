@@ -1,16 +1,16 @@
 # Arquivamento e restauração de demandas Specification
 
-**Status:** implementação autorizada em 08/10/2026 após apresentação da proposta concreta; execução em dois lotes sequenciais (servidor e interface). Base 3f9d78a.
+**Status:** concluída tecnicamente em 09/10/2026. T1–T12, 30/30 critérios e 10/10 bordas aprovados pelo Verifier independente; sensor 11/11. Base 3f9d78a, implementação até 4f977ea. Aceitação humana pendente.
 
 ## Problem Statement
 
-Criação, leitura, edição e transições estão entregues. Falta retirar demandas sem apagar informações. A exclusão legada tenta gravar evento vinculado antes de apagar e falha por integridade; a interface não oferece retirada. O usuário escolheu arquivar/restaurar preservando dados.
+Na base 3f9d78a, criação, leitura, edição e transições estavam entregues, mas faltava retirar demandas sem apagar informações. A exclusão legada falhava por integridade e a interface não oferecia retirada. O usuário escolheu arquivar/restaurar preservando dados; esse fluxo agora está implementado e verificado.
 
 ## Goals
 
-- [ ] Arquivar/restaurar sem perda de dados ou mudança de ciclo.
-- [ ] Consultar arquivadas no quadro e proteger as rotas atuais e antigas.
-- [ ] Provar os critérios, executar Verifier independente e registrar conclusão no diagnóstico.
+- [x] Arquivar/restaurar sem perda de dados ou mudança de ciclo.
+- [x] Consultar arquivadas no quadro e proteger as rotas atuais e antigas.
+- [x] Provar os critérios, executar Verifier independente e registrar conclusão no diagnóstico.
 
 ## Out of Scope
 
@@ -141,43 +141,43 @@ Criação, leitura, edição e transições estão entregues. Falta retirar dema
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| ARQ-01 | P1: Autorização | Execute | Implemented |
-| ARQ-02 | P1: Autorização | Execute | Implemented |
-| ARQ-03 | P1: Autorização | Execute | Implemented |
-| ARQ-04 | P1: Autorização | Execute | Implemented |
-| ARQ-05 | P1: Preservação | Execute | Implemented |
-| ARQ-06 | P1: Preservação | Execute | Implemented |
-| ARQ-07 | P1: Preservação | Execute | Implemented |
-| ARQ-08 | P1: Consistência | Execute | Implemented |
-| ARQ-09 | P1: Consistência | Execute | Implemented |
-| ARQ-10 | P1: Consistência | Execute | Implemented |
-| ARQ-11 | P1: Consistência | Execute | Implemented |
-| ARQ-12 | P1: Consistência | Execute | Implemented |
-| ARQ-13 | P1: Consistência | Execute | Implemented |
-| ARQ-14 | P1: Histórico | Execute | Implemented |
-| ARQ-15 | P1: Consistência | Execute | Implemented |
-| ARQ-16 | P1: Consistência | Execute | Implemented |
-| ARQ-17 | P1: Leitura | Execute | Implemented |
-| ARQ-18 | P1: Leitura | Execute | Implemented |
-| ARQ-19 | P1: Leitura | Execute | Implemented |
-| ARQ-20 | P1: Leitura | Execute | Implemented |
-| ARQ-21 | P1: Leitura | Execute | Implemented |
-| ARQ-22 | P1: Proteção | Execute | Implemented |
-| ARQ-23 | P1: Proteção | Execute | Implemented |
-| ARQ-24 | P1: Interface | Execute | Implemented |
-| ARQ-25 | P1: Interface | Execute | Implemented |
-| ARQ-26 | P1: Interface | Execute | Implemented |
-| ARQ-27 | P1: Interface | Execute | Implemented |
-| ARQ-28 | P1: Interface | Execute | Implemented |
-| ARQ-29 | P1: Interface | Execute | Implemented |
-| ARQ-30 | P1: Interface | Execute | Implemented |
+| ARQ-01 | P1: Autorização | Validate | Verified |
+| ARQ-02 | P1: Autorização | Validate | Verified |
+| ARQ-03 | P1: Autorização | Validate | Verified |
+| ARQ-04 | P1: Autorização | Validate | Verified |
+| ARQ-05 | P1: Preservação | Validate | Verified |
+| ARQ-06 | P1: Preservação | Validate | Verified |
+| ARQ-07 | P1: Preservação | Validate | Verified |
+| ARQ-08 | P1: Consistência | Validate | Verified |
+| ARQ-09 | P1: Consistência | Validate | Verified |
+| ARQ-10 | P1: Consistência | Validate | Verified |
+| ARQ-11 | P1: Consistência | Validate | Verified |
+| ARQ-12 | P1: Consistência | Validate | Verified |
+| ARQ-13 | P1: Consistência | Validate | Verified |
+| ARQ-14 | P1: Histórico | Validate | Verified |
+| ARQ-15 | P1: Consistência | Validate | Verified |
+| ARQ-16 | P1: Consistência | Validate | Verified |
+| ARQ-17 | P1: Leitura | Validate | Verified |
+| ARQ-18 | P1: Leitura | Validate | Verified |
+| ARQ-19 | P1: Leitura | Validate | Verified |
+| ARQ-20 | P1: Leitura | Validate | Verified |
+| ARQ-21 | P1: Leitura | Validate | Verified |
+| ARQ-22 | P1: Proteção | Validate | Verified |
+| ARQ-23 | P1: Proteção | Validate | Verified |
+| ARQ-24 | P1: Interface | Validate | Verified |
+| ARQ-25 | P1: Interface | Validate | Verified |
+| ARQ-26 | P1: Interface | Validate | Verified |
+| ARQ-27 | P1: Interface | Validate | Verified |
+| ARQ-28 | P1: Interface | Validate | Verified |
+| ARQ-29 | P1: Interface | Validate | Verified |
+| ARQ-30 | P1: Interface | Validate | Verified |
 
-**Coverage:** 30 critérios Implemented com gates do fluxo real T12; revisão independente/sensor pendentes. Nenhum Verified antecipado; revisão independente após T12.
+**Coverage:** 30/30 critérios Verified e 10/10 bordas PASS em validation.md. Gates independentes 747 Java/H2, 881 Vitest, 438 MySQL fictício, 13 Edge/H2, lint/build; sensor 11/11 e isolamento de 4.259 arquivos comprovados. Aceitação humana pendente.
 
 ## Success Criteria
 
 - [x] Política e permissão registradas no STATE em AD-027/028.
-- [ ] Todos os critérios/bordas provados com asserts exatos e gates aprovados.
-- [ ] Suítes anteriores preservadas; adequações concretas autorizadas.
-- [ ] Verifier independente/sensor expandido/validate_state PASS.
-- [ ] Diagnóstico atualizado por requisito concluído; aceitação humana separada.
+- [x] Todos os critérios/bordas provados com asserts exatos e gates aprovados.
+- [x] Suítes anteriores preservadas; adequações concretas autorizadas.
+- [x] Verifier independente/sensor expandido/validate_state PASS.
+- [x] Diagnóstico atualizado por requisito concluído; aceitação humana separada.

@@ -1,6 +1,6 @@
 # Diagnóstico e resumo atual do sistema Creral
 
-**Atualizado em 08/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
+**Atualizado em 09/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
 
 ## Como o sistema está organizado
 
@@ -32,6 +32,7 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 | Cadastro e consulta de demandas | O botão Criar processo funciona. Número e cliente/solicitante são obrigatórios; os demais campos do cadastro são opcionais. A demanda começa na primeira etapa de trabalho. O número é único no sistema, inclusive entre quadros e sem distinguir maiúsculas de minúsculas. Cartões mostram dados reais, com contagens e preservação após recarga. | [41 critérios aprovados](features/demandas-cadastro/validation.md). |
 | Movimentação e encerramento de demandas | Criador/admin move ou pula etapas, conclui, cancela com motivo e reabre para trabalho escolhido. Cartões, contagens, versão e histórico são preservados. | [35 critérios e edge aprovados](features/demandas-movimentacao/validation.md). |
 | Edição informativa de demandas | Corrigir cliente, responsável, prioridade, emissão, prazos e observações. Número fixo; demandas concluídas/canceladas mantêm seu encerramento. Somente criador/admin em quadro ativo. | [29 critérios e edges aprovados](features/demandas-edicao/validation.md). |
+| Arquivamento e restauração de demandas | Arquivar demandas em andamento, concluídas ou canceladas; consultar Arquivadas e restaurar na mesma etapa e estado, preservando dados, número, comentários e histórico. Somente criador/admin em quadro ativo altera o arquivo. | [30 critérios e 10 bordas aprovados](features/demandas-arquivamento/validation.md). |
 
 A criação de demandas registra histórico com autoria da sessão e é transacional: uma falha não deve deixar apenas parte dos dados gravada. O frontend confirma que a resposta contém a demanda solicitada antes de fechar o formulário; respostas incompletas ou divergentes preservam o rascunho e exigem atualização manual.
 
@@ -60,13 +61,55 @@ Demandas concluídas ou canceladas também permitem essas correções, preservan
 
 **Validação:** 570 Java/H2, 721 testes da interface, 9 fluxos Edge/H2 e 213 selecionados em MySQL fictício; lint/build aprovados. O sensor independente detectou 9/9 falhas simuladas em cópia isolada e confirmou a preservação integral da árvore real. Todos esses gates foram executados novamente pelo Verifier; os detalhes estão no relatório. Não houve exclusão ou salto de testes. Desktop e celular foram conferidos. O MySQL temporário não está ativo no fechamento; nenhum banco real foi utilizado. **Aceitação humana pendente**, com roteiro em [OPERACAO.md](../docs/OPERACAO.md).
 
-## O que ainda falta nos requisitos originais
+## Arquivamento e restauração de demandas — concluídos
 
-**Entrega em execução — arquivamento/restauração (08/10/2026):** usuário autorizou a proposta concreta e os dois lotes sequenciais, servidor T1–T8 e interface T9–T12, com as duas adequações antigas descritas nas [tarefas](features/demandas-arquivamento/tasks.md). [Spec](features/demandas-arquivamento/spec.md), [contexto](features/demandas-arquivamento/context.md) e [desenho](features/demandas-arquivamento/design.md) fixam a área Arquivadas, restauração na etapa/estado original, número reservado e rotas antigas protegidas. **Execução iniciada; nenhum requisito foi marcado concluído antecipadamente.**
+**Entrega técnica concluída em 09/10/2026:** doze tarefas, 30/30 critérios e 10/10 bordas aprovados pelo [Verifier independente](features/demandas-arquivamento/validation.md). [Tarefas](features/demandas-arquivamento/tasks.md), [spec](features/demandas-arquivamento/spec.md) e [evidências](features/demandas-arquivamento/evidence.md) registram os commits, testes e adequações autorizadas.
+
+**Arquivar** retira a demanda das colunas e a coloca em **Arquivadas**, preservando todos os dados e os registros anteriores. **Restaurar** devolve à mesma etapa e estado; uma demanda concluída ou cancelada mantém seu encerramento. O número continua fixo e reservado no sistema. Usuários autenticados consultam o arquivo; somente criador do quadro ou administrador executa as ações, em quadro ativo. Arquivadas precisam ser restauradas antes de receber edição, movimentação, comentário ou histórico manual.
+
+Com esta entrega, **o CRUD de demandas solicitado está concluído tecnicamente**, com criação, consulta, edição e retirada por arquivamento/restauração, conforme a política escolhida. Movimentação, encerramento e reabertura também estão concluídos nas entregas anteriores.
+
+Cada critério desta entrega está registrado abaixo como concluído. As assertions e os resultados definidos pela spec constam no relatório independente.
+
+| Critério | Requisito concluído | Situação |
+| --- | --- | --- |
+| ARQ-01 | Sessão inválida recusa ações sem efeitos. | Concluído e verificado |
+| ARQ-02 | Funcionário externo não arquiva nem restaura. | Concluído e verificado |
+| ARQ-03 | Quadro arquivado bloqueia alterações. | Concluído e verificado |
+| ARQ-04 | Quadro sem criador permite somente administrador. | Concluído e verificado |
+| ARQ-05 | Arquivar preserva dados, etapa, estado e encerramento. | Concluído e verificado |
+| ARQ-06 | Restaurar conserva a situação original. | Concluído e verificado |
+| ARQ-07 | Estado antigo desconhecido permanece sem alteração. | Concluído e verificado |
+| ARQ-08 | Repetição não acrescenta evento nem versão. | Concluído e verificado |
+| ARQ-09 | Versão ausente ou negativa é recusada. | Concluído e verificado |
+| ARQ-10 | JSON inválido e campos extras são recusados. | Concluído e verificado |
+| ARQ-11 | Versão desatualizada exige atualização. | Concluído e verificado |
+| ARQ-12 | Demanda inexistente ou de outro quadro é recusada. | Concluído e verificado |
+| ARQ-13 | Sucesso devolve o quadro completo com versão incrementada uma vez. | Concluído e verificado |
+| ARQ-14 | Um evento por ação registra autor e horário reais. | Concluído e verificado |
+| ARQ-15 | Falhas revertem demanda, evento e versão. | Concluído e verificado |
+| ARQ-16 | Operações concorrentes aguardam o lock do quadro. | Concluído e verificado |
+| ARQ-17 | Número reservado, comentários e eventos anteriores preservados. | Concluído e verificado |
+| ARQ-18 | Marcador vazio antigo significa ativo; cadastro e JSON não forjam arquivo. | Concluído e verificado |
+| ARQ-19 | Ativas e arquivadas aparecem em listas completas e separadas. | Concluído e verificado |
+| ARQ-20 | Contagens das colunas incluem somente ativas. | Concluído e verificado |
+| ARQ-21 | Arquivada impede remover a etapa de origem. | Concluído e verificado |
+| ARQ-22 | Arquivadas ficam somente para consulta, inclusive nas rotas antigas. | Concluído e verificado |
+| ARQ-23 | Exclusão definitiva antiga é recusada sem apagar ou criar evento. | Concluído e verificado |
+| ARQ-24 | Área Arquivadas apresenta os dados completos. | Concluído e verificado |
+| ARQ-25 | Interface oferece ações conforme estado e permissão. | Concluído e verificado |
+| ARQ-26 | Confirmação identifica demanda e efeito, com cancelamento e foco. | Concluído e verificado |
+| ARQ-27 | Envio bloqueia duplicidade, fechamento, alterações e saída. | Concluído e verificado |
+| ARQ-28 | Interface só aplica resposta confirmada por campos, listas e versão. | Concluído e verificado |
+| ARQ-29 | Erros preservam confirmação e exigem GET manual antes de novo envio. | Concluído e verificado |
+| ARQ-30 | Troca de quadro descarta confirmação e resposta anterior. | Concluído e verificado |
+
+**Validação:** 747 Java/H2, 881 testes da interface, 438 selecionados em MySQL fictício, 13 fluxos Edge/H2, lint/build aprovados. O Verifier repetiu todos os gates e detectou 11/11 falhas simuladas; nenhum teste ignorado ou removido. HEAD, estado Git e hashes dos 4.259 arquivos ficaram idênticos antes e depois do sensor isolado. Gates executados em 08/10 e resultados reconferidos em 09/10, com o mesmo código. Desktop e celular conferidos. A fixture MySQL 33823 já estava inativa na retomada; nenhum PID antigo ou banco real foi alterado. **Aceitação humana pendente**, com roteiro em [OPERACAO.md](../docs/OPERACAO.md).
+
+## O que ainda falta nos requisitos originais
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| CRUD completo de demandas | Criação, consulta, transições e edição informativa estão prontas. Retirada definida em AD-027/028: arquivar/restaurar nos três estados, somente criador/admin em quadro ativo. Proposta preparada, mas arquivamento ainda não implementado nem validado; não considerar o CRUD completo concluído. |
 | Lateral de comentários de vários usuários, com data | Existe base de comentários por demanda no backend. Falta definir o alcance da conversa (quadro/demanda), suas permissões e implementar a experiência lateral pedida. |
 | Logs em cada gerenciamento | Há registros de histórico associados às demandas e proteções nos fluxos entregues. Falta a entrega completa de atividade por gerenciamento, com eventos, autoria, consulta e apresentação definidos. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
@@ -80,12 +123,13 @@ Os números abaixo são registros das execuções aprovadas, não uma nova execu
 - Cadastro e consulta de demandas (entrega anterior): **390 testes Java/H2, 475 testes da interface, 4 fluxos Edge/H2 e 145 testes selecionados em MySQL temporário**, além de build/lint e revisão independente. O sensor dessa revisão detectou 8 de 8 falhas simuladas.
 - Movimentação concluída: **479 Java/H2, 661 testes da interface, 7 fluxos Edge/H2 e 122 selecionados em MySQL fictício**, lint/build e revisão independente PASS. Sensor final: 14 padrões de falha detectados, após corrigir duas lacunas de mensagens. Logs de tentativas com timeout/conexão/conversão de data permanecem nas evidências; gates finais e limites documentados no relatório.
 - Edição concluída: **570 Java/H2, 721 testes da interface, 9 fluxos Edge/H2 e 213 selecionados em MySQL fictício**, lint/build e revisão independente PASS; sensor 9/9. Todos os gates foram repetidos independentemente.
+- Arquivamento/restauração concluídos: **747 Java/H2, 881 testes da interface, 13 fluxos Edge/H2 e 438 selecionados em MySQL fictício**, lint/build e revisão independente PASS; sensor 11/11. Todos os gates foram repetidos independentemente.
 - As entregas anteriores têm seus próprios resultados e limites nos relatórios vinculados acima. MySQL foi verificado com dados fictícios em ambiente temporário.
 
 ## Onde acompanhar o projeto
 
 - [STATE.md](STATE.md): decisões de negócio AD-001 a AD-028 e ponto de retomada.
-- [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-edicao está concluída tecnicamente, com aceitação humana pendente.
+- [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-arquivamento está concluída tecnicamente, com aceitação humana pendente.
 - [OPERACAO.md](../docs/OPERACAO.md): orientações de execução e verificação com dados fictícios.
 
 Este arquivo registra o diagnóstico do projeto. A skill `tlc-spec-driven` fornece o método de especificação, execução e verificação; suas instruções não foram alteradas para guardar o resumo.
@@ -224,7 +268,11 @@ As questões técnicas descobríveis pelo código serão resolvidas pela anális
 - Fazer verificação independente após finalizar a funcionalidade, incluindo evidências exigidas pela skill.
 - Avançar ao próximo requisito mantendo a cobertura dos pedidos da tabela inicial.
 
-Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias e criação/consulta de demandas já foram entregues e verificados, um requisito por vez. Movimentação/finalização/reabertura seguirão as decisões registradas e a resposta pendente sobre os campos ao reabrir. Edição/exclusão, comentários, logs, gráficos e demais melhorias de aparência terão suas próprias entregas e testes.
+Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias e o CRUD de demandas, incluindo transições, edição e retirada por arquivamento/restauração, foram entregues e verificados. Comentários laterais, atividade por gerenciamento, gráficos, revisão visual geral e aceitação humana continuam como próximos trabalhos.
+
+## Registro histórico de execução do arquivamento
+
+As notas abaixo preservam os checkpoints da execução e suas pendências naquele momento. A conclusão técnica atual está na seção Arquivamento e restauração de demandas, acima; a autorização dos ajustes de T12 foi recebida e aplicada, e a revisão independente foi concluída em 09/10/2026.
 
 Progresso parcial demandas-arquivamento T1: persistir marcador de arquivo; gate 5 testes/0 skips. Implemented, sem conclusão de requisito antes do Verifier. Evidências em features/demandas-arquivamento/evidence.md.
 

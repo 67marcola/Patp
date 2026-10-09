@@ -836,3 +836,11 @@ Check C (mapeamento reverso, todas necessárias):
 | `frontend/src/pages/QuadroTransicoes.test.jsx:44` — `expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(status === "Em andamento" ? ["Editar", "Mover/pular etapa", "Concluir", "Cancelar", "Arquivar"] : ["Editar", "Reabrir", "Arquivar"]);` | Ações anteriores preservadas | Sim |
 
 A/B/C/D PASS: todos critérios e bordas de T9–T12 mapeados; valores/payloads por igualdade, foco/estado/contagem/erro exatos; chamadas contam apenas em conjunto com resultado para provar ausência de retry. Testes co-localizados conforme docs/OPERACAO.md, package/Vitest/Playwright; nenhuma dependência nova. Nenhum SPEC_DEVIATION. Revisão independente e sensor pelo orchestrator são o próximo gate; não foram antecipados.
+
+## Encerramento técnico independente — 09/10/2026
+
+Relatório validation.md PASS: 30/30 critérios e 10/10 bordas, com file:line, assertion e outcome. Todos os gates foram repetidos pelo Verifier: 747 Java/H2, 881 Vitest, 438 selecionados MySQL fictício, 13 Edge/H2, lint/build; 0 falhas/erros/skips. Sensor 11/11 em scratch próprio, controles70Java/160Vitest PASS e SHA256/HEAD/porcelain dos 4.259 arquivos reais iguais antes e depois de descartar a cópia. Nenhuma lacuna, sobrevivente ou lesson nova.
+
+O limite de uso interrompeu o agente após iniciar o sensor em 08/10; o script concluiu as 11 mutações. Na retomada de 09/10, o Verifier releu resultados/logs, confirmou restauração e isolamento, descartou o scratch e persistiu o relatório, sem repetir gates do mesmo HEAD. validate_state PASS; diagnóstico marca os 30 critérios individualmente.
+
+Fixture MySQL TEMP8.0.43 porta33823 já estava inativa na retomada: listener ausente e antigo mysqld18304 ausente, conferidos em mysql/closure-status.log de C:/Users/Marco/AppData/Local/Temp/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43. Nenhum processo foi encerrado por PID antigo, nenhum banco real utilizado. Human UAT não realizado; roteiro em docs/OPERACAO.md.
