@@ -233,15 +233,16 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature:** demandas-arquivamento; branch testes, base ecde314.
-- **Completed:** servidor T1–T8; interface até T12 com gates e commits atômicos.
-- **In progress:** Implemented, não Verified; 747 Java/H2; 881 Vitest; 438 MySQL; 13 Edge/H2; lint/build PASS, 0 skips.
-- **Next step:** Verifier independente. Verifier fresco gerenciado pelo orchestrator após T12.
-- **Blocker:** nenhum.
-- **Environment:** JDK25/Maven3.9.16/Mockito5.23.0; H2 fictício, MySQL TEMP fixture do orchestrator; logs arquivo-T*.log.
-- **Uncommitted files:** gerados target/node_modules/test-results preservados; add explícito.
-- **Restrictions:** sem push/deploy/banco real; AD-024/027/028 intactas.
-- **User preference:** dois lotes sequenciais autorizados; conclusão no diagnóstico somente após revisão independente.
+
+- **Feature:** demandas-arquivamento concluída tecnicamente em 09/10/2026; branch testes, implementação 52c7725..4f977ea.
+- **Completed:** T1–T12, 30/30 critérios e 10/10 bordas PASS independente. Gates 747 Java/H2, 881 Vitest, 438 MySQL fictício, 13 Edge/H2, lint/build. Sensor11/11 e isolamento de4.259 arquivos. validate_state PASS.
+- **In progress:** nenhuma tarefa de arquivamento em execução; entrega técnica encerrada. Aceitação humana não realizada.
+- **Next step:** lateral de comentários, próximo requisito original. Definir alcance da conversa, participantes e autoria antes de implementar; explicar a recomendação ao usuário. Roteiro humano das entregas disponível em docs/OPERACAO.md.
+- **Blocker:** nenhum técnico; novas decisões de comentários ainda não tomadas.
+- **Environment:** tecnologias AD-024 mantidas; testes H2/MySQL fictícios. Gates08/10 reconferidos09/10 no mesmo HEAD. Logs TEMP arquivo-T*.log e verifier-arquivo-*.log. Fixture33823 e mysqld18304 ausentes na retomada; não tocar PID antigo/banco real.
+- **Uncommitted files:** fontes e documentos do fechamento versionados; gerados target/node_modules/test-results preexistentes preservados fora dos commits. Add explícito.
+- **Restrictions:** sem push/deploy/migração real/exclusão física/upgrade; AD-027/028 preservadas. Arquivo não reabre nem move demanda.
+- **User preference:** cada requisito concluído registrado no diagnóstico; explicar o que vai entrar no sistema e recomendar opções quando perguntar.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 
