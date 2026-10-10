@@ -1,6 +1,6 @@
 # Diagnóstico e resumo atual do sistema Creral
 
-**Atualizado em 09/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
+**Atualizado em 10/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
 
 ## Como o sistema está organizado
 
@@ -18,7 +18,9 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 | Construção | Maven no servidor; Node.js/npm na interface. |
 | Testes | JUnit e H2 isolado; Vitest, Testing Library e Playwright. H2 é usado somente nos testes. |
 
-**Acompanhamento combinado:** cada requisito concluído e verificado será registrado neste diagnóstico. Tarefas e critérios parcialmente concluídos serão identificados como progresso parcial até a aprovação técnica da entrega.
+**Acompanhamento combinado, reforçado em 10/10/2026:** toda implementação de requisito será registrada aqui com o estado real e comunicada como **“incluído no diagnóstico”**. Tarefas e critérios parcialmente concluídos serão identificados como progresso parcial até a aprovação técnica da entrega. Depois da implementação, dos testes pertinentes aprovados e da verificação TLC, registrar **“Concluído e verificado — tudo ok”**, com data, resultado dos testes e referência à evidência/validação. Atualizar a memória e seguir para o próximo requisito pendente; não refazer entregas já comprovadas. Essa regra permanente está no início de [STATE.md](STATE.md).
+
+**Registro de acompanhamento em 10/10/2026 — incluído no diagnóstico:** a regra solicitada foi registrada na memória e conferida nos documentos; ajuste documental concluído. Nenhuma nova funcionalidade do sistema foi concluída nesta retomada. O próximo requisito continua sendo a lateral de comentários, cuja definição aguarda as escolhas abaixo.
 
 ## O que está pronto e validado
 
@@ -110,7 +112,7 @@ Cada critério desta entrega está registrado abaixo como concluído. As asserti
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Lateral de comentários de vários usuários, com data | Em discussão em 09/10/2026: base por demanda auditada, proposta de painel registrada e duas escolhas apresentadas (alcance e participantes). Falta resposta, especificação, implementação e verificação; ainda não concluído. [Contexto e proposta](features/comentarios-lateral/context.md). |
+| Lateral de comentários de vários usuários, com data | Em discussão, retomada em 10/10/2026: base por demanda auditada, proposta de painel registrada e duas escolhas apresentadas (alcance e participantes). Falta resposta, especificação, implementação e verificação; ainda não concluído. [Contexto e proposta](features/comentarios-lateral/context.md). |
 | Logs em cada gerenciamento | Há registros de histórico associados às demandas e proteções nos fluxos entregues. Falta a entrega completa de atividade por gerenciamento, com eventos, autoria, consulta e apresentação definidos. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |

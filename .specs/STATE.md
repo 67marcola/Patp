@@ -6,6 +6,8 @@ Restrições declaradas pelo usuário: Java, Spring Boot, MySQL; implementação
 
 Nome da empresa confirmado pelo usuário: **Creral**. Usar essa grafia na documentação e nos textos da aplicação.
 
+**Regra permanente de acompanhamento, reforçada pelo usuário em 10/10/2026:** toda implementação de requisito deve ser incluída em `.specs/DIAGNOSTICO.md`, com o estado real (em andamento, parcial ou concluído), e a comunicação ao usuário deve dizer **“incluído no diagnóstico”**. Só registrar **“Concluído e verificado — tudo ok”** depois de implementar, executar os testes pertinentes com aprovação e completar a verificação exigida pela TLC. Registrar data, resultado dos testes e referência à evidência/validação; não transformar preparação ou teste parcial em conclusão. Depois desse fechamento, atualizar o Handoff e seguir para o próximo requisito pendente, sem refazer entregas comprovadas. Fazer perguntas quando faltarem decisões necessárias, explicando a recomendação e o efeito no sistema. Esta regra vale para todas as próximas entregas e deve ser relida nas retomadas.
+
 Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento ou o software, conforme a frase; o usuário descreveu instalação de poste e pediu pular etapas por botão. O artigo PATP foi fornecido como referência. O termo "processo" do artigo/código representa uma demanda em uma etapa, diferindo do uso conversacional do usuário. A escolha posterior do modelo está registrada em AD-001. Detalhes em `.specs/REFERENCIA_PATP.md`.
 
 ### AD-001
@@ -236,13 +238,13 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 - **Feature:** comentarios-lateral em discussão; branch testes, base 81d7570. Arquivamento concluído tecnicamente em 09/10/2026, implementação 52c7725..4f977ea.
 - **Completed:** auditoria inicial de comentários e proposta em features/comentarios-lateral/context.md; nenhuma implementação nova. Arquivamento T1–T12, 30/30 critérios e 10/10 bordas PASS independente, 747 Java/H2, 881 Vitest, 438 MySQL fictício, 13 Edge/H2, lint/build; sensor 11/11 e 4.259 arquivos preservados, validate_state PASS.
-- **In progress:** discussão do alcance e participantes. Perguntas assíncronas apresentadas nesta retomada; recomendar por demanda e qualquer usuário autenticado, com autoria da sessão. Nenhuma resposta registrada; não inferir de “Pode continuar” ou opção preselecionada. Aceitação humana anterior pendente.
+- **In progress:** discussão do alcance e participantes. Em 10/10/2026, regra permanente de acompanhamento registrada acima e duas perguntas reapresentadas a pedido do usuário; recomendar por demanda e qualquer usuário autenticado, com autoria da sessão. Nenhuma resposta registrada; não inferir de “Pode continuar” ou opção preselecionada. Aceitação humana anterior pendente.
 - **Next step:** incorporar as duas escolhas, fechar contexto/spec com critérios verificáveis e apresentar proposta concreta antes de Design. Se autoria passar à sessão, preparar adequações concretas dos testes antigos ComentarioArchiveTests e DemandaArquivoComentarioTests e pedir confirmação TLC antes de alterar expectativas.
 - **Blocker:** nenhum técnico; decisões de produto pendentes. Demais defaults propostos no contexto, sem alegar aprovação.
 - **Environment:** tecnologias AD-024 mantidas; testes H2/MySQL fictícios. Gates08/10 reconferidos09/10 no mesmo HEAD. Logs TEMP arquivo-T*.log e verifier-arquivo-*.log. Fixture33823 e mysqld18304 ausentes na retomada; não tocar PID antigo/banco real.
-- **Uncommitted files:** contexto de comentários, diagnóstico e Handoff incluídos no commit desta retomada; nenhum código/teste alterado. Gerados target/node_modules/test-results preexistentes preservados fora dos commits. Add explícito.
+- **Uncommitted files:** memória, diagnóstico e contexto de comentários incluídos no commit documental desta retomada; nenhum código/teste alterado. Gerados target/node_modules/test-results preexistentes preservados fora dos commits. Add explícito.
 - **Restrictions:** sem push/deploy/migração real/exclusão física/upgrade; AD-027/028 preservadas. Arquivo não reabre nem move demanda.
-- **User preference:** cada requisito concluído registrado no diagnóstico; explicar o que vai entrar no sistema e recomendar opções quando perguntar.
+- **User preference:** regra permanente no início de Decisions: dizer “incluído no diagnóstico”; marcar concluído e tudo ok somente com testes/verificação aprovados, guardar evidências e seguir ao próximo. Explicar o que vai entrar no sistema e recomendar opções quando perguntar.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 
