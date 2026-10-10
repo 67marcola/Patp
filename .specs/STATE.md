@@ -245,12 +245,12 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 
 - **Feature:** comentarios-lateral, proposta preparada em 10/10/2026; branch testes, base 8584e5b. Arquivamento concluído tecnicamente em 09/10/2026, implementação 52c7725..4f977ea.
-- **Completed:** auditoria inicial de comentários e proposta em features/comentarios-lateral/context.md; nenhuma implementação nova. Arquivamento T1–T12, 30/30 critérios e 10/10 bordas PASS independente, 747 Java/H2, 881 Vitest, 438 MySQL fictício, 13 Edge/H2, lint/build; sensor 11/11 e 4.259 arquivos preservados, validate_state PASS.
-- **In progress:** AD-029 resolveu alcance e participantes; não perguntar de novo. Contexto atualizado, spec com 28 critérios e plano de sete tarefas preparados; confirmar proposta/defaults e adequações exatas dos testes antigos antes de executar. Nenhum código/teste alterado. Aceitação humana anterior pendente.
-- **Next step:** validate_spec/validate_tasks --strict aprovados em 10/10, zero erros/avisos. Duas perguntas assíncronas apresentadas: confirmar proposta/defaults/plano e adequações de duas classes Java/seis expressões em três JSX detalhadas em tasks.md. Aguardar respostas; depois executar T1–T7 inline, um commit por tarefa, e Verifier fresco no final.
-- **Blocker:** nenhum técnico; confirmação TLC da proposta e testes antigos pendente. Perguntas devem explicar recomendação e citar o motivo da confirmação.
+- **Completed:** comentários T1: autoria da sessão, limite/literalidade, lock/rollback e testes; seleção44/Full782 Java/H2 PASS. Fixture própria corrigida após confirmação explícita; quatro cenários preservados. Arquivamento permanece concluído e verificado, sem refazer.
+- **In progress:** comentários ainda parciais, T2–T7 e Verifier pendentes; nenhuma escolha em aberto. Spec/defaults/plano e adequações antigas aprovados, não perguntar novamente. Progresso incluído no diagnóstico.
+- **Next step:** commit atômico T1 com gate/status/evidências; iniciar T2 GET de conversa. Seguir sequencialmente T2–T7 inline e Verifier fresco depois da última tarefa.
+- **Blocker:** nenhum. Corrigir somente expectativas especificamente autorizadas; qualquer outro teste genuinamente errado exige confirmação própria.
 - **Environment:** tecnologias AD-024 mantidas; testes H2/MySQL fictícios. Gates08/10 reconferidos09/10 no mesmo HEAD. Logs TEMP arquivo-T*.log e verifier-arquivo-*.log. Fixture33823 e mysqld18304 ausentes na retomada; não tocar PID antigo/banco real.
-- **Uncommitted files:** proposta spec/tasks/context, diagnóstico e STATE incluídos no commit documental desta retomada. Nenhum código/teste alterado. Gerados target/node_modules/test-results preexistentes preservados fora dos commits.
+- **Uncommitted files:** T1 e documentos incluídos no commit da tarefa após gate aprovado. Gerados target/node_modules/test-results preexistentes preservados fora dos commits; add explícito.
 - **Restrictions:** sem push/deploy/migração real/exclusão física/upgrade; AD-027/028 preservadas. Arquivo não reabre nem move demanda.
 - **User preference:** regra permanente no início de Decisions: dizer “incluído no diagnóstico”; marcar concluído e tudo ok somente com testes/verificação aprovados, guardar evidências e seguir ao próximo. Explicar o que vai entrar no sistema e recomendar opções quando perguntar.
 

@@ -4,7 +4,7 @@
 
 Implementar com a skill `tlc-spec-driven`, um entregável por tarefa, teste derivado da spec, gate aprovado e um commit atômico com status/evidência. Verifier independente obrigatório depois de T7. Registrar progresso parcial no diagnóstico; somente depois do PASS registrar requisitos concluídos e informar “incluído no diagnóstico”. Sem push, deploy, banco real, upgrade ou alteração dos gerados preexistentes.
 
-**Spec:** spec.md. **Design:** inline na spec, sem documento separado: complexidade média e padrões existentes. **Status:** Draft, aguardando confirmação da proposta e das adequações antigas. Sete tarefas cabem em um lote; execução inline, sem workers. A verificação final usa um novo agente conforme a TLC.
+**Spec:** spec.md. **Design:** inline na spec, sem documento separado: complexidade média e padrões existentes. **Status:** In Progress. Proposta/defaults/plano e adequações antigas explicitamente aprovados pelo usuário em 10/10/2026 nas duas perguntas. Sete tarefas cabem em um lote; execução inline, sem workers. A verificação final usa um novo agente conforme a TLC.
 
 ## Test Coverage Matrix
 
@@ -51,9 +51,9 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 **Requirements:** COM-01–04, COM-07–14.
 **Tools:** exec_command/apply_patch; skill tlc-spec-driven já escolhida pelo usuário.
 **Done when:**
-- [ ] Envio antigo conserva shape/HTTP200 e passa todos os critérios aplicáveis, inclusive nome falso ignorado e texto literal.
-- [ ] Casos novos de autenticação, permissões, limites, estados, rollback e disputa com quadro/demanda; mínimo20 casos novos, preservando os testes antigos.
-- [ ] Full aprovado, evidências por assertion, teste↔critério e quantidade registrados; diagnóstico informa T1 parcial até Verifier.
+- [x] Envio antigo conserva shape/HTTP200 e passa todos os critérios aplicáveis, inclusive nome falso ignorado e texto literal.
+- [x] 35 casos novos de autenticação, permissões, limites, estados, rollback e disputa com quadro/demanda; todos os testes antigos preservados, adequações autorizadas.
+- [x] Full aprovado: 782 Java/H2,0 falhas/erros/skips. Seleção44 PASS. Evidência bidirecional em evidence.md; T1 concluída como tarefa, feature parcial até Verifier.
 **Tests:** integration
 **Gate:** Full
 **Commit:** feat(comentarios): use session authorship for writes
@@ -196,9 +196,9 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 | T6 | Quadro React | unit | unit | OK |
 | T7 | Navegador | e2e | e2e | OK |
 
-## Adequações antigas propostas, ainda não autorizadas
+## Adequações antigas autorizadas em 10/10/2026
 
-Preservar todos os cenários e demais assertions. Solicitar confirmação antes de editar expectativas, conforme implement.md/coding-principles.md.
+Usuário respondeu Sim, adequar esses testes (recomendado) à descrição concreta abaixo. Preservar todos os cenários e demais assertions. Essa confirmação cobre somente estas adequações.
 
 - ComentarioArchiveTests.java:48–63: manter sessão Outro e textos Comentário de Ana/Bia, inclusive nomes enviados Ana/Bia; expectativa de funcionario passa a Outro nas respostas e nas duas linhas físicas. Isso prova que o nome recebido não substitui a conta.
 - DemandaArquivoComentarioTests.java:30–37: POST autenticado por Leitor passa a esperar Leitor na gravação e na consulta após arquivo, em vez de Informado. Texto literal, timestamp, ID, versão e preservação integral permanecem.

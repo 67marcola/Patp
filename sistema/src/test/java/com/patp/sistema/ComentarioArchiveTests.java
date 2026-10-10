@@ -53,12 +53,12 @@ class ComentarioArchiveTests extends ApiIntegrationSupport {
             mvc.perform(post(rota).header("Authorization", token).contentType(MediaType.APPLICATION_JSON)
                     .content("{\"texto\":\"Comentário de " + pessoa + "\",\"funcionario\":\"" + pessoa + "\"}"))
                     .andExpect(status().isOk()).andExpect(jsonPath("$.texto").value("Comentário de " + pessoa))
-                    .andExpect(jsonPath("$.funcionario").value(pessoa)).andExpect(jsonPath("$.dataHora").isNotEmpty())
+                    .andExpect(jsonPath("$.funcionario").value("Outro")).andExpect(jsonPath("$.dataHora").isNotEmpty())
                     .andExpect(jsonPath("$.processo.id").value(demanda.getId()));
         }
         assertThat(jdbc.queryForList("select texto from comentarios order by id", String.class))
                 .containsExactly("Comentário de Ana", "Comentário de Bia");
-        assertThat(jdbc.queryForList("select funcionario from comentarios order by id", String.class)).containsExactly("Ana", "Bia");
+        assertThat(jdbc.queryForList("select funcionario from comentarios order by id", String.class)).containsExactly("Outro", "Outro");
         assertThat(jdbc.queryForObject("select count(*) from comentarios where data_hora is not null and processo_id=?", Long.class, demanda.getId())).isEqualTo(2L);
         assertThat(processos.findById(demanda.getId()).orElseThrow().getStatus()).isEqualTo("Em andamento");
         assertThat(quadros.findById(quadro.getId()).orElseThrow().getVersao()).isZero();

@@ -1,6 +1,6 @@
 # Comentários por demanda Specification
 
-**Data:** 10/10/2026. **Status:** proposta concreta para confirmação. **Base:** 8584e5b, branch testes. Alcance e participantes confirmados pelo usuário; defaults e plano abaixo aguardam revisão. Complexidade média: reutilizar a persistência, sessões, lock e padrões de interface existentes, sem nova tecnologia ou alteração de schema. Design separado dispensado; decisões técnicas descritas abaixo. Implementação ainda não iniciada.
+**Data:** 10/10/2026. **Status:** aprovada e em implementação. **Base:** 8584e5b, branch testes. Usuário confirmou alcance/participantes e depois respondeu Sim, seguir com a proposta (recomendado) e Sim, adequar esses testes (recomendado) às duas perguntas concretas. Complexidade média: reutilizar persistência, sessões, lock e padrões existentes, sem nova tecnologia ou schema. Design separado dispensado; decisões técnicas descritas abaixo.
 
 ## Problem Statement
 
@@ -36,7 +36,7 @@ Os comentários já existem no servidor, mas os usuários não conseguem convers
 | Repetição | Bloqueio enquanto pendente, sem retry automático; após falha consultar manualmente e conferir mensagens antes de novo envio. | POST pode ter sido salvo mesmo quando a resposta se perde. Não prometer deduplicação sem chave persistida. | Proposta explícita |
 | Dados antigos | Ler mesmo textos/nome antigos fora dos limites novos; nenhuma limpeza ou truncamento. | Limites são de novos envios e não autorizam alterar registros existentes. | Política de preservação vigente |
 
-**Open questions:** none — all resolved or logged above. Defaults estão apresentados para confirmação; não são respostas explícitas do usuário. Adequações de expectativas antigas descritas em tasks.md aguardam confirmação TLC.
+**Open questions:** none — all resolved or logged above. Defaults e plano confirmados explicitamente em 10/10/2026, assim como as adequações antigas descritas em tasks.md. As linhas inicialmente marcadas Proposta explícita foram aprovadas em conjunto pela resposta Sim, seguir com a proposta.
 
 ## Contrato e implementação proposta
 
@@ -138,20 +138,20 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| COM-01 | Enviar | T1/T2/T3 | Pending |
-| COM-02 | Enviar | T1/T3 | Pending |
-| COM-03 | Enviar | T1 | Pending |
-| COM-04 | Enviar | T1/T3 | Pending |
+| COM-01 | Enviar | T1/T2/T3 | Implementing |
+| COM-02 | Enviar | T1/T3 | Implementing |
+| COM-03 | Enviar | T1 | Implementing |
+| COM-04 | Enviar | T1/T3 | Implementing |
 | COM-05 | Enviar | T3 | Pending |
 | COM-06 | Enviar | T2/T3 | Pending |
-| COM-07 | Enviar | T1/T3 | Pending |
-| COM-08 | Enviar | T1/T3 | Pending |
-| COM-09 | Enviar | T1/T3 | Pending |
-| COM-10 | Enviar | T1/T3 | Pending |
-| COM-11 | Enviar | T1/T2/T7 | Pending |
-| COM-12 | Enviar | T1/T3/T7 | Pending |
-| COM-13 | Enviar | T1/T3 | Pending |
-| COM-14 | Enviar | T1/T3 | Pending |
+| COM-07 | Enviar | T1/T3 | Implementing |
+| COM-08 | Enviar | T1/T3 | Implementing |
+| COM-09 | Enviar | T1/T3 | Implementing |
+| COM-10 | Enviar | T1/T3 | Implementing |
+| COM-11 | Enviar | T1/T2/T7 | Implementing |
+| COM-12 | Enviar | T1/T3/T7 | Implementing |
+| COM-13 | Enviar | T1/T3 | Implementing |
+| COM-14 | Enviar | T1/T3 | Implementing |
 | COM-15 | Consultar | T2 | Pending |
 | COM-16 | Consultar | T2/T3 | Pending |
 | COM-17 | Consultar | T6 | Pending |
