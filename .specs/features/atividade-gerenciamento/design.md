@@ -1,6 +1,6 @@
 # Atividade por gerenciamento Design
 
-**Spec:**spec.md. **Status:**Draft, proposta concreta para confirmação junto com spec e tarefas. AD-001–033 lidas; nenhuma decisão antiga supersedida. Ferramentas AD-024 mantidas. Contexto e código local são a fonte das escolhas; nenhuma biblioteca nova necessária.
+**Spec:**spec.md. **Status:**Approved pelo usuário em10/10/2026 junto com spec/tarefas/defaults. AD-001–034 respeitadas; nenhuma decisão antiga supersedida. Ferramentas AD-024 mantidas. Contexto e código local são a fonte das escolhas; nenhuma biblioteca nova necessária.
 
 ## Architecture Overview
 
@@ -12,7 +12,7 @@ Recomendo um diário adicional de atividade, gravado na mesma transação da aç
 | Ampliar Historico para quadro/etapa/demanda/comentário | Fonte única para ordenar | Modifica a entidade exposta nas APIs antigas e introduz novos registros no histórico de demandas; compatibilidade COM-12 exigiria segregação adicional |
 | Diários separados para cada tipo de alvo, reunidos na leitura | Persistência específica por alvo | Quatro modelos e consulta de mais fontes para o mesmo resultado; maior custo de teste e manutenção |
 
-A recomendação está detalhada para revisão; implementação e mudança dos testes antigos aguardam confirmação, sem pressupor escolha pelo silêncio.
+Usuário confirmou a proposta recomendada e exatamente as três adequações de testes da T13. Implementação local autorizada, sem operação externa.
 
 ```mermaid
 flowchart TD

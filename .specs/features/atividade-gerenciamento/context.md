@@ -1,6 +1,6 @@
 # Atividade por gerenciamento — decisões e descoberta
 
-**Data:**10/10/2026. **Estado:** definição em andamento, sem aplicação implementada e sem requisito concluído. Continuação após comentarios-lateral:28/28 Verified,840 Java/H2,1000 Vitest,336 MySQL fictício,15 Edge/H2,lint/build e sensor7/7 PASS. Base atual7825bfd, branch testes.
+**Data:**10/10/2026. **Estado:** proposta aprovada, execução autorizada por T1; nenhum requisito concluído. Continuação após comentarios-lateral:28/28 Verified,840 Java/H2,1000 Vitest,336 MySQL fictício,15 Edge/H2,lint/build e sensor7/7 PASS. Planejamento f1bbb08, branch testes.
 
 ## Escolhas confirmadas
 
@@ -36,7 +36,7 @@ Caminhos acima estão em sistema/src/main/java/com/patp/sistema/ (service/contro
 
 Confirmar a proposta concreta e a compatibilidade da escrita histórica manual. Precisar os testes antigos antes de qualquer mudança de outcome. Esta preparação não conclui a atividade; nenhum código do sistema foi alterado nesta retomada.
 
-Perguntas enviadas nesta retomada: proposta/defaults; bloqueio da escrita manual com as três adequações T13; preferência entre três agentes sequenciais7/7/4 e execução nesta conversa. Todas aguardam resposta. Não iniciar agentes de implementação por inferência; o Verifier final é obrigatório independente dessa preferência.
+Respostas explícitas recebidas: proposta/defaults aprovados; bloquear escrita manual e adequar exatamente os três cenários T13; três agentes sequenciais7/7/4 aprovados. Não perguntar novamente. Verifier fresco automático após T18, independente da escolha dos trabalhadores.
 
 ## Gates da proposta em10/10/2026
 

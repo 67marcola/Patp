@@ -273,13 +273,21 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-10
 - **Status**: active
 
+### AD-034
+- **Decision**: bloquear novas entradas manuais na API antiga de histórico com409 em demanda ativa, preservando consulta, registros existentes e precedência de recusas por arquivo. Adequar exatamente os três cenários de testes descritos em atividade-gerenciamento/tasks.md T13, sem excluir/ignorar casos.
+- **Reason**: usuário confirmou explicitamente Sim, bloquear e adequar esses testes em10/10/2026 após explicação da autoria/ação escolhidas pelo navegador.
+- **Trade-off**: chamadas antigas deixam de criar histórico manual; ações reais continuam gerando seus registros automaticamente.
+- **Scope**: POST histórico e registrarExterno; manter histórico interno das ações e dados antigos. Implementar na T13, ainda pendente.
+- **Date**: 2026-10-10
+- **Status**: active
+
 ## Handoff
 
 
 - **Feature:** comentarios-lateral concluída e verificada em10/10/2026; branch testes, base8584e5b, tarefas3a5934c..3831104. Próxima: atividade por gerenciamento, alcance/consulta respondidos em AD-030/031, definição detalhada em andamento.
 - **Completed:** T1–T9 e28/28 critérios COM Verified. Gates independentes840 Java/H2,1000 Vitest,336 MySQL fictício,15 Edge/H2,lint/build PASS,zero falhas/skips. Sensor7/7 killed, controles102 Java/76 API aprovados; HEAD/porcelain/4.147 hashes preservados. Rodada2 PASS e validate_state0. QA desktop/celular; incluído no diagnóstico, cada critério Concluído e verificado — tudo ok. Arquivamento anterior concluído/verificado.
-- **In progress:** atividade por gerenciamento em preparação. AD-030–033 confirmam alcance, consulta, antes/depois e evento de envio de comentário. Proposta concreta em features/atividade-gerenciamento. Três perguntas enviadas, ainda sem resposta: proposta/defaults; bloquear escrita manual e adequar exatamente os três cenários T13; três agentes sequenciais7/7/4 ou execução nesta conversa. Não iniciar Execute nem agentes de implementação antes da escolha exigida pela TLC. Aceitação humana dos comentários e demais entregas pendente, distinta do PASS técnico.
-- **Next step:** apresentar proposta da atividade e sua compatibilidade; após confirmação, executar tarefas atômicas com testes e commits locais. Não refazer comentários. Roteiro humano dos comentários disponível em docs/OPERACAO.md.
+- **In progress:** atividade por gerenciamento aprovada; proposta/defaults, bloqueio manual e testes T13 confirmados. Usuário escolheu três agentes sequenciais7/7/4. Primeiro lote T1–T7 autorizado; depois T8–T14 e T15–T18, sem concorrência de edição/gates. Nenhum critério ACT Verified. Aceitação humana anterior pendente, distinta do PASS técnico.
+- **Next step:** executar lote1 T1–T7, testes e commits por tarefa; só avançar ao próximo lote após todos os gates/commits do anterior. Após T18, Verifier fresco automático com sensor>=5 e validate_state0 antes de concluir.
 - **Blocker:** nenhum. Não reabrir as autorizações recebidas. Teste com outcome genuinamente errado diferente dos já aprovados exige confirmação TLC.
 - **Environment:** tecnologias AD-024 mantidas. MySQL fictício8.0.43 porta33823/datadirTEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql encerrado após conferir identidade atual22852/datadir/porta: mysqladmin shutdown0,listener ausente. Banco real intocado. Logs autor TEMP/comentarios-T*.log; revisão2 TEMP/cv2877ba, relatório em features/comentarios-lateral/validation.md. Build frontend TEMP/comentarios-T8-build. Sem processos residuais próprios do Verifier.
 - **Uncommitted files:** proposta Draft de atividade (context/spec/design/tasks), memória e diagnóstico incluídos no commit local que contém este Handoff. Gates estruturais spec strict0/tasks0 (aviso entidade conferido), diff documental0;39 critérios/18 tarefas, nenhum teste do sistema reexecutado nesta preparação. Fechamento de comentários7825bfd e descoberta084757d commitados. Gerados target/node_modules/test-results preexistentes preservados fora dos commits; não limpar/reset/stash.

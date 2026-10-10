@@ -4,7 +4,7 @@
 
 Implementar com a skill tlc-spec-driven já ativada e suas Critical Rules. Ler implement.md completamente antes de Execute. Se indisponível, parar e informar. Testes derivados dos critérios; gate aprovado antes de concluir tarefa; atualizar tarefas/evidência/traceabilidade e diagnóstico antes de cada commit atômico. Não remover/ignorar cenários. Verifier independente obrigatório automático após última tarefa, sensor mínimo5 em scratch e comparação da árvore real.
 
-**Design:**design.md. **Status:**Draft. **Base:**084757d. Defaults/compatibilidade propostos para confirmação; T13 aguarda autorização específica de outcomes antigos. Ferramentas: PowerShell, apply_patch, git local, Maven, npm, Python, runners isolados existentes; TLC. AD-024 e autorizações anteriores persistem; não repetir pedido de tecnologias/ferramentas.
+**Design:**design.md. **Status:**Approved, execução por três agentes sequenciais7/7/4 confirmada em10/10/2026. **Base:**084757d. Defaults/compatibilidade aprovados; T13 recebeu autorização exata para os três cenários descritos. Ferramentas: PowerShell, apply_patch, git local, Maven, npm, Python, runners isolados existentes; TLC. AD-024 e autorizações anteriores persistem; não repetir pedido de tecnologias/ferramentas.
 
 ## Test Coverage Matrix
 
@@ -56,7 +56,7 @@ T7 -> T8 -> T9 -> T10 -> T11 -> T12 -> T13 -> T14
 T14 -> T15 -> T16 -> T17 -> T18
 ```
 
-18 tarefas em3 lotes de fases inteiras (7/7/4). Oferecer trabalhadores sequenciais antes de Execute; jamais iniciar sem aceite. Alternativa: executar todas nesta conversa. A validação independente final não depende dessa preferência.
+18 tarefas em3 lotes de fases inteiras (7/7/4), com aceite explícito recebido. Executar sequencialmente, um trabalhador por lote. A validação independente final permanece obrigatória.
 
 ## Task Breakdown
 
