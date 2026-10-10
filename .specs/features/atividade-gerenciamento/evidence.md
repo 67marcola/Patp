@@ -55,3 +55,27 @@ Todos os caminhos abaixo são `sistema/src/test/java/com/patp/sistema/AtividadeR
 | criacaoPreservaQuadroEEtapaComMesmoId :136 lista exata | Edge snapshots iniciais ACT-01 | Sim |
 
 Adequação A/B/C/D aprovada: resultados específicos e snapshots completos; nenhuma asserção somente de chamada, teste excluído/ignorado ou novo requisito. Padrões JUnit/H2+ApiIntegrationSupport do projeto; Verifier permanece pendente.
+
+## T3 — criação do quadro
+
+10/10/2026: `mvn.cmd -B test` exit0,860 testes,0 falhas/erros/skips (7 novos). Log TEMP/atividade-T3-java.log. Sem mudança de outcomes anteriores; spy falha na persistência para provar rollback real. Arquivo abaixo: `sistema/src/test/java/com/patp/sistema/AtividadeQuadroCriacaoTests.java`.
+
+| Critério / AC | file:line + asserção | Esperado |
+| --- | --- | --- |
+| ACT-01/15 evento único/autor/alvo/tempo | :35 `atividades.count().isEqualTo(1)`; :36 tipo QUADRO_CRIADO/alvo QUADRO; :37 IDs quadro; :38 nome Quadro novo/autorID/u.id/autorCriador; :39 `dataHora.isBetween(inicio,now+1s)` e nano%1000 zero | Uma ação com snapshots e tempo servidor |
+| ACT-19 versão e iniciais | :40 `criado.versao().isZero()`; :41 tamanho6/3; :42 nome Quadro novo; :43 descrição literal; :44 false | Versão atual e valores reais |
+| Edge trabalho inicial e finais automáticas | :46–51 ID/tipo/nome/campo/anteriornull/novo Trabalho/Setor/7; :53 count etapas3/2; :54 `alteracoesJson.doesNotContain("Concluídos","Cancelados")` | Snapshot iniciais fornecidas, sem falsas ações de finais |
+| ACT-18 autoria forjada ignorada | :61 `autorId.isEqualTo(u.getId())`, nomeReal; :62 tipo QUADRO_CRIADO e semForjado | Autor/tipo do serviço |
+| ACT-18 validação/sessão | :66 mensagem nome exata+:67 snapshot igual; :71 mensagem etapa+:72 snapshot igual; :76 sessão inválida+:77 snapshot igual | Recusas sem escrita |
+| ACT-17 rollback | :82 `assertThatThrownBy(...).hasMessage("Falha do diário")`; :83 `conteudoComAtividade().isEqualTo(antes)` | Sem quadro/etapas/evento parcial |
+
+| Reverse-map teste + asserção | AC / Done-when | Manter |
+| --- | --- | --- |
+| criacaoUnicaConservaQuadroEtapasIniciaisAutorEHorario false/true :35–54 valores completos | ACT-01/15/19 e edge iniciais/finais | Sim |
+| payloadForjadoNaoEscolheAutorOuTipo :61/62 autor/tipo | ACT-18 | Sim |
+| nomeInvalidoConservaTodaPersistencia :66/67 | ACT-18 validação | Sim |
+| etapaInvalidaConservaTodaPersistencia :71/72 | ACT-18 validação | Sim |
+| sessaoInvalidaConservaTodaPersistencia :76/77 | ACT-18 sessão | Sim |
+| falhaDoDiarioReverteQuadroEIniciaisEFinais :82/83 | ACT-17 | Sim |
+
+Adequação A/B/C/D aprovada: sete cenários, contagens completas, snapshots/rollback e valores específicos; guideline matriz JUnit/H2 existente. Feature em andamento, Verifier pendente.
