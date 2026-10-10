@@ -142,7 +142,7 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 | COM-02 | Enviar | T1/T3 | Implementing |
 | COM-03 | Enviar | T1 | Implementing |
 | COM-04 | Enviar | T1/T3 | Implementing |
-| COM-05 | Enviar | T3 | Pending |
+| COM-05 | Enviar | T3 | Implementing |
 | COM-06 | Enviar | T2/T3 | Implementing |
 | COM-07 | Enviar | T1/T3 | Implementing |
 | COM-08 | Enviar | T1/T3 | Implementing |

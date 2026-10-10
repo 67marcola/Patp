@@ -48,3 +48,21 @@ Full `mvn.cmd -B verify` em sistema:797 casos,0 falhas/erros/skips, BUILD SUCCES
 | Sem efeitos de leitura | ComentarioConsultaTests.java:35, `conteudoPersistido().isEqualTo(antes)` e quadros físicos iguais; :47/:52/:58/:62/:67 | Nenhuma gravação ou incremento de versão | Sim |
 
 Reverse mapping: cada caso parametrizado e teste de ComentarioConsultaTests corresponde às linhas de evidência acima: flags4→COM-11/15/16, ordem1→COM-11/15/16, vazio1→COM-15, alvos3/antigo4041→COM-06, sessões2→COM-01, papéis3→COM-01/15. Todos15 necessários. Adequação A–D PASS: payloads/estado efetivo, resultados da spec, testes co-localizados/padrão ApiIntegrationSupport; zero remoção/skip/SPEC_DEVIATION. Tarefa concluída, feature parcial até T3–T7 e Verifier.
+
+## T3 — envio moderno com corpo estrito
+
+Java/H2 Full830 casos PASS,0 falhas/erros/skips (797+33 novos). Log TEMP/comentarios-T3-h2.log. Frontend Build em execução; primeira suíte881 teve somente timeout5000ms no CRUD antigo por teclado durante execução simultânea com Maven; teste intacto, runner repetido sozinho, log negativo TEMP/comentarios-T3-vitest-timeout.log.
+
+| Critério | Evidência/assertion | Outcome da spec | Coberto |
+| --- | --- | --- | --- |
+| COM-02/10/16 | ComentarioDemandaApiTests.java:41–45, `status().isCreated()`, texto/nome/processoId exatos, chaves exatamente cinco, ID positivo e horas entre limites; query física contém os valores | HTTP201 e cinco campos definidos iguais à gravação da sessão | Sim |
+| COM-04 | ComentarioDemandaApiTests.java:30/31/55/59,400/mensagem/snapshot; :63,10000 UTF16 literal no banco/resposta | Limites só novos; ausente/nulo/blank/10001 não grava | Sim |
+| COM-05 | ComentarioDemandaApiTests.java:30/31/51,400 `Dados da requisição inválidos.` e snapshots físicos iguais | Dez formatos/tipos/campos extras recusados | Sim |
+| COM-01/06/07/08 | ComentarioDemandaApiTests.java:30/31/68/69, status e erro exatos401/404/409, snapshots iguais | Sessão, vínculo e arquivos obrigatórios sem efeitos | Sim |
+| COM-09/12 | ComentarioDemandaApiTests.java:74,201 e `processos` iguais | Comentar nos quatro estados sem normalização | Sim |
+| COM-11/12 | ComentarioDemandaApiTests.java:46/47, count2, antigos e etapas/processos/históricos/quadros iguais | Apenas uma mensagem nova, preservação integral | Sim |
+| COM-13 | ComentarioDemandaApiTests.java:78, CHECK real gera exceção e snapshots iguais | Rollback novo sem efeitos | Sim |
+| COM-14 compartilhado | DemandaArquivoComentarioTests.java:49–61; ComentarioEnvioTests.java:111–117 timeout/409/snapshots/autoria; mesmo guard/lock e função gravar usada nas duas rotas | Decisão serializada por arquivo/restauração confirmada | Sim, testes físicos da função compartilhada em T1 preservados |
+
+Reverse: sucesso4(:41–47)→COM-02/10/11/12/16; corpos10(:30/31/51)→COM-05; limites5+ausente1+exato1(:55/59/63)→COM-04; falhas7(:30/31/68/69)→COM-01/06/07/08; estados4(:74)→COM-09/12; rollback1(:78)→COM-13. Todos33 têm outcomes/campos reais e são necessários. Adequação A–D PASS: profundidade física/DTO, preservação, erros precisos, co-localização ApiIntegrationSupport. Sem exclusão/skip/SPEC_DEVIATION.
+`nGate T3 final PASS:830 Java/H2,881 Vitest,lint/build TEMP. Repetição solo da suíte antiga passou integralmente sem alterar teste ou timeout. Logs TEMP/comentarios-T3-vitest.log, comentarios-T3-lint.log, comentarios-T3-build.log; artefato TEMP/comentarios-T3-build. T3 concluída como tarefa; feature ainda parcial.
