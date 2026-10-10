@@ -80,7 +80,7 @@ public class AtividadeRegistroService {
 
     public static Alvo snapshotQuadro(Gerenciamento quadro) {
         return new Alvo(AlvoTipo.QUADRO, quadro.getId(), quadro.getNome(), valores(
-                "nome", quadro.getNome(), "descricao", quadro.getDescricao(), "arquivado", quadro.isArquivado()));
+                "nome", quadro.getNome(), "descricao", quadro.getDescricao(), "arquivado", quadro.getMarcadorArquivado()));
     }
 
     public static Alvo snapshotEtapa(Etapa etapa) {
