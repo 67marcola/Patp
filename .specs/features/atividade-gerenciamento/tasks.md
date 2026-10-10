@@ -62,6 +62,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T1: Persistir entidade de atividade
 
+**Status:** Implemented em10/10/2026; compile PASS. Verificação independente pendente.
+
 **What**: Criar a entidade do diário com snapshots, índice e vínculo histórico único conforme design.
 **Where**: `sistema/src/main/java/com/patp/sistema/model/Atividade.java`
 **Depends on**: None
@@ -70,8 +72,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: none — entidade, conforme matriz; sem lógica de writer nesta tarefa.
 **Gate**: compile
 **Done when**:
-- [ ] Mapeamento compila, sem FK ao alvo/autor nem cascade que apague snapshots; coluna comporta valores longos.
-- [ ] Gate compile PASS; tarefa/evidência incluídas no diagnóstico, sem declarar feature concluída.
+- [x] Mapeamento compila, sem FK ao alvo/autor nem cascade que apague snapshots; coluna comporta valores longos.
+- [x] Gate compile PASS; tarefa/evidência incluídas no diagnóstico, sem declarar feature concluída.
 **Commit**: feat(atividade): persist activity snapshots
 
 ### T2: Gravar diário na transação atual
