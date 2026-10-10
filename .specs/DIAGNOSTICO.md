@@ -112,7 +112,7 @@ Cada critério desta entrega está registrado abaixo como concluído. As asserti
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Lateral de comentários de vários usuários, com data | Em discussão, retomada em 10/10/2026: base por demanda auditada, proposta de painel registrada e duas escolhas apresentadas (alcance e participantes). Falta resposta, especificação, implementação e verificação; ainda não concluído. [Contexto e proposta](features/comentarios-lateral/context.md). |
+| Lateral de comentários de vários usuários, com data | Preparação incluída no diagnóstico em 10/10/2026: usuário confirmou conversa por demanda e qualquer usuário autenticado (AD-029). Proposta com 28 critérios e sete tarefas, gates estruturais estritos com zero erros/avisos; aguardando confirmação dos defaults e adequações antigas. Falta implementação/verificação; ainda não concluído. [Spec](features/comentarios-lateral/spec.md), [tarefas](features/comentarios-lateral/tasks.md) e [contexto](features/comentarios-lateral/context.md). |
 | Logs em cada gerenciamento | Há registros de histórico associados às demandas e proteções nos fluxos entregues. Falta a entrega completa de atividade por gerenciamento, com eventos, autoria, consulta e apresentação definidos. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
@@ -120,7 +120,7 @@ Cada critério desta entrega está registrado abaixo como concluído. As asserti
 
 ## Testes já registrados
 
-A retomada de comentários em 09/10/2026 fez auditoria somente de leitura e registrou a proposta. Não alterou código/testes nem executou novamente as suítes das entregas anteriores. O servidor já persiste comentários, mas aceita o nome do autor enviado pelo cliente; a proposta para mensagens novas é usar a conta conectada, conservando os registros antigos. Alcance da conversa e participantes continuam aguardando escolha explícita.
+A retomada de comentários fez auditoria da base e registrou a proposta. Em 10/10/2026 o usuário confirmou alcance por demanda e participação de qualquer usuário autenticado. Nenhum código/teste alterado ou nova suíte da aplicação executada durante a preparação. Autoria de mensagens novas virá da conta conectada, conservando os registros antigos; critérios e plano estão disponíveis para revisão. Preparação não equivale à entrega concluída.
 
 Os números abaixo são registros das execuções aprovadas, não uma nova execução realizada para escrever este resumo. Eles não devem ser somados, pois as suítes acumulam testes de entregas anteriores.
 
@@ -132,7 +132,7 @@ Os números abaixo são registros das execuções aprovadas, não uma nova execu
 
 ## Onde acompanhar o projeto
 
-- [STATE.md](STATE.md): decisões de negócio AD-001 a AD-028 e ponto de retomada.
+- [STATE.md](STATE.md): decisões de negócio AD-001 a AD-029, regra permanente de acompanhamento e ponto de retomada.
 - [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-arquivamento está concluída tecnicamente, com aceitação humana pendente.
 - [OPERACAO.md](../docs/OPERACAO.md): orientações de execução e verificação com dados fictícios.
 
