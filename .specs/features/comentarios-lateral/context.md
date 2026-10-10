@@ -1,10 +1,10 @@
 # Lateral de comentários — contexto em discussão
 
-**Gathered:** 09/10/2026. **Status:** auditoria inicial concluída; alcance e participantes aguardam resposta. Este documento registra uma proposta, não uma especificação aprovada nem uma entrega implementada.
+**Gathered:** 09/10/2026; escolhas recebidas em 10/10/2026. **Status:** alcance e participantes confirmados; spec e tarefas validadas estruturalmente (--strict: zero erros/avisos) e apresentadas para confirmação em duas perguntas. Defaults e adequações de testes antigos ainda aguardam resposta. Não há implementação concluída.
 
 ## Feature Boundary
 
-Entregar o requisito original de uma lateral de comentários de vários usuários com data. A conversa poderá ser por demanda, por quadro ou nos dois espaços, conforme a escolha do usuário. O alcance não foi inferido de “Pode continuar”.
+Entregar o requisito original de uma lateral de comentários de vários usuários com data, por demanda, com participação de qualquer usuário autenticado. O usuário respondeu explicitamente às duas escolhas em 10/10/2026; a conversa não inclui espaço geral por quadro.
 
 ## Base conferida
 
@@ -22,20 +22,20 @@ Entregar o requisito original de uma lateral de comentários de vários usuário
 - Registrar cada novo requisito como concluído no diagnóstico somente após implementação e verificação independente.
 - Ritmo guiado: explicar opções e recomendação, no máximo duas decisões independentes por rodada.
 
-## Escolhas pendentes apresentadas ao usuário
+## Escolhas confirmadas pelo usuário
 
-| Escolha | Recomendação e motivo | Alternativas |
+| Escolha | Resposta explícita | Efeito |
 | --- | --- | --- |
-| Alcance da conversa | Por demanda: cada cartão abre as mensagens daquele serviço, aproveitando o vínculo já persistido e evitando misturar assuntos. | Por quadro; por quadro e por demanda. |
-| Participantes que enviam | Qualquer usuário autenticado: manter a participação existente em itens ativos, usando o nome da conta conectada e horário do servidor. | Somente criador do quadro ou administrador. |
+| Alcance da conversa | Por demanda (recomendado). | Cada cartão abre as mensagens daquele serviço; não mistura assuntos de outras demandas. |
+| Participantes que enviam | Qualquer usuário autenticado (recomendado). | Conta conectada identifica autoria; horário vem do servidor. Arquivados ficam somente para consulta. |
 
-As duas perguntas foram apresentadas em 09/10 e reapresentadas em 10/10/2026, após o usuário pedir o registro permanente de acompanhamento e autorizar perguntas necessárias ao próximo requisito. Não há resposta registrada; a opção preselecionada pela interface não é confirmação.
+As duas perguntas foram apresentadas em 09/10 e reapresentadas em 10/10/2026. O usuário respondeu explicitamente às duas recomendações em 10/10. Essas decisões estão encerradas e não devem ser perguntadas de novo.
 
-Em 10/10/2026, a regra de registrar cada implementação, comunicar “incluído no diagnóstico” e marcar conclusão somente após testes/verificação foi guardada de forma permanente em STATE.md. Isso não muda o alcance nem as permissões de comentários, que continuam pendentes.
+Em 10/10/2026, a regra de registrar cada implementação, comunicar “incluído no diagnóstico” e marcar conclusão somente após testes/verificação foi guardada de forma permanente em STATE.md.
 
 ## Proposta concreta para o painel
 
-Estes defaults serão incluídos na especificação para revisão depois das escolhas acima:
+Estes defaults estão definidos de forma verificável na spec para revisão:
 
 - Botão Comentários abre uma lateral identificando a conversa, com lista de mensagens, autor, data/hora e campo de texto para envio quando permitido.
 - Texto simples, com quebras de linha preservadas e sem interpretar HTML. Comentários antigos continuam com seus dados literais.
@@ -45,12 +45,12 @@ Estes defaults serão incluídos na especificação para revisão depois das esc
 - Evitar envio duplo enquanto houver uma requisição pendente; preservar o rascunho quando houver falha e exigir consulta manual diante de resultado incerto, sem reenviar automaticamente.
 - Painel utilizável com teclado, desktop e celular; troca de conversa descarta respostas atrasadas para não mostrar mensagens no item errado.
 
-Limite de texto, contrato de resposta e tratamento de repetição serão definidos com critérios verificáveis na especificação. Ainda não foram implementados.
+Limite novo de10000 unidades UTF-16, contratos GET/POST, mensagens e tratamento de repetição estão definidos na spec. Nenhum schema novo ou tecnologia nova; consultas/envio reaproveitam serviço, sessões, lock e modelo atuais. Sete tarefas propostas em tasks.md. Design separado dispensado pela complexidade média e pelos padrões já existentes. Ainda não implementado.
 
 ## Compatibilidade de testes a resolver após a decisão
 
-`ComentarioArchiveTests.java:48–63` usa uma sessão de Outro para gravar Ana/Bia. `DemandaArquivoComentarioTests.java:30–58` espera o nome Informado enviado pelo cliente. Se a nova especificação estabelecer autoria da sessão, será apresentada a adequação concreta dessas expectativas antes de alterá-las, mantendo preservação, consulta e os cenários de concorrência. Nenhum teste foi alterado nesta auditoria.
+`ComentarioArchiveTests.java:48–63` usa uma sessão de Outro para gravar Ana/Bia. `DemandaArquivoComentarioTests.java:30–58` espera o nome Informado enviado pelo cliente. A nova especificação estabelece autoria da sessão; as adequações concretas estão em tasks.md, mantendo preservação, consulta e concorrência. Há também seis expressões JSX que proíbem qualquer botão ou enumeram ações sem Comentários; a proposta permite a consulta e mantém a lista exata de mutações autorizadas. Confirmação TLC pendente. Nenhum teste foi alterado.
 
 ## Deferred Ideas
 
-Edição/exclusão de comentários, anexos, notificações, conversa em tempo real, gráficos e painel completo de atividade não foram solicitados para este corte. A escolha de conversa por quadro é uma das alternativas pendentes do próprio requisito, não uma decisão já tomada.
+Edição/exclusão de comentários, anexos, notificações, conversa em tempo real, gráficos e painel completo de atividade fora deste corte. Conversa por quadro não foi escolhida.

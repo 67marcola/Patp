@@ -233,16 +233,24 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-08
 - **Status**: active
 
+### AD-029
+- **Decision**: comentários da próxima entrega pertencem a cada demanda; qualquer usuário autenticado consulta e envia, usando autoria da conta conectada e horário do servidor. Quadros/demandas arquivados continuam somente para consulta.
+- **Reason**: usuário respondeu explicitamente Por demanda (recomendado) e Qualquer usuário autenticado (recomendado) em 10/10/2026.
+- **Trade-off**: não há conversa geral por quadro; enviar mensagem não depende de ser criador/admin. O navegador deixa de poder escolher o autor de mensagens novas.
+- **Scope**: lateral de comentários e rotas novas/antigas de comentários. Não muda permissões de editar/mover/arquivar demandas, nem reatribui autores antigos.
+- **Date**: 2026-10-10
+- **Status**: active
+
 ## Handoff
 
 
-- **Feature:** comentarios-lateral em discussão; branch testes, base 81d7570. Arquivamento concluído tecnicamente em 09/10/2026, implementação 52c7725..4f977ea.
+- **Feature:** comentarios-lateral, proposta preparada em 10/10/2026; branch testes, base 8584e5b. Arquivamento concluído tecnicamente em 09/10/2026, implementação 52c7725..4f977ea.
 - **Completed:** auditoria inicial de comentários e proposta em features/comentarios-lateral/context.md; nenhuma implementação nova. Arquivamento T1–T12, 30/30 critérios e 10/10 bordas PASS independente, 747 Java/H2, 881 Vitest, 438 MySQL fictício, 13 Edge/H2, lint/build; sensor 11/11 e 4.259 arquivos preservados, validate_state PASS.
-- **In progress:** discussão do alcance e participantes. Em 10/10/2026, regra permanente de acompanhamento registrada acima e duas perguntas reapresentadas a pedido do usuário; recomendar por demanda e qualquer usuário autenticado, com autoria da sessão. Nenhuma resposta registrada; não inferir de “Pode continuar” ou opção preselecionada. Aceitação humana anterior pendente.
-- **Next step:** incorporar as duas escolhas, fechar contexto/spec com critérios verificáveis e apresentar proposta concreta antes de Design. Se autoria passar à sessão, preparar adequações concretas dos testes antigos ComentarioArchiveTests e DemandaArquivoComentarioTests e pedir confirmação TLC antes de alterar expectativas.
-- **Blocker:** nenhum técnico; decisões de produto pendentes. Demais defaults propostos no contexto, sem alegar aprovação.
+- **In progress:** AD-029 resolveu alcance e participantes; não perguntar de novo. Contexto atualizado, spec com 28 critérios e plano de sete tarefas preparados; confirmar proposta/defaults e adequações exatas dos testes antigos antes de executar. Nenhum código/teste alterado. Aceitação humana anterior pendente.
+- **Next step:** validate_spec/validate_tasks --strict aprovados em 10/10, zero erros/avisos. Duas perguntas assíncronas apresentadas: confirmar proposta/defaults/plano e adequações de duas classes Java/seis expressões em três JSX detalhadas em tasks.md. Aguardar respostas; depois executar T1–T7 inline, um commit por tarefa, e Verifier fresco no final.
+- **Blocker:** nenhum técnico; confirmação TLC da proposta e testes antigos pendente. Perguntas devem explicar recomendação e citar o motivo da confirmação.
 - **Environment:** tecnologias AD-024 mantidas; testes H2/MySQL fictícios. Gates08/10 reconferidos09/10 no mesmo HEAD. Logs TEMP arquivo-T*.log e verifier-arquivo-*.log. Fixture33823 e mysqld18304 ausentes na retomada; não tocar PID antigo/banco real.
-- **Uncommitted files:** memória, diagnóstico e contexto de comentários incluídos no commit documental desta retomada; nenhum código/teste alterado. Gerados target/node_modules/test-results preexistentes preservados fora dos commits. Add explícito.
+- **Uncommitted files:** proposta spec/tasks/context, diagnóstico e STATE incluídos no commit documental desta retomada. Nenhum código/teste alterado. Gerados target/node_modules/test-results preexistentes preservados fora dos commits.
 - **Restrictions:** sem push/deploy/migração real/exclusão física/upgrade; AD-027/028 preservadas. Arquivo não reabre nem move demanda.
 - **User preference:** regra permanente no início de Decisions: dizer “incluído no diagnóstico”; marcar concluído e tudo ok somente com testes/verificação aprovados, guardar evidências e seguir ao próximo. Explicar o que vai entrar no sistema e recomendar opções quando perguntar.
 
