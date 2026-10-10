@@ -34,7 +34,7 @@ Baseline documentada, não reexecutada no planejamento: 747 Java/H2, 881 Vitest,
 ## Execution Plan
 
 ```text
-T1 -> T2 -> T3 -> T4 -> T5 -> T6 -> T7 -> T8
+T1 -> T2 -> T3 -> T4 -> T5 -> T6 -> T7 -> T8 -> T9
 ```
 
 Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e prova de navegador. A sequência é estrita. Todas as tarefas dependem somente da anterior; o gate da anterior precisa estar aprovado antes de iniciar.
@@ -177,6 +177,25 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 **Gate:** Build
 **Commit:** test(comentarios): prove collaborative sidebar workflow
 
+### T9: Provar concorrência também no envio moderno
+
+**What:** fechar a lacuna COM-14 confirmada pelo Verifier: leitura da demanda antes do lock na rota nova sobrevivia aos testes. Acrescentar os mesmos cenários de arquivo/restauração nas duas ordens para adicionarNoQuadro, preservando todos os casos e resultados antigos.
+**Where:** `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java`
+**Supporting files:** DemandaArquivoComentarioTests.java para disputa com arquivo de demanda; somente duas classes da mesma prova de concorrência. Spec/evidências/memória/diagnóstico acompanham a correção. Sem mudança no comportamento do sistema.
+**Depends on:** T8
+**Reuses:** fixtures, transações READ_COMMITTED, latches, locks e assertions de preservação existentes.
+**Requirements:** COM-07/08/10/11/12/14.
+**Tools:** exec_command/apply_patch; re-verificação pelo Verifier independente após commit.
+**Done when:**
+- [x] Oito novos casos modernos cobrem quadro e demanda, arquivo/restauração, ambas as ordens, decisão após lock e dados físicos preservados.
+- [x] Full840 Java/H2 e seleção336 MySQL fictícia aprovados, zero falhas/erros/skips, nenhum caso antigo removido ou expectativa alterada.
+- [x] Evidências bidirecionais/status preparados para commit atômico; nova rodada independente obrigatória antes de Verified.
+**Tests:** integration
+**Gate:** Full
+**Commit:** test(comentarios): cover modern archive concurrency
+
+T9 é correção do primeiro ciclo de verificação, executada inline. O plano inicial de oito tarefas foi concluído antes do Verifier; esta tarefa fecha a cobertura de um requisito já aprovado e não adiciona funcionalidade.
+
 ## Task Granularity Check
 
 | Task | Entregável atômico | Resultado |
@@ -189,6 +208,7 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 | T6 | Integração do componente Quadro e seus testes | OK |
 | T7 | Precisão de uma função de gravação e dois testes de regressão | OK |
 | T8 | Fluxo E2E integrado e documentação de uso | OK |
+| T9 | Prova de concorrência do envio moderno | OK |
 
 ## Diagram-Definition Cross-Check
 
@@ -202,6 +222,7 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 | T6 | T5 | T5 | OK |
 | T7 | T6 | T6 | OK |
 | T8 | T7 | T7 | OK |
+| T9 | T8 | T8 | OK |
 
 ## Test Co-location Validation
 
@@ -215,6 +236,7 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 | T6 | Quadro React | unit | unit | OK |
 | T7 | Serviço/precisão | integration | integration | OK |
 | T8 | Navegador | e2e | e2e | OK |
+| T9 | Concorrência do envio | integration | integration | OK |
 
 ## Adequações antigas autorizadas em 10/10/2026
 

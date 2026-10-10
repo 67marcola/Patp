@@ -44,6 +44,18 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - evidence: MOV-14, M09, validation.md; DemandaTransicaoServiceTests.java:170 (demandas/testes)
 - last seen: 2026-10-08T00:05:29Z
 
+### L-006 - Teste cada caminho de gravação JPA contra arquivamento e restauração concorrentes para detectar entidades carregadas antes do lock.
+- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `service` · harmful: 0
+- features: comentarios-lateral
+- evidence: M7-new-post-prefetch (service)
+- last seen: 2026-10-10T19:50:24Z
+
+### L-007 - Teste cada caminho de gravação JPA contra arquivamento e restauração concorrentes para detectar entidades carregadas antes do lock.
+- signal: `ac_gap` · recurrence: 1 feature(s) · scope: `service` · harmful: 0
+- features: comentarios-lateral
+- evidence: COM-14 (service)
+- last seen: 2026-10-10T19:50:24Z
+
 ## Quarantined (failed when applied - ignore)
 
 A confirmed lesson that recurred alongside failure. Kept for the maintainer to review.

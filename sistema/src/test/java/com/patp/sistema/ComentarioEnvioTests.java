@@ -101,12 +101,12 @@ class ComentarioEnvioTests extends ApiIntegrationSupport {
         assertThat(conteudoPersistido()).isEqualTo(antes);assertThat(jdbc.queryForList("select * from gerenciamentos")).isEqualTo(qs);
     }
     void aguardar(CountDownLatch l){try{if(!l.await(10,TimeUnit.SECONDS))throw new IllegalStateException("Sem sincronização");}catch(InterruptedException e){Thread.currentThread().interrupt();throw new IllegalStateException(e);}}
-    @ParameterizedTest @CsvSource({"true,true","true,false","false,true","false,false"})
-    void disputaComArquivoOuRestauracaoDeQuadro(boolean arquivar,boolean comentarioPrimeiro) throws Exception { // COM-07/10/12/14
+    @ParameterizedTest @CsvSource({"true,true,false","true,false,false","false,true,false","false,false,false","true,true,true","true,false,true","false,true,true","false,false,true"})
+    void disputaComArquivoOuRestauracaoDeQuadro(boolean arquivar,boolean comentarioPrimeiro,boolean novo) throws Exception { // COM-07/10/12/14
         var u=usuario("Dono");var q=quadro(u);var p=demanda(etapa(q,"Origem",1));q.setArquivado(!arquivar);quadros.saveAndFlush(q);String t=token(u).substring(7);
         long versaoInicial=quadros.findById(q.getId()).orElseThrow().getVersao();var antes=jdbc.queryForList("select * from processos");var tx=new TransactionTemplate(manager);tx.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
         var escrito=new CountDownLatch(1);var liberar=new CountDownLatch(1);var iniciou=new CountDownLatch(1);var executor=Executors.newFixedThreadPool(2);var recusada=new java.util.concurrent.atomic.AtomicReference<ApiException>();
-        Runnable comentar=()->comentarios.adicionar(t,p.getId(),"Mensagem");Runnable mudar=()->gerenciamentos.mudarEstado(t,q.getId(),versaoInicial,arquivar);
+        Runnable comentar=()->{if(novo)comentarios.adicionarNoQuadro(t,q.getId(),p.getId(),"Mensagem");else comentarios.adicionar(t,p.getId(),"Mensagem");};Runnable mudar=()->gerenciamentos.mudarEstado(t,q.getId(),versaoInicial,arquivar);
         try{
             var primeira=executor.submit(()->tx.executeWithoutResult(s->{if(comentarioPrimeiro){guard.bloquear(q.getId());try{comentar.run();}catch(ApiException e){recusada.set(e);s.setRollbackOnly();}}else mudar.run();escrito.countDown();aguardar(liberar);}));assertThat(escrito.await(10,TimeUnit.SECONDS)).isTrue();
             var segunda=executor.submit(()->{iniciou.countDown();if(comentarioPrimeiro)mudar.run();else comentar.run();});assertThat(iniciou.await(10,TimeUnit.SECONDS)).isTrue();assertThatThrownBy(()->segunda.get(200,TimeUnit.MILLISECONDS)).isInstanceOf(TimeoutException.class);

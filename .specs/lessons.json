@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 6,
+  "next_id": 8,
   "lessons": [
     {
       "id": "L-001",
@@ -94,6 +94,42 @@
       ],
       "created": "2026-10-08T00:05:29Z",
       "last_seen": "2026-10-08T00:05:29Z"
+    },
+    {
+      "id": "L-006",
+      "key": "surviving_mutant::teste cada caminho de gravacao jpa contra arquivamento e restauracao concorrentes para detectar entidades carregadas antes do lock",
+      "text": "Teste cada caminho de gravação JPA contra arquivamento e restauração concorrentes para detectar entidades carregadas antes do lock.",
+      "signal": "surviving_mutant",
+      "scope": "service",
+      "status": "candidate",
+      "features": [
+        "comentarios-lateral"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "M7-new-post-prefetch (service)"
+      ],
+      "created": "2026-10-10T19:50:24Z",
+      "last_seen": "2026-10-10T19:50:24Z"
+    },
+    {
+      "id": "L-007",
+      "key": "ac_gap::teste cada caminho de gravacao jpa contra arquivamento e restauracao concorrentes para detectar entidades carregadas antes do lock",
+      "text": "Teste cada caminho de gravação JPA contra arquivamento e restauração concorrentes para detectar entidades carregadas antes do lock.",
+      "signal": "ac_gap",
+      "scope": "service",
+      "status": "candidate",
+      "features": [
+        "comentarios-lateral"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "COM-14 (service)"
+      ],
+      "created": "2026-10-10T19:50:24Z",
+      "last_seen": "2026-10-10T19:50:24Z"
     }
   ]
 }

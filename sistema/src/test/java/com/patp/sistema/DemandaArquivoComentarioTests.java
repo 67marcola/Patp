@@ -26,6 +26,7 @@ class DemandaArquivoComentarioTests extends ApiIntegrationSupport {
     @Autowired PlatformTransactionManager manager;
     TransactionTemplate tx(){var t=new TransactionTemplate(manager);t.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);return t;}
     void aguardar(CountDownLatch l){try{if(!l.await(10,TimeUnit.SECONDS))throw new IllegalStateException("Sem sincronização");}catch(InterruptedException e){Thread.currentThread().interrupt();throw new IllegalStateException(e);}}
+    void comentar(boolean novo,String t,long q,long p,String texto){if(novo)comentarios.adicionarNoQuadro(t,q,p,texto);else comentarios.adicionar(t,p,texto);}
     @Test void ativoAceitaComentarioEConsultaPermaneceLiteralDepoisDeArquivar() throws Exception { // ARQ-17/22
         var u=usuario("Dono");var q=quadro(u);var p=demanda(etapa(q,"Origem",1));String url="/api/processos/"+p.getId()+"/comentarios";var inicio=LocalDateTime.now().minusSeconds(1);
         mvc.perform(post(url).header("Authorization",token(usuario("Leitor"))).contentType(MediaType.APPLICATION_JSON).content("{\"texto\":\"  Literal\\n antigo  \",\"funcionario\":\"Informado\"}")).andExpect(status().isOk()).andExpect(jsonPath("$.texto").value("  Literal\n antigo  ")).andExpect(jsonPath("$.funcionario").value("Leitor")).andExpect(jsonPath("$.processo.id").value(p.getId()));
@@ -40,14 +41,14 @@ class DemandaArquivoComentarioTests extends ApiIntegrationSupport {
         mvc.perform(post("/api/processos/"+p.getId()+"/comentarios").header("Authorization",token(u)).contentType(MediaType.APPLICATION_JSON).content("{\"texto\":\"Novo\",\"funcionario\":\"Dono\"}")).andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value("Demanda arquivada. Restaure-a antes de alterar."));
         assertThat(conteudoPersistido()).isEqualTo(antes);assertThat(jdbc.queryForList("select * from gerenciamentos")).isEqualTo(quadroAntes);
     }
-    @ParameterizedTest @CsvSource({"true,false","true,true","false,false","false,true"})
-    void disputaComentarioComArquivoOuRestauracaoNasDuasOrdens(boolean arquivar,boolean comentarioPrimeiro) throws Exception { // ARQ-16/17/22
+    @ParameterizedTest @CsvSource({"true,false,false","true,true,false","false,false,false","false,true,false","true,false,true","true,true,true","false,false,true","false,true,true"})
+    void disputaComentarioComArquivoOuRestauracaoNasDuasOrdens(boolean arquivar,boolean comentarioPrimeiro,boolean novo) throws Exception { // ARQ-16/17/22; COM-08/10/11/12/14
         var u=usuario("Dono");var q=quadro(u);var p=demanda(etapa(q,"Origem",1));p.setArquivado(!arquivar);processos.saveAndFlush(p);String t=token(u).substring(7);var original=DemandaResponse.de(p);
         var escrito=new CountDownLatch(1);var liberar=new CountDownLatch(1);var iniciou=new CountDownLatch(1);var executor=Executors.newFixedThreadPool(2);var recusada=new java.util.concurrent.atomic.AtomicReference<ApiException>();var antes=conteudoPersistido();
         Runnable acao=()->{if(arquivar)service.arquivar(t,q.getId(),p.getId(),0L);else service.restaurar(t,q.getId(),p.getId(),0L);};
         try{
-            var primeira=executor.submit(()->tx().executeWithoutResult(s->{if(comentarioPrimeiro){guard.bloquear(q.getId());try{comentarios.adicionar(t,p.getId(),"  Texto\n literal  ");}catch(ApiException x){recusada.set(x);s.setRollbackOnly();}}else acao.run();escrito.countDown();aguardar(liberar);}));assertThat(escrito.await(10,TimeUnit.SECONDS)).isTrue();
-            var segunda=executor.submit(()->{iniciou.countDown();if(comentarioPrimeiro)acao.run();else comentarios.adicionar(t,p.getId(),"  Texto\n literal  ");});assertThat(iniciou.await(10,TimeUnit.SECONDS)).isTrue();assertThatThrownBy(()->segunda.get(200,TimeUnit.MILLISECONDS)).isInstanceOf(TimeoutException.class);
+            var primeira=executor.submit(()->tx().executeWithoutResult(s->{if(comentarioPrimeiro){guard.bloquear(q.getId());try{comentar(novo,t,q.getId(),p.getId(),"  Texto\n literal  ");}catch(ApiException x){recusada.set(x);s.setRollbackOnly();}}else acao.run();escrito.countDown();aguardar(liberar);}));assertThat(escrito.await(10,TimeUnit.SECONDS)).isTrue();
+            var segunda=executor.submit(()->{iniciou.countDown();if(comentarioPrimeiro)acao.run();else comentar(novo,t,q.getId(),p.getId(),"  Texto\n literal  ");});assertThat(iniciou.await(10,TimeUnit.SECONDS)).isTrue();assertThatThrownBy(()->segunda.get(200,TimeUnit.MILLISECONDS)).isInstanceOf(TimeoutException.class);
             assertThat(conteudoPersistido()).isEqualTo(antes);
             liberar.countDown();primeira.get(10,TimeUnit.SECONDS);
             if(arquivar&&!comentarioPrimeiro){var committed=conteudoPersistido();assertThatThrownBy(()->segunda.get(10,TimeUnit.SECONDS)).isInstanceOfSatisfying(ExecutionException.class,x->{assertThat(x.getCause()).isInstanceOfSatisfying(ApiException.class,a->{assertThat(a.getStatus().value()).isEqualTo(409);assertThat(a.getMessage()).isEqualTo("Demanda arquivada. Restaure-a antes de alterar.");});});assertThat(conteudoPersistido()).isEqualTo(committed);}else segunda.get(10,TimeUnit.SECONDS);
