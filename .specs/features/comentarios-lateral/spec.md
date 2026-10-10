@@ -151,7 +151,7 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 | COM-11 | Enviar | T1/T2/T7/T8 | Implementing |
 | COM-12 | Enviar | T1/T3/T8 | Implementing |
 | COM-13 | Enviar | T1/T3 | Implementing |
-| COM-14 | Enviar | T1/T3 | Implementing |
+| COM-14 | Enviar | T1/T3/T9 | Implementing |
 | COM-15 | Consultar | T2 | Implementing |
 | COM-16 | Consultar | T2/T3 | Implementing |
 | COM-17 | Consultar | T6 | Implementing |

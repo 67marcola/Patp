@@ -110,6 +110,8 @@ Cada critério desta entrega está registrado abaixo como concluído. As asserti
 
 ## O que ainda falta nos requisitos originais
 
+**Incluído no diagnóstico em10/10/2026:** a primeira revisão independente encontrou uma lacuna de teste COM-14 na concorrência do envio moderno. T9 acrescentou oito casos, preservando os antigos e suas expectativas.49 selecionados,840 Java/H2 e336 MySQL fictício PASS, zero falhas/skips. Conclusão técnica aguarda revisão2 e sensor independente. Sem mudança do comportamento aprovado.
+
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
 | Lateral de comentários de vários usuários, com data | Progresso incluído no diagnóstico em10/10/2026: T1–T8 concluídas como tarefas. Conversa exclusiva por demanda, autoria da sessão, horário persistido com precisão consistente, comentários literais, arquivo somente consulta e recuperação manual sem reenvio. Gates:832 Java/H2,1000 Vitest,328 MySQL fictício,15 Edge/H2,lint/build TEMP PASS,0 falhas/skips. QA visual desktop/celular aprovada. Expectativas antigas adequadas após autorização específica. Feature parcial até Verifier independente; aceitação humana pendente. [Spec](features/comentarios-lateral/spec.md), [tarefas](features/comentarios-lateral/tasks.md), [evidências](features/comentarios-lateral/evidence.md). |

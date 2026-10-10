@@ -170,3 +170,18 @@ Reverse mapping: fluxo :69–84→COM-02/03/10/11/12/15/16/17/19/20/23/26/28; fl
 ### Fechamento de T8
 
 Build final PASS:832 Java/H2 de T7 (servidor inalterado depois),1000 Vitest em execução solo,328 MySQL fictício,15 Edge/H2 em todos os oito arquivos,lint e build TEMP aprovados. Zero falhas/erros/skips/retries no gate final. Logs TEMP/comentarios-T7-precisao-h2.log e comentarios-T8-vitest.log, -mysql.log, -e2e.log, -lint.log, -build.log. Build TEMP/comentarios-T8-build. Baselines747/881/13 preservadas, acréscimos85/119/2. A repetição solo do Vitest passou sem mudança de teste/configuração. Adequação T8 A–D PASS; as duas falhas reais detectadas no navegador foram corrigidas no código, com testes intactos. Acertos de codificação dos novos textos da documentação não alteram critérios ou assertions. T8 concluída como tarefa; revisão independente obrigatória após commit, antes de declarar feature concluída. Incluído no diagnóstico em10/10/2026.
+
+## T9 — concorrência do envio moderno
+
+Rodada1 independente detectou seis falhas, mas M7 (pré-carregar a demanda antes do lock no POST moderno) sobreviveu aos94 casos selecionados. Uma prova scratch com código íntegro passou6/6, enquanto a mesma prova sob mutação apresentou decisão incorreta/erro de lock após arquivo/restauração. Isso confirmou lacuna COM-14, sem erro do código real. Relatório independente registra tentativa e isolamento.
+
+T9 acrescenta quatro combinações modernas em ComentarioEnvioTests e quatro em DemandaArquivoComentarioTests. Todos os oito casos antigos e todas as expectations são preservados. A terceira dimensão escolhe apenas a rota/função a exercitar. Seleção49 PASS (41+8),0 falhas/erros/skips em TEMP/comentarios-T9-selected.log. Uma primeira invocação Maven na raiz sem pom não executou testes; workdir corrigido para sistema. Full em andamento.
+
+| Critério | Assertion e outcome | Prova |
+| --- | --- | --- |
+| COM-07/10/12/14 | ComentarioEnvioTests.java:111/112 exige espera200ms; :114/115 exige409 e mensagem exata conforme ordem/estado confirmado; :116/117 compara comentários, dados, evento e versão | Quadro: quatro casos modernos, além dos quatro antigos |
+| COM-08/10/11/12/14 | DemandaArquivoComentarioTests.java:50/51 exige espera; :53 snapshot antes igual; :54/55 exige409 exato ou sucesso após restauração; :56–61 conserva demanda, arquivo, versão, texto/autor/vínculo/evento | Demanda: quatro casos modernos, além dos quatro antigos |
+
+Reverse mapping: os oito casos adicionados derivam de COM-14 e decisões de arquivo COM-07/08, com efeitos COM-10/11/12. Testes exercitam transação real/estado físico em ambas as ordens, sem assertions de ordem de mocks. Camada integration co-localizada e padrões ApiIntegrationSupport preservados; nenhuma exclusão/skip/SPEC_DEVIATION. Adequação completa depende dos gates abaixo e do sensor independente após commit.
+
+Full840 Java/H2 e seleção336 MySQL fictícia PASS,0 falhas/erros/skips em TEMP/comentarios-T9-h2.log e comentarios-T9-mysql.log. Acréscimo oito casos, todos os anteriores preservados. Sem alteração de aplicação/interface/contratos;1000 Vitest,15 Edge/H2,lint/build de T8 e da primeira revisão continuam evidência desse mesmo código. Adequação T9 A–D PASS para a tarefa, com mapeamento acima. Feature permanece parcial enquanto validation.md apresenta FAIL rodada1; nova revisão/sensor obrigatórios após commit. L-006/L-007 registradas automaticamente pelo Verifier e preservadas. Incluído no diagnóstico em10/10/2026.
