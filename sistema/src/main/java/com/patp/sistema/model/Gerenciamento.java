@@ -73,6 +73,11 @@ public class Gerenciamento {
         return Boolean.TRUE.equals(arquivado);
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    public Boolean getMarcadorArquivado() {
+        return arquivado;
+    }
+
     public void setArquivado(Boolean arquivado) {
         this.arquivado = arquivado;
     }

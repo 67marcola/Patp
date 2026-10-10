@@ -79,3 +79,31 @@ Adequação A/B/C/D aprovada: resultados específicos e snapshots completos; nen
 | falhaDoDiarioReverteQuadroEIniciaisEFinais :82/83 | ACT-17 | Sim |
 
 Adequação A/B/C/D aprovada: sete cenários, contagens completas, snapshots/rollback e valores específicos; guideline matriz JUnit/H2 existente. Feature em andamento, Verifier pendente.
+
+## T4 — edição e arquivo do quadro
+
+10/10/2026: gate Java completo exit0,873 testes,0 falhas/erros/skips,13 novos. Log TEMP/atividade-T4-java.log. Captura após guard.bloquear; getter `Gerenciamento.getMarcadorArquivado()` com JsonIgnore conserva o marcador bruto null sem mudar isArquivado/DTO. Sem alteração de outcomes antigos.
+
+Arquivo: `sistema/src/test/java/com/patp/sistema/AtividadeQuadroAlteracaoTests.java`.
+
+| Critério / AC | file:line + asserção | Esperado |
+| --- | --- | --- |
+| ACT-02/15/19 edição/criador/admin | :33 `assertThat(r.versao()).isEqualTo(1L)`/count1; :34 tipoQUADRO_EDITADO; :35 autorID/nome; :36 alvoNovo; :37 tamanho2/camponome; :38 anteriorQuadro/novoNovo; :39 campodescricao/anteriorDescrição; :40 novo literal espaços | Dois campos diferentes com autor real e versão1 |
+| ACT-16 edição idêntica | :44 versão1/count1; :45 `assertThat(atividades.findAll().get(0).getAlteracoesJson()).isEqualTo("[]")` | Um evento vazio preservando incremento |
+| ACT-03/38 arquivo/repetição/restauração | :50 `assertThat(conteudoComAtividade()).isEqualTo(antes)` após repetição; :51 versão2; :52 tipos exatos ARQUIVADO/RESTAURADO; :54–56 tamanho1/campoarquivado/false->true/true->false | Repetição sem evento/mudança, dois eventos reais |
+| Edge null literal | :61 `assertThat(c.get(0).get("anterior").isNull()).isTrue()` e novo true | Null anterior não normalizado |
+| ACT-18 cinco recusas | :74 `assertThatThrownBy(...).hasMessage(mensagem)` com mensagens literais switch:66–72; :75 `assertThat(conteudoComAtividade()).isEqualTo(antes)` | Permissão/versão/arquivo/nome/sessão sem escrita |
+| ACT-17 duas falhas | :81 `assertThatThrownBy(...).hasMessage("Falha do diário")`; :82 snapshot igual | Rollback edição e arquivo |
+| Captura depois de lock | :91 TimeoutException com latches; :93 tamanho2; :94 `assertThat(c.get(0).get("anterior").asText()).isEqualTo("Primeiro")`/novoSegundo/tamanho1; :95 versão2 | Segunda edição observa primeira confirmada |
+
+| Reverse-map teste + asserção | AC / Done-when | Manter |
+| --- | --- | --- |
+| edicaoMostraAntesDepoisAutorRealEVersao false/true :33–40 | ACT-02/15/19 | Sim |
+| edicaoIdenticaTemListaVaziaEIncrementoAtual :44/45 | ACT-16/19 | Sim |
+| arquivoRestauracaoERepeticaoConservamEventosEVersoes :50–56 | ACT-03/38/19 | Sim |
+| marcadorLegadoNullPreservaAnteriorLiteral :61 | Edge valores reais/null | Sim |
+| recusasNaoAlteramDadosOuAtividade cinco casos :74/75 | ACT-18 | Sim |
+| falhaDoDiarioReverteEdicaoOuArquivo dois casos :81/82 | ACT-17 | Sim |
+| antesDepoisUsaEdicaoCommitadaAntesDoLock :91/93–95 | ACT-02, lock obrigatório | Sim |
+
+Adequação A/B/C/D aprovada:13 cenários, valores/versão/dados completos e prova coordenada de lock, sem asserções apenas de chamadas; padrões locais JUnit/H2. Verifier pendente.

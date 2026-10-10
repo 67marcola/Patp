@@ -156,7 +156,7 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Logs em cada gerenciamento | Em andamento, incluído no diagnóstico em10/10/2026. T1–T3 Implemented: diário/writer e criação única do quadro com snapshots iniciais/autor real e rollback. Compile e860 Java/H2 (20 novos),0 falhas/erros/skips. [Evidência](features/atividade-gerenciamento/evidence.md). Próxima T4 edição/arquivo do quadro.39 critérios/18 tarefas aprovados; nenhum Verified antes dos gates completos e Verifier. |
+| Logs em cada gerenciamento | Em andamento, incluído no diagnóstico em10/10/2026. T1–T4 Implemented: diário/writer, criação/edição/arquivo/restauração do quadro, snapshots literais/autor real/rollback e captura após lock. Compile e873 Java/H2 (33 novos),0 falhas/erros/skips. [Evidência](features/atividade-gerenciamento/evidence.md). Próxima T5 criação de etapa.39 critérios/18 tarefas aprovados; nenhum Verified antes dos gates completos e Verifier. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |

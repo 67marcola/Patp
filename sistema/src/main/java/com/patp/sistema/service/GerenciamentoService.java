@@ -116,6 +116,7 @@ public class GerenciamentoService {
         guard.verificarAtivo(gerenciamento);
         validarVersao(versao);
         compararVersao(gerenciamento, versao);
+        var antes = AtividadeRegistroService.snapshotQuadro(gerenciamento);
         String nomeValido = validarNome(nome);
         String descricaoValida = validarDescricao(descricao);
         if (Objects.equals(gerenciamento.getNome(), nomeValido)
@@ -126,6 +127,9 @@ public class GerenciamentoService {
             gerenciamento.setDescricao(descricaoValida);
         }
         gerenciamentos.flush();
+        var depois = AtividadeRegistroService.snapshotQuadro(gerenciamento);
+        atividade.registrar(gerenciamento, usuario, AtividadeRegistroService.Tipo.QUADRO_EDITADO,
+                depois, AtividadeRegistroService.diferencas(List.of(antes), List.of(depois)), null, null);
         return resposta(gerenciamento, usuario);
     }
 
@@ -139,8 +143,13 @@ public class GerenciamentoService {
             return;
         }
         compararVersao(gerenciamento, versao);
+        var antes = AtividadeRegistroService.snapshotQuadro(gerenciamento);
         gerenciamento.setArquivado(arquivado);
         gerenciamentos.flush();
+        var depois = AtividadeRegistroService.snapshotQuadro(gerenciamento);
+        atividade.registrar(gerenciamento, usuario, arquivado ? AtividadeRegistroService.Tipo.QUADRO_ARQUIVADO
+                : AtividadeRegistroService.Tipo.QUADRO_RESTAURADO, depois,
+                AtividadeRegistroService.diferencas(List.of(antes), List.of(depois)), null, null);
     }
 
     private Usuario usuario(String token) {

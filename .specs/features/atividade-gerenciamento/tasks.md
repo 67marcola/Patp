@@ -110,6 +110,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T4: Registrar edição e arquivo do quadro
 
+**Status:** Implemented em10/10/2026;873 Java PASS,13 novos. Verificação independente pendente.
+
 **What**: Instrumentar editar e mudarEstado no mesmo serviço com diferenças e regras de no-op atuais.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/GerenciamentoService.java`
 **Depends on**: T3
@@ -118,8 +120,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo12, alteração real/idêntica, arquivo/restauração/repetição, autor/criador/admin, falha/versão/concorrência.
 **Gate**: java
 **Done when**:
-- [ ] Antes/depois após lock; arquivo idempotente sem evento; versão atual mantida.
-- [ ] Contagens e rollback completos; gate java PASS.
+- [x] Antes/depois após lock; arquivo idempotente sem evento; versão atual mantida.
+- [x] Contagens e rollback completos; gate java PASS.
 **Commit**: feat(atividade): audit board changes
 
 ### T5: Registrar criação de etapa

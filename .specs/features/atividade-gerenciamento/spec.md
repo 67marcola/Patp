@@ -138,8 +138,8 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
 | ACT-01 | Ações | Execute | Implementing |
-| ACT-02 | Ações | Tasks | Pending |
-| ACT-03 | Ações | Tasks | Pending |
+| ACT-02 | Ações | Execute | Implementing |
+| ACT-03 | Ações | Execute | Implementing |
 | ACT-04 | Ações | Tasks | Pending |
 | ACT-05 | Ações | Tasks | Pending |
 | ACT-06 | Ações | Tasks | Pending |
@@ -152,7 +152,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-13 | Ações | Tasks | Pending |
 | ACT-14 | Ações | Tasks | Pending |
 | ACT-15 | Ações | Execute | Implementing |
-| ACT-16 | Ações | Tasks | Pending |
+| ACT-16 | Ações | Execute | Implementing |
 | ACT-17 | Ações | Execute | Implementing |
 | ACT-18 | Ações | Execute | Implementing |
 | ACT-19 | Ações | Execute | Implementing |
@@ -174,7 +174,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-35 | Painel | Tasks | Pending |
 | ACT-36 | Painel | Tasks | Pending |
 | ACT-37 | Painel | Tasks | Pending |
-| ACT-38 | Ações | Tasks | Pending |
+| ACT-38 | Ações | Execute | Implementing |
 | ACT-39 | Consulta | Tasks | Pending |
 
 39 critérios, todos pendentes; mapa de tarefas no plano. Nenhum Verified antes da verificação independente.
