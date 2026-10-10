@@ -126,6 +126,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T5: Registrar criação de etapa
 
+**Status:** Implemented em10/10/2026;887 Java PASS,14 novos. Verificação independente pendente.
+
 **What**: Instrumentar criar preservando sequência anterior e posições reorganizadas.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/EtapaService.java`
 **Depends on**: T4
@@ -134,8 +136,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo7, primeira/meio/fim, empates/lacunas, permissão, conflito e rollback.
 **Gate**: java
 **Done when**:
-- [ ] Um evento por criação inclui todos os alvos com posição alterada.
-- [ ] Valores persistidos e falhas conferidos; gate java PASS.
+- [x] Um evento por criação inclui todos os alvos com posição alterada.
+- [x] Valores persistidos e falhas conferidos; gate java PASS.
 **Commit**: feat(atividade): audit stage creation
 
 ### T6: Registrar edição e reordenação de etapa

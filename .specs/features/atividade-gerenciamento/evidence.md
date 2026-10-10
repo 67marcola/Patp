@@ -107,3 +107,30 @@ Arquivo: `sistema/src/test/java/com/patp/sistema/AtividadeQuadroAlteracaoTests.j
 | antesDepoisUsaEdicaoCommitadaAntesDoLock :91/93–95 | ACT-02, lock obrigatório | Sim |
 
 Adequação A/B/C/D aprovada:13 cenários, valores/versão/dados completos e prova coordenada de lock, sem asserções apenas de chamadas; padrões locais JUnit/H2. Verifier pendente.
+
+## T5 — criação de etapa
+
+10/10/2026: gate Java completo exit0,887 testes,0 falhas/erros/skips,14 novos. Primeiro gate882 PASS; revisão de adequação acrescentou cinco branches ACT-18, novo gate887 PASS. Log TEMP/atividade-T5-java.log. Sem outcome antigo alterado. Snapshot escalar da sequência após lock e antes de normalização; finais criadas automaticamente não são ações adicionais. garantirPar não altera ordens das finais existentes, regra preservada.
+
+Arquivo abreviado C=`sistema/src/test/java/com/patp/sistema/AtividadeEtapaCriacaoTests.java`, S=`sistema/src/test/java/com/patp/sistema/AtividadeEtapaSupport.java`.
+
+| Critério / AC | file:line + asserção | Esperado |
+| --- | --- | --- |
+| ACT-04/15 evento completo único | S:21 `assertThat(atividades.count()).isEqualTo(1)`; S:23–27 tipo/alvoTipo/alvoID/nome/quadro/autorID/nome/historicoNull/dataMicros; S:28 `assertThat(json.readTree(a.getAlteracoesJson())).isEqualTo(json.readTree(json.writeValueAsString(esperado)))` | JSON inteiro com cada campo/valor esperado explícito |
+| ACT-07 início/meio/fim | C:30 evento(expected :24–29 com nome/setor/ordem e cada reordenação); C:31 versão1; C:32 `assertThat(etapas.findById(a.getId()).orElseThrow().getOrdem()).isEqualTo(posicao==1?2:1)`; C:33 B=3/2; C:34 Nova=posição | Todos os efeitos anteriores/novos e estado persistido |
+| Edge primeira/finais | C:39–40 evento três campos iniciais; C:41 `assertThat(etapas.findByGerenciamentoIdOrderByOrdemAscIdAsc(q.getId())).hasSize(3)` | Uma atividade, três etapas, sem falsas ações finais |
+| Lacunas/empates | C:47–50 evento expected A5->1/B5->3/C12->4/Nova null->2; C:51–54 ordens1/3/4/2 | Todos os afetados registrados, sem reconstruir antes |
+| ACT-18 permissão/versão/arquivo | C:61 `assertThatThrownBy(...).hasMessage(mensagem)`; C:62 `assertThat(conteudoComAtividade()).isEqualTo(antes)` | Três recusas conservam dados/atividade |
+| ACT-18 nome/setor/posição/sessão/ausência | C:74 `assertThatThrownBy(...).hasMessage(mensagem)`; C:76 `assertThat(conteudoComAtividade()).isEqualTo(antes)` | Cinco erros exatos, zero efeitos |
+| ACT-17 rollback | C:81 `assertThatThrownBy(...).hasMessage("Falha do diário")`; C:82 snapshot igual | Etapa, finais, normalização e versão revertidos |
+
+| Reverse-map teste + asserção | AC / Done-when | Manter |
+| --- | --- | --- |
+| criaInicioMeioFimComTodasAsPosicoesAfetadas três casos C:30–34/S:21–28 | ACT-04/07/15/19 | Sim |
+| primeiraEtapaSemEventosFalsosParaFinaisAutomaticas C:39–41/S:28 | ACT-04, edge finais | Sim |
+| lacunasEEmpatesRegistramTodasAsOrdensAnterioresReais C:47–54/S:28 | ACT-07 | Sim |
+| recusasConservamTodosOsDados três casos C:61/62 | ACT-18 | Sim |
+| validacaoSessaoEQuadroAusenteNaoGeramEvento cinco casos C:74/76 | ACT-18 | Sim |
+| falhaDoDiarioReverteEtapaNormalizacaoFinaisEVersao C:81/82 | ACT-17 | Sim |
+
+Adequação A/B/C/D aprovada:14 cenários; JSON completo de cada alteração e posições de todos afetados, snapshot completo nas recusas. Nenhum teste só de chamada, nenhum teste sem vínculo à spec. Matriz JUnit/H2 seguida; Verifier pendente.

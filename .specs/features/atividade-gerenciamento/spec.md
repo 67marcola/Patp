@@ -140,10 +140,10 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-01 | Ações | Execute | Implementing |
 | ACT-02 | Ações | Execute | Implementing |
 | ACT-03 | Ações | Execute | Implementing |
-| ACT-04 | Ações | Tasks | Pending |
+| ACT-04 | Ações | Execute | Implementing |
 | ACT-05 | Ações | Tasks | Pending |
 | ACT-06 | Ações | Tasks | Pending |
-| ACT-07 | Ações | Tasks | Pending |
+| ACT-07 | Ações | Execute | Implementing |
 | ACT-08 | Ações | Tasks | Pending |
 | ACT-09 | Ações | Tasks | Pending |
 | ACT-10 | Ações | Tasks | Pending |

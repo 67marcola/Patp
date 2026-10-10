@@ -33,9 +33,11 @@ public class EtapaService {
     private final SessaoService sessoes;
     private final EntityManager entityManager;
     private final EtapasFinaisService finais;
+    private final AtividadeRegistroService atividade;
 
     public EtapaService(EtapaRepository etapas, ProcessoRepository processos, GerenciamentoGuard guard,
-            GerenciamentoService gerenciamentos, SessaoService sessoes, EntityManager entityManager, EtapasFinaisService finais) {
+            GerenciamentoService gerenciamentos, SessaoService sessoes, EntityManager entityManager, EtapasFinaisService finais,
+            AtividadeRegistroService atividade) {
         this.etapas = etapas;
         this.processos = processos;
         this.guard = guard;
@@ -43,6 +45,7 @@ public class EtapaService {
         this.sessoes = sessoes;
         this.entityManager = entityManager;
         this.finais = finais;
+        this.atividade = atividade;
     }
 
     // A locking read keeps the version and children from different commits out of the same snapshot.
@@ -63,6 +66,7 @@ public class EtapaService {
         String setorValido = validarCampo(setor, "Informe um setor entre 1 e 255 caracteres.");
         List<Etapa> sequencia = sequencia(gerenciamentoId);
         validarPosicao(ordem, sequencia.size() + 1);
+        var antes = snapshots(sequencia);
         Etapa etapa = new Etapa();
         etapa.setNome(nomeValido);
         etapa.setSetor(setorValido);
@@ -71,6 +75,9 @@ public class EtapaService {
         etapas.save(etapa);
         sequencia.add(ordem - 1, etapa);
         confirmar(gerenciamento, sequencia);
+        atividade.registrar(gerenciamento, usuario, AtividadeRegistroService.Tipo.ETAPA_CRIADA,
+                AtividadeRegistroService.snapshotEtapa(etapa),
+                AtividadeRegistroService.diferencas(antes, snapshots(sequencia)), null, null);
         return resposta(gerenciamento, usuario);
     }
 
@@ -131,6 +138,10 @@ public class EtapaService {
         return etapas.findByGerenciamentoIdOrderByOrdemAscIdAsc(gerenciamentoId).stream()
                 .filter(e -> e.getCategoria() == CategoriaEtapa.TRABALHO)
                 .collect(Collectors.toList());
+    }
+
+    private static List<AtividadeRegistroService.Alvo> snapshots(List<Etapa> sequencia) {
+        return sequencia.stream().map(AtividadeRegistroService::snapshotEtapa).toList();
     }
 
     private static void exigirTrabalho(Etapa etapa) {
