@@ -137,7 +137,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| ACT-01 | Ações | Tasks | Pending |
+| ACT-01 | Ações | Execute | Implementing |
 | ACT-02 | Ações | Tasks | Pending |
 | ACT-03 | Ações | Tasks | Pending |
 | ACT-04 | Ações | Tasks | Pending |
@@ -154,8 +154,8 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-15 | Ações | Execute | Implementing |
 | ACT-16 | Ações | Tasks | Pending |
 | ACT-17 | Ações | Execute | Implementing |
-| ACT-18 | Ações | Tasks | Pending |
-| ACT-19 | Ações | Tasks | Pending |
+| ACT-18 | Ações | Execute | Implementing |
+| ACT-19 | Ações | Execute | Implementing |
 | ACT-20 | Consulta | Tasks | Pending |
 | ACT-21 | Consulta | Tasks | Pending |
 | ACT-22 | Consulta | Tasks | Pending |

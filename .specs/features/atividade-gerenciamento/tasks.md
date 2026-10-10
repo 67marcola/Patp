@@ -94,6 +94,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T3: Registrar criação do quadro
 
+**Status:** Implemented em10/10/2026;860 Java PASS,7 novos. Verificação independente pendente.
+
 **What**: Instrumentar criarGerenciamento com evento único e identificação das etapas iniciais.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/GerenciamentoService.java`
 **Depends on**: T2
@@ -102,8 +104,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo6, com/sem trabalho, autoria e dados forjados, falha da atividade e contagem única.
 **Gate**: java
 **Done when**:
-- [ ] Evento de criação único com autor/horário e snapshot inicial; finais não viram ações falsas.
-- [ ] Ramo inválido e rollback sem atividade; gate java PASS.
+- [x] Evento de criação único com autor/horário e snapshot inicial; finais não viram ações falsas.
+- [x] Ramo inválido e rollback sem atividade; gate java PASS.
 **Commit**: feat(atividade): audit board creation
 
 ### T4: Registrar edição e arquivo do quadro

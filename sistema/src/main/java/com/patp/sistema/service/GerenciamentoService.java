@@ -34,15 +34,18 @@ public class GerenciamentoService {
     private final GerenciamentoGuard guard;
     private final EntityManager entityManager;
     private final EtapasFinaisService finais;
+    private final AtividadeRegistroService atividade;
 
     public GerenciamentoService(GerenciamentoRepository gerenciamentos, EtapaRepository etapas,
-            SessaoService sessoes, GerenciamentoGuard guard, EntityManager entityManager, EtapasFinaisService finais) {
+            SessaoService sessoes, GerenciamentoGuard guard, EntityManager entityManager, EtapasFinaisService finais,
+            AtividadeRegistroService atividade) {
         this.gerenciamentos = gerenciamentos;
         this.etapas = etapas;
         this.sessoes = sessoes;
         this.guard = guard;
         this.entityManager = entityManager;
         this.finais = finais;
+        this.atividade = atividade;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -79,6 +82,14 @@ public class GerenciamentoService {
         }
         finais.garantirPar(gerenciamento);
         gerenciamentos.flush();
+        var alvos = new java.util.ArrayList<AtividadeRegistroService.Alvo>();
+        alvos.add(AtividadeRegistroService.snapshotQuadro(gerenciamento));
+        if (iniciais != null) {
+            iniciais.forEach(e -> alvos.add(AtividadeRegistroService.snapshotEtapa(e)));
+        }
+        atividade.registrar(gerenciamento, usuario, AtividadeRegistroService.Tipo.QUADRO_CRIADO,
+                AtividadeRegistroService.snapshotQuadro(gerenciamento),
+                AtividadeRegistroService.diferencas(List.of(), alvos), null, null);
         return resposta(gerenciamento, usuario);
     }
 
