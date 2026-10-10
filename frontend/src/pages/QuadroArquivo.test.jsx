@@ -32,7 +32,7 @@ test.each(["Em andamento", "Concluido", "Cancelado"])("ARQ-24/25: consulta compl
     const arquivo = await screen.findByRole("complementary", { name: "Arquivadas" }); const card = within(arquivo).getByRole("article", { name: "P-1 — João" });
     for (const valor of [status, "Ana", "Alta", "29/02/2020", "04/03/2021", "06/05/2022", "Literal\nCompleto", "Motivo antigo", "Cancelados"])
         expect(card.textContent).toContain(valor);
-    expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(["Restaurar"]);
+    expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(["Comentários", "Restaurar"]);
     expect(screen.getByRole("region", { name: "Cancelados" }).querySelector("article")).toBeNull();
     expect(screen.getByRole("region", { name: "Cancelados" }).textContent).toContain("0 demandas");
     expect(arquivo.textContent).toContain("Restaure e mova a demanda para liberar a etapa original.");
@@ -55,7 +55,7 @@ for (const acao of acoes) {
     test.each([{ podeAdministrar: false }, { arquivado: true }, { status: null }, { status: "" }, { status: "Antigo" }])(`ARQ-24/25: ${acao} inelegível somente consulta %s`, async flags => {
         preparar(() => json(snapshot(arquivada, flags, { ...demanda, ...(Object.hasOwn(flags, "status") ? { status: flags.status } : {}) })));
         const card = await screen.findByRole("article", { name: "P-1 — João" });
-        expect(within(card).queryByRole("button")).toBeNull(); expect(card.textContent).toContain("Literal\nCompleto");
+        expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(["Comentários"]); expect(card.textContent).toContain("Literal\nCompleto");
     });
     test(`ARQ-26: cancela ${acao} por teclado e devolve foco sem PUT`, async () => {
         const { user, f } = preparar(() => json(snapshot(arquivada))); const b = await abrir(user, acao);

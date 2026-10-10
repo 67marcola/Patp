@@ -41,18 +41,18 @@ async function abrir(user, acao) {
 test.each(["Em andamento", "Concluido", "Cancelado"])("MOV-28: status%s mostra somente ações permitidas", async status => {
     preparar(() => json(snapshot([{ ...demanda, status, etapaId: status === "Concluido" ? 14 : status === "Cancelado" ? 15 : 11 }])));
     const card = await screen.findByRole("article", { name: "Poste-1 — João" });
-    expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(status === "Em andamento" ? ["Editar", "Mover/pular etapa", "Concluir", "Cancelar", "Arquivar"] : ["Editar", "Reabrir", "Arquivar"]);
+    expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(status === "Em andamento" ? ["Comentários", "Editar", "Mover/pular etapa", "Concluir", "Cancelar", "Arquivar"] : ["Comentários", "Editar", "Reabrir", "Arquivar"]);
 });
 
 test.each([{ podeAdministrar: false }, { arquivado: true }])("MOV-28: sem permissão/arquivado%s só consulta", async flags => {
     const { fetchMock } = preparar(() => json(snapshot([demanda], flags)));
     const card = await screen.findByRole("article", { name: "Poste-1 — João" });
-    expect(within(card).queryByRole("button")).toBeNull(); expect(card.textContent).toContain("Preservada"); expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(["Comentários"]); expect(card.textContent).toContain("Preservada"); expect(fetchMock).toHaveBeenCalledTimes(1);
 });
 
 test.each([null, "", "Status antigo"])("MOV-35: status desconhecido%s explica bloqueio sem normalizar", async status => {
     preparar(() => json(snapshot([{ ...demanda, status }]))); const card = await screen.findByRole("article", { name: "Poste-1 — João" });
-    expect(within(card).queryByRole("button")).toBeNull();
+    expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(["Comentários"]);
     expect(within(card).getByText("Status antigo não reconhecido. Solicite a correção do registro.")).not.toBeNull();
     expect(within(card).getByText("Status", { exact: true }).nextElementSibling.textContent).toBe(status || "Não informado");
 });

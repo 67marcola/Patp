@@ -4,6 +4,7 @@ import EditorEtapa from "./EditorEtapa";
 import EditorDemanda from "./EditorDemanda";
 import AcaoDemanda from "./AcaoDemanda";
 import AcaoArquivamentoDemanda from "./AcaoArquivamentoDemanda";
+import ComentariosDemanda from "./ComentariosDemanda";
 
 function acoesDaDemanda(demanda) {
     if (demanda?.status === "Em andamento") return ["mover", "concluir", "cancelar"];
@@ -35,6 +36,8 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const [edicaoDemanda, setEdicaoDemanda] = useState(null);
     const [acaoDemanda, setAcaoDemanda] = useState(null);
     const [arquivoDemanda, setArquivoDemanda] = useState(null);
+    const [comentariosDemanda, setComentariosDemanda] = useState(null);
+    const origemComentarios = useRef(null);
     const [confirmacao, setConfirmacao] = useState(null);
     const [erroRemocao, setErroRemocao] = useState("");
     const [precisaAtualizar, setPrecisaAtualizar] = useState(false);
@@ -68,7 +71,9 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const demandaEmArquivo = arquivoAtual && (arquivoAtual.acao === "arquivar" ? demandas : demandasArquivadas)
         .find(demanda => demanda.id === arquivoAtual.demanda.id);
     const podeArquivarDemanda = podeConfigurar && !!demandaEmArquivo && acoesDaDemanda(demandaEmArquivo).length > 0;
-    const formularioAberto = !!editor || !!confirmacao || editorDemanda || !!acaoAtual || !!edicaoAtual || !!arquivoAtual;
+    const comentariosAtuais = comentariosDemanda?.gerenciamentoId === gerenciamento.id ? comentariosDemanda : null;
+    const outrosFormularios = !!editor || !!confirmacao || editorDemanda || !!acaoAtual || !!edicaoAtual || !!arquivoAtual;
+    const formularioAberto = outrosFormularios || !!comentariosAtuais;
 
     function finalNoSnapshot(etapa) {
         return etapaFinal(etapa) || etapaFinal(etapas.find(atual => atual.id === etapa?.id));
@@ -96,6 +101,9 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
             setEdicaoDemanda(null);
             setAcaoDemanda(null);
             setArquivoDemanda(null);
+            setComentariosDemanda(null);
+            origemComentarios.current = null;
+            if (operando.current) { operando.current = false; setOcupado(false); aoOcupar?.(false); }
             setConfirmacao(null);
             setPrecisaAtualizar(false);
             setErroRemocao("");
@@ -175,6 +183,24 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
         if (bloqueado || formularioAberto || !podeConfigurar || acoesDaDemanda(demanda).length === 0) return;
         origem.current = event.currentTarget;
         setArquivoDemanda({ gerenciamentoId: quadro.id, demanda, acao });
+    }
+
+    function abrirComentarios(event, demanda) {
+        if (operando.current || bloqueado || outrosFormularios) return;
+        origemComentarios.current = event.currentTarget;
+        setComentariosDemanda({ gerenciamentoId: quadro.id, demanda });
+    }
+
+    function fecharComentarios() {
+        if (operando.current) return;
+        setComentariosDemanda(null);
+        const botao = origemComentarios.current;
+        (botao?.isConnected ? botao : botaoVoltar.current)?.focus();
+    }
+
+    function ocuparComentarios(pendente) {
+        if (!montado.current || quadro.id !== quadroAtual.current) return;
+        operando.current = pendente; setOcupado(pendente); aoOcupar?.(pendente);
     }
 
     async function salvarArquivo() {
@@ -293,6 +319,9 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                 </div>
             </div>
             {carregando && <p role="status">Carregando quadro...</p>}
+            {comentariosAtuais && <ComentariosDemanda key={`${quadro.id}-${comentariosAtuais.demanda.id}`}
+                gerenciamentoId={quadro.id} demanda={comentariosAtuais.demanda}
+                fechar={fecharComentarios} aoOcupar={ocuparComentarios} />}
             {erroConsulta && <div className="falha-consulta">
                 <div className="erro-login" role="alert">{erroConsulta}</div>
                 <button className="btn-secundario" disabled={ocupado || carregando}
@@ -385,6 +414,9 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                                         <dt>{label}</dt><dd>{valor}</dd>
                                     </div>)}</dl>
                                     {acoesDaDemanda(demanda).length === 0 && <p>Status antigo não reconhecido. Solicite a correção do registro.</p>}
+                                    <button className="btn-secundario" disabled={bloqueado || outrosFormularios}
+                                        aria-label={`Comentários da demanda ${demanda.numeroProcesso}`}
+                                        onClick={event => abrirComentarios(event, demanda)}>Comentários</button>
                                     {podeConfigurar && acoesDaDemanda(demanda).length > 0 && <div className="acoes-form">
                                         <button className="btn-secundario" disabled={bloqueado || formularioAberto}
                                             aria-label={`Editar demanda ${demanda.numeroProcesso}`}
@@ -424,6 +456,9 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                                 <dt>{label}</dt><dd>{valor}</dd>
                             </div>)}</dl>
                             {acoesDaDemanda(demanda).length === 0 && <p>Status antigo não reconhecido. Solicite a correção do registro.</p>}
+                            <button className="btn-secundario" disabled={bloqueado || outrosFormularios}
+                                aria-label={`Comentários da demanda ${demanda.numeroProcesso}`}
+                                onClick={event => abrirComentarios(event, demanda)}>Comentários</button>
                             {podeConfigurar && acoesDaDemanda(demanda).length > 0 && <div className="acoes-form">
                                 <button className="btn-secundario" disabled={bloqueado || formularioAberto}
                                     aria-label={`Restaurar demanda ${demanda.numeroProcesso}`}

@@ -41,11 +41,11 @@ Full `mvn.cmd -B verify` em sistema:797 casos,0 falhas/erros/skips, BUILD SUCCES
 
 | Critério | Evidência/assertion | Outcome da spec | Coberto |
 | --- | --- | --- | --- |
-| COM-01 | ComentarioConsultaTests.java:67, `status().isUnauthorized()`/mensagem exata e snapshots iguais; :72–74 `status().isOk()` | 401 sem sessão, leitura comum/criador/admin inclusive sem criador | Sim |
-| COM-06 | ComentarioConsultaTests.java:58, `status().isNotFound()` e erro quadro/demanda exato; :62, GET antigo404 | Alvos inexistentes/externos sem dados ou efeitos | Sim |
+| COM-01 | ComentarioConsultaTests.java:66, `status().isUnauthorized()`/mensagem exata e snapshots iguais; :71 `status().isOk()` | 401 sem sessão, leitura comum/criador/admin inclusive sem criador | Sim |
+| COM-06 | ComentarioConsultaTests.java:57, `status().isNotFound()` e erro quadro/demanda exato; :61, GET antigo404 | Alvos inexistentes/externos sem dados ou efeitos | Sim |
 | COM-11/15 | ComentarioConsultaTests.java:28–35, flags/IDs e texto antigo10001 literal; :41–46 IDs/textos exatos por data e ID nas duas rotas; :52 envelope vazio | Arquivo consultável; ordem, isolamento, desempate e vazio | Sim |
-| COM-16 | ComentarioConsultaTests.java:32–34, `doesNotExist()` para senha/token/processo e chaves `containsExactlyInAnyOrderElementsOf(...)` | Somente os cinco campos enumerados de comentário e cinco do envelope | Sim |
-| Sem efeitos de leitura | ComentarioConsultaTests.java:35, `conteudoPersistido().isEqualTo(antes)` e quadros físicos iguais; :47/:52/:58/:62/:67 | Nenhuma gravação ou incremento de versão | Sim |
+| COM-16 | ComentarioConsultaTests.java:31–34, `doesNotExist()` para senha/token/processo e chaves `containsExactlyInAnyOrderElementsOf(...)` | Somente os cinco campos enumerados de comentário e cinco do envelope | Sim |
+| Sem efeitos de leitura | ComentarioConsultaTests.java:35, `conteudoPersistido().isEqualTo(antes)` e quadros físicos iguais; :46/:51/:57/:61/:66 | Nenhuma gravação ou incremento de versão | Sim |
 
 Reverse mapping: cada caso parametrizado e teste de ComentarioConsultaTests corresponde às linhas de evidência acima: flags4→COM-11/15/16, ordem1→COM-11/15/16, vazio1→COM-15, alvos3/antigo4041→COM-06, sessões2→COM-01, papéis3→COM-01/15. Todos15 necessários. Adequação A–D PASS: payloads/estado efetivo, resultados da spec, testes co-localizados/padrão ApiIntegrationSupport; zero remoção/skip/SPEC_DEVIATION. Tarefa concluída, feature parcial até T3–T7 e Verifier.
 
@@ -100,3 +100,32 @@ Quick30 Vitest/lint PASS. Logs TEMP/comentarios-T5-vitest.log e comentarios-T5-l
 | COM-28 painel | ComentariosDemanda.test.jsx:21/45/66 foco/teclado/Escape e botões sem exclusão | Base acessível; viewport será exercitada em T7 | Parcial da feature, tarefa cumprida |
 
 Reverse mapping: loading/vazio1→COM-18/26; literal1→COM-19; leitura falha3→COM-18; arquivos3→COM-20; texto5+limite2→COM-21/23; pending1→COM-22/23; falhas envio5+manual falho1+arquivo manual2→COM-24/25/20; fechar2→COM-26; troca2+desmontar2→COM-27. Todos30 necessários. Adequação A–D PASS; payload/estado/falhas reais, padrão de propriedades usado pelo projeto, co-localizados;0 skips/exclusão/SPEC_DEVIATION. T5 concluída, feature parcial até integração/viewport/Verifier.
+
+## T6 — integração implementada, gate ainda parcial
+
+13 casos novos QuadroComentarios aprovados dentro do Full1000 Vitest (881+76+30+13),0 falhas/skips; lint/build TEMP PASS. Logs TEMP/comentarios-T6-vitest.log, comentarios-T6-lint.log, comentarios-T6-build.log; artefato comentarios-T6-build. Seleção inicial13 teve1 falha por rota /gerenciamentos/9 não preparada na fixture de App; adicionada a resposta fictícia do quadro, sem mudar nenhuma assertion/outcome. As seis expressões JSX antigas foram adequadas exatamente conforme autorização de10/10, todos os cenários mantidos.
+
+MySQL8.0.43 fictício:326 selecionados PASS,0 falhas/erros/skips. URL/driver efetivos confirmados no log TEMP/comentarios-T6-mysql.log:127.0.0.1:33823/schema creral_arquivo_test, datadir TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql. Reaberta somente essa fixture própria após conferir porta livre e caminho dentroTEMP; listener atual7408/commandline confirmado, launcher24380 não usado para encerramento. Antes de testar, @@port/@@datadir/database() confirmados. Primeira invocação falhou por ampersands na passagem por mvn.cmd; URL movida para SPRING_DATASOURCE_URL no processo filho, sem alterar configuração do projeto. Log negativo comentarios-T6-mysql-before-launch-fix.log. Seleção Comentario*Tests,DemandaArquivo*Tests,ConfiguracaoArquivoResponseTests,HistoricoArchiveTests,GerenciamentoApiTests. Nenhum banco real utilizado.
+
+E2E completo aguarda confirmação de quatro expectativas antigas de ausência total de botão (arquivo124/130, transicoes117, demandas173), antes de adequá-las para lista exata Comentários. TLC não permite modificar expectation genuinamente errada sem confirmação específica; nenhuma das quatro alterada. Quatro arquivos de navegador independentes em execução. T6 NÃO concluída/commitada, T7 não iniciada; manter gate estrito.
+
+| Critério | Evidência/assertion | Outcome da spec | Situação |
+| --- | --- | --- | --- |
+| COM-17/20 | QuadroComentarios.test.jsx:20/21 lista exata Comentários, URL correta e campo somente quando ativo | Todos estados/arquivos e leitor com consulta | Passou |
+| COM-26 | QuadroComentarios.test.jsx:26 foco origem/novo campo vazio; :29 foco Voltar após origem removida | Fechar/Escape descarte e fallback | Passou |
+| COM-22/27 | QuadroComentarios.test.jsx:33/34 mutações disabled, ausência formulário, trocaP8/campo vazio e trêsURLs exatas | Troca permitida ociosa, sem rascunho cruzado | Passou |
+| COM-22 | QuadroComentarios.test.jsx:38/39 todosbotões/campo disabled, POST único, volta nãochamada, callbacks true/false, confirmado campo vazio | Bloqueio global durante envio e liberação | Passou |
+| COM-27 | QuadroComentarios.test.jsx:43 painel antigo/alert ausentes depois da resposta atrasada | Troca de quadro sem conversa anterior | Passou |
+| COM-22 Sair | QuadroComentarios.test.jsx:53/54 disabled true→false e token preservado | App impede saída durantePOST | Passou |
+
+Reverse mapping: consulta6→COM-17/20; fechar2+fallback1→COM-26; troca1→COM-22/27; pending1+App1→COM-22; quadro1→COM-27. Todos13 necessários, payload/estado/foco reais; adequação do conjunto Vitest A–D PASS. Gate global ainda parcial por E2E, sem done/Verified/commit.
+
+E2E independentes T6:5/5 PASS,0 falhas/skips/retries em quatro arquivos (autocadastro1,edição2,etapas1,gerenciamentos1). Log TEMP/comentarios-T6-e2e-independentes.log. Restam oito cenários dos três arquivos cuja expectativa exige autorização específica; nenhum cenário apagado/ignorado. Fixture MySQL encerrada por mysqladmin em127.0.0.1:33823 após confirmar listener7408/name/commandline/datadir; shutdown0, listener ausente. Nenhum PID antigo ou banco real encerrado. T6 segue parcial, próxima ação depende da resposta à pergunta já enviada.
+
+### Autorização adicional de T6
+
+Usuário respondeu Sim, adequar essas quatro expectativas (recomendado) à pergunta que nomeou arquivo124/130, transicoes117 e demandas173. Aplicadas exatamente as quatro adequações: `getByRole("button").toHaveText(["Comentários"])` exige lista exata de um botão e continua negando todas as mutações. Nenhum outro cenário/assertion alterado. Gate E2E completo13 em execução, sem filtros/exclusões.
+
+### Fechamento de T6
+
+Gate Build PASS:830 Java/H2 vigente de T3 (servidor inalterado),1000 Vitest,326 MySQL fictício,13/13 Edge/H2 em todos os sete arquivos,lint reconferido e build TEMP vigente de T6. Log completo TEMP/comentarios-T6-e2e.log. Zero falhas/erros/skips/retries. Adequação T6 A–D PASS com mapeamento acima e quatro expectativas antigas autorizadas; contagem anterior13 E2E preservada. T6 concluída como tarefa e incluída no diagnóstico; feature parcial até T7/Verifier. Fixture MySQL inativa após shutdown conferido.

@@ -114,7 +114,7 @@ test("MOV-23/31/32: versão externa, rascunho, atualização manual e bloqueio g
 
 test("MOV-02/03/28: funcionário consulta sem ações e arquivo impede transição", async ({ page, request }) => {
     const c = await preparar(page, request); await page.getByRole("button", { name: "Sair", exact: true }).click(); await c.entrar(c.outro);
-    await expect(c.card.getByRole("button")).toHaveCount(0);
+    await expect(c.card.getByRole("button")).toHaveText(["Comentários"]);
     const antes = await c.consultar();
     const negada = await request.put(`${c.base}/demandas/${c.demanda.id}/concluir`, { headers: { Authorization: `Bearer ${c.outro.token}` }, data: { versao: 1 } }); expect(negada.status()).toBe(403);
     expect(await c.consultar()).toEqual(antes);

@@ -130,15 +130,15 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 
 **What:** ligar o botão de todos os cartões ao painel e coordenar pending/navegação/foco do quadro.
 **Where:** `frontend/src/pages/Quadro.jsx`
-**Supporting files:** QuadroComentarios.test.jsx e adequações autorizadas nas seis expressões de QuadroTransicoes.test.jsx/QuadroDemandas.test.jsx/QuadroArquivo.test.jsx.
+**Supporting files:** QuadroComentarios.test.jsx e adequações autorizadas nas seis expressões de QuadroTransicoes.test.jsx/QuadroDemandas.test.jsx/QuadroArquivo.test.jsx, mais quatro expectativas E2E em arquivamento.spec.js/transicoes.spec.js/demandas.spec.js explicitamente aprovadas nesta retomada.
 **Depends on:** T5
 **Reuses:** origem, montado, quadroAtual, operando, aoOcupar e bloqueio dos outros formulários.
 **Requirements:** COM-17/20/22/26/27.
 **Tools:** exec_command/apply_patch; skill tlc-spec-driven.
 **Done when:**
-- [ ] Todos os cartões oferecem consulta; abrir não consulta outra demanda; status/permissão de mutações existentes preservados e nova ação de consulta permitida.
-- [ ] Pending alcança Voltar/Sair/formulários/troca; focus e late responses não vazam entre quadros; mínimo12 casos novos de integração.
-- [ ] Build integração aprovado com suítes anteriores preservadas e MySQL fictício selecionado.
+- [x] Todos os cartões oferecem consulta; abrir não consulta outra demanda; status/permissão de mutações existentes preservados e nova ação de consulta permitida.
+- [x] Pending alcança Voltar/Sair/formulários/troca; focus e late responses não vazam entre quadros; 13 casos novos de integração.
+- [x] Build integração aprovado:830 Java/H2,1000 Vitest,326 MySQL fictício,13 Edge/H2,lint/build TEMP PASS; com suítes anteriores preservadas e MySQL fictício selecionado.
 **Tests:** unit
 **Gate:** Build
 **Commit:** feat(comentarios): connect sidebar to demand cards
