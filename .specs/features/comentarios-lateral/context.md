@@ -29,7 +29,9 @@ Entregar o requisito original de uma lateral de comentários de vários usuário
 | Alcance da conversa | Por demanda: cada cartão abre as mensagens daquele serviço, aproveitando o vínculo já persistido e evitando misturar assuntos. | Por quadro; por quadro e por demanda. |
 | Participantes que enviam | Qualquer usuário autenticado: manter a participação existente em itens ativos, usando o nome da conta conectada e horário do servidor. | Somente criador do quadro ou administrador. |
 
-As duas perguntas foram apresentadas nesta retomada. Não há resposta registrada; a opção preselecionada pela interface não é confirmação.
+As duas perguntas foram apresentadas em 09/10 e reapresentadas em 10/10/2026, após o usuário pedir o registro permanente de acompanhamento e autorizar perguntas necessárias ao próximo requisito. Não há resposta registrada; a opção preselecionada pela interface não é confirmação.
+
+Em 10/10/2026, a regra de registrar cada implementação, comunicar “incluído no diagnóstico” e marcar conclusão somente após testes/verificação foi guardada de forma permanente em STATE.md. Isso não muda o alcance nem as permissões de comentários, que continuam pendentes.
 
 ## Proposta concreta para o painel
 
