@@ -167,7 +167,7 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 | COM-27 | Navegar | T5/T6 | Implementing |
 | COM-28 | Navegar | T5/T8 | Implementing |
 
-**Coverage:** 28 total, 28 mapped to proposed tasks, 0 unmapped. Nenhum critério implementado/verificado nesta proposta.
+**Coverage:** 28 total, 28 mapeados às tarefas implementadas, 0 sem mapeamento. Evidências de execução em evidence.md; status Verified depende da revisão independente.
 
 ## Success Criteria
 

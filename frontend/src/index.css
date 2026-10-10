@@ -1500,3 +1500,33 @@ button:focus-visible {
     font-size: 13px;
     margin-bottom: 12px;
 }
+
+/* Comentários por demanda */
+
+.comentarios-demanda {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  width: min(460px, 100%);
+  box-sizing: border-box;
+  padding: 24px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--card-bg, #fff);
+  color: var(--text, #172b4d);
+  border-left: 1px solid var(--border, #dbe2e8);
+  box-shadow: -8px 0 24px #0002;
+  overflow-wrap: anywhere;
+}
+.comentarios-topo { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.comentarios-topo h2 { flex: 1 1 180px; margin: 0; }
+.comentarios-demanda form { display: grid; gap: 12px; margin-top: 20px; }
+.comentarios-demanda textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 100px; font: inherit; padding: 10px; }
+.mensagens-demanda { list-style: none; padding: 0; display: grid; gap: 16px; }
+.mensagens-demanda li { padding: 12px; border: 1px solid var(--border, #dbe2e8); border-radius: 8px; }
+.mensagens-demanda time { display: block; font-size: .85rem; }
+.texto-comentario { white-space: pre-wrap; overflow-wrap: anywhere; }
+.aviso-comentario { padding: 12px; background: #fff2ca; color: #49370b; border-radius: 6px; }
+@media (max-width: 480px) { .comentarios-demanda { padding: 16px; } }

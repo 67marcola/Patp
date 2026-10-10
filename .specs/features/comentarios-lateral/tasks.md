@@ -27,7 +27,7 @@ Comandos extraídos dos manifests/OPERACAO; usar npm.cmd no Windows. Logs e buil
 | Quick | T4/T5, API/painel | Em frontend: npm.cmd test -- seguido dos arquivos da tarefa; npm.cmd run lint |
 | Full | T1/T2, serviço/rotas | Em sistema: mvn.cmd -B verify, com todos os testes Java/H2; teste HTTP via MockMvc co-localizado |
 | Build | T3, fim servidor | mvn.cmd -B verify; em frontend npm.cmd test e npm.cmd run lint; build Vite em diretório TEMP |
-| Build | T6/T7, integração/final | Java/H2 completo, npm.cmd test, npm.cmd run lint, npm.cmd run build -- --outDir TEMP absoluto, npm.cmd run test:e2e; seleção MySQL fictícia dos testes de comentários/arquivo com URL/credenciais explícitas |
+| Build | T6/T8, integração/final | Java/H2 completo, npm.cmd test, npm.cmd run lint, npm.cmd run build -- --outDir TEMP absoluto, npm.cmd run test:e2e; seleção MySQL fictícia dos testes de comentários/arquivo com URL/credenciais explícitas |
 
 Baseline documentada, não reexecutada no planejamento: 747 Java/H2, 881 Vitest, 13 E2E/7 arquivos. Gates finais não podem reduzir esses cenários. Contagem exata dos casos novos será registrada após execução; metas mínimas por tarefa abaixo são propostas, parametrizações contam como casos.
 
@@ -164,15 +164,15 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 
 **What:** exercitar a entrega integrada no navegador com dados fictícios e documentar o roteiro humano.
 **Where:** `frontend/e2e/comentarios.spec.js`
-**Supporting files:** docs/OPERACAO.md e evidence.md; cada cenário mantém todas as verificações de estado e persistência.
+**Supporting files:** docs/OPERACAO.md e evidence.md; mover os estilos exclusivos de comentários do App.css não importado para index.css ativo, correção de COM-19/28 revelada pelos E2E; cada cenário mantém todas as verificações de estado e persistência.
 **Depends on:** T7
 **Reuses:** isolado H2/Edge, duas contas, randomUUID e capturas em TEMP das suítes anteriores.
 **Requirements:** COM-11/12/19/20/22/25/28 e fluxo P1 completo.
 **Tools:** exec_command/apply_patch; skill tlc-spec-driven. Novo Verifier depois do commit final.
 **Done when:**
-- [ ] Pelo menos2 fluxos novos: colaboração/isolamento/recarga/arquivo e falha de envio com consulta manual sem retry; teclado, desktop/celular e QA visual.
-- [ ] Build final aprovado, mínimo baseline+2 E2E e nenhum cenário anterior ignorado; logs e capturas localizados.
-- [ ] Status/evidências/commit atômico feitos e Verifier fresco despachado. Conclusão técnica somente após PASS e validate_state.
+- [x] Dois fluxos novos: colaboração/isolamento/recarga/arquivo e falha de envio com consulta manual sem retry; teclado, desktop/celular e QA visual aprovados.
+- [x] Build final aprovado:832 Java/H2,1000 Vitest,328 MySQL fictício,15 Edge/H2,lint/build TEMP, zero falhas/skips e nenhum cenário anterior ignorado; logs e capturas localizados.
+- [x] Status/evidências preparados para commit atômico e despacho imediato do Verifier fresco. Conclusão técnica somente após PASS e validate_state.
 **Tests:** e2e
 **Gate:** Build
 **Commit:** test(comentarios): prove collaborative sidebar workflow

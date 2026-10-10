@@ -1,6 +1,6 @@
 # Comentários por demanda — evidências de execução
 
-**Estado:** T1 e T2 concluídas como tarefas com gates aprovados. Feature parcial, sem declaração de critério Verified antes do Verifier. Base de planejamento 3a5934c.
+**Estado:** T1–T8 concluídas como tarefas com gates aprovados. Feature parcial até Verifier independente. As seções anteriores preservam os checkpoints históricos, inclusive autorizações resolvidas. Base de planejamento 3a5934c.
 
 ## Autorizações
 
@@ -130,15 +130,43 @@ Usuário respondeu Sim, adequar essas quatro expectativas (recomendado) à pergu
 
 Gate Build PASS:830 Java/H2 vigente de T3 (servidor inalterado),1000 Vitest,326 MySQL fictício,13/13 Edge/H2 em todos os sete arquivos,lint reconferido e build TEMP vigente de T6. Log completo TEMP/comentarios-T6-e2e.log. Zero falhas/erros/skips/retries. Adequação T6 A–D PASS com mapeamento acima e quatro expectativas antigas autorizadas; contagem anterior13 E2E preservada. T6 concluída como tarefa e incluída no diagnóstico; feature parcial até T7/Verifier. Fixture MySQL inativa após shutdown conferido.
 
-## T7 ? precis?o do hor?rio persistido
+## T7 — precisão do horário persistido
 
-Dois E2E novos, intactos, revelaram diverg?ncia real entre POST e consulta: fra??es .0132307/.1210835 retornadas versus .013231/.121084 persistidas. Log negativo TEMP/comentarios-T7-selected.log. As colunas existentes timestamp(6)/datetime(6) conservam microssegundos; a cria??o agora trunca a esse limite antes de salvar, sem alterar mensagens antigas ou esquema. Corre??o necess?ria dos outcomes COM-10/11/23, sem mudar expectations.
+Dois E2E novos, intactos, revelaram divergência real entre POST e consulta: frações .0132307/.1210835 retornadas versus .013231/.121084 persistidas. Log negativo TEMP/comentarios-T7-selected.log. As colunas existentes timestamp(6)/datetime(6) conservam microssegundos; a criação agora trunca a esse limite antes de salvar, sem alterar mensagens antigas ou esquema. Correção necessária dos outcomes COM-10/11/23, sem mudar expectations.
 
 Full Java/H2 PASS:832 casos (830+2),0 falhas/erros/skips; BUILD SUCCESS. Log TEMP/comentarios-T7-precisao-h2.log.
 
-| Crit?rio | Assertion e outcome | Resultado |
+| Critério | Assertion e outcome | Resultado |
 | --- | --- | --- |
-| COM-10 | ComentarioPrecisaoTests.java:28 exige HTTP201/200 e texto/autor; :31 exige hora controlada123456000ns e query f?sica exatamente igual, originada de rel?gio123456789ns | PASS nas duas rotas |
-| COM-11/23 | ComentarioPrecisaoTests.java:32 exige GET posterior exatamente igual ao hor?rio confirmado; :33 exige uma ?nica mensagem | PASS nas duas rotas |
+| COM-10 | ComentarioPrecisaoTests.java:28 exige HTTP201/200 e texto/autor; :31 exige hora controlada123456000ns e query física exatamente igual, originada de relógio123456789ns | PASS nas duas rotas |
+| COM-11/23 | ComentarioPrecisaoTests.java:32 exige GET posterior exatamente igual ao horário confirmado; :33 exige uma única mensagem | PASS nas duas rotas |
 
-Reverse mapping: os dois casos parametrizados :20?33 cobrem COM-10/11/23 com valores literais, banco real de teste e resposta posterior. Adequa??o A?D PASS: expectativas derivadas da preserva??o/contrato, ambos necess?rios para rotas distintas, co-localiza??o/padr?o ApiIntegrationSupport, sem remo??o/skip/SPEC_DEVIATION. T7 conclu?da como tarefa; feature parcial at? T8 e Verifier. Inclu?do no diagn?stico em10/10/2026.
+Reverse mapping: os dois casos parametrizados :20–33 cobrem COM-10/11/23 com valores literais, banco de teste e resposta posterior. Adequação A–D PASS: expectativas derivadas da preservação/contrato, ambos necessários para rotas distintas, padrão ApiIntegrationSupport, sem remoção/skip/SPEC_DEVIATION. T7 concluída como tarefa; feature parcial até T8 e Verifier. Incluído no diagnóstico em10/10/2026.
+
+## T8 — prova integrada em execução
+
+Após T7, os dois E2E intactos avançaram e revelaram que os estilos exclusivos estavam no App.css, arquivo não importado pela aplicação. Movidos para index.css já carregado, sem trazer os estilos de exemplo do Vite. COM-19/28: quebras pre-wrap, palavras longas e painel dentro da viewport, sem overflow horizontal. Log negativo TEMP/comentarios-T8-before-styles-fix.log; repetição selecionada2/2 PASS,0 skips/retries em TEMP/comentarios-T8-selected.log. Uma invocação npm na raiz sem package.json não executou testes, corrigida para frontend.
+
+QA visual das quatro capturas da execução selecionada realizada por inspeção direta: TEMP/creral-comentarios-qa-87uOpk/desktop-conversa.png, mobile-conversa.png, mobile-arquivo.png e TEMP/creral-comentarios-falha-qa-2PovS5/mobile-recuperacao.png. Autores/horários/textos literais legíveis, HTML escapado, quebras e palavra longa preservadas, nenhum transbordamento horizontal, fechamento visível e conversa/rascunho em consulta de arquivo. Painel usa rolagem vertical; capturas fullPage mostram também o quadro subjacente. Desktop1280x800 e celular390x844 com limites medidos/assertions.
+
+MySQL8.0.43 fictício:328 PASS,0 falhas/erros/skips em TEMP/comentarios-T8-mysql.log. Antes do runner, @@port33823, @@datadirTEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql e schema creral_arquivo_test confirmados. Listener22852, launcher23944; fixture própria, banco real intocado. Mesma seleção de T6 +2 precisão.
+
+Primeira suíte Vitest1000 executada simultaneamente ao Maven:998 PASS, timeout5000ms em CRUD de etapas e foco do caso seguinte divergente. Testes/configuração intactos; execução solo será exigida antes de fechar o gate. Log negativo TEMP/comentarios-T8-vitest-concurrent.log.
+
+### Adequação dos dois fluxos novos de T8
+
+| Critério | Assertion (frontend/e2e/comentarios.spec.js) | Outcome definido |
+| --- | --- | --- |
+| COM-02/03/10/16 | :26 autoria Dono mesmo com nome falso; :57 shape exato5, texto/autor/vínculo/ID; :58 hora limitada | Conta conectada, HTTP201 e valores salvos |
+| COM-11/12/15 | :71/:74 comparação integral snapshot/eventos e conversa exclusiva; :80/:82/:84 arquivo/restauração e mensagens iguais | Preservação de dados/ciclo/versão/histórico fora das ações próprias |
+| COM-17/19/23 | :49/50 texto literal, autor/dataHora exata e formatada; :59 campo vazio; :71 img ausente; :72 conversa outra vazia; :75 recarga | Confirmação única, isolamento e persistência visual |
+| COM-20 | :79/:83/:104 form/envio ausentes, motivo de arquivo e texto preservado | Arquivado somente consulta |
+| COM-22 | :95/:96 todos controles/campo disabled, Escape conserva painel, segundo submit não faz POST | Um envio pendente com bloqueio global |
+| COM-24/25 | :98–104 texto/lista/aviso/bloqueio, GET503 conserva, GET confirmado mostra salvo uma vez sem POST automático, arquivo entre GET/POST409 | Resposta perdida preserva rascunho e exige consulta manual |
+| COM-26/28 | :39 foco Fechar via Enter; :72/:77 Escape/fechar retorna origem e descarta; :64/65 medidas e pre-wrap nos dois tamanhos | Teclado/foco, painel visível sem overflow e texto literal |
+
+Reverse mapping: fluxo :69–84→COM-02/03/10/11/12/15/16/17/19/20/23/26/28; fluxo :86–105→COM-08/11/12/20/22/24/25/28. O título do segundo cita COM-07 como contexto compartilhado de arquivo; sua prova direta de quadro arquivado está no primeiro fluxo e no servidor. Dois fluxos necessários e distintos, payloads/estado/foco e persistência reais, guidelines isolados existentes seguidos,0 remoção/skip/SPEC_DEVIATION. Testes na camada e2e. Resultado de runner selecionado2 PASS; Build final ainda em execução. Roteiro humano documentado em docs/OPERACAO.md, aceite humano pendente.
+
+### Fechamento de T8
+
+Build final PASS:832 Java/H2 de T7 (servidor inalterado depois),1000 Vitest em execução solo,328 MySQL fictício,15 Edge/H2 em todos os oito arquivos,lint e build TEMP aprovados. Zero falhas/erros/skips/retries no gate final. Logs TEMP/comentarios-T7-precisao-h2.log e comentarios-T8-vitest.log, -mysql.log, -e2e.log, -lint.log, -build.log. Build TEMP/comentarios-T8-build. Baselines747/881/13 preservadas, acréscimos85/119/2. A repetição solo do Vitest passou sem mudança de teste/configuração. Adequação T8 A–D PASS; as duas falhas reais detectadas no navegador foram corrigidas no código, com testes intactos. Acertos de codificação dos novos textos da documentação não alteram critérios ou assertions. T8 concluída como tarefa; revisão independente obrigatória após commit, antes de declarar feature concluída. Incluído no diagnóstico em10/10/2026.
