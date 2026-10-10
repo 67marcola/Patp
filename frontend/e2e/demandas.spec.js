@@ -170,7 +170,7 @@ test("CAD-01/05/13/26/30/31/32/37/39/40/41: funcionário cria mínimo/completo, 
         await expect(cartaoCompleto.locator("dt", { hasText: label }).locator("+ dd")).toHaveText(valor);
     }
     await expect(cartaoCompleto.locator("em")).toHaveCount(0);
-    await expect(cartaoCompleto.getByRole("button")).toHaveCount(0);
+    await expect(cartaoCompleto.getByRole("button")).toHaveText(["Comentários"]);
     await expect(cartaoCompleto.getByRole("heading")).toHaveCount(0);
     await fotografar(page, imagens, "cartoes");
     await page.reload();

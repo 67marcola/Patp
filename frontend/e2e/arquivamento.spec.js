@@ -121,13 +121,13 @@ test("ARQ-02/03/25/29: conflito exige GET manual, terceiros consultam e arquivo 
     await expect(page.getByRole("dialog")).toContainText("Externa"); expect(await c.consultar()).toEqual(modificada);
     await page.getByRole("button", { name: "Arquivar demanda", exact: true }).click(); await expect(page.getByRole("dialog")).toHaveCount(0);
     const arquivo = await c.consultar(); expect(arquivo.demandasArquivadas).toEqual(modificada.demandas); expect(arquivo.gerenciamento.versao).toBe(modificada.gerenciamento.versao + 1);
-    await c.sair(); await c.entrar(c.outro); await expect(c.card.getByRole("button")).toHaveCount(0); await expect(c.card).toContainText("Externa");
+    await c.sair(); await c.entrar(c.outro); await expect(c.card.getByRole("button")).toHaveText(["Comentários"]); await expect(c.card).toContainText("Externa");
     for (const acao of ["arquivar", "restaurar"]) {
         const negada = await request.put(`${c.base}/demandas/${c.demanda.id}/${acao}`, { headers: { Authorization: `Bearer ${c.outro.token}` }, data: { versao: arquivo.gerenciamento.versao } });
         expect(negada.status()).toBe(403); expect(await c.consultar()).toEqual(arquivo);
     }
     await c.sair(); const arquivarQuadro = await request.put(`${c.base}/arquivar`, { headers: c.headers, data: { versao: arquivo.gerenciamento.versao } });
-    expect(arquivarQuadro.status()).toBe(204); await c.entrar(c.dono, true); await expect(c.card.getByRole("button")).toHaveCount(0);
+    expect(arquivarQuadro.status()).toBe(204); await c.entrar(c.dono, true); await expect(c.card.getByRole("button")).toHaveText(["Comentários"]);
     const noQuadroArquivo = await c.consultar(); expect(noQuadroArquivo.demandasArquivadas).toEqual(arquivo.demandasArquivadas); expect(noQuadroArquivo.demandas).toEqual([]);
     const bloqueada = await request.put(`${c.base}/demandas/${c.demanda.id}/restaurar`, { headers: c.headers, data: { versao: noQuadroArquivo.gerenciamento.versao } });
     expect(bloqueada.status()).toBe(409); expect((await bloqueada.json()).erro).toBe("Gerenciamento arquivado. Restaure-o antes de alterar."); expect(await c.consultar()).toEqual(noQuadroArquivo);

@@ -111,7 +111,7 @@ test.each([false, true])("CAD-37/38/39: leitura integral por etapa preserva valo
         expect(valorCartao(cartao, label)).toBe(valor);
     }
     expect(within(cartao).queryByRole("heading")).toBeNull();
-    expect(within(cartao).queryByRole("button")).toBeNull();
+    expect(within(cartao).getAllByRole("button").map(b => b.textContent)).toEqual(["Comentários"]);
     expect(screen.getAllByRole("region").map(coluna => within(coluna).getByRole("heading").textContent))
         .toEqual(["Planejamento", "Execução", "Concluídos", "Cancelados"]);
     expect(screen.queryByRole("button", { name: "+ Criar processo" }) === null).toBe(arquivado);
