@@ -119,9 +119,9 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 **Requirements:** COM-18–28 aplicáveis ao painel.
 **Tools:** exec_command/apply_patch; skill tlc-spec-driven.
 **Done when:**
-- [ ] Lista/autor/time/texto, limites, estados, pending, resultado incerto, GET manual, fechar/Escape e resposta atrasada cumprem os outcomes da spec.
-- [ ] Mínimo22 casos do painel, incluindo preservar rascunho, sem envio automático, falso sucesso, readonly descoberto por GET e descarte por troca/desmontagem.
-- [ ] Quick aprovado; evidências e status parcial registrados.
+- [x] Lista/autor/time/texto, limites, estados, pending, resultado incerto, GET manual, fechar/Escape e resposta atrasada cumprem os outcomes da spec.
+- [x] 30 casos do painel, incluindo preservar rascunho, sem envio automático, falso sucesso, readonly descoberto por GET e descarte por troca/desmontagem.
+- [x] Quick aprovado; evidências e status parcial registrados.
 **Tests:** unit
 **Gate:** Quick
 **Commit:** feat(comentarios): add accessible demand sidebar

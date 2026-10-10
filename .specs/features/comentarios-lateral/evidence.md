@@ -83,3 +83,20 @@ Quick76 Vitest e lint PASS; logs TEMP/comentarios-T4-vitest.log e comentarios-T4
 | COM-18/24 | apiComentarios.test.js:59–63 status exato, erro servidor ou comunicação e uma chamada | HTTP inesperado, rede e JSON sem retry | Sim |
 
 Reverse mapping: linhas10/11→COM-18;15→COM-11/20;18/19→COM-15;39→COM-18/bordas GET;42/43→COM-23;53/56→COM-24/bordas POST;59–63→COM-18/24. Todos76 casos necessários; assertions payload/erro específicas e contratos da spec. Adequação A–D PASS; guidelines/apiArquivo seguidos;0 skip/exclusão/SPEC_DEVIATION. T4 concluída como tarefa, feature parcial.
+## T5 — painel de comentários
+
+Quick30 Vitest/lint PASS. Logs TEMP/comentarios-T5-vitest.log e comentarios-T5-lint.log. A primeira execução teve20 falhas de harness por matchers jest-dom ausentes neste projeto; adequação mecânica para propriedades reais com mesmos valores esperados e função de visibilidade (ancestros/display/visibility/hidden/conexão), sem mudar outcomes. Log TEMP/comentarios-T5-before-matchers.log. A primeira repetição usou caminho relativo duplicado frontend/frontend e não editou arquivos; corrigido workdir. Regex de whitespace replica String.isBlank e NBSP válido; supressão local explicada de no-control-regex, sem mudar lint global.
+
+| Critério | Evidência/assertion | Outcome da spec | Coberto |
+| --- | --- | --- | --- |
+| COM-18 | ComentariosDemanda.test.jsx:20–22, número/cliente/loading, foco, vazio e campo vazio; :31 GET/GET e formulário só após leitura confirmada | Identificação/estados e recuperação de consulta | Sim |
+| COM-19 | ComentariosDemanda.test.jsx:27 `textContent` literal/autor, horário formatado, time ISO, img nulo e ID21 | Texto escapado/multiline, autor e hora local | Sim |
+| COM-20 | ComentariosDemanda.test.jsx:35 textbox/botão nulos e motivo visível nas3 flags; :63 rascunho literal preservado após arquivo | Somente consulta, flags da API prevalecem | Sim |
+| COM-21 | ComentariosDemanda.test.jsx:38 erro exato/campo igual/chamada1; :41 sucesso literal10000UTF16/NBSP | Inválidos não enviam, limite válido aceita | Sim |
+| COM-22/23 | ComentariosDemanda.test.jsx:45–47 disabled verdadeiro, POST único, Escape não fecha, depois2 itens/ID/texto/autor/time/campo vazio/painel aberto | Pending global via callback, confirmação única | Sim |
+| COM-24/25 | ComentariosDemanda.test.jsx:54/55 lista1→2, rascunho Nova, disabled true→false, aviso visível e métodos GET/POST/GET; :59 GET falho mantém lista/rascunho/bloqueio; :63 flags atualizadas | Falhas HTTP/rede/JSON/status/contrato conservam estado; manual sem reenvio | Sim |
+| COM-26 | ComentariosDemanda.test.jsx:66 `fechar` uma vez por botão/Escape | Fechar ocioso, foco de retorno na integração T6 | Sim |
+| COM-27 | ComentariosDemanda.test.jsx:72/73 rascunho vazio e nenhum dado/erro atrasado; :77 desmontado e callback true/false | Troca demanda/quadro/desmontagem não vaza estado | Sim |
+| COM-28 painel | ComentariosDemanda.test.jsx:21/45/66 foco/teclado/Escape e botões sem exclusão | Base acessível; viewport será exercitada em T7 | Parcial da feature, tarefa cumprida |
+
+Reverse mapping: loading/vazio1→COM-18/26; literal1→COM-19; leitura falha3→COM-18; arquivos3→COM-20; texto5+limite2→COM-21/23; pending1→COM-22/23; falhas envio5+manual falho1+arquivo manual2→COM-24/25/20; fechar2→COM-26; troca2+desmontar2→COM-27. Todos30 necessários. Adequação A–D PASS; payload/estado/falhas reais, padrão de propriedades usado pelo projeto, co-localizados;0 skips/exclusão/SPEC_DEVIATION. T5 concluída, feature parcial até integração/viewport/Verifier.

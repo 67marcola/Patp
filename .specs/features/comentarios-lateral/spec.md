@@ -156,16 +156,16 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 | COM-16 | Consultar | T2/T3 | Implementing |
 | COM-17 | Consultar | T6 | Pending |
 | COM-18 | Consultar | T4/T5 | Implementing |
-| COM-19 | Consultar | T5/T7 | Pending |
-| COM-20 | Consultar | T5/T6/T7 | Pending |
-| COM-21 | Navegar | T5 | Pending |
-| COM-22 | Navegar | T5/T6/T7 | Pending |
+| COM-19 | Consultar | T5/T7 | Implementing |
+| COM-20 | Consultar | T5/T6/T7 | Implementing |
+| COM-21 | Navegar | T5 | Implementing |
+| COM-22 | Navegar | T5/T6/T7 | Implementing |
 | COM-23 | Navegar | T4/T5 | Implementing |
 | COM-24 | Navegar | T4/T5 | Implementing |
-| COM-25 | Navegar | T5/T7 | Pending |
-| COM-26 | Navegar | T5/T6 | Pending |
-| COM-27 | Navegar | T5/T6 | Pending |
-| COM-28 | Navegar | T5/T7 | Pending |
+| COM-25 | Navegar | T5/T7 | Implementing |
+| COM-26 | Navegar | T5/T6 | Implementing |
+| COM-27 | Navegar | T5/T6 | Implementing |
+| COM-28 | Navegar | T5/T7 | Implementing |
 
 **Coverage:** 28 total, 28 mapped to proposed tasks, 0 unmapped. Nenhum critério implementado/verificado nesta proposta.
 
