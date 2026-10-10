@@ -1,6 +1,6 @@
 # Lateral de comentários — contexto em discussão
 
-**Gathered:** 09/10/2026; escolhas recebidas em 10/10/2026. **Status:** alcance e participantes confirmados; spec e tarefas validadas estruturalmente (--strict: zero erros/avisos) e apresentadas para confirmação em duas perguntas. Defaults e adequações de testes antigos ainda aguardam resposta. Não há implementação concluída.
+**Gathered:** 09/10/2026; escolhas recebidas em 10/10/2026. **Status:** spec/defaults/plano e adequações antigas explicitamente aprovados. Correção própria da fixture também confirmada e aplicada. T1 concluiu seu gate, feature parcial; evidências em evidence.md. Verifier final pendente.
 
 ## Feature Boundary
 
@@ -49,7 +49,7 @@ Limite novo de10000 unidades UTF-16, contratos GET/POST, mensagens e tratamento 
 
 ## Compatibilidade de testes a resolver após a decisão
 
-`ComentarioArchiveTests.java:48–63` usa uma sessão de Outro para gravar Ana/Bia. `DemandaArquivoComentarioTests.java:30–58` espera o nome Informado enviado pelo cliente. A nova especificação estabelece autoria da sessão; as adequações concretas estão em tasks.md, mantendo preservação, consulta e concorrência. Há também seis expressões JSX que proíbem qualquer botão ou enumeram ações sem Comentários; a proposta permite a consulta e mantém a lista exata de mutações autorizadas. Confirmação TLC pendente. Nenhum teste foi alterado.
+Usuário autorizou explicitamente as adequações concretas de tasks.md. Em T1, ComentarioArchiveTests agora espera Outro e DemandaArquivoComentarioTests espera Leitor/Dono da sessão, mantendo todos os cenários e demais assertions. As seis expressões JSX ficam para T6. Em pergunta própria o usuário confirmou a correção da fixture de ComentarioEnvioTests: versão depois da preparação, ação com essa versão e resultado inicial+1, mantendo quatro cenários e demais assertions. Gate782 Java/H2 PASS.
 
 ## Deferred Ideas
 

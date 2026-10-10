@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,12 +26,13 @@ public class ComentarioController {
     @PostMapping("/{processoId}/comentarios")
     public Comentario adicionar(
             @PathVariable Long processoId,
+            @RequestHeader("Authorization") String authorization,
             @RequestBody CriarComentarioRequest request) {
 
         return comentarioService.adicionar(
+                authorization.substring(7),
                 processoId,
-                request.texto(),
-                request.funcionario()
+                request.texto()
         );
     }
 

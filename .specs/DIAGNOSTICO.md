@@ -112,7 +112,7 @@ Cada critério desta entrega está registrado abaixo como concluído. As asserti
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Lateral de comentários de vários usuários, com data | Preparação incluída no diagnóstico em 10/10/2026: usuário confirmou conversa por demanda e qualquer usuário autenticado (AD-029). Proposta com 28 critérios e sete tarefas, gates estruturais estritos com zero erros/avisos; aguardando confirmação dos defaults e adequações antigas. Falta implementação/verificação; ainda não concluído. [Spec](features/comentarios-lateral/spec.md), [tarefas](features/comentarios-lateral/tasks.md) e [contexto](features/comentarios-lateral/context.md). |
+| Lateral de comentários de vários usuários, com data | Progresso parcial incluído no diagnóstico em 10/10/2026: spec e sete tarefas aprovadas. T1 concluída como tarefa: envio usa autor da sessão e valida texto; seleção44 e Full782 Java/H2 PASS,0 falhas/erros/skips, após correção de fixture autorizada. Próxima T2: consulta da lateral. Feature ainda parcial até T2–T7 e Verifier. [Spec](features/comentarios-lateral/spec.md), [tarefas](features/comentarios-lateral/tasks.md), [evidências](features/comentarios-lateral/evidence.md). |
 | Logs em cada gerenciamento | Há registros de histórico associados às demandas e proteções nos fluxos entregues. Falta a entrega completa de atividade por gerenciamento, com eventos, autoria, consulta e apresentação definidos. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
@@ -120,7 +120,7 @@ Cada critério desta entrega está registrado abaixo como concluído. As asserti
 
 ## Testes já registrados
 
-A retomada de comentários fez auditoria da base e registrou a proposta. Em 10/10/2026 o usuário confirmou alcance por demanda e participação de qualquer usuário autenticado. Nenhum código/teste alterado ou nova suíte da aplicação executada durante a preparação. Autoria de mensagens novas virá da conta conectada, conservando os registros antigos; critérios e plano estão disponíveis para revisão. Preparação não equivale à entrega concluída.
+Em 10/10/2026 o usuário confirmou alcance por demanda/todos autenticados, proposta/plano e adequações antigas. T1 entregou autoria da sessão e validação de texto, preservando registros. A primeira seleção teve dois resultados negativos por versão incorreta na fixture; correção própria autorizada antes de alterar o teste. Repetição44 PASS e Full782 Java/H2 PASS,0 falhas/erros/skips. Tarefa concluída, feature ainda parcial; detalhes e evidências por assertion no relatório da execução.
 
 Os números abaixo são registros das execuções aprovadas, não uma nova execução realizada para escrever este resumo. Eles não devem ser somados, pois as suítes acumulam testes de entregas anteriores.
 
