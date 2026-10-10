@@ -2,9 +2,9 @@
 
 ## Execution Protocol
 
-Implementar com a skill `tlc-spec-driven`, um entregável por tarefa, teste derivado da spec, gate aprovado e um commit atômico com status/evidência. Verifier independente obrigatório depois de T7. Registrar progresso parcial no diagnóstico; somente depois do PASS registrar requisitos concluídos e informar “incluído no diagnóstico”. Sem push, deploy, banco real, upgrade ou alteração dos gerados preexistentes.
+Implementar com a skill `tlc-spec-driven`, um entregável por tarefa, teste derivado da spec, gate aprovado e um commit atômico com status/evidência. Verifier independente obrigatório depois de T8. Registrar progresso parcial no diagnóstico; somente depois do PASS registrar requisitos concluídos e informar “incluído no diagnóstico”. Sem push, deploy, banco real, upgrade ou alteração dos gerados preexistentes.
 
-**Spec:** spec.md. **Design:** inline na spec, sem documento separado: complexidade média e padrões existentes. **Status:** In Progress. Proposta/defaults/plano e adequações antigas explicitamente aprovados pelo usuário em 10/10/2026 nas duas perguntas. Sete tarefas cabem em um lote; execução inline, sem workers. A verificação final usa um novo agente conforme a TLC.
+**Spec:** spec.md. **Design:** inline na spec, sem documento separado: complexidade média e padrões existentes. **Status:** In Progress. Proposta/defaults/plano e adequações antigas explicitamente aprovados pelo usuário em 10/10/2026 nas duas perguntas. O plano inicial tinha sete tarefas. Dois E2E revelaram uma divergência real de precisão em COM-10/11/23; acrescentada uma correção atômica T7 antes da prova final T8, sem ampliar comportamento ou pedir mudança de expectation. Oito tarefas cabem em um lote; execução inline, sem workers. A verificação final usa um novo agente conforme a TLC.
 
 ## Test Coverage Matrix
 
@@ -34,7 +34,7 @@ Baseline documentada, não reexecutada no planejamento: 747 Java/H2, 881 Vitest,
 ## Execution Plan
 
 ```text
-T1 -> T2 -> T3 -> T4 -> T5 -> T6 -> T7
+T1 -> T2 -> T3 -> T4 -> T5 -> T6 -> T7 -> T8
 ```
 
 Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e prova de navegador. A sequência é estrita. Todas as tarefas dependem somente da anterior; o gate da anterior precisa estar aprovado antes de iniciar.
@@ -143,12 +143,29 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 **Gate:** Build
 **Commit:** feat(comentarios): connect sidebar to demand cards
 
-### T7: Provar o fluxo real de colaboração
+### T7: Conservar a precisão do horário confirmado
+
+**What:** usar microssegundos na criação de comentários para resposta e valor persistido coincidirem exatamente nas duas rotas.
+**Where:** `sistema/src/main/java/com/patp/sistema/service/ComentarioService.java`
+**Supporting files:** ComentarioPrecisaoTests.java e evidências. Correção necessária de COM-10/11/23 encontrada pelos dois E2E de T8; testes de navegador permanecem intactos. Timestamp(6)/datetime(6) existentes, sem migração.
+**Depends on:** T6
+**Reuses:** função gravar comum às duas rotas, LocalDateTime e persistência existentes.
+**Requirements:** COM-10/11/23.
+**Tools:** exec_command/apply_patch; skill tlc-spec-driven.
+**Done when:**
+- [x] Com relógio controlado123456789ns, devolver/persistir123456000ns; GET preserva exatamente esse valor nas duas rotas.
+- [x] Dois casos novos e Full Java/H2 aprovado, nenhum teste antigo alterado/removido/ignorado.
+- [x] Evidências/status/commit atômico; novo horário preciso não modifica mensagens antigas.
+**Tests:** integration
+**Gate:** Full
+**Commit:** fix(comentarios): preserve persisted timestamp precision
+
+### T8: Provar o fluxo real de colaboração
 
 **What:** exercitar a entrega integrada no navegador com dados fictícios e documentar o roteiro humano.
 **Where:** `frontend/e2e/comentarios.spec.js`
 **Supporting files:** docs/OPERACAO.md e evidence.md; cada cenário mantém todas as verificações de estado e persistência.
-**Depends on:** T6
+**Depends on:** T7
 **Reuses:** isolado H2/Edge, duas contas, randomUUID e capturas em TEMP das suítes anteriores.
 **Requirements:** COM-11/12/19/20/22/25/28 e fluxo P1 completo.
 **Tools:** exec_command/apply_patch; skill tlc-spec-driven. Novo Verifier depois do commit final.
@@ -170,7 +187,8 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 | T4 | Um componente de API de comentários no arquivo existente | OK |
 | T5 | Um componente lateral e seus estilos/testes | OK |
 | T6 | Integração do componente Quadro e seus testes | OK |
-| T7 | Fluxo E2E integrado e documentação de uso | OK |
+| T7 | Precisão de uma função de gravação e dois testes de regressão | OK |
+| T8 | Fluxo E2E integrado e documentação de uso | OK |
 
 ## Diagram-Definition Cross-Check
 
@@ -183,6 +201,7 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 | T5 | T4 | T4 | OK |
 | T6 | T5 | T5 | OK |
 | T7 | T6 | T6 | OK |
+| T8 | T7 | T7 | OK |
 
 ## Test Co-location Validation
 
@@ -194,7 +213,8 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 | T4 | API cliente | unit | unit | OK |
 | T5 | Painel React | unit | unit | OK |
 | T6 | Quadro React | unit | unit | OK |
-| T7 | Navegador | e2e | e2e | OK |
+| T7 | Serviço/precisão | integration | integration | OK |
+| T8 | Navegador | e2e | e2e | OK |
 
 ## Adequações antigas autorizadas em 10/10/2026
 

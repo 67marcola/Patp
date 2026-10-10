@@ -246,8 +246,8 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 - **Feature:** comentarios-lateral, proposta preparada em 10/10/2026; branch testes, base 8584e5b. Arquivamento concluído tecnicamente em 09/10/2026, implementação 52c7725..4f977ea.
 - **Completed:** comentários T1–T6 concluídas com gates:830 Java/H2,1000 Vitest,326 MySQL fictício,13 Edge/H2,lint/build TEMP PASS; sem falhas/erros/skips. Quatro expectations E2E aprovadas e adequadas; todos os cenários preservados. Arquivamento anterior concluído/verificado.
-- **In progress:** T7 e Verifier pendentes; feature parcial, nenhum COM Verified antes da revisão. Nenhuma escolha ou aprovação pendente. Progresso incluído no diagnóstico.
-- **Next step:** executar T7:dois fluxos reais de comentários (colaboração/isolamento/arquivo e POST incerto/manual), QA1280x800/390x844,docs,Build,commit atômico; despachar Verifier fresco obrigatório.
+- **In progress:** T8 e Verifier pendentes; feature parcial, nenhum COM Verified antes da revisão. Nenhuma escolha ou aprovação pendente. Progresso incluído no diagnóstico.
+- **Next step:** executar T8:dois fluxos reais de comentários (colaboração/isolamento/arquivo e POST incerto/manual), QA1280x800/390x844,docs,Build,commit atômico; despachar Verifier fresco obrigatório.
 - **Blocker:** nenhum. Não reabrir as autorizações recebidas. Teste com outcome genuinamente errado diferente dos já aprovados exige confirmação TLC.
 - **Environment:** tecnologias AD-024; fixture MySQL TEMP8.0.43 porta33823/datadir creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43 reaberta para326 casos e encerrada com mysqladmin após verificar listener7408, shutdown0/listener ausente. H2/Vitest/Edge via ferramentas atuais; logs TEMP/comentarios-T*.log. Build frontend TEMP/comentarios-T6-build. Preservar gerados.
 - **Uncommitted files:** T6 e documentos serão incluídos no commit atômico após gate aprovado. Gerados target/node_modules/test-results preexistentes preservados fora dos commits; add explícito.

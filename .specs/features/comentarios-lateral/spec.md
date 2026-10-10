@@ -43,7 +43,7 @@ Os comentários já existem no servidor, mas os usuários não conseguem convers
 Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autenticada do frontend. Sem coluna nova. O nome continua guardado como snapshot em `funcionario`.
 
 - GET novo `/api/gerenciamentos/{gerenciamentoId}/demandas/{processoId}/comentarios`: HTTP200, `{gerenciamentoId,processoId,quadroArquivado,demandaArquivada,comentarios}`. Os dois flags são booleanos. Cada comentário tem exatamente `{id,texto,funcionario,dataHora,processoId}`, sem entidade aninhada. Ordenar por dataHora ASC, id ASC. IDs positivos; dataHora ISO local com segundos e fração opcional.
-- POST novo na mesma rota: objeto com apenas `texto` string; HTTP201 com os cinco campos do comentário salvo. Nome, ID, vínculo e horário não são recebidos do cliente. JSON inválido/tipo/campo extra: HTTP400, `Dados da requisição inválidos.`.
+- POST novo na mesma rota: objeto com apenas `texto` string; HTTP201 com os cinco campos do comentário salvo. Nome, ID, vínculo e horário não são recebidos do cliente. Horários novos usam microssegundos, precisão das colunas timestamp(6)/datetime(6) existentes; resposta e consulta mantêm exatamente o valor persistido. JSON inválido/tipo/campo extra: HTTP400, `Dados da requisição inválidos.`.
 - Rotas antigas `/api/processos/{processoId}/comentarios`: manter HTTP200 e shapes anteriores. POST continua aceitando o campo antigo funcionario, mas ignora seu valor e usa a sessão. Validar texto novo; GET de demanda inexistente passa a HTTP404, `Demanda não encontrada.`. Ordenar também por dataHora/ID.
 - Texto inválido no domínio: HTTP400, `Comentário deve conter texto e ter no máximo 10000 caracteres.`. Ausência de quadro: HTTP404, `Gerenciamento não encontrado.`. Demanda ausente ou de outro quadro: HTTP404, `Demanda não encontrada.`.
 - Quadro arquivado no envio: HTTP409, `Gerenciamento arquivado. Restaure-o antes de alterar.`. Demanda arquivada: HTTP409, `Demanda arquivada. Restaure-a antes de alterar.`. API segue autenticação global: ausência HTTP401 `Usuário não autenticado.`; token inválido HTTP401 `Sessão inválida ou expirada.`.
@@ -147,25 +147,25 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 | COM-07 | Enviar | T1/T3 | Implementing |
 | COM-08 | Enviar | T1/T3 | Implementing |
 | COM-09 | Enviar | T1/T3 | Implementing |
-| COM-10 | Enviar | T1/T3 | Implementing |
-| COM-11 | Enviar | T1/T2/T7 | Implementing |
-| COM-12 | Enviar | T1/T3/T7 | Implementing |
+| COM-10 | Enviar | T1/T3/T7 | Implementing |
+| COM-11 | Enviar | T1/T2/T7/T8 | Implementing |
+| COM-12 | Enviar | T1/T3/T8 | Implementing |
 | COM-13 | Enviar | T1/T3 | Implementing |
 | COM-14 | Enviar | T1/T3 | Implementing |
 | COM-15 | Consultar | T2 | Implementing |
 | COM-16 | Consultar | T2/T3 | Implementing |
 | COM-17 | Consultar | T6 | Implementing |
 | COM-18 | Consultar | T4/T5 | Implementing |
-| COM-19 | Consultar | T5/T7 | Implementing |
-| COM-20 | Consultar | T5/T6/T7 | Implementing |
+| COM-19 | Consultar | T5/T8 | Implementing |
+| COM-20 | Consultar | T5/T6/T8 | Implementing |
 | COM-21 | Navegar | T5 | Implementing |
-| COM-22 | Navegar | T5/T6/T7 | Implementing |
-| COM-23 | Navegar | T4/T5 | Implementing |
+| COM-22 | Navegar | T5/T6/T8 | Implementing |
+| COM-23 | Navegar | T4/T5/T7/T8 | Implementing |
 | COM-24 | Navegar | T4/T5 | Implementing |
-| COM-25 | Navegar | T5/T7 | Implementing |
+| COM-25 | Navegar | T5/T8 | Implementing |
 | COM-26 | Navegar | T5/T6 | Implementing |
 | COM-27 | Navegar | T5/T6 | Implementing |
-| COM-28 | Navegar | T5/T7 | Implementing |
+| COM-28 | Navegar | T5/T8 | Implementing |
 
 **Coverage:** 28 total, 28 mapped to proposed tasks, 0 unmapped. Nenhum critério implementado/verificado nesta proposta.
 

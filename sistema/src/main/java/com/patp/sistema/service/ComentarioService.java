@@ -1,6 +1,7 @@
 package com.patp.sistema.service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -68,7 +69,7 @@ public class ComentarioService {
 
         comentario.setTexto(texto);
         comentario.setFuncionario(autor.getNome());
-        comentario.setDataHora(LocalDateTime.now());
+        comentario.setDataHora(LocalDateTime.now().truncatedTo(ChronoUnit.MICROS));
         comentario.setProcesso(processo);
 
         return comentarioRepository.save(comentario);

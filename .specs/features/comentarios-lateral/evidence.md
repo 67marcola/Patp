@@ -129,3 +129,16 @@ Usuário respondeu Sim, adequar essas quatro expectativas (recomendado) à pergu
 ### Fechamento de T6
 
 Gate Build PASS:830 Java/H2 vigente de T3 (servidor inalterado),1000 Vitest,326 MySQL fictício,13/13 Edge/H2 em todos os sete arquivos,lint reconferido e build TEMP vigente de T6. Log completo TEMP/comentarios-T6-e2e.log. Zero falhas/erros/skips/retries. Adequação T6 A–D PASS com mapeamento acima e quatro expectativas antigas autorizadas; contagem anterior13 E2E preservada. T6 concluída como tarefa e incluída no diagnóstico; feature parcial até T7/Verifier. Fixture MySQL inativa após shutdown conferido.
+
+## T7 ? precis?o do hor?rio persistido
+
+Dois E2E novos, intactos, revelaram diverg?ncia real entre POST e consulta: fra??es .0132307/.1210835 retornadas versus .013231/.121084 persistidas. Log negativo TEMP/comentarios-T7-selected.log. As colunas existentes timestamp(6)/datetime(6) conservam microssegundos; a cria??o agora trunca a esse limite antes de salvar, sem alterar mensagens antigas ou esquema. Corre??o necess?ria dos outcomes COM-10/11/23, sem mudar expectations.
+
+Full Java/H2 PASS:832 casos (830+2),0 falhas/erros/skips; BUILD SUCCESS. Log TEMP/comentarios-T7-precisao-h2.log.
+
+| Crit?rio | Assertion e outcome | Resultado |
+| --- | --- | --- |
+| COM-10 | ComentarioPrecisaoTests.java:28 exige HTTP201/200 e texto/autor; :31 exige hora controlada123456000ns e query f?sica exatamente igual, originada de rel?gio123456789ns | PASS nas duas rotas |
+| COM-11/23 | ComentarioPrecisaoTests.java:32 exige GET posterior exatamente igual ao hor?rio confirmado; :33 exige uma ?nica mensagem | PASS nas duas rotas |
+
+Reverse mapping: os dois casos parametrizados :20?33 cobrem COM-10/11/23 com valores literais, banco real de teste e resposta posterior. Adequa??o A?D PASS: expectativas derivadas da preserva??o/contrato, ambos necess?rios para rotas distintas, co-localiza??o/padr?o ApiIntegrationSupport, sem remo??o/skip/SPEC_DEVIATION. T7 conclu?da como tarefa; feature parcial at? T8 e Verifier. Inclu?do no diagn?stico em10/10/2026.
