@@ -156,7 +156,7 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Logs em cada gerenciamento | Há registros de histórico associados às demandas e proteções nos fluxos entregues. Falta a entrega completa de atividade por gerenciamento, com eventos, autoria, consulta e apresentação definidos. |
+| Logs em cada gerenciamento | Em definição, incluído no diagnóstico em10/10/2026: alcance quadro/etapas/demandas e consulta por todos confirmados em AD-030/031. Pontos de gravação conferidos, [decisões/descoberta](features/atividade-gerenciamento/context.md). Aguardando detalhe antes/depois e inclusão de envio de comentários. Funcionalidade ainda não implementada. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |
