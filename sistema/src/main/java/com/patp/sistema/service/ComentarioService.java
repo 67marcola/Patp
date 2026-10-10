@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.patp.sistema.model.Comentario;
 import com.patp.sistema.model.Processo;
+import com.patp.sistema.model.Usuario;
 import com.patp.sistema.exception.ApiException;
 import com.patp.sistema.dto.ComentarioResponse;
 import com.patp.sistema.dto.ConversaComentariosResponse;
@@ -50,6 +51,10 @@ public class ComentarioService {
         Processo processo = processoRepository.findById(processoId)
                 .orElseThrow(() ->
                         new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada."));
+        return gravar(autor, processo, texto);
+    }
+
+    private Comentario gravar(Usuario autor, Processo processo, String texto) {
         if (processo.isArquivado()) {
             throw new ApiException(HttpStatus.CONFLICT,
                     "Demanda arquivada. Restaure-a antes de alterar.");
@@ -67,6 +72,17 @@ public class ComentarioService {
         comentario.setProcesso(processo);
 
         return comentarioRepository.save(comentario);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public ComentarioResponse adicionarNoQuadro(String token, Long gerenciamentoId, Long processoId, String texto) {
+        var autor = sessoes.buscarUsuario(token);
+        guard.bloquear(gerenciamentoId);
+        var processo = processoRepository.findById(processoId)
+                .filter(p -> p.getEtapa().getGerenciamento().getId().equals(gerenciamentoId))
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada."));
+        guard.exigirAtivo(gerenciamentoId);
+        return ComentarioResponse.de(gravar(autor, processo, texto));
     }
 
     @Transactional(readOnly = true)

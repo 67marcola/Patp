@@ -85,9 +85,9 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 **Requirements:** COM-01/02, COM-04–14, COM-16.
 **Tools:** exec_command/apply_patch; skill tlc-spec-driven.
 **Done when:**
-- [ ] POST201 confirma todos os cinco valores; corpo inválido/campos extras/tipos errados não gravam; vínculo e estado verificados sob lock.
-- [ ] Mínimo17 casos novos para o POST, valores físicos, rollback, efeitos e precedências especificadas; preservar todas as rotas antigas.
-- [ ] Build servidor aprovado, dados fictícios explícitos e evidências; nenhum critério declarado concluído antes do Verifier.
+- [x] POST201 confirma todos os cinco valores; corpo inválido/campos extras/tipos errados não gravam; vínculo e estado verificados sob lock.
+- [x] 33 casos novos para o POST, valores físicos, rollback, efeitos e precedências especificadas; preservar todas as rotas antigas.
+- [x] Build servidor/interface aprovado:830 Java/H2,881 Vitest,lint/build TEMP PASS;, dados fictícios explícitos e evidências; nenhum critério declarado concluído antes do Verifier.
 **Tests:** integration
 **Gate:** Build
 **Commit:** feat(comentarios): add validated demand comment endpoint
