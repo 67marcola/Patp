@@ -26,6 +26,7 @@ abstract class ApiIntegrationSupport {
 
     @BeforeEach
     void limparDados() {
+        jdbc.update("delete from atividades");
         jdbc.update("delete from comentarios");
         jdbc.update("delete from historicos");
         jdbc.update("delete from processos");
@@ -76,6 +77,14 @@ abstract class ApiIntegrationSupport {
     protected java.util.Map<String, Object> conteudoPersistido() {
         java.util.Map<String, Object> dados = new java.util.LinkedHashMap<>();
         for (String tabela : new String[]{"etapas", "processos", "comentarios", "historicos"}) {
+            dados.put(tabela, jdbc.queryForList("select * from " + tabela + " order by id"));
+        }
+        return dados;
+    }
+
+    protected java.util.Map<String, Object> conteudoComAtividade() {
+        var dados = conteudoPersistido();
+        for (String tabela : new String[]{"gerenciamentos", "atividades"}) {
             dados.put(tabela, jdbc.queryForList("select * from " + tabela + " order by id"));
         }
         return dados;

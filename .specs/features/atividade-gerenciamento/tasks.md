@@ -78,6 +78,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T2: Gravar diário na transação atual
 
+**Status:** Implemented em10/10/2026;853 Java PASS,13 novos. Verificação independente pendente.
+
 **What**: Criar writer com diferenças e persistência atômica; repositório e tipos são suporte deste único entregável.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/AtividadeRegistroService.java`
 **Depends on**: T1
@@ -86,8 +88,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo10 casos de diferenças, null, literal10000, vínculo único/mesmo quadro e rollback; limpeza mecânica em ApiIntegrationSupport e snapshot adicional dos novos testes.
 **Gate**: java
 **Done when**:
-- [ ] Writer exige transação existente, não autoriza payload de cliente nem grava texto de comentário; diferenças ordenadas/snapshots preservados.
-- [ ] Persistência H2 e rollback aprovados; baseline840 conservada e gate java PASS.
+- [x] Writer exige transação existente, não autoriza payload de cliente nem grava texto de comentário; diferenças ordenadas/snapshots preservados.
+- [x] Persistência H2 e rollback aprovados; baseline840 conservada e gate java PASS.
 **Commit**: feat(atividade): record transactional changes
 
 ### T3: Registrar criação do quadro

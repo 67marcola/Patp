@@ -156,7 +156,7 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Logs em cada gerenciamento | Em andamento, incluído no diagnóstico em10/10/2026. T1 Implemented: entidade com snapshots escalares, vínculo ao quadro/único ao histórico, JSON longo e micros; Maven test-compile PASS. [Evidência](features/atividade-gerenciamento/evidence.md). Próxima T2: writer e provas de persistência/rollback.39 critérios/18 tarefas aprovados; nenhum Verified antes dos gates completos e Verifier. |
+| Logs em cada gerenciamento | Em andamento, incluído no diagnóstico em10/10/2026. T1–T2 Implemented: entidade/writer transacional, snapshots, JSON longo/micros, vínculo único/mesmo quadro e rollback. Compile e853 Java/H2 (13 novos),0 falhas/erros/skips. [Evidência](features/atividade-gerenciamento/evidence.md). Próxima T3 criação do quadro.39 critérios/18 tarefas aprovados; nenhum Verified antes dos gates completos e Verifier. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |
