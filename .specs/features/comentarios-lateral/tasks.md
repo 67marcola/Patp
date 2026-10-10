@@ -4,7 +4,7 @@
 
 Implementar com a skill `tlc-spec-driven`, um entregável por tarefa, teste derivado da spec, gate aprovado e um commit atômico com status/evidência. Verifier independente obrigatório depois de T8. Registrar progresso parcial no diagnóstico; somente depois do PASS registrar requisitos concluídos e informar “incluído no diagnóstico”. Sem push, deploy, banco real, upgrade ou alteração dos gerados preexistentes.
 
-**Spec:** spec.md. **Design:** inline na spec, sem documento separado: complexidade média e padrões existentes. **Status:** In Progress. Proposta/defaults/plano e adequações antigas explicitamente aprovados pelo usuário em 10/10/2026 nas duas perguntas. O plano inicial tinha sete tarefas. Dois E2E revelaram uma divergência real de precisão em COM-10/11/23; acrescentada uma correção atômica T7 antes da prova final T8, sem ampliar comportamento ou pedir mudança de expectation. Oito tarefas cabem em um lote; execução inline, sem workers. A verificação final usa um novo agente conforme a TLC.
+**Spec:** spec.md. **Design:** inline na spec, sem documento separado: complexidade média e padrões existentes. **Status:** Complete. Proposta/defaults/plano e adequações antigas explicitamente aprovados pelo usuário em 10/10/2026 nas duas perguntas. O plano inicial tinha sete tarefas. Dois E2E revelaram uma divergência real de precisão em COM-10/11/23; acrescentada uma correção atômica T7 antes da prova final T8, sem ampliar comportamento ou pedir mudança de expectation. Oito tarefas cabem em um lote; execução inline, sem workers. A verificação final usa um novo agente conforme a TLC.
 
 ## Test Coverage Matrix
 
@@ -250,3 +250,7 @@ Usuário respondeu Sim, adequar esses testes (recomendado) à descrição concre
 - QuadroArquivo.test.jsx:35: lista exata Comentários, Restaurar; :58: somente Comentários nos casos inelegíveis, mantendo todas as restrições de retirada/restauração.
 
 São duas classes Java e seis expressões em três arquivos JSX. Novos testes de autoria/multiusuário e consulta serão acrescentados nas tarefas correspondentes. Nenhum teste é removido, ignorado ou reduzido.
+
+## Technical Completion
+
+T1-T9 complete, revision2 PASS, 28/28 COM Verified, 7/7 mutants killed, validate_state exit0. Human UAT pending separately. Evidence and diagnostic updated on 2026-10-10.

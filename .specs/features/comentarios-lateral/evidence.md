@@ -1,6 +1,6 @@
 # Comentários por demanda — evidências de execução
 
-**Estado:** T1–T8 concluídas como tarefas com gates aprovados. Feature parcial até Verifier independente. As seções anteriores preservam os checkpoints históricos, inclusive autorizações resolvidas. Base de planejamento 3a5934c.
+**Estado:** T1–T9 concluídas;28/28 critérios e bordas verificados independentemente na revisão2, PASS. As seções de execução preservam os checkpoints históricos, inclusive autorizações e falhas resolvidas. Base de planejamento3a5934c, último commit de tarefa3831104.
 
 ## Autorizações
 
@@ -185,3 +185,9 @@ T9 acrescenta quatro combinações modernas em ComentarioEnvioTests e quatro em 
 Reverse mapping: os oito casos adicionados derivam de COM-14 e decisões de arquivo COM-07/08, com efeitos COM-10/11/12. Testes exercitam transação real/estado físico em ambas as ordens, sem assertions de ordem de mocks. Camada integration co-localizada e padrões ApiIntegrationSupport preservados; nenhuma exclusão/skip/SPEC_DEVIATION. Adequação completa depende dos gates abaixo e do sensor independente após commit.
 
 Full840 Java/H2 e seleção336 MySQL fictícia PASS,0 falhas/erros/skips em TEMP/comentarios-T9-h2.log e comentarios-T9-mysql.log. Acréscimo oito casos, todos os anteriores preservados. Sem alteração de aplicação/interface/contratos;1000 Vitest,15 Edge/H2,lint/build de T8 e da primeira revisão continuam evidência desse mesmo código. Adequação T9 A–D PASS para a tarefa, com mapeamento acima. Feature permanece parcial enquanto validation.md apresenta FAIL rodada1; nova revisão/sensor obrigatórios após commit. L-006/L-007 registradas automaticamente pelo Verifier e preservadas. Incluído no diagnóstico em10/10/2026.
+
+## Fechamento técnico independente
+
+Revisão2 PASS em validation.md:28/28 critérios e bordas,840 Java/H2,1000 Vitest,336 MySQL fictício,15 Edge/H2,lint/build,zero falhas/erros/skips. Gates completos repetidos independentemente, logs TEMP/cv2877ba. Sensor7/7 killed incluindo exatamente M7; controles102 Java/76 API antes/depois PASS. HEAD/porcelain e4.147 hashes reais preservados, fontes scratch descartadas e nenhum processo próprio residual. Relatório conserva integralmente a revisão1 negativa, seu probe e lições candidatas; nenhum resultado negativo apagado. validate_state executado pelo Verifier e por root:0 erros.
+
+Root encerrou somente a fixture MySQL própria: identidade atual22852/name/datadir/port33823 conferida; mysqladmin shutdown0,listener ausente. Nenhum banco real utilizado. Todos os28 critérios registrados no diagnóstico em10/10/2026 como Concluído e verificado — tudo ok. Aceitação humana ainda pendente, com roteiro em docs/OPERACAO.md. Próximo requisito atividade por gerenciamento, com duas perguntas de alcance/consulta aguardando resposta.
