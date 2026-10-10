@@ -6,13 +6,16 @@
 
 - AD-030: registrar automaticamente alterações de quadro, etapas e demandas, incluindo movimentos, encerramentos e arquivo/restauração. Mostrar o que aconteceu, alvo, autor da conta e horário.
 - AD-031: qualquer usuário autenticado consulta, inclusive arquivados. Registros preservados, sem edição/exclusão pela interface. Dados antigos mostrados como estão, sem inventar autores ou acontecimentos.
+- AD-032: edições mostram os campos alterados com valor anterior e novo, além de autor e horário. Históricos antigos conservam somente o detalhe existente.
+- AD-033: envio de comentário entra como Comentário adicionado, com demanda, autor e horário; a mensagem completa permanece na conversa.
 - Tecnologias AD-024 mantidas. Implementação local e testes fictícios; sem operação no banco real, migração aplicada, push, deploy ou upgrade.
 - Registrar no diagnóstico cada requisito com estado verdadeiro; só concluir após gates e Verifier TLC PASS.
 
-## Perguntas enviadas, ainda sem resposta
+## Respostas recebidas e próxima decisão
 
-1. Edições: recomendado mostrar campo, valor anterior e novo, por exemplo Responsável: Ana → Bruno. Alternativa: apenas ação/autor/horário. Essa escolha determina a precisão do conteúdo a persistir e exibir; os históricos antigos não terão valores inventados.
-2. Comentários: recomendado incluir na atividade apenas Comentário adicionado com demanda/autor/horário. Texto completo permanece na conversa. Alternativa: não incluir envios na atividade. Não decidir pelo silêncio.
+As duas perguntas acima foram respondidas explicitamente com as recomendações, registradas em AD-032/033. Não estão mais pendentes.
+
+Proposta para a compatibilidade: impedir novas escritas manuais no histórico antigo, mantendo sua consulta e todos os registros existentes. Há três cenários antigos que aceitam essa escrita: HistoricoArchiveTests (um cenário), DemandaArquivoHistoricoApiTests (um) e DemandaArquivoHistoricoTests (um cenário parametrizado em dois estados). A alteração exige decisão do usuário e autorização exata para os testes; ainda não aplicada. A proposta completa está em spec.md/design.md/tasks.md, todos Draft até confirmação.
 
 ## Descobertas no código
 
@@ -31,4 +34,10 @@ Caminhos acima estão em sistema/src/main/java/com/patp/sistema/ (service/contro
 
 ## Próximo passo
 
-Receber as duas escolhas restantes, precisar eventos/valores, repetição sem mudança, origem de registros antigos e consulta/filtros. Produzir spec testável e plano atômico TLC com evidência por camada. Esta descoberta é preparação, não conclusão da atividade.
+Confirmar a proposta concreta e a compatibilidade da escrita histórica manual. Precisar os testes antigos antes de qualquer mudança de outcome. Esta preparação não conclui a atividade; nenhum código do sistema foi alterado nesta retomada.
+
+Perguntas enviadas nesta retomada: proposta/defaults; bloqueio da escrita manual com as três adequações T13; preferência entre três agentes sequenciais7/7/4 e execução nesta conversa. Todas aguardam resposta. Não iniciar agentes de implementação por inferência; o Verifier final é obrigatório independente dessa preferência.
+
+## Gates da proposta em10/10/2026
+
+validate_spec.py --strict: exit0,0 erros/avisos;39 critérios com IDs e defaults explícitos. validate_tasks.py: exit0,0 erros, um aviso esperado de Tests:none na entidade T1, conferido contra a matriz (compile).18 tarefas com dependências e testes co-localizados; tabelas de consistência preenchidas. git diff --check restrito aos documentos alterados: exit0. Esses resultados validam os documentos; nenhum teste do sistema foi reexecutado nesta preparação e nenhum requisito está concluído.

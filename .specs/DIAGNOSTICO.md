@@ -152,11 +152,11 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 
 ## O que ainda falta nos requisitos originais
 
-**Próximo requisito:** registros de atividade por gerenciamento. Usuário confirmou lista automática de alterações de quadro, etapas e demandas, com autor/horário e consulta pelos autenticados, inclusive arquivados. Registros preservados e dados antigos sem autoria/eventos inventados. AD-030/031 na memória; preparar contratos e esclarecer detalhes antes da implementação. Decisões registradas, funcionalidade ainda não implementada.
+**Próximo requisito:** registros de atividade por gerenciamento. AD-030–033 confirmam alterações de quadro/etapas/demandas, autor/horário, consulta inclusive arquivados, antes/depois nas edições e envio de comentários sem texto da mensagem. Proposta com39 critérios e18 tarefas preparada; validadores estruturais aprovados em10/10/2026, com aviso esperado da entidade sem testes diretos conforme matriz. Confirmar compatibilidade da escrita histórica manual e forma de execução antes de implementar. Incluído no diagnóstico; funcionalidade ainda não implementada nem concluída.
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Logs em cada gerenciamento | Em definição, incluído no diagnóstico em10/10/2026: alcance quadro/etapas/demandas e consulta por todos confirmados em AD-030/031. Pontos de gravação conferidos, [decisões/descoberta](features/atividade-gerenciamento/context.md). Aguardando detalhe antes/depois e inclusão de envio de comentários. Funcionalidade ainda não implementada. |
+| Logs em cada gerenciamento | Em preparação, incluído no diagnóstico em10/10/2026: AD-030–033 confirmam quadro/etapas/demandas, consulta por todos, antes/depois dos campos alterados e envio de comentários sem repetir mensagens. [Decisões/descoberta](features/atividade-gerenciamento/context.md); proposta em spec.md/design.md/tasks.md da mesma pasta. Compatibilidade da escrita manual antiga depende de confirmação. Funcionalidade ainda não implementada nem concluída. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |
