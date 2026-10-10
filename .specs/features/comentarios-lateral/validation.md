@@ -1,6 +1,123 @@
 # Comentários por demanda Validation
 
-**Result**: FAIL. Os gates completos passam, mas o sensor revelou cobertura insuficiente da concorrência do POST novo em COM-14. A implementação íntegra passou a prova adicional; a falha é de discriminação dos testes existentes, sem defeito reproduzido na implementação íntegra.
+**Result**: PASS. A correção T9 fechou a lacuna de concorrência do POST novo. Os28 critérios e bordas têm evidências de outcomes; todos os gates completos passaram e o mesmo mutante M7 agora é detectado pelos testes reais.
+
+**Revisão atual:** 2,2026-10-10. **Verifier:** /root/verifier_comentarios, independente, autor ≠ verificador, sem autoria de aplicação/testes.
+**HEAD avaliado:** `38311046ed7c4d1fbe7309369ee5fa5021f2e707`, branch testes.
+**Diff adicional:** `50da6da..3831104`; feature completa `8584e5b..3831104`, implementação `3a5934c..3831104`.
+**Spec:** `.specs/features/comentarios-lateral/spec.md`.
+**Status técnico:**28/28 critérios completos;0 gaps atuais;0 gaps de precisão;7/7 mutações killed,0 survived. UAT humano continua pendente separado.
+A revisão1 detalhada permanece abaixo como histórico, incluindo seu veredicto negativo, mutante sobrevivente, probe e logs. Nenhuma prova negativa foi removida.
+
+## Correção e outcomes rederivados
+
+T9 `3831104` ampliou somente duas classes de teste. O diff preserva os oito parâmetros antigos, as assertions e os outcomes. Acrescenta quatro parâmetros modernos em cada disputa e encaminha esses casos a adicionarNoQuadro; nenhuma aplicação, frontend, E2E, expectativa, timeout ou retry foi alterado. T1–T8 mantêm seus commits e T9 inclui tarefa/status/evidência no commit. validate_spec e validate_tasks independentes:0 erros/avisos.
+
+| Novos casos de COM-14 | Outcome exigido pela spec | Assertions reais e execução |
+| --- | --- | --- |
+| Quadro: arquivo, comentário primeiro | Mensagem aceita antes do arquivo; depois quadro arquivado, versão somente+1, processos/histórico iguais | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:104` parâmetro true,true,true; :109 nova rota; :112 espera200ms; :116 texto Mensagem/autor Dono exatos; :117 quadro arquivado/versão inicial+1/processos iguais/histórico vazio. H2/MySQL PASS |
+| Quadro: arquivo primeiro | Espera arquivo confirmar e recusa409/Gerenciamento arquivado. Restaure-o antes de alterar.; nenhum comentário | Mesmo arquivo :104 true,false,true; :112 espera; :114 status409/mensagem exata; :116 lista vazia; :117 efeitos apenas de arquivo. H2/MySQL PASS |
+| Quadro: restauração, comentário primeiro | Quadro ainda arquivado recusa409/mensagem exata; depois restauração sem comentário | Mesmo arquivo :104 false,true,true; :115 recusada409/mensagem exata; :116 lista vazia; :117 quadro ativo/versão inicial+1/processos/histórico iguais. H2/MySQL PASS |
+| Quadro: restauração primeiro | Espera restauração e aceita mensagem em quadro ativo sem incremento extra da versão | Mesmo arquivo :104 false,false,true; :112 espera; :114 future termina com sucesso; :116 Mensagem/Dono exatos; :117 ativo/versão inicial+1/processos/histórico iguais. H2/MySQL PASS |
+| Demanda: arquivo, comentário primeiro | Mensagem literal aceita antes de arquivar;14 campos iguais, flag arquivado, versão1, somente evento ARQUIVAMENTO | `sistema/src/test/java/com/patp/sistema/DemandaArquivoComentarioTests.java:44` true,true,true; :29 encaminha nova rota; :51 espera200ms; :56 DTO igual/flagtrue/versão1; :58–:61 texto literal/Dono/vínculo/evento exatos. H2/MySQL PASS |
+| Demanda: arquivo primeiro | Espera arquivo e recusa409/Demanda arquivada. Restaure-a antes de alterar.; nenhum comentário nem alteração associada adicional | Mesmo arquivo :44 true,false,true; :51 espera; :54 status409/mensagem/estado igual ao confirmado; :58–:60 listas vazias; :56/:61 efeitos somente de arquivo. H2/MySQL PASS |
+| Demanda: restauração, comentário primeiro | Demanda ainda arquivada recusa409/mensagem exata; restauração depois, nenhum comentário | Mesmo arquivo :44 false,true,true; :55 recusada409/mensagem exata; :56 DTO igual/flagfalse/versão1; :58–:60 vazio; :61 somente RESTAURACAO. H2/MySQL PASS |
+| Demanda: restauração primeiro | Espera restauração, aceita texto literal/Dono/vínculo correto,14 campos iguais/flagfalse/versão1, somente evento RESTAURACAO | Mesmo arquivo :44 false,false,true; :51 espera; :54 sucesso; :56 DTO/flag/versão; :58–:61 mensagem/evento exatos. H2/MySQL PASS |
+
+**Reverse mapping atual:** os oito casos novos reivindicam COM-14 e T9 Done when; os quatro de quadro também COM-07/10/12 e os de demanda COM-08/10/11/12. As famílias anteriores e suas associações permanecem conforme tabela histórica, com apenas35→39 casos em ComentarioEnvioTests e6→10 em DemandaArquivoComentarioTests. Seleção das duas classes:49=39+10. Não há testes novos sem requisito ou helper contado como teste. Feature:93 casos Java novos desde747,119 Vitest novos desde881,2 E2E novos desde13. Nenhum teste/assertion antigo excluído, enfraquecido ou ignorado.
+
+## Spec-Anchored Acceptance Criteria
+
+Na revisão2, rederivei os outcomes novos de COM-14 das assertions e dos parâmetros de T9. Conferi o diff para todas as demais evidências: aplicação, frontend/E2E e assertions existentes não mudaram; todos os gates completos foram reexecutados independentemente. A tabela atualiza a evidência de COM-14 e mantém as citações válidas dos outros27 critérios, com execução aprovada neste HEAD. PASS exige valores/estado definidos na spec.
+
+| Critério | Outcome exato definido na spec | file:line + assertion | Resultado |
+| --- | --- | --- | --- |
+| COM-01 | GET/POST nas duas rotas: ausência401/Usuário não autenticado.; token inválido401/Sessão inválida ou expirada.; sem efeitos | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:89`: `status().isUnauthorized()`, `jsonPath("$.erro").value(invalida?...)`, persistido igual; `ComentarioConsultaTests.java:66` e `ComentarioDemandaApiTests.java:68` + :30 cobrem novas rotas com os mesmos valores | PASS |
+| COM-02 | Comum/criador/admin enviam em ativos; quadro sem criador permite envio | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:43` e :46: HTTP200, nome real, texto e vínculo físicos nos cinco parâmetros; `ComentarioDemandaApiTests.java:41` e :45: HTTP201 e valores físicos nos quatro parâmetros | PASS |
+| COM-03 | Campo funcionario falso antigo ignorado; nome da sessão devolvido e persistido | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:32`, :43/:46: corpo Autor falso, `value(autor.getNome())` e `containsEntry("funcionario",autor.getNome())`; :95 autores Ana/Bia exatos | PASS |
+| COM-04 | Ausente/null/vazio/String.isBlank/>10000 UTF-16:400/mensagem de limite, nenhuma gravação;10000 aceito literalmente | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:55`–:70:400/mensagem exata, estado igual; string/emoji10000 `containsExactly(texto)`; `ComentarioDemandaApiTests.java:55`, :59/:63 confirma rota nova | PASS |
+| COM-05 | JSON/tipo/campo extra inválido:400/Dados da requisição inválidos.; nenhuma gravação | `sistema/src/test/java/com/patp/sistema/ComentarioDemandaApiTests.java:49`–:51: dez corpos incluindo objeto/array/boolean/número/autor/campo extra; helper :30/`:31` exige código/mensagem exatos e estado igual | PASS |
+| COM-06 | Quadro ausente404/Gerenciamento não encontrado.; demanda ausente/externa404/Demanda não encontrada.; sem vazamento/efeito | `sistema/src/test/java/com/patp/sistema/ComentarioConsultaTests.java:57`:404/mensagem exata/`$.comentarios` ausente/estado igual; :61 GET antigo404; `ComentarioDemandaApiTests.java:68`–:69 + :30/:31 exige POST novo404 e estado igual | PASS |
+| COM-07 | Quadro arquivado impede POST antigo/novo409/Gerenciamento arquivado. Restaure-o antes de alterar.; sem efeito | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:82`–:84: comum/admin409/mensagem/estado igual; `ComentarioDemandaApiTests.java:68`–:69 + :30/:31 para novo | PASS |
+| COM-08 | Demanda arquivada em quadro ativo impede POST409/Demanda arquivada. Restaure-a antes de alterar.; sem efeito | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:82`–:84 e `ComentarioDemandaApiTests.java:68`–:69/:30/:31; `frontend/e2e/comentarios.spec.js:103` exige mensagem, rascunho, lista e snapshot inalterados | PASS |
+| COM-09 | Em andamento/Concluido/Cancelado/status desconhecido permitem mensagem sem normalizar status | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:75`–:76:200, processos iguais e texto físico exato, incluindo null/vazio; `ComentarioDemandaApiTests.java:74`:201/processos iguais nos quatro estados | PASS |
+| COM-10 | Uma mensagem, ID positivo, texto literal, sessão, horário servidor, demanda correta; POST novo201/antigo200 e valor persistido confirmado | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:43`–:49; `ComentarioDemandaApiTests.java:41`–:46: status, cinco valores, ID positivo, horários entre limites e count2 com um antigo; `ComentarioPrecisaoTests.java:32`–:34:123456789ns→123456000ns, resposta=banco=GET e count1 em ambas as rotas | PASS |
+| COM-11 | Comentários anteriores, nomes/textos antigos acima do limite, conservados após consulta/envio/arquivo/restauração | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:49`: linhas anteriores iguais; `ComentarioConsultaTests.java:29`–:35: texto>10000/nome/data/ID/vínculo exatos e estado igual; `frontend/src/services/apiComentarios.test.js:15`: antigo>10000/autor vazio aceitos; `frontend/e2e/comentarios.spec.js:74`–:82: lista flat inteira igual antes/depois de reload/arquivo/restauração | PASS |
+| COM-12 | 14 campos, arquivo, etapa, versão, contagens e histórico não mudam ao comentar | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:50`: todas as linhas de processos/quadro/etapas/históricos iguais; `ComentarioDemandaApiTests.java:47` idem; `frontend/e2e/comentarios.spec.js:71`/:74: estrutura inteira `toEqual(c.inicial)`, histórico inteiro `toEqual(c.eventos)` | PASS |
+| COM-13 | Falha física reverte transação sem inserir ou mudar associados | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:100`–:101 e `ComentarioDemandaApiTests.java:78`: CHECK físico recusa Falha; `assertThatThrownBy(...).isInstanceOf(RuntimeException.class)`, conteúdo de tabelas/quadro igual ao anterior | PASS |
+| COM-14 | Disputas de arquivo/restauração de quadro e demanda nas duas ordens, rotas antiga/nova: espera lock, recusa409 quando arquivado, aceita após restauração, apenas efeitos permitidos | `sistema/src/test/java/com/patp/sistema/ComentarioEnvioTests.java:104` oito parâmetros; :109 chama adicionarNoQuadro nos quatro novos; :112 exige TimeoutException200ms; :114/:115 exigem409/mensagem exata ou sucesso; :116/:117 exigem texto/autor/processos/histórico/arquivo/versão exatos. `sistema/src/test/java/com/patp/sistema/DemandaArquivoComentarioTests.java:44` oito parâmetros e :29 helper com ambas rotas; :51 exige TimeoutException200ms; :54/:55 código409/mensagem ou sucesso; :56–:61 DTO14campos/flags/versão/texto/autor/vínculo/histórico exatos. M7 agora detectado pelos testes reais ampliados | PASS |
+| COM-15 | GET200/envelope/flags reais/lista exclusiva ordenada dataHora/ID; vazio e arquivados | `sistema/src/test/java/com/patp/sistema/ComentarioConsultaTests.java:28`–:35: todos os valores e flags nos quatro pares; :40–:45 IDs/textos ordenados e nenhuma mensagem da outra demanda; :51 IDs/flags/lista vazia exatos nas duas contas relevantes | PASS |
+| COM-16 | Apenas cinco campos do envelope/registro, sem entidades/senha/hash/token | `sistema/src/test/java/com/patp/sistema/ComentarioConsultaTests.java:31`–:34: ausência explícita de senha/token/processo e `containsExactlyInAnyOrderElementsOf(...)` nos dois níveis; `ComentarioDemandaApiTests.java:43` exige exatamente cinco chaves POST | PASS |
+| COM-17 | Comentários oferecidos a conectados em cartões ativos/arquivo/encerrados/desconhecidos | `frontend/src/pages/QuadroComentarios.test.jsx:20`–:21: seis combinações, leitor, lista exata de ação Comentários, URL da demanda e campo presente somente ativo; adequações antigas preservam listas exatas de mutações | PASS |
+| COM-18 | Identifica número/cliente; loading/lista/vazio; falha mostra erro e Tentar novamente, não aplica resposta inválida | `frontend/src/pages/ComentariosDemanda.test.jsx:20`–:22: nome/cliente/status/vazio exatos; :31 alerta, ausência campo e apenas GET/GET no retry; `frontend/src/services/apiComentarios.test.js:39` rejeita IDs/flags/lista/campos/ordem inválidos com mensagem e status200 | PASS |
+| COM-19 | Texto literal/quebras, autor,dd/MM/yyyy HH:mm:ss local,time.dateTime ISO; HTML não executado | `frontend/src/pages/ComentariosDemanda.test.jsx:27`: texto literal/autor/29/02/2020 12:34:56/ISO123456789, nenhum img; `frontend/e2e/comentarios.spec.js:49`–:50/:65/:71 exige texto exato,time/autor,pre-wrap e nenhum img | PASS |
+| COM-20 | Flags da conversa arquivada: motivo readonly, sem campo/envio | `frontend/src/pages/ComentariosDemanda.test.jsx:35`: três pares de flags, campo/envio ausentes e motivo exato; :63 consulta manual descobre arquivo/conserva rascunho; `frontend/e2e/comentarios.spec.js:79`/:82/:104 confirma ambos arquivos | PASS |
+| COM-21 | Vazio/whitespace/>10000 UTF-16 bloqueia POST, preserva rascunho e anuncia limite; limite válido aceita literal | `frontend/src/pages/ComentariosDemanda.test.jsx:38`: cinco inválidos, erro exato, campo igual, uma única chamada GET; :41 emoji10000/NBSP válido, campo limpo e conteúdo literal | PASS |
+| COM-22 | Enquanto POST pendente, apenas uma requisição; campo/fechar/troca/mutações/Voltar/Sair bloqueados | `frontend/src/pages/ComentariosDemanda.test.jsx:45`: todos os controles disabled, submit/Escape sem efeitos; `QuadroComentarios.test.jsx:38`: Voltar/troca/submit sem ação, GET/GET/POST exatos; :53–:54 Sair disabled→liberado; `frontend/e2e/comentarios.spec.js:95`–:96 mesmos controles reais/posts1 | PASS |
+| COM-23 | Só201/contrato confirmado: cinco valores incluídos uma vez, campo limpo, lateral aberta | `frontend/src/services/apiComentarios.test.js:42`–:43: objeto inteiro igual, só texto enviado e sessão; `frontend/src/pages/ComentariosDemanda.test.jsx:46`–:47: lista2, ID22,texto/autor Bia/time exatos, campo vazio/lateral visível; `frontend/e2e/comentarios.spec.js:56`–:59 HTTP201/cinco campos/vínculo/horário/campo vazio | PASS |
+| COM-24 | HTTP/rede/JSON/contrato não confirmado conserva texto/lista; aviso; novo POST bloqueado até GET válido; sem retry | `frontend/src/pages/ComentariosDemanda.test.jsx:54`: cinco falhas, campo Nova, lista1, envio disabled, aviso exato, GET/POST apenas; `frontend/src/services/apiComentarios.test.js:53`/:56/:59–:63 rejeita campos/status/ID repetido, message/status e chamada única; E2E :98–:100 exige estado conservado depois de resposta perdida e leitura falha | PASS |
+| COM-25 | GET manual substitui lista/flags confirmadas, conserva rascunho/aviso, nenhum POST automático; leitura falha mantém bloqueio | `frontend/src/pages/ComentariosDemanda.test.jsx:55`: lista2, rascunho Nova, envio liberado, aviso, GET/POST/GET; :59 falha mantém lista1/rascunho/bloqueio; :63 descobre arquivo; `frontend/e2e/comentarios.spec.js:100`–:104 confirma persistência real/flags/rascunho/posts1 até reenvio humano deliberado | PASS |
+| COM-26 | Fechar/Escape ocioso fecha e descarta rascunho; foco retorna ao botão original ou Voltar ausente | `frontend/src/pages/QuadroComentarios.test.jsx:26`: painel ausente/foco origem/reabertura vazia nos dois modos; :29 origem removida→foco Voltar; `frontend/e2e/comentarios.spec.js:77` por teclado/mobile, campo descartado | PASS |
+| COM-27 | Troca demanda/quadro/desmontagem descarta conversa/rascunho e não aplica mensagem/erro atrasado | `frontend/src/pages/ComentariosDemanda.test.jsx:72`–:73: dois destinos novos sem campo antigo/Atrasada/alerta; :77 POST sucesso/erro após unmount sem painel/callback indevido; `QuadroComentarios.test.jsx:34` troca de cartão com URLs exatas; :43 quadro novo sem painel/alerta antigos | PASS |
+| COM-28 | Teclado desktop/celular abre/lê/escreve/envia/atualiza/fecha; painel dentro viewport e sem overflow horizontal | `frontend/e2e/comentarios.spec.js:39`–:40/:56/:77/:93–:104: ações com foco/Enter/Escape; :65 limites0..width/height,painel/página sem overflow,pre-wrap, em1280x800 e390x844. Dois cenários PASS; três capturas inspecionadas independentemente | PASS |
+
+
+## Bordas e qualidade atuais
+
+As sete bordas explicitadas na spec mantêm suas assertions na tabela de bordas histórica e foram reexecutadas:10000/10001 UTF-16/emoji; empate por ID; HTML literal/quebras; GET estranho/flags/IDs/ordem; POST status/campo/tipo/vínculo/texto/ID; arquivo entre consulta e envio; GET manual falho após resultado incerto. Todas PASS nesta revisão.
+
+Mudanças cirúrgicas e convenções existentes PASS. Payloads/estado têm assertions sobre os valores especificados, não apenas chamadas. Cobertura por camada agora PASS: domínio/serviço nas duas rotas e concorrência; HTTP happy/edge/error; contrato cliente; lateral/Quadro/App; navegador. Nenhum SPEC_DEVIATION ou skip/disable introduzido. Diretrizes docs/OPERACAO.md:13/:29/:74, manifests e matrix de tasks.md cumpridas; nenhuma AGENTS.md encontrada. Escopo/tecnologias/persistência/funcionalidade inalterados em T9.
+
+## Build completo independente da revisão2
+
+Gates executados sequencialmente na cópia curta `C:/Users/Marco/AppData/Local/Temp/cv2877ba/`, com JDK25.0.2/Maven3.9.16/Node24.15.0/dependências existentes. Sem upgrade, remote ou banco normal.
+
+| Gate | Comando | Outcome |
+| --- | --- | --- |
+| Java/H2 e empacotamento | Em sistema: mvn.cmd -B verify |840 passed,0 failures/errors/skips,exit0 |
+| Vitest completo | Em frontend: npm.cmd test |1000 passed/25 arquivos,0 failed/skipped,exit0 |
+| MySQL fictício e empacotamento | mvn.cmd -B verify, seleção Comentario*Tests,DemandaArquivo*Tests,ConfiguracaoArquivoResponseTests,HistoricoArchiveTests,GerenciamentoApiTests e datasource explícito |336 passed,0 failures/errors/skips,exit0 |
+| Lint | npm.cmd run lint |exit0 |
+| Vite | npm.cmd run build -- --outDir TEMP absoluto próprio |exit0 |
+| Edge/H2 completo | npm.cmd run test:e2e |15 passed/8 arquivos,0 failed/skipped,exit0 na primeira tentativa da revisão2 |
+| Estrutura | validate_spec.py comentarios-lateral; validate_tasks.py comentarios-lateral |0 erros/avisos |
+
+Identidade MySQL novamente conferida ANTES do teste:@@port33823,@@datadir `C:/Users/Marco/AppData/Local/Temp/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql/`,database creral_arquivo_test,@@version8.0.43. URL via SPRING_DATASOURCE_URL,driver/user/password/create-drop/server.port explícitos. Fixture permanece ativa para root; nenhum MySQL configurado ou dados reais usados.
+
+Logs atuais na pasta acima:gate-java-h2.log,gate-vitest.log,mysql-identity.log,gate-mysql.log,gate-lint.log,gate-vite-build.log,gate-e2e.log. Novas capturas do E2E em `C:/Users/Marco/AppData/Local/Temp/creral-comentarios-qa-X4jd8m/` e `C:/Users/Marco/AppData/Local/Temp/creral-comentarios-falha-qa-zP6kIT/`; geometria/teclado/texto/time/readonly/rascunho aprovados pelas assertions reais. A inspeção visual independente da revisão1 e suas capturas estão preservadas; nenhuma mudança visual ocorreu em T9.
+
+## Discrimination Sensor da revisão2
+
+Profundidade crítica,7 falhas semânticas, incluindo EXATAMENTE M7 da revisão1. Cada mutação aplicada/restaurada somente no scratch. Controles antes e depois:102/102 Java/H2 e76/76 API,0 falhas/erros/skips,exit0. Nenhum teste auxiliar novo foi necessário nesta rodada.
+
+| Mutante | file:line original e fault | Outcome atual |
+| --- | --- | --- |
+| M1-session-author | `sistema/src/main/java/com/patp/sistema/service/ComentarioService.java:71`, autoria sessão→Intruso | KILLED:102 executados,24 assertion failures,0 errors/skips,exit1 |
+| M2-utf16-limit | `sistema/src/main/java/com/patp/sistema/service/ComentarioService.java:63`, >10000→>=10000 | KILLED:102 executados,3 assertion failures,0 errors/skips,exit1 |
+| M3-literal-text | `sistema/src/main/java/com/patp/sistema/service/ComentarioService.java:70`, texto→trim | KILLED:102 executados,14 assertion failures,0 errors/skips,exit1 |
+| M4-demand-archive | `sistema/src/main/java/com/patp/sistema/service/ComentarioService.java:59`, remover recusa de demanda arquivada | KILLED:102 executados,8 assertion failures,0 errors/skips,exit1 |
+| M5-conversation-flags | `sistema/src/main/java/com/patp/sistema/service/ComentarioService.java:108`, inverter quadroArquivado | KILLED:102 executados,5 assertion failures,0 errors/skips,exit1 |
+| M6-post-status | `frontend/src/services/api.js:296`, aceitar200 além de201 | KILLED:76 executados,1 failed/75 passed,exit1; `frontend/src/services/apiComentarios.test.js:59` exige rejeição |
+| M7-new-post-prefetch | `sistema/src/main/java/com/patp/sistema/service/ComentarioService.java:81`, inserir processoRepository.findById(processoId) ANTES de guard.bloquear no POST novo, idêntico ao fault anterior | KILLED:102 executados,2 assertion failures/2 errors/0 skips,exit1 |
+
+**Sensor atual:**7/7 killed,0 survived. Os erros de M7 são semânticos/runtime, não compilação/infraestrutura: os controles íntegros102/102 passaram. Nas variantes modernas, ComentarioEnvioTests [6]/[8] e DemandaArquivoComentarioTests [5]/[7] detectaram exceção por versão conflitante já no persistence context após a espera, quebrando409/sucesso exigidos. Assertions relevantes:`ComentarioEnvioTests.java:114` e `DemandaArquivoComentarioTests.java:54`. As quatro variantes antigas de cada classe mantiveram seus resultados. O mesmo fault que sobreviveu94/94 na revisão1 agora falha sem probe adicional.
+
+Logs M1–M7,control-before/after,script sensor.py e sensor-results.json preservados em cv2877ba. O resultado negativo da revisão1 continua sendo evidência histórica e não foi reinterpretado como kill.
+
+## Isolamento e fechamento atuais
+
+Depois dos gates e depois de todos os processos do sensor encerrados/descarte das fontes scratch:HEAD3831104 igual,git status --porcelain byte a byte igual e4147 hashes SHA256 de sistema/frontend iguais à nova baseline. Gerados reais target/node_modules/test-results preservados. Sem stash,clean/reset,mutação de aplicação/testes reais,processos java/node próprios residuais ou commit feito pelo Verifier. Removidas apenas pastas próprias TEMP sistema/frontend/vite-build; logs/manifestos/histórico original da revisão1 preservados.
+
+Evidência em head/porcelain-before.txt,head/porcelain-sensor-before/after.txt,real-hashes-before.json,real-hashes-sensor-before/after.json na pasta cv2877ba. A escrita deste relatório é a alteração autorizada posterior à conferência de isolamento.
+
+COM-14 está fechado; nenhum fix plan atual pendente. A tarefa T9 e o sensor resolveram o único gap da revisão1. Resultado técnico PASS; root pode registrar os28 requisitos Verified e conclusão no diagnóstico. Aceitação humana e a escolha da próxima atividade continuam aguardando resposta, sem resultado humano presumido.
+
+validate_state.py executado após esta escrita: exit0,0 erros; PASS atual com evidência reconhecido. Revisão2 sem novo sinal de falha/sobrevivência/precisão/desvio: nenhuma nova lição registrada. L-006/L-007 permanecem candidatas com grounding da revisão1, sem promoção por repetir a mesma feature. Abaixo está o histórico integral da revisão anterior.
+
+
+## Histórico detalhado da revisão1 (50da6da)
+
+**Veredicto da revisão1:** FAIL. Os gates completos passam, mas o sensor revelou cobertura insuficiente da concorrência do POST novo em COM-14. A implementação íntegra passou a prova adicional; a falha é de discriminação dos testes existentes, sem defeito reproduzido na implementação íntegra.
 
 **Date:** 2026-10-10. **Verifier:** `/root/verifier_comentarios`, agente fresco independente, autor ≠ verificador. Primeira revisão deste corte.
 **Spec:** `.specs/features/comentarios-lateral/spec.md`.

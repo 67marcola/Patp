@@ -1,6 +1,6 @@
 # Comentários por demanda Specification
 
-**Data:** 10/10/2026. **Status:** aprovada e em implementação. **Base:** 8584e5b, branch testes. Usuário confirmou alcance/participantes e depois respondeu Sim, seguir com a proposta (recomendado) e Sim, adequar esses testes (recomendado) às duas perguntas concretas. Complexidade média: reutilizar persistência, sessões, lock e padrões existentes, sem nova tecnologia ou schema. Design separado dispensado; decisões técnicas descritas abaixo.
+**Data:** 10/10/2026. **Status:** concluída e verificada. **Base:** 8584e5b, branch testes. Usuário confirmou alcance/participantes e depois respondeu Sim, seguir com a proposta (recomendado) e Sim, adequar esses testes (recomendado) às duas perguntas concretas. Complexidade média: reutilizar persistência, sessões, lock e padrões existentes, sem nova tecnologia ou schema. Design separado dispensado; decisões técnicas descritas abaixo.
 
 ## Problem Statement
 
@@ -8,9 +8,9 @@ Os comentários já existem no servidor, mas os usuários não conseguem convers
 
 ## Goals
 
-- [ ] Consultar e enviar comentários da demanda pelo cartão, com autor e horário.
-- [ ] Preservar dados anteriores, estado da demanda e arquivo somente para consulta.
-- [ ] Provar critérios, falhas e concorrência com testes e Verifier independente; incluir conclusão no diagnóstico.
+- [x] Consultar e enviar comentários da demanda pelo cartão, com autor e horário.
+- [x] Preservar dados anteriores, estado da demanda e arquivo somente para consulta.
+- [x] Provar critérios, falhas e concorrência com testes e Verifier independente; incluir conclusão no diagnóstico.
 
 ## Out of Scope
 
@@ -138,40 +138,40 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| COM-01 | Enviar | T1/T2/T3 | Implementing |
-| COM-02 | Enviar | T1/T3 | Implementing |
-| COM-03 | Enviar | T1 | Implementing |
-| COM-04 | Enviar | T1/T3 | Implementing |
-| COM-05 | Enviar | T3 | Implementing |
-| COM-06 | Enviar | T2/T3 | Implementing |
-| COM-07 | Enviar | T1/T3 | Implementing |
-| COM-08 | Enviar | T1/T3 | Implementing |
-| COM-09 | Enviar | T1/T3 | Implementing |
-| COM-10 | Enviar | T1/T3/T7 | Implementing |
-| COM-11 | Enviar | T1/T2/T7/T8 | Implementing |
-| COM-12 | Enviar | T1/T3/T8 | Implementing |
-| COM-13 | Enviar | T1/T3 | Implementing |
-| COM-14 | Enviar | T1/T3/T9 | Implementing |
-| COM-15 | Consultar | T2 | Implementing |
-| COM-16 | Consultar | T2/T3 | Implementing |
-| COM-17 | Consultar | T6 | Implementing |
-| COM-18 | Consultar | T4/T5 | Implementing |
-| COM-19 | Consultar | T5/T8 | Implementing |
-| COM-20 | Consultar | T5/T6/T8 | Implementing |
-| COM-21 | Navegar | T5 | Implementing |
-| COM-22 | Navegar | T5/T6/T8 | Implementing |
-| COM-23 | Navegar | T4/T5/T7/T8 | Implementing |
-| COM-24 | Navegar | T4/T5 | Implementing |
-| COM-25 | Navegar | T5/T8 | Implementing |
-| COM-26 | Navegar | T5/T6 | Implementing |
-| COM-27 | Navegar | T5/T6 | Implementing |
-| COM-28 | Navegar | T5/T8 | Implementing |
+| COM-01 | Enviar | T1/T2/T3 | Verified |
+| COM-02 | Enviar | T1/T3 | Verified |
+| COM-03 | Enviar | T1 | Verified |
+| COM-04 | Enviar | T1/T3 | Verified |
+| COM-05 | Enviar | T3 | Verified |
+| COM-06 | Enviar | T2/T3 | Verified |
+| COM-07 | Enviar | T1/T3 | Verified |
+| COM-08 | Enviar | T1/T3 | Verified |
+| COM-09 | Enviar | T1/T3 | Verified |
+| COM-10 | Enviar | T1/T3/T7 | Verified |
+| COM-11 | Enviar | T1/T2/T7/T8 | Verified |
+| COM-12 | Enviar | T1/T3/T8 | Verified |
+| COM-13 | Enviar | T1/T3 | Verified |
+| COM-14 | Enviar | T1/T3/T9 | Verified |
+| COM-15 | Consultar | T2 | Verified |
+| COM-16 | Consultar | T2/T3 | Verified |
+| COM-17 | Consultar | T6 | Verified |
+| COM-18 | Consultar | T4/T5 | Verified |
+| COM-19 | Consultar | T5/T8 | Verified |
+| COM-20 | Consultar | T5/T6/T8 | Verified |
+| COM-21 | Navegar | T5 | Verified |
+| COM-22 | Navegar | T5/T6/T8 | Verified |
+| COM-23 | Navegar | T4/T5/T7/T8 | Verified |
+| COM-24 | Navegar | T4/T5 | Verified |
+| COM-25 | Navegar | T5/T8 | Verified |
+| COM-26 | Navegar | T5/T6 | Verified |
+| COM-27 | Navegar | T5/T6 | Verified |
+| COM-28 | Navegar | T5/T8 | Verified |
 
 **Coverage:** 28 total, 28 mapeados às tarefas implementadas, 0 sem mapeamento. Evidências de execução em evidence.md; status Verified depende da revisão independente.
 
 ## Success Criteria
 
-- [ ] Todos os 28 critérios e bordas com evidências de resultado; nenhum teste ignorado/excluído.
-- [ ] Gates Java/H2, Vitest, MySQL fictício selecionado, Edge/H2, lint/build aprovados.
-- [ ] Verifier independente PASS, sensor detecta as falhas propostas e confirma árvore real preservada.
-- [ ] Diagnóstico registra cada requisito concluído e a comunicação inclui “incluído no diagnóstico”; aceitação humana registrada separadamente.
+- [x] Todos os 28 critérios e bordas com evidências de resultado; nenhum teste ignorado/excluído.
+- [x] Gates Java/H2, Vitest, MySQL fictício selecionado, Edge/H2, lint/build aprovados.
+- [x] Verifier independente PASS, sensor detecta as falhas propostas e confirma árvore real preservada.
+- [x] Diagnóstico registra cada requisito concluído e a comunicação inclui “incluído no diagnóstico”; aceitação humana registrada separadamente.

@@ -241,16 +241,32 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-10
 - **Status**: active
 
+### AD-030
+- **Decision**: a próxima atividade por gerenciamento registra automaticamente alterações do quadro, das etapas e das demandas, incluindo movimentações, encerramentos e arquivamentos, com alvo, autor da conta e horário.
+- **Reason**: usuário respondeu Quadro, etapas e demandas (recomendado) à pergunta concreta nesta conversa em10/10/2026.
+- **Trade-off**: exige instrumentar também ações de quadro/etapas, além do histórico de demandas já existente; não inventar acontecimentos anteriores.
+- **Scope**: próxima feature de atividade por gerenciamento, ainda em definição. Comentários por demanda já concluídos permanecem na entrega anterior.
+- **Date**: 2026-10-10
+- **Status**: active
+
+### AD-031
+- **Decision**: qualquer usuário autenticado consulta a atividade, inclusive dos arquivados; registros automáticos preservados, sem edição ou exclusão pela interface. Dados antigos mostrados como estão, sem inventar autores ou acontecimentos.
+- **Reason**: usuário confirmou Sim, consulta para todos e registros preservados (recomendado) em10/10/2026.
+- **Trade-off**: consulta compartilhada acompanha o acesso aos quadros; não reatribuir autoria histórica nem completar eventos ausentes.
+- **Scope**: consulta/preservação da próxima atividade por gerenciamento. Ainda definir o detalhe das alterações e os contratos da nova entrega.
+- **Date**: 2026-10-10
+- **Status**: active
+
 ## Handoff
 
 
-- **Feature:** comentarios-lateral, proposta preparada em 10/10/2026; branch testes, base 8584e5b. Arquivamento concluído tecnicamente em 09/10/2026, implementação 52c7725..4f977ea.
-- **Completed:** comentários T1–T8 concluídas como tarefas com gates:832 Java/H2,1000 Vitest,328 MySQL fictício,15 Edge/H2,lint/build TEMP PASS; zero falhas/erros/skips. QA visual desktop/celular aprovada. Expectativas antigas adequadas somente após autorização específica. Arquivamento anterior concluído/verificado.
-- **In progress:** rodada1 do Verifier encontrou lacuna COM-14: M7 sobreviveu. T9 acrescentou oito casos modernos preservando os antigos;49 selecionados,840 Java/H2 e336 MySQL fictício PASS. Feature parcial até revisão2, nenhum COM Verified. Progresso incluído no diagnóstico. Perguntas de alcance/consulta da próxima atividade por gerenciamento enviadas, ainda sem resposta.
-- **Next step:** fechar gates e commit T9, re-verificar COM-14 e sensor independentemente. Só depois do PASS/validate_state concluir comentários no diagnóstico e seguir para atividade por gerenciamento, conforme respostas às perguntas pendentes.
+- **Feature:** comentarios-lateral concluída e verificada em10/10/2026; branch testes, base8584e5b, tarefas3a5934c..3831104. Próxima: atividade por gerenciamento, alcance/consulta respondidos em AD-030/031, definição detalhada em andamento.
+- **Completed:** T1–T9 e28/28 critérios COM Verified. Gates independentes840 Java/H2,1000 Vitest,336 MySQL fictício,15 Edge/H2,lint/build PASS,zero falhas/skips. Sensor7/7 killed, controles102 Java/76 API aprovados; HEAD/porcelain/4.147 hashes preservados. Rodada2 PASS e validate_state0. QA desktop/celular; incluído no diagnóstico, cada critério Concluído e verificado — tudo ok. Arquivamento anterior concluído/verificado.
+- **In progress:** definição de atividade por gerenciamento. AD-030/031 respondem alcance/consulta; conferir código e esclarecer detalhe das alterações antes da nova spec. Aceitação humana dos comentários e demais entregas pendente, distinta do PASS técnico.
+- **Next step:** preparar atividade com TLC conforme AD-030/031, explicar o que entrará e recomendações das decisões restantes. Não refazer comentários; revisar somente se surgir nova falha. Roteiro humano dos comentários disponível em docs/OPERACAO.md.
 - **Blocker:** nenhum. Não reabrir as autorizações recebidas. Teste com outcome genuinamente errado diferente dos já aprovados exige confirmação TLC.
-- **Environment:** tecnologias AD-024; fixture MySQL TEMP8.0.43 porta33823/datadir creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43 ativa para328 casos, identidade confirmada por query; listener22852, launcher23944. Encerrar somente após revisão com identidade atual conferida. H2/Vitest/Edge via ferramentas atuais; logs TEMP/comentarios-T*.log. Build frontend TEMP/comentarios-T8-build. Preservar gerados.
-- **Uncommitted files:** T8 E2E/estilos/documentos serão incluídos no commit atômico com Build aprovado. Gerados target/node_modules/test-results preexistentes preservados fora dos commits; add explícito.
+- **Environment:** tecnologias AD-024 mantidas. MySQL fictício8.0.43 porta33823/datadirTEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql encerrado após conferir identidade atual22852/datadir/porta: mysqladmin shutdown0,listener ausente. Banco real intocado. Logs autor TEMP/comentarios-T*.log; revisão2 TEMP/cv2877ba, relatório em features/comentarios-lateral/validation.md. Build frontend TEMP/comentarios-T8-build. Sem processos residuais próprios do Verifier.
+- **Uncommitted files:** fechamento documental será incluído em commit local explícito. Gerados target/node_modules/test-results preexistentes preservados fora dos commits; não limpar/reset/stash.
 - **Restrictions:** sem push/deploy/migração real/exclusão física/upgrade; AD-027/028 preservadas. Arquivo não reabre nem move demanda.
 - **User preference:** regra permanente no início de Decisions: dizer “incluído no diagnóstico”; marcar concluído e tudo ok somente com testes/verificação aprovados, guardar evidências e seguir ao próximo. Explicar o que vai entrar no sistema e recomendar opções quando perguntar.
 

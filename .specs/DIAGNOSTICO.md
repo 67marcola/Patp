@@ -20,7 +20,7 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 
 **Acompanhamento combinado, reforçado em 10/10/2026:** toda implementação de requisito será registrada aqui com o estado real e comunicada como **“incluído no diagnóstico”**. Tarefas e critérios parcialmente concluídos serão identificados como progresso parcial até a aprovação técnica da entrega. Depois da implementação, dos testes pertinentes aprovados e da verificação TLC, registrar **“Concluído e verificado — tudo ok”**, com data, resultado dos testes e referência à evidência/validação. Atualizar a memória e seguir para o próximo requisito pendente; não refazer entregas já comprovadas. Essa regra permanente está no início de [STATE.md](STATE.md).
 
-**Registro de acompanhamento em 10/10/2026 — incluído no diagnóstico:** a regra solicitada foi registrada na memória e conferida nos documentos; ajuste documental concluído. Nenhuma nova funcionalidade do sistema foi concluída nesta retomada. O próximo requisito continua sendo a lateral de comentários, cuja definição aguarda as escolhas abaixo.
+**Registro de acompanhamento em 10/10/2026 — incluído no diagnóstico:** a regra solicitada está na memória e os comentários por demanda foram concluídos e verificados conforme a seção abaixo. Próximo requisito: atividade por gerenciamento; alcance de quadro/etapas/demandas e consulta por todos os autenticados confirmados em AD-030/031, definição detalhada em andamento.
 
 ## O que está pronto e validado
 
@@ -35,6 +35,7 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 | Movimentação e encerramento de demandas | Criador/admin move ou pula etapas, conclui, cancela com motivo e reabre para trabalho escolhido. Cartões, contagens, versão e histórico são preservados. | [35 critérios e edge aprovados](features/demandas-movimentacao/validation.md). |
 | Edição informativa de demandas | Corrigir cliente, responsável, prioridade, emissão, prazos e observações. Número fixo; demandas concluídas/canceladas mantêm seu encerramento. Somente criador/admin em quadro ativo. | [29 critérios e edges aprovados](features/demandas-edicao/validation.md). |
 | Arquivamento e restauração de demandas | Arquivar demandas em andamento, concluídas ou canceladas; consultar Arquivadas e restaurar na mesma etapa e estado, preservando dados, número, comentários e histórico. Somente criador/admin em quadro ativo altera o arquivo. | [30 critérios e 10 bordas aprovados](features/demandas-arquivamento/validation.md). |
+| Comentários por demanda | Conversar com autor da sessão e horário, mensagens separadas por demanda, consulta de arquivados, recuperação manual de envio incerto e uso por teclado no computador/celular. | [28 critérios e bordas aprovados](features/comentarios-lateral/validation.md). |
 
 A criação de demandas registra histórico com autoria da sessão e é transacional: uma falha não deve deixar apenas parte dos dados gravada. O frontend confirma que a resposta contém a demanda solicitada antes de fechar o formulário; respostas incompletas ou divergentes preservam o rascunho e exigem atualização manual.
 
@@ -108,13 +109,53 @@ Cada critério desta entrega está registrado abaixo como concluído. As asserti
 
 **Validação:** 747 Java/H2, 881 testes da interface, 438 selecionados em MySQL fictício, 13 fluxos Edge/H2, lint/build aprovados. O Verifier repetiu todos os gates e detectou 11/11 falhas simuladas; nenhum teste ignorado ou removido. HEAD, estado Git e hashes dos 4.259 arquivos ficaram idênticos antes e depois do sensor isolado. Gates executados em 08/10 e resultados reconferidos em 09/10, com o mesmo código. Desktop e celular conferidos. A fixture MySQL 33823 já estava inativa na retomada; nenhum PID antigo ou banco real foi alterado. **Aceitação humana pendente**, com roteiro em [OPERACAO.md](../docs/OPERACAO.md).
 
+## Comentários por demanda — concluídos
+
+**Concluído e verificado — tudo ok. Incluído no diagnóstico em10/10/2026.** Nove tarefas concluídas,28/28 critérios e bordas aprovados na segunda [revisão independente](features/comentarios-lateral/validation.md). [Spec](features/comentarios-lateral/spec.md), [tarefas](features/comentarios-lateral/tasks.md) e [evidências](features/comentarios-lateral/evidence.md) registram as decisões, os commits e as provas.
+
+O botão **Comentários** abre a conversa exclusiva da demanda. Qualquer usuário autenticado pode enviar texto simples, com espaços e quebras preservados, nome obtido da conta e horário do servidor. Demandas concluídas/canceladas também permitem conversar quando não arquivadas. Quadro ou demanda arquivados permitem somente consulta, conservando as mensagens. Comentar preserva os dados, etapa, encerramento, contagens, versão e histórico da demanda.
+
+Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações. Uma resposta confirmada acrescenta a mensagem uma vez e limpa o campo. Falha conserva lista e rascunho e exige **Atualizar comentários** antes de tentar novamente; a consulta não reenvia. Fechar/Escape descarta o rascunho e devolve o foco ao cartão. Texto HTML aparece escrito, sem execução. As telas foram conferidas em1280x800 e390x844.
+
+| Critério | Requisito | Situação |
+| --- | --- | --- |
+| COM-01 | Sessão obrigatória nas consultas e envios, sem efeitos quando inválida. | Concluído e verificado — tudo ok |
+| COM-02 | Qualquer usuário autenticado pode comentar em quadro/demanda ativos. | Concluído e verificado — tudo ok |
+| COM-03 | Autoria real da sessão, ignorando nome falso da rota antiga. | Concluído e verificado — tudo ok |
+| COM-04 | Texto obrigatório, literal, com limite de10.000 unidades UTF-16 no servidor. | Concluído e verificado — tudo ok |
+| COM-05 | Corpo novo estrito, sem campos extras ou tipos inválidos. | Concluído e verificado — tudo ok |
+| COM-06 | Existência e vínculo quadro/demanda conferidos sem vazamento. | Concluído e verificado — tudo ok |
+| COM-07 | Quadro arquivado bloqueia mensagens novas. | Concluído e verificado — tudo ok |
+| COM-08 | Demanda arquivada bloqueia mensagens novas. | Concluído e verificado — tudo ok |
+| COM-09 | Comentários em encerradas/status antigo conservam o estado. | Concluído e verificado — tudo ok |
+| COM-10 | Uma mensagem com ID, texto, autor, horário e vínculo corretos e persistidos. | Concluído e verificado — tudo ok |
+| COM-11 | Mensagens anteriores preservadas em consulta/envio/arquivo/restauração. | Concluído e verificado — tudo ok |
+| COM-12 | Dados, ciclo, etapa, contagens, versão e histórico da demanda preservados. | Concluído e verificado — tudo ok |
+| COM-13 | Falha de gravação reverte a transação inteira. | Concluído e verificado — tudo ok |
+| COM-14 | Concorrência com arquivo/restauração decide após lock nas duas rotas. | Concluído e verificado — tudo ok |
+| COM-15 | Conversa exclusiva, ordenada por horário/ID, inclusive vazia ou arquivada. | Concluído e verificado — tudo ok |
+| COM-16 | Contrato exato sem entidades aninhadas, senha ou token. | Concluído e verificado — tudo ok |
+| COM-17 | Botão de consulta em todos os cartões e estados. | Concluído e verificado — tudo ok |
+| COM-18 | Painel identifica a demanda e apresenta carregamento, vazio, lista e erro. | Concluído e verificado — tudo ok |
+| COM-19 | Texto escapado/literal com quebras, autor e data/hora legíveis. | Concluído e verificado — tudo ok |
+| COM-20 | Arquivados ficam somente consulta conforme flags confirmadas. | Concluído e verificado — tudo ok |
+| COM-21 | Texto inválido não envia e conserva o rascunho na interface. | Concluído e verificado — tudo ok |
+| COM-22 | Envio pendente bloqueia duplicidade, alterações, fechamento e saída. | Concluído e verificado — tudo ok |
+| COM-23 | Apenas resposta201 confirmada inclui mensagem uma vez e limpa o campo. | Concluído e verificado — tudo ok |
+| COM-24 | Falha ou resposta incerta conserva texto/lista e exige consulta manual. | Concluído e verificado — tudo ok |
+| COM-25 | Atualização manual conserva rascunho/aviso, atualiza flags e não reenvia. | Concluído e verificado — tudo ok |
+| COM-26 | Fechar/Escape descarta rascunho e devolve o foco. | Concluído e verificado — tudo ok |
+| COM-27 | Troca/desmontagem descarta conversa e ignora respostas atrasadas. | Concluído e verificado — tudo ok |
+| COM-28 | Fluxo por teclado e painel sem transbordamento no computador/celular. | Concluído e verificado — tudo ok |
+
+**Validação final independente:**840 Java/H2,1000 Vitest,336 selecionados no MySQL8.0.43 fictício,15 Edge/H2 em oito arquivos,lint/build PASS, zero falhas/erros/skips. Sensor7/7 falhas detectadas; controles íntegros102 Java/76 API PASS. HEAD/estado Git e4.147 hashes reais preservados. A primeira revisão revelou uma lacuna de concorrência no envio moderno; T9 acrescentou oito provas, preservou as antigas e detectou o mesmo mutante na segunda rodada. Tentativas ambientais negativas e lições candidatas ficam documentadas. Gate validate_state: zero erros. MySQL temporário encerrado com identidade atual conferida,shutdown0 e listener ausente; nenhum banco real utilizado. **Aceitação humana pendente**, com roteiro em [OPERACAO.md](../docs/OPERACAO.md).
+
 ## O que ainda falta nos requisitos originais
 
-**Incluído no diagnóstico em10/10/2026:** a primeira revisão independente encontrou uma lacuna de teste COM-14 na concorrência do envio moderno. T9 acrescentou oito casos, preservando os antigos e suas expectativas.49 selecionados,840 Java/H2 e336 MySQL fictício PASS, zero falhas/skips. Conclusão técnica aguarda revisão2 e sensor independente. Sem mudança do comportamento aprovado.
+**Próximo requisito:** registros de atividade por gerenciamento. Usuário confirmou lista automática de alterações de quadro, etapas e demandas, com autor/horário e consulta pelos autenticados, inclusive arquivados. Registros preservados e dados antigos sem autoria/eventos inventados. AD-030/031 na memória; preparar contratos e esclarecer detalhes antes da implementação. Decisões registradas, funcionalidade ainda não implementada.
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Lateral de comentários de vários usuários, com data | Progresso incluído no diagnóstico em10/10/2026: T1–T8 concluídas como tarefas. Conversa exclusiva por demanda, autoria da sessão, horário persistido com precisão consistente, comentários literais, arquivo somente consulta e recuperação manual sem reenvio. Gates:832 Java/H2,1000 Vitest,328 MySQL fictício,15 Edge/H2,lint/build TEMP PASS,0 falhas/skips. QA visual desktop/celular aprovada. Expectativas antigas adequadas após autorização específica. Feature parcial até Verifier independente; aceitação humana pendente. [Spec](features/comentarios-lateral/spec.md), [tarefas](features/comentarios-lateral/tasks.md), [evidências](features/comentarios-lateral/evidence.md). |
 | Logs em cada gerenciamento | Há registros de histórico associados às demandas e proteções nos fluxos entregues. Falta a entrega completa de atividade por gerenciamento, com eventos, autoria, consulta e apresentação definidos. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
@@ -274,7 +315,7 @@ As questões técnicas descobríveis pelo código serão resolvidas pela anális
 - Fazer verificação independente após finalizar a funcionalidade, incluindo evidências exigidas pela skill.
 - Avançar ao próximo requisito mantendo a cobertura dos pedidos da tabela inicial.
 
-Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias e o CRUD de demandas, incluindo transições, edição e retirada por arquivamento/restauração, foram entregues e verificados. Comentários laterais, atividade por gerenciamento, gráficos, revisão visual geral e aceitação humana continuam como próximos trabalhos.
+Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias, CRUD de demandas e comentários por demanda foram entregues e verificados. Atividade por gerenciamento, gráficos, revisão visual geral e aceitação humana continuam como próximos trabalhos.
 
 ## Registro histórico de execução do arquivamento
 
