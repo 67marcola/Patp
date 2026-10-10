@@ -68,9 +68,9 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 **Requirements:** COM-01, COM-06, COM-11, COM-15/16.
 **Tools:** exec_command/apply_patch; skill tlc-spec-driven.
 **Done when:**
-- [ ] GET novo possui shape exato, flags e IDs reais, mensagens isoladas/ordenadas, arquivo consultável e histórico literal; GET antigo mantém formato, com desempate e existência explícita.
-- [ ] HTTP de erro, empate, vazio, conteúdo antigo e ausência de senha/token com mínimo14 casos novos de consulta.
-- [ ] Full aprovado e evidências incluídas com status parcial no diagnóstico.
+- [x] GET novo possui shape exato, flags e IDs reais, mensagens isoladas/ordenadas, arquivo consultável e histórico literal; GET antigo mantém formato, com desempate e existência explícita.
+- [x] HTTP de erro, empate, vazio, conteúdo antigo e ausência de senha/token com15 casos novos de consulta.
+- [x] Full797 Java/H2 PASS,0 falhas/erros/skips; evidências e progresso parcial incluídos no diagnóstico.
 **Tests:** integration
 **Gate:** Full
 **Commit:** feat(comentarios): expose demand conversation reads
@@ -85,7 +85,7 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 **Requirements:** COM-01/02, COM-04–14, COM-16.
 **Tools:** exec_command/apply_patch; skill tlc-spec-driven.
 **Done when:**
-- [ ] POST201 confirma todos os seis valores; corpo inválido/campos extras/tipos errados não gravam; vínculo e estado verificados sob lock.
+- [ ] POST201 confirma todos os cinco valores; corpo inválido/campos extras/tipos errados não gravam; vínculo e estado verificados sob lock.
 - [ ] Mínimo17 casos novos para o POST, valores físicos, rollback, efeitos e precedências especificadas; preservar todas as rotas antigas.
 - [ ] Build servidor aprovado, dados fictícios explícitos e evidências; nenhum critério declarado concluído antes do Verifier.
 **Tests:** integration

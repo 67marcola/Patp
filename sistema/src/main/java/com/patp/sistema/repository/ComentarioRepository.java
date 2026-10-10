@@ -8,5 +8,5 @@ import com.patp.sistema.model.Comentario;
 
 public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
 
-    List<Comentario> findByProcessoIdOrderByDataHoraAsc(Long processoId);
+    List<Comentario> findByProcessoIdOrderByDataHoraAscIdAsc(Long processoId);
 }

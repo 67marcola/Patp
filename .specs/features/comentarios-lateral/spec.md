@@ -43,13 +43,13 @@ Os comentários já existem no servidor, mas os usuários não conseguem convers
 Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autenticada do frontend. Sem coluna nova. O nome continua guardado como snapshot em `funcionario`.
 
 - GET novo `/api/gerenciamentos/{gerenciamentoId}/demandas/{processoId}/comentarios`: HTTP200, `{gerenciamentoId,processoId,quadroArquivado,demandaArquivada,comentarios}`. Os dois flags são booleanos. Cada comentário tem exatamente `{id,texto,funcionario,dataHora,processoId}`, sem entidade aninhada. Ordenar por dataHora ASC, id ASC. IDs positivos; dataHora ISO local com segundos e fração opcional.
-- POST novo na mesma rota: objeto com apenas `texto` string; HTTP201 com os seis campos do comentário salvo. Nome, ID, vínculo e horário não são recebidos do cliente. JSON inválido/tipo/campo extra: HTTP400, `Dados da requisição inválidos.`.
+- POST novo na mesma rota: objeto com apenas `texto` string; HTTP201 com os cinco campos do comentário salvo. Nome, ID, vínculo e horário não são recebidos do cliente. JSON inválido/tipo/campo extra: HTTP400, `Dados da requisição inválidos.`.
 - Rotas antigas `/api/processos/{processoId}/comentarios`: manter HTTP200 e shapes anteriores. POST continua aceitando o campo antigo funcionario, mas ignora seu valor e usa a sessão. Validar texto novo; GET de demanda inexistente passa a HTTP404, `Demanda não encontrada.`. Ordenar também por dataHora/ID.
 - Texto inválido no domínio: HTTP400, `Comentário deve conter texto e ter no máximo 10000 caracteres.`. Ausência de quadro: HTTP404, `Gerenciamento não encontrado.`. Demanda ausente ou de outro quadro: HTTP404, `Demanda não encontrada.`.
 - Quadro arquivado no envio: HTTP409, `Gerenciamento arquivado. Restaure-o antes de alterar.`. Demanda arquivada: HTTP409, `Demanda arquivada. Restaure-a antes de alterar.`. API segue autenticação global: ausência HTTP401 `Usuário não autenticado.`; token inválido HTTP401 `Sessão inválida ou expirada.`.
 - Envios usam transação READ_COMMITTED e o lock existente do quadro, compartilhado com arquivo/restauração. A consulta nova também obtém o lock para produzir flags e lista coerentes na mesma transação; não grava nem incrementa versão. Na rota antiga, verificar existência e preservar contrato de consulta.
 - Frontend consulta somente ao abrir/atualizar. POST confirmado acrescenta o comentário sem fechar a lateral e limpa o campo. Erro conserva o rascunho, bloqueia novo envio até GET manual válido e mostra `Confira as mensagens antes de enviar novamente; o comentário pode já ter sido salvo.`. GET não reenvia nem apaga o rascunho.
-- Confirmação no frontend: GET exige HTTP200, exatamente os cinco campos do envelope, IDs iguais aos solicitados, flags booleanos e array ordenado dataHora/ID sem IDs repetidos. Cada registro exige exatamente os seis campos do contrato, IDs inteiros positivos seguros, processoId solicitado, texto/funcionario strings e dataHora ISO local válida (calendário e horário válidos; fração opcional de1–9 dígitos). Não aplicar limites novos aos valores antigos consultados. POST exige HTTP201, os seis campos válidos, texto exatamente igual ao enviado, nome não vazio e ID ausente da lista já carregada. Não validar nome contra cache de login: a fonte da autoria é a sessão no servidor. Comparar frações preenchidas até9 dígitos para preservar ordenação sem perda de precisão.
+- Confirmação no frontend: GET exige HTTP200, exatamente os cinco campos do envelope, IDs iguais aos solicitados, flags booleanos e array ordenado dataHora/ID sem IDs repetidos. Cada registro exige exatamente os cinco campos do contrato, IDs inteiros positivos seguros, processoId solicitado, texto/funcionario strings e dataHora ISO local válida (calendário e horário válidos; fração opcional de1–9 dígitos). Não aplicar limites novos aos valores antigos consultados. POST exige HTTP201, os cinco campos válidos, texto exatamente igual ao enviado, nome não vazio e ID ausente da lista já carregada. Não validar nome contra cache de login: a fonte da autoria é a sessão no servidor. Comparar frações preenchidas até9 dígitos para preservar ordenação sem perda de precisão.
 - Formatação do horário local do servidor: `dd/MM/yyyy HH:mm:ss`, sem conversão automática de fuso; `<time dateTime>` conserva a string ISO. Texto simples escapado por React, com quebras de linha visíveis.
 - O painel é um aside identificado pela demanda. Botão Fechar comentários e Escape fecham quando não houver envio pendente, devolvendo foco ao cartão. Rascunho não persiste entre fechar/trocar demanda ou quadro. Envios bloqueiam alterações do quadro, saída, troca/fechamento e duplo clique até resposta; o painel não aplica resposta atrasada após desmontagem/troca.
 
@@ -70,7 +70,7 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 7. WHILE o quadro estiver arquivado o sistema SHALL recusar envio novo/antigo com HTTP409 e a mensagem de quadro arquivado definida no contrato, sem efeitos. **COM-07**
 8. WHILE a demanda estiver arquivada em quadro ativo o sistema SHALL recusar envio novo/antigo com HTTP409 e a mensagem de demanda arquivada definida no contrato, sem efeitos. **COM-08**
 9. WHEN uma demanda não arquivada tiver estado Em andamento, Concluido, Cancelado ou status antigo desconhecido THEN o sistema SHALL permitir o comentário em quadro ativo sem normalizar o status. **COM-09**
-10. WHEN um envio for aceito THEN o sistema SHALL salvar exatamente uma mensagem com ID gerado, texto literal, nome da sessão, dataHora entre início/fim da operação e processoId da demanda correta, devolvendo os seis valores no POST novo HTTP201 e o contrato antigo HTTP200. **COM-10**
+10. WHEN um envio for aceito THEN o sistema SHALL salvar exatamente uma mensagem com ID gerado, texto literal, nome da sessão, dataHora entre início/fim da operação e processoId da demanda correta, devolvendo os cinco valores no POST novo HTTP201 e o contrato antigo HTTP200. **COM-10**
 11. The sistema SHALL conservar os valores dos comentários anteriores, inclusive nomes e textos antigos fora dos limites novos, após consulta, novo envio, arquivo e restauração. **COM-11**
 12. The sistema SHALL manter os 14 campos da demanda, flags de arquivo, etapa, versão do quadro, contagens e histórico inalterados ao comentar. **COM-12**
 13. IF ocorrer falha na gravação do comentário THEN o sistema SHALL reverter a transação sem inserir comentário ou alterar registros associados. **COM-13**
@@ -101,7 +101,7 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 
 1. IF o rascunho for vazio/whitespace ou maior que 10000 unidades UTF-16 THEN a interface SHALL impedir POST, preservar o campo e informar o limite. **COM-21**
 2. WHILE POST estiver pendente a interface SHALL permitir somente uma requisição e desabilitar campo, envio, fechar/trocar conversa, alterações do quadro, Voltar e Sair até conclusão. **COM-22**
-3. WHEN POST retornar HTTP201 e comentário confirmado pelo contrato THEN a interface SHALL incluir os seis valores confirmados uma vez na conversa e limpar o rascunho, conservando a lateral aberta. **COM-23**
+3. WHEN POST retornar HTTP201 e comentário confirmado pelo contrato THEN a interface SHALL incluir os cinco valores confirmados uma vez na conversa e limpar o rascunho, conservando a lateral aberta. **COM-23**
 4. IF POST falhar por HTTP, rede, JSON ou resposta não confirmada THEN a interface SHALL conservar rascunho/lista, mostrar erro e aviso de possível gravação e bloquear novo envio até GET manual válido, sem retry automático. **COM-24**
 5. WHEN o usuário atualizar comentários após falha de envio THEN a interface SHALL substituir a lista/flags pela consulta confirmada e conservar o rascunho, sem POST automático e com orientação para conferir mensagens antes de enviar de novo. **COM-25**
 6. WHEN o usuário fechar por botão ou Escape sem envio pendente THEN a interface SHALL descartar rascunho, fechar a lateral e devolver foco ao botão Comentários de origem, ou Voltar se o botão já não existir. **COM-26**
@@ -143,7 +143,7 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 | COM-03 | Enviar | T1 | Implementing |
 | COM-04 | Enviar | T1/T3 | Implementing |
 | COM-05 | Enviar | T3 | Pending |
-| COM-06 | Enviar | T2/T3 | Pending |
+| COM-06 | Enviar | T2/T3 | Implementing |
 | COM-07 | Enviar | T1/T3 | Implementing |
 | COM-08 | Enviar | T1/T3 | Implementing |
 | COM-09 | Enviar | T1/T3 | Implementing |
@@ -152,8 +152,8 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 | COM-12 | Enviar | T1/T3/T7 | Implementing |
 | COM-13 | Enviar | T1/T3 | Implementing |
 | COM-14 | Enviar | T1/T3 | Implementing |
-| COM-15 | Consultar | T2 | Pending |
-| COM-16 | Consultar | T2/T3 | Pending |
+| COM-15 | Consultar | T2 | Implementing |
+| COM-16 | Consultar | T2/T3 | Implementing |
 | COM-17 | Consultar | T6 | Pending |
 | COM-18 | Consultar | T4/T5 | Pending |
 | COM-19 | Consultar | T5/T7 | Pending |

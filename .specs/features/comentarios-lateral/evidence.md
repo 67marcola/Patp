@@ -1,6 +1,6 @@
 # Comentários por demanda — evidências de execução
 
-**Estado:** T1 concluída como tarefa com gate aprovado. Feature parcial, sem declaração de critério Verified antes do Verifier. Base de planejamento 3a5934c.
+**Estado:** T1 e T2 concluídas como tarefas com gates aprovados. Feature parcial, sem declaração de critério Verified antes do Verifier. Base de planejamento 3a5934c.
 
 ## Autorizações
 
@@ -34,3 +34,17 @@ Arquivos de aplicação: ComentarioService e ComentarioController; teste novo Co
 Reverse mapping: cada caso novo tem os IDs no comentário de declaração; linhas43–50→COM-02/03/10/11/12,55–70→COM-04,75/76→COM-09/12,82–84→COM-07/08,89→COM-01,94/95→COM-02/03/10,100/101→COM-13,111–117→COM-07/10/12/14. São assertions de estado/payload, não só contagens de mocks. Nenhum caso excluído ou ignorado.
 
 **Adequação T1:** aprovada. Critérios aplicáveis localizados, outcomes da spec correspondem às assertions, estado/payload físicos conferidos, todos os35 casos novos necessários e bidirecionalmente mapeados. Guidelines OPERACAO/ApiIntegrationSupport seguidos; nenhum skip/exclusão/SPEC_DEVIATION. Runner passou. Isso fecha a tarefa, não substitui o Verifier final.
+
+## T2 — consulta isolada da conversa
+
+Full `mvn.cmd -B verify` em sistema:797 casos,0 falhas/erros/skips, BUILD SUCCESS; baseline782+15 novos. Log TEMP/comentarios-T2-h2.log. A primeira compilação exigiu tornar explícito o tipo das chaves nas assertions de Map<?,?>. A primeira execução797 teve uma falha mecânica de JsonPath curinga: o corpo registrado continha os quatro textos corretos na ordem exigida. Substituída a leitura por quatro índices explícitos com os mesmos valores esperados; nenhum outcome/cenário foi alterado. Log negativo TEMP/comentarios-T2-before-jsonpath-fix.log. Corrigida somente a contagem textual da spec/tasks: a lista enumerada sempre teve cinco campos por comentário, embora o texto dissesse seis. Shape enumerado preservado.
+
+| Critério | Evidência/assertion | Outcome da spec | Coberto |
+| --- | --- | --- | --- |
+| COM-01 | ComentarioConsultaTests.java:67, `status().isUnauthorized()`/mensagem exata e snapshots iguais; :72–74 `status().isOk()` | 401 sem sessão, leitura comum/criador/admin inclusive sem criador | Sim |
+| COM-06 | ComentarioConsultaTests.java:58, `status().isNotFound()` e erro quadro/demanda exato; :62, GET antigo404 | Alvos inexistentes/externos sem dados ou efeitos | Sim |
+| COM-11/15 | ComentarioConsultaTests.java:28–35, flags/IDs e texto antigo10001 literal; :41–46 IDs/textos exatos por data e ID nas duas rotas; :52 envelope vazio | Arquivo consultável; ordem, isolamento, desempate e vazio | Sim |
+| COM-16 | ComentarioConsultaTests.java:32–34, `doesNotExist()` para senha/token/processo e chaves `containsExactlyInAnyOrderElementsOf(...)` | Somente os cinco campos enumerados de comentário e cinco do envelope | Sim |
+| Sem efeitos de leitura | ComentarioConsultaTests.java:35, `conteudoPersistido().isEqualTo(antes)` e quadros físicos iguais; :47/:52/:58/:62/:67 | Nenhuma gravação ou incremento de versão | Sim |
+
+Reverse mapping: cada caso parametrizado e teste de ComentarioConsultaTests corresponde às linhas de evidência acima: flags4→COM-11/15/16, ordem1→COM-11/15/16, vazio1→COM-15, alvos3/antigo4041→COM-06, sessões2→COM-01, papéis3→COM-01/15. Todos15 necessários. Adequação A–D PASS: payloads/estado efetivo, resultados da spec, testes co-localizados/padrão ApiIntegrationSupport; zero remoção/skip/SPEC_DEVIATION. Tarefa concluída, feature parcial até T3–T7 e Verifier.

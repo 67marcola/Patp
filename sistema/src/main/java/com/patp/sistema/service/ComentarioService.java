@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.patp.sistema.model.Comentario;
 import com.patp.sistema.model.Processo;
 import com.patp.sistema.exception.ApiException;
+import com.patp.sistema.dto.ComentarioResponse;
+import com.patp.sistema.dto.ConversaComentariosResponse;
 import com.patp.sistema.repository.ComentarioRepository;
 import com.patp.sistema.repository.ProcessoRepository;
 
@@ -67,8 +69,25 @@ public class ComentarioService {
         return comentarioRepository.save(comentario);
     }
 
+    @Transactional(readOnly = true)
     public List<Comentario> listarPorProcesso(Long processoId) {
+        if (!processoRepository.existsById(processoId)) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada.");
+        }
         return comentarioRepository
-                .findByProcessoIdOrderByDataHoraAsc(processoId);
+                .findByProcessoIdOrderByDataHoraAscIdAsc(processoId);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public ConversaComentariosResponse consultarNoQuadro(String token, Long gerenciamentoId, Long processoId) {
+        sessoes.buscarUsuario(token);
+        var quadro = guard.bloquear(gerenciamentoId);
+        var processo = processoRepository.findById(processoId)
+                .filter(p -> p.getEtapa().getGerenciamento().getId().equals(gerenciamentoId))
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Demanda não encontrada."));
+        var mensagens = comentarioRepository.findByProcessoIdOrderByDataHoraAscIdAsc(processoId).stream()
+                .map(ComentarioResponse::de).toList();
+        return new ConversaComentariosResponse(gerenciamentoId, processoId,
+                quadro.isArquivado(), processo.isArquivado(), mensagens);
     }
 }
