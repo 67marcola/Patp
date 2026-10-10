@@ -155,13 +155,13 @@ Reutilizar Comentario, SessaoService, GerenciamentoGuard e requisição autentic
 | COM-15 | Consultar | T2 | Implementing |
 | COM-16 | Consultar | T2/T3 | Implementing |
 | COM-17 | Consultar | T6 | Pending |
-| COM-18 | Consultar | T4/T5 | Pending |
+| COM-18 | Consultar | T4/T5 | Implementing |
 | COM-19 | Consultar | T5/T7 | Pending |
 | COM-20 | Consultar | T5/T6/T7 | Pending |
 | COM-21 | Navegar | T5 | Pending |
 | COM-22 | Navegar | T5/T6/T7 | Pending |
-| COM-23 | Navegar | T4/T5 | Pending |
-| COM-24 | Navegar | T4/T5 | Pending |
+| COM-23 | Navegar | T4/T5 | Implementing |
+| COM-24 | Navegar | T4/T5 | Implementing |
 | COM-25 | Navegar | T5/T7 | Pending |
 | COM-26 | Navegar | T5/T6 | Pending |
 | COM-27 | Navegar | T5/T6 | Pending |

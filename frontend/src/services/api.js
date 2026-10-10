@@ -249,3 +249,50 @@ export function restaurarDemanda(token, id, demanda, versao) {
     return requisicao(`/gerenciamentos/${id}/demandas/${demanda.id}/restaurar`, { token, method: "PUT", dados: { versao },
         validar: (resposta, status) => arquivoConfirmado(resposta, id, demanda, "restaurar", versao, status) });
 }
+
+const CAMPOS_COMENTARIO = ["id", "texto", "funcionario", "dataHora", "processoId"];
+const CAMPOS_CONVERSA = ["gerenciamentoId", "processoId", "quadroArquivado", "demandaArquivada", "comentarios"];
+const camposExatos = (valor, campos) => objeto(valor) && Object.keys(valor).length === campos.length
+    && campos.every(campo => Object.hasOwn(valor, campo));
+
+function horaComentario(valor) {
+    if (typeof valor !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,9})?$/.test(valor)
+        || !dataIso(valor.slice(0, 10))) return false;
+    const [hora, minuto, segundo] = valor.slice(11, 19).split(":").map(Number);
+    return hora < 24 && minuto < 60 && segundo < 60;
+}
+
+function comentarioValido(comentario, processoId) {
+    return camposExatos(comentario, CAMPOS_COMENTARIO) && idValido(comentario.id)
+        && idValido(comentario.processoId) && comentario.processoId === processoId
+        && typeof comentario.texto === "string" && typeof comentario.funcionario === "string"
+        && horaComentario(comentario.dataHora);
+}
+
+function conversaValida(conversa, gerenciamentoId, processoId, status) {
+    if (status !== 200 || !camposExatos(conversa, CAMPOS_CONVERSA)
+        || !idValido(conversa.gerenciamentoId) || conversa.gerenciamentoId !== gerenciamentoId
+        || !idValido(conversa.processoId) || conversa.processoId !== processoId
+        || typeof conversa.quadroArquivado !== "boolean" || typeof conversa.demandaArquivada !== "boolean"
+        || !Array.isArray(conversa.comentarios)) return false;
+    const ids = new Set();
+    let anterior;
+    for (const comentario of conversa.comentarios) {
+        if (!comentarioValido(comentario, processoId) || ids.has(comentario.id)) return false;
+        const hora = comentario.dataHora.slice(0, 19) + "." + (comentario.dataHora.split(".")[1] || "").padEnd(9, "0");
+        if (anterior && (hora < anterior.hora || hora === anterior.hora && comentario.id < anterior.id)) return false;
+        ids.add(comentario.id); anterior = { hora, id: comentario.id };
+    }
+    return true;
+}
+
+export function buscarComentarios(token, gerenciamentoId, processoId, options = {}) {
+    return requisicao(`/gerenciamentos/${gerenciamentoId}/demandas/${processoId}/comentarios`, { token, signal: options.signal,
+        validar: (resposta, status) => conversaValida(resposta, gerenciamentoId, processoId, status) });
+}
+
+export function enviarComentario(token, gerenciamentoId, processoId, texto, anteriores) {
+    return requisicao(`/gerenciamentos/${gerenciamentoId}/demandas/${processoId}/comentarios`, { token, method: "POST", dados: { texto },
+        validar: (resposta, status) => status === 201 && comentarioValido(resposta, processoId)
+            && resposta.texto === texto && !!resposta.funcionario.trim() && !anteriores.some(anterior => anterior.id === resposta.id) });
+}

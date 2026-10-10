@@ -246,8 +246,8 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 - **Feature:** comentarios-lateral, proposta preparada em 10/10/2026; branch testes, base 8584e5b. Arquivamento concluído tecnicamente em 09/10/2026, implementação 52c7725..4f977ea.
 - **Completed:** comentários T1/T2: consulta isolada/ordenada, Full797 Java/H2 PASS; autoria da sessão, limite/literalidade, lock/rollback e testes; seleção44/Full782 Java/H2 PASS. Fixture própria corrigida após confirmação explícita; quatro cenários preservados. Arquivamento permanece concluído e verificado, sem refazer.
-- **In progress:** comentários ainda parciais, T4–T7 e Verifier pendentes; nenhuma escolha em aberto. Spec/defaults/plano e adequações antigas aprovados, não perguntar novamente. Progresso incluído no diagnóstico.
-- **Next step:** T3 concluída com gate830 Java/H2,881 Vitest,lint/build TEMP PASS; iniciar T4 API do cliente. Seguir sequencialmente T4–T7 inline e Verifier fresco depois da última tarefa.
+- **In progress:** comentários ainda parciais, T5–T7 e Verifier pendentes; nenhuma escolha em aberto. Spec/defaults/plano e adequações antigas aprovados, não perguntar novamente. Progresso incluído no diagnóstico.
+- **Next step:** T3 concluída com gate830 Java/H2,881 Vitest,lint/build TEMP PASS; T4 concluída:76 Vitest/lint PASS; iniciar T5 painel lateral. Seguir sequencialmente T5–T7 inline e Verifier fresco depois da última tarefa.
 - **Blocker:** nenhum. Corrigir somente expectativas especificamente autorizadas; qualquer outro teste genuinamente errado exige confirmação própria.
 - **Environment:** tecnologias AD-024 mantidas; testes H2/MySQL fictícios. Gates08/10 reconferidos09/10 no mesmo HEAD. Logs TEMP arquivo-T*.log e verifier-arquivo-*.log. Fixture33823 e mysqld18304 ausentes na retomada; não tocar PID antigo/banco real.
 - **Uncommitted files:** T1 e documentos incluídos no commit da tarefa após gate aprovado. Gerados target/node_modules/test-results preexistentes preservados fora dos commits; add explícito.
