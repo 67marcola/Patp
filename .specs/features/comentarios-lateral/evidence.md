@@ -65,4 +65,21 @@ Java/H2 Full830 casos PASS,0 falhas/erros/skips (797+33 novos). Log TEMP/comenta
 | COM-14 compartilhado | DemandaArquivoComentarioTests.java:49–61; ComentarioEnvioTests.java:111–117 timeout/409/snapshots/autoria; mesmo guard/lock e função gravar usada nas duas rotas | Decisão serializada por arquivo/restauração confirmada | Sim, testes físicos da função compartilhada em T1 preservados |
 
 Reverse: sucesso4(:41–47)→COM-02/10/11/12/16; corpos10(:30/31/51)→COM-05; limites5+ausente1+exato1(:55/59/63)→COM-04; falhas7(:30/31/68/69)→COM-01/06/07/08; estados4(:74)→COM-09/12; rollback1(:78)→COM-13. Todos33 têm outcomes/campos reais e são necessários. Adequação A–D PASS: profundidade física/DTO, preservação, erros precisos, co-localização ApiIntegrationSupport. Sem exclusão/skip/SPEC_DEVIATION.
-`nGate T3 final PASS:830 Java/H2,881 Vitest,lint/build TEMP. Repetição solo da suíte antiga passou integralmente sem alterar teste ou timeout. Logs TEMP/comentarios-T3-vitest.log, comentarios-T3-lint.log, comentarios-T3-build.log; artefato TEMP/comentarios-T3-build. T3 concluída como tarefa; feature ainda parcial.
+
+Gate T3 final PASS:830 Java/H2,881 Vitest,lint/build TEMP. Repetição solo da suíte antiga passou integralmente sem alterar teste ou timeout. Logs TEMP/comentarios-T3-vitest.log, comentarios-T3-lint.log, comentarios-T3-build.log; artefato TEMP/comentarios-T3-build. T3 concluída como tarefa; feature ainda parcial.
+
+## T4 — confirmação do cliente
+
+Quick76 Vitest e lint PASS; logs TEMP/comentarios-T4-vitest.log e comentarios-T4-lint.log. Sem retry, GET/POST com sessão e valores completos; datas/frações até9 dígitos validadas sem perda de ordem. Nenhum teste antigo alterado.
+
+| Critério | Evidência/assertion | Outcome definido | Coberto |
+| --- | --- | --- | --- |
+| COM-18/15 | apiComentarios.test.js:10/11 `toEqual(dados)` e requisição completa com signal/token/rota | GET200 completo da demanda correta | Sim |
+| COM-11/20 | apiComentarios.test.js:15 `toEqual(c)` nas quatro flags com nome antigo vazio/texto10001 | Consulta antiga literal, flags reais | Sim |
+| Ordem/vazio | apiComentarios.test.js:18/19 `toEqual(c)` vazio, empateID/frações9 | Nenhuma perda ou reordenação indevida | Sim |
+| Falhas GET | apiComentarios.test.js:39 `rejects.toMatchObject({message:erro,status:200})` | Cada campo/flag/ID/data/ordem inválida não aplicado | Sim |
+| COM-23 | apiComentarios.test.js:42/43 `toEqual(r)`, JSON somente texto, POST/token/caminho | Cinco campos confirmados, autoria do servidor | Sim |
+| COM-24 | apiComentarios.test.js:53/56 `rejects.toMatchObject` e chamada única | Divergência, extra, ausência, autor/data/ID inválidos/repetidos sem falso sucesso | Sim |
+| COM-18/24 | apiComentarios.test.js:59–63 status exato, erro servidor ou comunicação e uma chamada | HTTP inesperado, rede e JSON sem retry | Sim |
+
+Reverse mapping: linhas10/11→COM-18;15→COM-11/20;18/19→COM-15;39→COM-18/bordas GET;42/43→COM-23;53/56→COM-24/bordas POST;59–63→COM-18/24. Todos76 casos necessários; assertions payload/erro específicas e contratos da spec. Adequação A–D PASS; guidelines/apiArquivo seguidos;0 skip/exclusão/SPEC_DEVIATION. T4 concluída como tarefa, feature parcial.

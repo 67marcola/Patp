@@ -102,9 +102,9 @@ Primeiro fechar autoria/compatibilidade e rotas, depois cliente/painel/Quadro e 
 **Requirements:** COM-18, COM-23/24 e bordas de confirmação.
 **Tools:** exec_command/apply_patch; skill tlc-spec-driven.
 **Done when:**
-- [ ] GET/POST só aceitam status/shapes/valores definidos; query de outra demanda, ordem/IDs repetidos e POST velho/divergente são falhas, sem aplicar/reenviar.
-- [ ] Mínimo18 casos de API, cobrindo dados completos, cada campo relevante e falhas HTTP/rede/JSON; todos os envios omitindo autor/horário.
-- [ ] Quick aprovado com assertions e outcomes registrados no evidence.md.
+- [x] GET/POST só aceitam status/shapes/valores definidos; query de outra demanda, ordem/IDs repetidos e POST velho/divergente são falhas, sem aplicar/reenviar.
+- [x] 76 casos de API, cobrindo dados completos, cada campo relevante e falhas HTTP/rede/JSON; todos os envios omitindo autor/horário.
+- [x] Quick aprovado com assertions e outcomes registrados no evidence.md.
 **Tests:** unit
 **Gate:** Quick
 **Commit:** feat(comentarios): confirm conversation API responses
