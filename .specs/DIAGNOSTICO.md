@@ -156,7 +156,7 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Logs em cada gerenciamento | Em preparação, incluído no diagnóstico em10/10/2026: AD-030–033 confirmam quadro/etapas/demandas, consulta por todos, antes/depois dos campos alterados e envio de comentários sem repetir mensagens. [Decisões/descoberta](features/atividade-gerenciamento/context.md); proposta em spec.md/design.md/tasks.md da mesma pasta. Compatibilidade da escrita manual antiga depende de confirmação. Funcionalidade ainda não implementada nem concluída. |
+| Logs em cada gerenciamento | Aprovado para execução, incluído no diagnóstico em10/10/2026: AD-030–034 confirmam alcance, consulta por todos, antes/depois, comentários sem texto e bloqueio da escrita manual antiga. Usuário aprovou proposta/defaults, os três cenários T13 e três agentes sequenciais7/7/4. [Decisões](features/atividade-gerenciamento/context.md), spec/design/tasks na mesma pasta;39 critérios/18 tarefas. Implementação iniciará por T1; nenhum critério concluído antes dos gates e Verifier. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |

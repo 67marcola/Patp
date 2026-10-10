@@ -1,6 +1,6 @@
 # Atividade por gerenciamento Specification
 
-**Status:** Draft — decisões AD-030–033 confirmadas; defaults e bloqueio da escrita manual abaixo propostos para confirmação. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Nenhuma implementação nesta preparação.
+**Status:** Approved — usuário confirmou proposta/defaults, bloqueio manual e três adequações T13 em10/10/2026. Execução autorizada em três agentes sequenciais7/7/4. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Implementação iniciará por T1, nenhum critério Verified.
 
 ## Problem Statement
 
@@ -27,7 +27,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 
 | Tema | Chosen default | Rationale |
 | --- | --- | --- |
-| Escrita manual antiga, decisão ainda necessária | Recomendar HTTP409 no POST histórico e registrarExterno; manter precedência de recusas por arquivo e a leitura antiga | O navegador hoje escolhe autor/ação; eventos automáticos novos precisam acompanhar ações reais |
+| Escrita manual antiga, confirmada em AD-034 | HTTP409 no POST histórico e registrarExterno; manter precedência de recusas por arquivo e a leitura antiga | O navegador hoje escolhe autor/ação; eventos automáticos novos precisam acompanhar ações reais |
 | Histórico existente | Exibir sem vínculo com novo evento como Histórico existente, literalmente, sem antes/depois nem autor confirmado | Pode conter entradas manuais; preservar valores sem afirmar confiança que o sistema não comprova |
 | Persistência | Diário adicional, vinculado ao histórico automático da demanda por ID único quando houver | Preserva respostas antigas e evita mostrar duas vezes a mesma ação |
 | Edição idêntica | Um evento de edição com lista de alterações vazia, exibido como Nenhum campo foi alterado | O sistema já aceita salvamento e incrementa versão; não alterar esse comportamento |
@@ -39,7 +39,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | Datas | Novos eventos usam horário do servidor com microssegundos; legado mantém data nula se existente | Compatibilidade H2/MySQL já evidenciada; não inventar horário |
 | Limites e ferramentas | Cursor até512 caracteres; tamanho de página fixo; ferramentas locais existentes/TLC já autorizadas | Entrada limitada e sem novos serviços/dependências |
 
-**Open questions: none** — todas as escolhas remanescentes estão registradas como defaults propostos acima, para confirmação; isso não significa autorização recebida. As escolhas antes/depois e comentários estão resolvidas por AD-032/033. O bloqueio manual depende da resposta à proposta, nunca inferido pelo silêncio. Nenhum cenário antigo será excluído ou ignorado.
+**Open questions: none** — usuário confirmou explicitamente todos os defaults e o bloqueio manual, com as três adequações T13. Antes/depois e comentários resolvidos por AD-032/033. Nenhum cenário antigo será excluído ou ignorado.
 
 ## User Stories
 
