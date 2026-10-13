@@ -134,3 +134,31 @@ Arquivo abreviado C=`sistema/src/test/java/com/patp/sistema/AtividadeEtapaCriaca
 | falhaDoDiarioReverteEtapaNormalizacaoFinaisEVersao C:81/82 | ACT-17 | Sim |
 
 Adequação A/B/C/D aprovada:14 cenários; JSON completo de cada alteração e posições de todos afetados, snapshot completo nas recusas. Nenhum teste só de chamada, nenhum teste sem vínculo à spec. Matriz JUnit/H2 seguida; Verifier pendente.
+
+## T6 — edição de etapa
+
+12/10/2026: gate Java completo `mvn.cmd -B test` exit0,904 testes (887 anteriores+17 novos),0 falhas/erros/skips. Log TEMP/atividade-T6-java.log. Trabalho parcial de10/10 preservado e auditado; gate anterior não foi executado porque a revisão automática interrompeu a chamada por limite de uso. Nenhum outcome antigo ou novo alterado na retomada. Captura escalar após lock e antes de editar/normalizar.
+
+E=`sistema/src/test/java/com/patp/sistema/AtividadeEtapaEdicaoTests.java`; S=`sistema/src/test/java/com/patp/sistema/AtividadeEtapaSupport.java`.
+
+| Critério / AC | file:line + asserção | Resultado esperado / cobertura |
+| --- | --- | --- |
+| ACT-05/15 campos nome/setor | S:28 `assertThat(json.readTree(a.getAlteracoesJson())).isEqualTo(json.readTree(json.writeValueAsString(esperado)))`; E:25 esperado nome A->Novo; E:26 setor Engenharia->Novo setor; E:30 `assertThat(alvo.getNome()).isEqualTo(campo.equals("nome")?"Novo":"A")` e setor correspondente | JSON inteiro com tipo/ID/nome/campo/anterior/novo exatos; somente campo diferente; coberto |
+| ACT-07 todas posições | S:28 JSON inteiro; E:27 esperado A1->3/B2->1/C3->2; E:31 `assertThat(alvo.getOrdem()).isEqualTo(campo.equals("ordem")?3:1)`; E:32 B1/2; E:33 C2/3 | Antes/depois de todos os afetados e persistência completa; coberto |
+| ACT-15/19 evento único/autor/versão | S:21 `assertThat(atividades.count()).isEqualTo(1)`; S:23–27 tipo/alvo/quadro/autor/histórico/horário; E:29 `assertThat(r.gerenciamento().versao()).isEqualTo(1L)` | Autor da sessão, alvo atual, uma atividade e incremento atual; coberto |
+| ACT-16 idêntica | S:28 JSON igual à lista vazia passada E:38; E:38 `assertThat(r.gerenciamento().versao()).isEqualTo(1L)` | Evento de edição com[] e versão1; coberto |
+| Edge lacunas/empates | S:28 JSON inteiro de esperado E:44 A7->1/B7->2/C19->3; E:45–47 `getOrdem().isEqualTo(1/2/3)` | Cada posição real anterior e nova; coberto |
+| ACT-15 nomes preservados | E:53 `assertThat(preservado.getAlvoNome()).isEqualTo("Primeiro")`; E:54 `assertThat(preservado.getAutorNome()).isEqualTo("Dono")` e JSON literal igual; E:55 anterior A/novo Primeiro; E:56 count2/versão2 | Evento anterior não muda após renomeações; coberto |
+| ACT-18 recusas | E:75 `assertThatThrownBy(...).hasMessage(mensagem)` com10 mensagens específicas E:65–73; E:77 `assertThat(conteudoComAtividade()).isEqualTo(antes)` | Permissão/versão/arquivo/final/outroquadro/ausência/nome/setor/posição/sessão sem efeitos; coberto |
+| ACT-17 rollback | E:82 `assertThatThrownBy(...).hasMessage("Falha do diário")`; E:83 `assertThat(conteudoComAtividade()).isEqualTo(antes)` | Nome/setor/ordens/finais/versão/atividade revertidos; coberto |
+
+| Reverse-map teste + asserção | AC / Done-when | Manter |
+| --- | --- | --- |
+| registraSomenteCamposAlteradosETodasAsPosicoes três casos E:29–33/S:28 | ACT-05/07/15/19 | Sim |
+| edicaoIdenticaAceitaListaVaziaEIncremento E:38/S:28 | ACT-16/19 | Sim |
+| normalizaLacunasEEmpatesMesmoSemAlterarNomeSetor E:43–47/S:28 | ACT-07/edge | Sim |
+| renomeacaoPosteriorNaoMudaEventoAnteriorOuAutor E:53–56 | ACT-15 | Sim |
+| recusasConservamTodaPersistencia dez casos E:75/77 | ACT-18 | Sim |
+| falhaDoDiarioReverteNomeSetorSequenciaEVersao E:82/83 | ACT-17 | Sim |
+
+Adequação A/B/C/D aprovada:17 cenários com valores da spec, payload completo, todas posições e snapshots completos nas falhas; sem asserções só de chamada. Matriz JUnit/H2 seguida, sem SPEC_DEVIATION. T6 Implemented; Verifier da feature pendente.

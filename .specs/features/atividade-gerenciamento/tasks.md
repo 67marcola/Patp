@@ -142,6 +142,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T6: Registrar edição e reordenação de etapa
 
+**Status:** Implemented em12/10/2026;904 Java PASS,17 novos. Verificação independente pendente.
+
 **What**: Instrumentar editar com snapshots de nome/setor e de todas as posições alteradas.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/EtapaService.java`
 **Depends on**: T5
@@ -150,8 +152,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo8, renomear/setor/posição, idêntica, normalização, renomeação posterior e recusas/rollback.
 **Gate**: java
 **Done when**:
-- [ ] Antes/depois somente dos campos diferentes, com efeitos da reordenação no mesmo evento.
-- [ ] Identificação histórica não muda após edição futura; gate java PASS.
+- [x] Antes/depois somente dos campos diferentes, com efeitos da reordenação no mesmo evento.
+- [x] Identificação histórica não muda após edição futura; gate java PASS.
 **Commit**: feat(atividade): audit stage edits
 
 ### T7: Registrar remoção de etapa
@@ -374,7 +376,7 @@ Fechamento obrigatório posterior ao commit: Verifier fresco com critérios39/39
 
 ## Requirement map
 
-ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. Todas pendentes, nenhuma implementada.
+ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. T1–T6 Implemented; T7–T18 pendentes. Nenhum critério Verified.
 
 ## Execution notes
 

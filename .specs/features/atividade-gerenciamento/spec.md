@@ -141,7 +141,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-02 | Ações | Execute | Implementing |
 | ACT-03 | Ações | Execute | Implementing |
 | ACT-04 | Ações | Execute | Implementing |
-| ACT-05 | Ações | Tasks | Pending |
+| ACT-05 | Ações | Execute | Implementing |
 | ACT-06 | Ações | Tasks | Pending |
 | ACT-07 | Ações | Execute | Implementing |
 | ACT-08 | Ações | Tasks | Pending |
@@ -177,7 +177,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-38 | Ações | Execute | Implementing |
 | ACT-39 | Consulta | Tasks | Pending |
 
-39 critérios, todos pendentes; mapa de tarefas no plano. Nenhum Verified antes da verificação independente.
+39 critérios em implementação ou pendentes; mapa e estado de cada tarefa no plano. Nenhum Verified antes da verificação independente.
 
 ## Success Criteria
 
