@@ -2,6 +2,37 @@
 
 Estado: em andamento. Tarefas Implemented não significam Verified; Verifier independente posterior a T18.
 
+## T16 — painel de leitura
+
+12/10/2026:1156/1156 Vitest em27 arquivos PASS,25 novos;lint0/buildViteTEMP0. Logs TEMP/atividade-T16-{vitest,lint,build}.log,buildTEMP/atividade-T16-build-0a4746f11a2249aa847f74142e32dc9d. Premissas: painel keyed quadro/token,fechar chama retorno seguro da páginaT17; somente GET,sem timer. Arquivos AtividadeLateral.jsx/test.jsx,index.css e acompanhamento. Primeiro gate1154PASS/1FAIL evidenciou renderer de edição vaziaETAPA_EDITADA; corrigido produto sem mudar teste. Revisão StrictMode acrescentou prova do ciclo real e correção do lock no cleanup. Nenhum outcome alterado/skip/SPEC_DEVIATION.
+
+P=`frontend/src/components/AtividadeLateral.test.jsx`.
+
+| Critério / AC | file:line + asserção exata | Outcome / cobertura |
+| --- | --- | --- |
+| ACT-31/34 StrictMode/loading/vazio/foco | P:21 `expect(f.mock.calls[0][1].signal.aborted).toBe(true)` e novafalse; P:22 `expect(document.activeElement).toBe(screen.getByRole("button", { name: "Fechar atividade" }))`; P:26 status literal; P:27 vazio literal | Consulta cancelada não prende nova;mensagens/foco exatos; coberto |
+| ACT-30/36 antes/depois literal10000 | P:33 ação/alvo/autor/hora via `toContain`; P:34 `expect(item.textContent).toContain(r.alteracoes[0].anterior)` e novo; `expect(item.querySelector("img")).toBeNull()`; P:35 Antes/Depois | Todas informações legíveis,escapadas e completas; coberto |
+| ACT-22 legado/null | P:39 `expect(itens()[0].textContent).toContain(r.tipo)`,origem/Não informado,semHTML/time/confirmad | Sem confiança ou preenchimento inventados; coberto |
+| ACT-16/14 edição vazia/comentário | P:43 mensagem literal3 tipos; P:46 `toContain("Comentário adicionado")`,`not.toContain("Nenhum campo")`,textboxNull | Edição vazia explicada;envio não é edição informativa; coberto |
+| ACT-10/36 homônimas/outros alvos | P:50 `toContain("Trabalho (ID 3)")`/ID4; P:54 Não informado/Outra/Posição | Origem/destino distinguíveis,remoção e reordenação identificadas; coberto |
+| ACT-31/37 falhas iniciais | P:58 `expect(screen.queryByText("Nenhuma atividade registrada.")).toBeNull()` e retryvazio/métodosGETGET | Não mascara erro como vazio; coberto |
+| ACT-32 paginação/duplo clique/falhas | P:62 disabled e duas chamadas; P:63 `expect(itens()).toHaveLength(51)` e última chave50; P:67 tamanho50,apósretry51,URLsiguais | Append único;lista/cursor conservados nas3 falhas; coberto |
+| ACT-33 refresh | P:71 `expect(itens()).toHaveLength(50)`,aviso; P:72 tamanho1/chave99,URLsemcursor/avisoNull | Conserva no erro,substitui no sucesso com novo conjunto; coberto |
+| ACT-34 fechamento/quadro/token/unmount | P:77 `expect(f.mock.calls[0][1].signal.aborted).toBe(true)` e listNull; P:83 abort/listNull/fecharNão/novoToken; P:86/87 abort/complementaryNull/fecharNão | Nenhuma resposta antiga aplicada,foco callback apenas fechamento; coberto |
+
+| Reverse-map grupos / assertions | AC / Done-when | Manter |
+| --- | --- | --- |
+| StrictMode P:21/22;loading/vazio/read-only P:26–28 | ACT-31/34 | Sim |
+| Metadados/literal P:33–35,legado P:39 | ACT-22/30/36 | Sim |
+| Edições3 P:43,comentário P:46 | ACT-16/14/30/36 | Sim |
+| Homônimas P:50,remoção/reordenação P:54 | ACT-10/36 | Sim |
+| Falhas3 P:58 | ACT-31/37 | Sim |
+| Append/duplo P:62/63;falhas3 P:67 | ACT-32/37 | Sim |
+| Refresh2 P:71/72 | ACT-33 | Sim |
+| Fechar2 P:77;trocas2 P:83;unmount2 P:86/87 | ACT-34 | Sim |
+
+A/B/C/D PASS:25 casos,outcomes reais específicos e dados completos,não só chamadas;matriz/padrões ComentariosDemanda seguidos. CSS emindex.css carregado;dimensões reais serão provadas emT17/T18. Incluído no diagnóstico,T16 Implemented,Verifier pendente.
+
 ## T15 — contrato do cliente
 
 12/10/2026: `npm.cmd test` exit0,1131/1131 testes em26 arquivos,zero falhas/skips.131 novos casos no cliente,1000 anteriores preservados. Log TEMP/atividade-T15-vitest.log. Premissas: assinatura token/ID/cursor/options e contrato real de13 campos; null somente onde documentado. Arquivos: api.js,apiAtividade.test.js e acompanhamento. Nenhum outcome antigo alterado. Fixtures malformed de cursor usam50 registros para isolar o formato; o caso de página curta fica separado. Sem SPEC_DEVIATION.
