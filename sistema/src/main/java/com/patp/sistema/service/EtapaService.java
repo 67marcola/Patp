@@ -93,11 +93,15 @@ public class EtapaService {
         String setorValido = validarCampo(setor, "Informe um setor entre 1 e 255 caracteres.");
         List<Etapa> sequencia = sequencia(gerenciamentoId);
         validarPosicao(ordem, sequencia.size());
+        var antes = snapshots(sequencia);
         etapa.setNome(nomeValido);
         etapa.setSetor(setorValido);
         sequencia.remove(etapa);
         sequencia.add(ordem - 1, etapa);
         confirmar(gerenciamento, sequencia);
+        atividade.registrar(gerenciamento, usuario, AtividadeRegistroService.Tipo.ETAPA_EDITADA,
+                AtividadeRegistroService.snapshotEtapa(etapa),
+                AtividadeRegistroService.diferencas(antes, snapshots(sequencia)), null, null);
         return resposta(gerenciamento, usuario);
     }
 
