@@ -25,17 +25,20 @@ public class ComentarioService {
     private final ProcessoRepository processoRepository;
     private final GerenciamentoGuard guard;
     private final SessaoService sessoes;
+    private final AtividadeRegistroService atividades;
 
     public ComentarioService(
             ComentarioRepository comentarioRepository,
             ProcessoRepository processoRepository,
             GerenciamentoGuard guard,
-            SessaoService sessoes) {
+            SessaoService sessoes,
+            AtividadeRegistroService atividades) {
 
         this.comentarioRepository = comentarioRepository;
         this.processoRepository = processoRepository;
         this.guard = guard;
         this.sessoes = sessoes;
+        this.atividades = atividades;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -72,7 +75,11 @@ public class ComentarioService {
         comentario.setDataHora(LocalDateTime.now().truncatedTo(ChronoUnit.MICROS));
         comentario.setProcesso(processo);
 
-        return comentarioRepository.save(comentario);
+        Comentario salvo = comentarioRepository.save(comentario);
+        atividades.registrar(processo.getEtapa().getGerenciamento(), autor,
+                AtividadeRegistroService.Tipo.COMENTARIO_ADICIONADO,
+                AtividadeRegistroService.snapshotDemanda(processo), List.of(), null, salvo.getDataHora());
+        return salvo;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

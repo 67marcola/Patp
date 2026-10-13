@@ -307,3 +307,27 @@ A=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaArquivoTests.java`; C=
 | arquivoDaDemandaEsperaMudancaDeArquivoDoQuadro2 casos C:22–24 | ACT-18,edge concorrência | Sim |
 
 A/B/C/D PASS: payload integral,outcomes precisos,mudança somente do marcador,matriz JUnit/H2. Sem SPEC_DEVIATION. Implemented,Verifier pendente.
+
+## T12 — envio de comentário
+
+12/10/2026: gate Java completo exit0,1049 testes (1024+25 novos),0 falhas/erros/skips;log TEMP/atividade-T12-java.log. Um evento no caminho gravar,mesmo horário micros do comentário,sem texto/histórico/incremento de versão. Sem outcomes alterados/SPEC_DEVIATION.
+T=`sistema/src/test/java/com/patp/sistema/AtividadeComentarioTests.java`; C=`sistema/src/test/java/com/patp/sistema/AtividadeComentarioConcurrencyTests.java`; S=`sistema/src/test/java/com/patp/sistema/AtividadeComentarioSupport.java`.
+
+| Critério / AC | file:line + asserção | Outcome da spec / cobertura |
+| --- | --- | --- |
+| ACT-14 envio moderno/antigo e três estados | T:25 status200/201/autorLeitor e evento; S:21 `assertThat(atividades.count()).isEqualTo(1)`; S:22 tipo/alvo/quadro exatos; S:23 autorID/nome,históricoNull,JSON arraysize0/sem mensagem | Um evento sem texto,autor real,alterações[]; coberto |
+| Horário exato e servidor | S:24 `assertThat(a.getDataHora()).isEqualTo(jdbc.queryForObject("select data_hora from comentarios",LocalDateTime.class))`,intervalo inicio/now,micros0 | Mesma data persistida,não hora inventada; coberto |
+| ACT-15 identificação preservada | T:26 `assertThat(a.getAutorNome()).isEqualTo("Leitor")`,alvo/hora iguais após mudanças | Autor/demanda snapshot do envio; coberto |
+| ACT-19 mensagem na conversa/ciclo preservado | S:25 countcomentario1,texto exato10000,funcionario/ID; S:26 `assertThat(jdbc.queryForObject("select count(*) from historicos",Long.class)).isZero()` e versão0; T:25 demanda inteira igual | Comentário conserva contrato/ciclo,sem histórico/versão; coberto |
+| ACT-18 recusas | T:32 status/erro exatos e `assertThat(conteudoComAtividade()).isEqualTo(antes)` | Sessão/arquivos/ausência/outroquadro/null/vazio/longo/forjado sem evento; coberto |
+| ACT-17 rollback duas rotas | T:36 status500 e snapshot integral igual | Comentário/atividade e todas tabelas revertidos; coberto |
+| Concorrência moderna/antiga | C:24 bloqueio coordenado; C:25 `assertThat(segunda.get(10,TimeUnit.SECONDS)).isEqualTo(restaurada?"aceita":quadro?"Gerenciamento arquivado. Restaure-o antes de alterar.":"Demanda arquivada. Restaure-a antes de alterar.")`; eventoS:21–26 ou snapshot igual/contagens0 | Quadro/demanda arquivo/restauração lidos após lock; coberto |
+
+| Reverse-map teste + asserção | AC / edge / Done-when | Manter |
+| --- | --- | --- |
+| envioNasDuasRotasRegistraSemMensagemHistoricoOuVersao6 casos T:25–26/S:21–26 | ACT-14/15/19 | Sim |
+| recusasNaoGeramAtividade9 casos T:32 | ACT-18 | Sim |
+| falhaReverteComentarioEDiarioNasDuasRotas2 casos T:36 | ACT-17 | Sim |
+| envioEsperaLockELêArquivoMaisRecente8 casos C:24–25/S:21–26 | ACT-18,edge concorrência | Sim |
+
+A/B/C/D PASS: payload completo,outcomes exatos,texto mantido só na conversa,matriz JUnit/H2. T12 Implemented,Verifier pendente. DTO da atividade sem texto será provado diretamente na T14.
