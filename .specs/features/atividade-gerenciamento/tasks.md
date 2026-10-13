@@ -206,6 +206,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T10: Registrar transições de demanda
 
+**Status:** Implemented em12/10/2026;1003 Java/H2 PASS,38 novos; verificação independente pendente.
+
 **What**: Instrumentar executarTransicao com evento e diferenças do ciclo para mover/concluir/cancelar/reabrir.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/ProcessoService.java`
 **Depends on**: T9
@@ -214,8 +216,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo18, destinos/finais, motivo, reabertura de dois estados, campos limpos, rotas antigas, todos os ramos recusados e rollback.
 **Gate**: java
 **Done when**:
-- [ ] Cada ação aceita tem tipo certo e diferenças completas, conservando ciclos antigos.
-- [ ] Concorrência coordenada e falhas não deixam atividade; gate java PASS.
+- [x] Cada ação aceita tem tipo certo e diferenças completas, conservando ciclos antigos.
+- [x] Concorrência coordenada e falhas não deixam atividade; gate java PASS.
 **Commit**: feat(atividade): audit demand transitions
 
 ### T11: Registrar arquivo de demanda

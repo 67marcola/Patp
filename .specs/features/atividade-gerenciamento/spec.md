@@ -115,6 +115,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 - Remover etapa conserva alvo no diário; não criar FK para etapa, demanda ou autor que impeça preservar identificação. FK do quadro é obrigatória; exclusão física de quadro não é a política atual.
 - Criação de quadro reúne etapas iniciais em seu evento; não gerar eventos fictícios para as finais criadas/protegidas automaticamente. Ferramenta PrepararEtapasFinais permanece sem registros de ações de usuário.
 - Edição não registra campos imutáveis iguais. Movimentar para a mesma etapa continua recusado conforme contrato atual, sem evento.
+- Duas etapas podem ter o mesmo nome. Em transições, IDs distintos exigem contexto etapaNome anterior/novo mesmo quando os nomes são iguais; isso identifica origem/destino e não uma renomeação. Diferenças informativas permanecem estritas. Precisão técnica confirmada em12/10/2026, sem alterar escolhas aprovadas.
 - Nas duas fontes, todos os registros pertencem ao quadro; histórico sem data/autor conserva null. Demanda antiga pode usar identificação atual porque não existe snapshot, deixando origem explícita.
 - Concorrência: quadro/demanda arquivado ou restaurado em outra transação antes do lock da ação; testar caminhos modernos e antigos. Uma falha do diário não pode deixar ação/histórico persistidos.
 - Não adicionar timers, envio automático, limpeza de dados, TTL ou serviços externos.
@@ -146,9 +147,9 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-07 | Ações | Execute | Implementing |
 | ACT-08 | Ações | Execute | Implementing |
 | ACT-09 | Ações | Execute | Implementing |
-| ACT-10 | Ações | Tasks | Pending |
-| ACT-11 | Ações | Tasks | Pending |
-| ACT-12 | Ações | Tasks | Pending |
+| ACT-10 | Ações | Execute | Implementing |
+| ACT-11 | Ações | Execute | Implementing |
+| ACT-12 | Ações | Execute | Implementing |
 | ACT-13 | Ações | Tasks | Pending |
 | ACT-14 | Ações | Tasks | Pending |
 | ACT-15 | Ações | Execute | Implementing |

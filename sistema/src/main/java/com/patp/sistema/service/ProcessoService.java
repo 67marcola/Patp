@@ -323,6 +323,7 @@ public class ProcessoService {
             throw new ApiException(HttpStatus.CONFLICT, "Esta ação não é permitida no estado atual da demanda. Use a reabertura para iniciar um novo ciclo.");
         }
         Etapa anterior = processo.getEtapa();
+        var antes = AtividadeRegistroService.snapshotDemanda(processo);
         if (andamento && anterior.getCategoria() != CategoriaEtapa.TRABALHO) {
             throw new ApiException(HttpStatus.CONFLICT, "Estado da demanda incompatível com a etapa atual. Solicite a correção do registro.");
         }
@@ -378,7 +379,15 @@ public class ProcessoService {
         }
         processo.setEtapa(destino);
         Processo salvo = processoRepository.save(processo);
-        historicoService.registrar(id, evento, descricao, usuario.getNome());
+        var historico = historicoService.registrar(id, evento, descricao, usuario.getNome());
+        var depois = AtividadeRegistroService.snapshotDemanda(salvo);
+        var tipo = switch (acao) {
+            case MOVER -> AtividadeRegistroService.Tipo.DEMANDA_MOVIDA;
+            case CONCLUIR -> AtividadeRegistroService.Tipo.DEMANDA_CONCLUIDA;
+            case CANCELAR -> AtividadeRegistroService.Tipo.DEMANDA_CANCELADA;
+            case REABRIR -> AtividadeRegistroService.Tipo.DEMANDA_REABERTA;
+        };
+        atividades.registrar(quadro, usuario, tipo, depois, diferencasCiclo(antes, depois), historico.getId(), null);
         entityManager.flush();
         entityManager.lock(quadro, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
         entityManager.flush();
@@ -388,6 +397,22 @@ public class ProcessoService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ConfiguracaoEtapasResponse arquivar(String token, Long gerenciamentoId, Long demandaId, Long versao) {
         return mudarArquivo(token, gerenciamentoId, demandaId, versao, true);
+    }
+
+    private static List<AtividadeRegistroService.Alteracao> diferencasCiclo(
+            AtividadeRegistroService.Alvo antes, AtividadeRegistroService.Alvo depois) {
+        var diferencas = new java.util.ArrayList<>(AtividadeRegistroService.diferencas(List.of(antes), List.of(depois)));
+        if (!Objects.equals(antes.valores().get("etapaId"), depois.valores().get("etapaId"))
+                && Objects.equals(antes.valores().get("etapaNome"), depois.valores().get("etapaNome"))) {
+            for (int i = 0; i < diferencas.size(); i++) {
+                if (diferencas.get(i).campo().equals("etapaId")) {
+                    diferencas.add(i + 1, new AtividadeRegistroService.Alteracao(depois.tipo(), depois.id(), depois.nome(),
+                            "etapaNome", antes.valores().get("etapaNome"), depois.valores().get("etapaNome")));
+                    break;
+                }
+            }
+        }
+        return List.copyOf(diferencas);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
