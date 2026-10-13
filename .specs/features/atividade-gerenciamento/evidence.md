@@ -253,3 +253,31 @@ E=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaEdicaoTests.java`; S=`
 | falhaReverteEdicaoHistoricoEVersao2 casos E:66 | ACT-17 | Sim |
 
 A/B/C/D PASS: todos campos/payload inteiros,outcomes da spec,sem testes rasos/fora do alcance; matriz JUnit/H2 seguida. Implemented,Verifier pendente.
+
+## T10 — transições de demanda
+
+12/10/2026: gate Java completo exit0,1003 testes (965+38 novos),0 falhas/erros/skips,log TEMP/atividade-T10-java.log. Primeira execução: uma falha de fixture destinoAusente=-1 rejeitado pelo DTO antes da busca404. Ajuste mecânico para999999 positivo inexistente preservou404/mensagem/snapshot; gate integral repetido PASS. Sem outcomes alterados.
+Precisão técnica confirmada pelo orquestrador: etapaNome identifica origem/destino quando etapaId muda,mesmo nome igual; não afirma renomeação. Helper específico de ciclo mantém diferenças informativas estritas. Design/edge spec atualizados sem mudar negócio/DTO.
+
+T=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaTransicaoTests.java`; C=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaTransicaoConcurrencyTests.java`; S=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaSupport.java`.
+
+| Critério / AC | file:line + asserção | Outcome da spec / cobertura |
+| --- | --- | --- |
+| ACT-10 nomes iguais/distintos e IDs | T:32 esperado etapaId anterior/novo e etapaNome Análise/Análise ou Execução; S:31 `assertThat(json.readTree(a.getAlteracoesJson())).isEqualTo(json.readTree(json.writeValueAsString(esperado)))`; T:33 destino/status/camposNull/versão | Contexto completo nas duas rotas,IDs distintos mesmo nomes iguais; coberto |
+| ACT-11 conclusão/cancelamento | T:41/S:31 JSON completo status,etapaId,etapaNome,dataConclusao,dataCancelamento,motivo; T:42 `assertThat(salvo.getMotivoCancelamento()).isEqualTo(concluir?null:"Motivo real")` e todos demais campos | Datas servidor/motivo normalizado/ciclo anterior limpo,somente reais; coberto |
+| ACT-12 reabertura dos dois estados | T:48/S:31 seis diferenças exatas; T:49 statusEm andamento/destino/camposNull/versão; T:50 `assertThat(h.get("statusAnterior").asText()).isEqualTo(estado)` e IDs/datas/motivo literais | Campos atuais limpos,histórico anterior conservado; coberto |
+| ACT-15/19/23 metadados e vínculo | S:23–36 evento único,tipo/alvo/quadro/autor/hora,micros/intervalo,histórico único/ID/ação/autor/processo; T:33/42/49 versão1 | Uma atividade e um histórico por ação,autoria real e versões atuais; coberto |
+| ACT-18 todos ramos recusados | T:62 status/erro exatos e `assertThat(conteudoComAtividade()).isEqualTo(antes)` |18 casos incluindo mesmaetapa/finais/outro/ausência/estado/status/categoria/motivo/arquivo/versão/auth; coberto |
+| ACT-17 rollback cada transição | T:67 `andExpect(status().isInternalServerError())` e snapshot integral igual | Quadro/demanda/histórico/atividade revertidos nas quatro ações; coberto |
+| ACT-18 concorrência após lock | C:31 espera/bloqueio; C:32 resultado/mensagem exatos; C:33/S:31 evento exato na restauração; C:34 `assertThat(conteudoComAtividade()).isEqualTo(antes)` e atividade0/origem | Arquivo de quadro/demanda recusa; restauração demanda é lida após lock nas duas rotas; coberto |
+
+| Reverse-map teste + asserção | AC / edge / Done-when | Manter |
+| --- | --- | --- |
+| movimentoPreservaIdsENomesDistintosOuIguaisNasDuasRotas4 casos T:31–33/S:31 | ACT-10/15/19/23,edge homônimos | Sim |
+| encerramentosRegistramTodasAlteracoesELimpamCicloAnterior4 casos T:40–42/S:31 | ACT-11/19 | Sim |
+| reaberturaPreservaHistoricoELimpaTodosCampos2 casos T:47–50/S:31 | ACT-12/19 | Sim |
+| todosRamosRecusadosConservamDiarioECiclo18 casos T:62 | ACT-18 | Sim |
+| falhaReverteCadaTransicaoHistoricoEVersao4 casos T:67 | ACT-17 | Sim |
+| capturaDepoisDoLockNasDuasRotas6 casos C:31–34/S:31 | ACT-18,edge concorrência | Sim |
+
+A/B/C/D PASS: payload completo e outcomes exatos,provas coordenadas sem alterar timers de testes antigos,matriz JUnit/H2. Sem SPEC_DEVIATION. T10 Implemented,Verifier pendente.
