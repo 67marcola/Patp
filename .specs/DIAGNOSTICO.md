@@ -1,6 +1,6 @@
 # Diagnóstico e resumo atual do sistema Creral
 
-**Atualizado em 10/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
+**Atualizado em 12/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
 
 ## Como o sistema está organizado
 
@@ -151,6 +151,8 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 **Validação final independente:**840 Java/H2,1000 Vitest,336 selecionados no MySQL8.0.43 fictício,15 Edge/H2 em oito arquivos,lint/build PASS, zero falhas/erros/skips. Sensor7/7 falhas detectadas; controles íntegros102 Java/76 API PASS. HEAD/estado Git e4.147 hashes reais preservados. A primeira revisão revelou uma lacuna de concorrência no envio moderno; T9 acrescentou oito provas, preservou as antigas e detectou o mesmo mutante na segunda rodada. Tentativas ambientais negativas e lições candidatas ficam documentadas. Gate validate_state: zero erros. MySQL temporário encerrado com identidade atual conferida,shutdown0 e listener ausente; nenhum banco real utilizado. **Aceitação humana pendente**, com roteiro em [OPERACAO.md](../docs/OPERACAO.md).
 
 ## O que ainda falta nos requisitos originais
+
+Incluído no diagnóstico em12/10/2026: T15 Implemented,cliente de atividade com validação integral de página/cursor/fontes;1131 Vitest PASS em26 arquivos (1000 anteriores+131 novos),zero falhas/skips. T14 já está no commit e53302f. T16–T18 e Verifier pendentes,nenhum ACT Verified. [Evidência T15](features/atividade-gerenciamento/evidence.md#t15--contrato-do-cliente).
 
 **Requisito em andamento:** registros de atividade por gerenciamento. Proposta/defaults, compatibilidade manual/T13 e três trabalhadores sequenciais aprovados em10/10/2026. Incluído no diagnóstico em12/10/2026: T1–T14 Implemented; diário de quadro/etapas/demandas/comentários,POST manual bloqueado e GET paginado estável.1087 Java/H2,1000 Vitest,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips. Próximo lote T15–T18,painel/browser e Verifier final pendentes. Nenhum critério ACT Verified. [Evidência](features/atividade-gerenciamento/evidence.md).
 

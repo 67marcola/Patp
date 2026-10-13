@@ -2,6 +2,38 @@
 
 Estado: em andamento. Tarefas Implemented não significam Verified; Verifier independente posterior a T18.
 
+## T15 — contrato do cliente
+
+12/10/2026: `npm.cmd test` exit0,1131/1131 testes em26 arquivos,zero falhas/skips.131 novos casos no cliente,1000 anteriores preservados. Log TEMP/atividade-T15-vitest.log. Premissas: assinatura token/ID/cursor/options e contrato real de13 campos; null somente onde documentado. Arquivos: api.js,apiAtividade.test.js e acompanhamento. Nenhum outcome antigo alterado. Fixtures malformed de cursor usam50 registros para isolar o formato; o caso de página curta fica separado. Sem SPEC_DEVIATION.
+
+A=`frontend/src/services/apiAtividade.test.js`.
+
+| Critério / AC | file:line + asserção exata | Outcome / cobertura |
+| --- | --- | --- |
+| ACT-29 contrato inteiro/autoria/vínculos/signal | A:13 `expect(await consultarAtividade("sessao", 9, null, { signal })).toEqual(p)`; A:14 `expect(f.mock.calls[0]).toEqual([...])` com URL/token/signal literais | Todas13 propriedades e alterações6 propriedades conservadas,rota correta; coberto |
+| ACT-22/26 vazio/literais/null | A:17/19/20 `expect(await consultarAtividade("s", 9)).toEqual(p)` | Vazio[],legado desconhecido/null/literal sem normalizar; coberto |
+| ACT-26/27/28 página e cursor | A:24/26 `expect(await consultarAtividade(...)).toEqual(p)`; A:27 URL exata; A:89 `await expect(consultarAtividade(...)).rejects.toMatchObject({ message: erro })`; A:92/93 mesma rejeição |50,offset+50,ceilings fixos,última página limitada à entrada; coberto |
+| ACT-37 fontes sem colidir | A:31 `expect(await consultarAtividade("s", 9)).toEqual(p)` | MesmoID em fontes diferentes permitido; coberto |
+| ACT-10 contexto homônimo | A:36 `expect(await consultarAtividade("s", 9)).toEqual(p)` | etapaId3->4 e etapaNomeTrabalho->Trabalho preservados; coberto |
+| ACT-15/16/36 literal10000/vazio | A:39/40 `expect(await consultarAtividade("s", 9)).toEqual(p)` | Sem truncamento,lista[] válida; coberto |
+| Tipos/etapas secundárias válidos | A:44/48 `expect(await consultarAtividade("s", 9)).toEqual(p)` |16 enums e snapshots/reordenação multialvo aceitos; coberto |
+| ACT-28/29/37 página inválida inteira | A:80 `await expect(consultarAtividade("s", 9)).rejects.toMatchObject({ message: erro, status: 200 })`; A:85 mesma expressão | Ausentes/extras/tipos/IDs/vínculos/enum/mudança/igualdade/51/duplicação/cursor e legado inválido recusados integralmente; coberto |
+| ACT-31/34/37 transporte/status | A:95/96 `rejects.toMatchObject({ message: erro, status })` ou erro servidor; A:98/99 rejeição exata; A:100 `rejects.toBe(abort)` | Erros explícitos,não lista vazia,abort mantido; coberto |
+
+| Reverse-map teste / asserção | AC / Done-when | Manter |
+| --- | --- | --- |
+| Valores integrais/sessão A:13/14 | ACT-29/37 | Sim |
+| Vazio/legado A:17/19/20 | ACT-22/26/37 | Sim |
+| Página/continuação A:24/26/27,89,92/93 | ACT-26/27/28/37 | Sim |
+| Fontes distintas A:31 | ACT-37 | Sim |
+| Homônimas A:36 | ACT-10,edge homônimos | Sim |
+|10000 e vazia A:39/40 | ACT-15/16/36 | Sim |
+|16 enums e4 multialvos A:44/48 | ACT-01/07/29/37 | Sim |
+| Matriz inválidos A:80,legado A:85 | ACT-28/29/37 | Sim |
+| Status/HTTP/rede/JSON/abort A:95–100 | ACT-31/34/37 | Sim |
+
+A/B/C/D PASS: cada campo verificado por igualdade integral/recusa exata; nenhuma asserção somente de chamada substitui resultado. Todos casos reversamente ancorados no contrato/spec; padrões Vitest/apiComentarios e matriz seguidos. Incluído no diagnóstico; T15 Implemented,Verifier pendente. Precisão documental T14 corrigida de14 para13 chaves conforme assertion Q:45,sem mudar Java/testes.
+
 ## T1 — entidade
 
 10/10/2026: Maven -B test-compile exit0, BUILD SUCCESS,54 fontes principais/45 fontes de testes. Nenhum teste executado neste gate, conforme matriz de entidade. validate_tasks exit0, aviso esperado Tests:none conferido.
@@ -375,7 +407,7 @@ Q=`sistema/src/test/java/com/patp/sistema/AtividadeConsultaTests.java`.
 | ACT-20/15 quadros/demandas arquivados/encerrados e três perfis | Q:44 `assertThat(resposta.get("registros")).isEqualTo(json.readTree(json.writeValueAsString(esperado)))`,esperado completo Q:41–43; Q:44 quadroID/cursorNull | Mesmo contrato200 nos seis casos,autor/número snapshots preservados após mudanças; coberto |
 | ACT-22 fonte literal | Q:43 esperado chave/origem/ID/tipo/alvo/quadro/autorIDnull/nome/data/descrição/alterações[] exatos; Q:44 JSON inteiro | Legado literal e origem explícita,sem antes/depois inventado; coberto |
 | ACT-23 evitar duplicidade/conservar histórico | Q:44 JSON exatamente3 registros,dois automáticos+um antigo; Q:46 countHist2; Q:47 GET antigo length2/ações exatas | Histórico ligado não aparece duas vezes,não foi apagado; coberto |
-| ACT-29 DTO sem entidades/segredos/texto | Q:45 chaves exatamente14; Q:46 `assertThat(resposta.toString()).doesNotContain("Mensagem privada secreta","senha","hash-ficticio-nao-publico","Bearer","processo","funcionario","historicoId")` | DTO plano e texto da conversa ausente; coberto |
+| ACT-29 DTO sem entidades/segredos/texto | Q:45 `containsExactlyInAnyOrder("chave","origem","id","gerenciamentoId","tipo","alvoTipo","alvoId","alvoNome","autorId","autorNome","dataHora","descricao","alteracoes")`,13 chaves; Q:46 `assertThat(resposta.toString()).doesNotContain("Mensagem privada secreta","senha","hash-ficticio-nao-publico","Bearer","processo","funcionario","historicoId")` | DTO plano e texto da conversa ausente; coberto |
 | Leitura sem escrita | Q:46 `assertThat(conteudoComAtividade()).isEqualTo(antes)`; Q:51/54/55/58/61/65/66/71/75/80 snapshots integrais iguais | Dados existentes intactos em todos cenários aceitos/recusados; coberto |
 | ACT-26 vazio | Q:51 `assertThat(r.get("registros").isArray()).isTrue()`,size0,cursorNull,quadroID |200/registros[]/cursorNull em ativo/arquivo; coberto |
 | ACT-21 auth | Q:54 status401/erro ausente ou inválida exato/snapshot igual |401 sem escrita; coberto |
