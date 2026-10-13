@@ -159,9 +159,9 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-19 | Ações | Execute | Implementing |
 | ACT-20 | Consulta | Tasks | Pending |
 | ACT-21 | Consulta | Tasks | Pending |
-| ACT-22 | Consulta | Tasks | Pending |
+| ACT-22 | Consulta | Execute | Implementing |
 | ACT-23 | Consulta | Execute | Implementing |
-| ACT-24 | Consulta | Tasks | Pending |
+| ACT-24 | Consulta | Execute | Implementing |
 | ACT-25 | Consulta | Tasks | Pending |
 | ACT-26 | Consulta | Tasks | Pending |
 | ACT-27 | Consulta | Tasks | Pending |

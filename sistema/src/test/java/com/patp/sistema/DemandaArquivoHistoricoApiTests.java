@@ -25,10 +25,13 @@ class DemandaArquivoHistoricoApiTests extends ApiIntegrationSupport {
         assertThat(conteudoPersistido()).isEqualTo(antes);assertThat(jdbc.queryForList("select * from gerenciamentos")).isEqualTo(quadroAntes);
     }
     @Test void postAtivoPermaneceCompativelParaQualquerAutenticado() throws Exception { // ARQ-22 borda ativo
-        var q=quadro(usuario("Dono"));var p=demanda(etapa(q,"Origem",1));var processoAntes=jdbc.queryForList("select * from processos");var inicio=LocalDateTime.now().minusSeconds(1);
-        mvc.perform(post("/api/processos/"+p.getId()+"/historico").header("Authorization",token(usuario("Outro"))).contentType(MediaType.APPLICATION_JSON).content("{\"acao\":\"MANUAL\",\"descricao\":\"  Literal\\n  \",\"usuario\":\"Informado\"}")).andExpect(status().isOk())
-            .andExpect(jsonPath("$.acao").value("MANUAL")).andExpect(jsonPath("$.descricao").value("  Literal\n  ")).andExpect(jsonPath("$.usuario").value("Informado")).andExpect(jsonPath("$.processo.id").value(p.getId()));
-        assertThat(jdbc.queryForObject("select data_hora from historicos",LocalDateTime.class)).isBetween(inicio,LocalDateTime.now().plusSeconds(1));
+        var q=quadro(usuario("Dono"));var p=demanda(etapa(q,"Origem",1));var processoAntes=jdbc.queryForList("select * from processos");
+        jdbc.update("insert into historicos(acao,descricao,data_hora,usuario,processo_id) values('MANUAL',?,'2001-02-03 04:05:06','Informado',?)","  Literal\n  ",p.getId());var antes=conteudoComAtividade();String bearer=token(usuario("Outro"));
+        mvc.perform(post("/api/processos/"+p.getId()+"/historico").header("Authorization",bearer).contentType(MediaType.APPLICATION_JSON).content("{\"acao\":\"MANUAL\",\"descricao\":\"  Literal\\n  \",\"usuario\":\"Informado\"}")).andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value("Histórico é registrado automaticamente pelas ações do sistema."));
+        assertThat(conteudoComAtividade()).isEqualTo(antes);
+        mvc.perform(get("/api/processos/"+p.getId()+"/historico").header("Authorization",bearer)).andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].acao").value("MANUAL")).andExpect(jsonPath("$[0].descricao").value("  Literal\n  ")).andExpect(jsonPath("$[0].usuario").value("Informado")).andExpect(jsonPath("$[0].processo.id").value(p.getId()));
+        assertThat(jdbc.queryForObject("select data_hora from historicos",LocalDateTime.class)).isEqualTo(LocalDateTime.of(2001,2,3,4,5,6));
         assertThat(jdbc.queryForMap("select * from historicos")).containsEntry("acao","MANUAL").containsEntry("descricao","  Literal\n  ").containsEntry("usuario","Informado").containsEntry("processo_id",p.getId());
         assertThat(jdbc.queryForList("select * from processos")).isEqualTo(processoAntes);assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isZero();
     }

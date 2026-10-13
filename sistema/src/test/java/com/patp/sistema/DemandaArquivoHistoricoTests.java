@@ -18,9 +18,11 @@ class DemandaArquivoHistoricoTests extends ApiIntegrationSupport {
     @Autowired ProcessoService service;
     @ParameterizedTest @NullSource @ValueSource(booleans={false})
     void externoAceitaAtivoIncluindoNullSemNormalizacao(Boolean arquivo) { // ARQ-18/22
-        var q=quadro(usuario("Dono"));var p=demanda(etapa(q,"Origem",1));p.setArquivado(arquivo);processos.saveAndFlush(p);var processoAntes=jdbc.queryForList("select * from processos");var inicio=LocalDateTime.now().minusSeconds(1);
-        var r=historico.registrarExterno(p.getId(),"MANUAL","  Texto\n literal  ","Informado");
-        assertThat(r).extracting("acao","descricao","usuario").containsExactly("MANUAL","  Texto\n literal  ","Informado");assertThat(r.getProcesso().getId()).isEqualTo(p.getId());assertThat(r.getDataHora()).isBetween(inicio,LocalDateTime.now().plusSeconds(1));
+        var q=quadro(usuario("Dono"));var p=demanda(etapa(q,"Origem",1));p.setArquivado(arquivo);processos.saveAndFlush(p);var processoAntes=jdbc.queryForList("select * from processos");
+        jdbc.update("insert into historicos(acao,descricao,data_hora,usuario,processo_id) values('MANUAL',?,'2001-02-03 04:05:06','Informado',?)","  Texto\n literal  ",p.getId());var antes=conteudoComAtividade();
+        assertThatThrownBy(()->historico.registrarExterno(p.getId(),"MANUAL","  Texto\n literal  ","Informado")).isInstanceOfSatisfying(ApiException.class,x->{assertThat(x.getStatus().value()).isEqualTo(409);assertThat(x.getMessage()).isEqualTo("Histórico é registrado automaticamente pelas ações do sistema.");});
+        assertThat(conteudoComAtividade()).isEqualTo(antes);var r=historico.listarPorProcesso(p.getId()).get(0);
+        assertThat(r).extracting("acao","descricao","usuario").containsExactly("MANUAL","  Texto\n literal  ","Informado");assertThat(r.getProcesso().getId()).isEqualTo(p.getId());assertThat(r.getDataHora()).isEqualTo(LocalDateTime.of(2001,2,3,4,5,6));
         assertThat(jdbc.queryForObject("select count(*) from historicos",Long.class)).isEqualTo(1L);
         assertThat(jdbc.queryForMap("select * from historicos")).containsEntry("acao","MANUAL").containsEntry("descricao","  Texto\n literal  ").containsEntry("usuario","Informado").containsEntry("processo_id",p.getId());
         assertThat(jdbc.queryForList("select * from processos")).isEqualTo(processoAntes);assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isZero();

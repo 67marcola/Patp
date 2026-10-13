@@ -53,11 +53,16 @@ class HistoricoArchiveTests extends ApiIntegrationSupport {
         concluida.setCategoria(com.patp.sistema.model.CategoriaEtapa.CONCLUIDA); etapas.saveAndFlush(concluida);
         String token = token(usuario("Outro"));
         String base = "/api/processos/" + demanda.getId();
+        jdbc.update("insert into historicos(acao,descricao,data_hora,usuario,processo_id) values('MANUAL','Observação','2001-02-03 04:05:06','Informado',?)", demanda.getId());
+        var antesManual = conteudoComAtividade();
         mvc.perform(post(base + "/historico").header("Authorization", token).contentType(MediaType.APPLICATION_JSON)
                 .content("{\"acao\":\"MANUAL\",\"descricao\":\"Observação\",\"usuario\":\"Informado\"}"))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.acao").value("MANUAL"))
-                .andExpect(jsonPath("$.descricao").value("Observação")).andExpect(jsonPath("$.usuario").value("Informado"))
-                .andExpect(jsonPath("$.dataHora").isNotEmpty()).andExpect(jsonPath("$.processo.id").value(demanda.getId()));
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.erro").value("Histórico é registrado automaticamente pelas ações do sistema."));
+        assertThat(conteudoComAtividade()).isEqualTo(antesManual);
+        mvc.perform(get(base + "/historico").header("Authorization", token)).andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].acao").value("MANUAL")).andExpect(jsonPath("$[0].descricao").value("Observação"))
+                .andExpect(jsonPath("$[0].usuario").value("Informado")).andExpect(jsonPath("$[0].dataHora").isNotEmpty())
+                .andExpect(jsonPath("$[0].processo.id").value(demanda.getId()));
         mvc.perform(put(base + "/concluir").header("Authorization", token(criador))).andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("Concluido"));
         assertThat(jdbc.queryForList("select acao from historicos order by id", String.class)).containsExactly("MANUAL", "CONCLUSAO");

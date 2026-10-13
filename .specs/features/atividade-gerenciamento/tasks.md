@@ -254,6 +254,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T13: Fechar escrita manual externa
 
+**Status:** Implemented em12/10/2026;1059 Java/H2 PASS,10 novos; verificação independente pendente.
+
 **What**: Recusar registrarExterno em demanda ativa mantendo consulta e precedência de arquivo.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/HistoricoService.java`
 **Depends on**: T12
@@ -262,8 +264,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo8 novos: autor/ação forjados, nulo/false de arquivo, leitura literal antiga,401/arquivo/ausência; três cenários antigos abaixo somente após autorização.
 **Gate**: java
 **Done when**:
-- [ ] ACT-24 confirmado e autorização exata recebida antes de alterar qualquer outcome antigo.
-- [ ] Externo409 sem escrita, interno automático intacto, dados antigos e leitura preservados; gate java PASS.
+- [x] ACT-24 confirmado e autorização exata recebida antes de alterar qualquer outcome antigo.
+- [x] Externo409 sem escrita, interno automático intacto, dados antigos e leitura preservados; gate java PASS.
 **Commit**: fix(atividade): reject manual activity forgery
 
 Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAutomaticoNaMesmaProtecaoDepoisPermiteConsultaArquivada passa a preparar MANUAL/Informado via fixture, provar POST409 sem mudança e manter todas as verificações de conclusão/autoria/leitura/preservação. DemandaArquivoHistoricoApiTests.postAtivoPermaneceCompativelParaQualquerAutenticado passa a exigir409/erro exato e preservação integral, preparando uma linha literal anterior para conferir leitura. DemandaArquivoHistoricoTests.externoAceitaAtivoIncluindoNullSemNormalizacao conserva os dois estados null/false, exige409 e compara toda a persistência, com linha anterior literal de fixture. Não mudar os casos de arquivo, histórico interno ou401; não excluir/ignorar testes.

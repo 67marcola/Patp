@@ -40,7 +40,8 @@ public class HistoricoService {
             throw new com.patp.sistema.exception.ApiException(org.springframework.http.HttpStatus.CONFLICT,
                     "Demanda arquivada. Restaure-a antes de alterar.");
         }
-        return registrar(processoId, acao, descricao, usuario);
+        throw new com.patp.sistema.exception.ApiException(org.springframework.http.HttpStatus.CONFLICT,
+                "Histórico é registrado automaticamente pelas ações do sistema.");
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
