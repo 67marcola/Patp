@@ -281,3 +281,29 @@ T=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaTransicaoTests.java`; 
 | capturaDepoisDoLockNasDuasRotas6 casos C:31–34/S:31 | ACT-18,edge concorrência | Sim |
 
 A/B/C/D PASS: payload completo e outcomes exatos,provas coordenadas sem alterar timers de testes antigos,matriz JUnit/H2. Sem SPEC_DEVIATION. T10 Implemented,Verifier pendente.
+
+## T11 — arquivo e restauração da demanda
+
+12/10/2026: gate Java completo exit0,1024 testes (1003+21 novos),0 falhas/erros/skips; log TEMP/atividade-T11-java.log. Primeiro gate teve uma falha de fixture: preparar quadro arquivado com saveAndFlush incrementou versão a1 antes do cenário definido em0. Preparo mecânico SQL do marcador mantém baseline0 para isolar lock; ação sob prova continua API/service real,mesmas assertions de aceitação/versão1. Gate integral repetido PASS,outcomes não mudaram.
+A=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaArquivoTests.java`; C=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaArquivoConcurrencyTests.java`; S=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaSupport.java`.
+
+| Critério / AC | file:line + asserção | Outcome da spec / cobertura |
+| --- | --- | --- |
+| ACT-13 somente marcador/três estados | A:27 esperado anteriorfalse/true,novotrue/false; S:31 JSON inteiro; A:28 `assertThat(depois.remove("arquivado")).isEqualTo(arquivar)`,`assertThat(depois).isEqualTo(antes)` | Todos campos de identificação/ciclo/informação preservados,só marcador muda; coberto |
+| Null bruto | A:32/S:31 esperado anteriornull/novotrue e `getMarcadorArquivado().isTrue()` | Null não normalizado no snapshot; coberto |
+| ACT-15/19/23 metadados,vínculo,versão | S:23–36 todas propriedades/hora servidor,micros,vínculo único; A:28 `getVersao().isEqualTo(1L)` | Um evento e histórico automático por ação,autor real; coberto |
+| Repetição409 | A:37 status409/mensagem exata e `assertThat(conteudoComAtividade()).isEqualTo(antes)`,count1 | Repetição conserva tudo; coberto |
+| ACT-18 recusas | A:43 status/erro exatos e snapshot integral igual | Versão/versãoNull/permissão/sessão/quadroArquivo/outro/ausência/status recusados; coberto |
+| ACT-17 rollback | A:48 `andExpect(status().isInternalServerError())`,snapshot integral igual | Marcador/histórico/atividade/versão revertidos nos dois sentidos; coberto |
+| Concorrência quadro | C:22 bloqueio coordenado; C:23 `assertThat(segunda.get(10,TimeUnit.SECONDS)).isEqualTo(restaurarQuadro?"aceita":"Gerenciamento arquivado. Restaure-o antes de alterar.")` e marcadores/versão; C:24/S:31 evento exato ou atividade/histórico0 | Restauração permite após lock,arquivo recusa sem evento; coberto |
+
+| Reverse-map teste + asserção | AC / edge / Done-when | Manter |
+| --- | --- | --- |
+| soMarcadorMudaNosTresEstados6 casos A:27–28/S:23–36 | ACT-13/15/19/23 | Sim |
+| marcadorNullPermaneceLiteralNoAntes A:32 | ACT-13,edge null | Sim |
+| repeticaoContinua409SemNovaAtividade2 casos A:37 | ACT-18,repetição | Sim |
+| recusasNaoAlteramDados8 casos A:43 | ACT-18 | Sim |
+| falhaReverteMarcadorHistoricoAtividadeEVersao2 casos A:48 | ACT-17 | Sim |
+| arquivoDaDemandaEsperaMudancaDeArquivoDoQuadro2 casos C:22–24 | ACT-18,edge concorrência | Sim |
+
+A/B/C/D PASS: payload integral,outcomes precisos,mudança somente do marcador,matriz JUnit/H2. Sem SPEC_DEVIATION. Implemented,Verifier pendente.
