@@ -591,3 +591,28 @@ Quatro casos escritos antes da correção. O controle inicial executou135 casos 
 | Primeira página recusa máximo menor,mesmas duas origens;apiAtividade.test.js:116 rejects.toMatchObject | ACT-27/37,cursor incorreto | Sim |
 
 A/B/C/D PASS: resultado exato e payload completo,casos positivos/negativos isolam o limite com cursor canônico e página50; litmus negativo detectou o erro antes da implementação. Padrões da matriz Vitest/API seguidos,sem guidelines adicionais ou SPEC_DEVIATION. T20 ainda pendente; nenhuma conclusão técnica ou ACT Verified antecipada.
+
+## T20 — arquivo em linguagem da interface
+
+13/10/2026: Implemented e incluído no diagnóstico; Verifier independente pendente. Premissa ACT-36: Sim/Não apresenta o marcador de arquivo,sem mudar DTOs ou outros textos. Arquivos: AtividadeLateral.jsx,AtividadeLateral.test.jsx,quatro asserções adicionais em atividade.spec.js e documentos. Sucesso: Não→Sim ao arquivar,Sim→Não ao restaurar; informações e históricos antigos conservam false/true literais.
+
+Três casos novos escritos antes do renderer: controle28 casos,26 PASS e2 FAIL nos marcadores ainda exibidos em inglês,logTEMP/atividade-T20-red.log. Correção limitada ao campo arquivado; o teste de texto literal foi ampliado com duas descrições antigas isoladas,conservando a expectativa anterior false true. Nenhum outcome antigo mudou. API/servidor não alterados nesta tarefa.
+
+Gates aprovados:1087 Java/H2/0falhas/0erros/0skips;1183 Vitest/28arquivos (1180 anteriores+3novos),zero falhas/skips,55.52s no último gate após ampliar a fixture literal;lint0;buildVite0 em TEMP/atividade-T20-build-75902ef942c543d197719b79c336d059;18/18 Edge/H2 em9arquivos,sem retries/skips. Logs TEMP/atividade-T20-{java,vitest,lint,build,browser}.log. O MySQL847T18 permanece evidência da implementação Java inalterada. Os serviços fictícios18082/4173 foram encerrados pelo runner;33823 permanece inativo.
+
+Capturas reaisT20: TEMP/creral-atividade-T17-6o2dgB,creral-atividade-T18-fluxo-cuIkIQ,creral-atividade-T18-mista-5Nwtqi. Orquestrador inspecionou ativo-360.png: campo Arquivado mostra Não,controles e quebras íntegros. Capturas/asserções desktop e360 mantidas; nenhum dado real ou produção utilizado.
+
+| Critério / AC | file:line + assertion | Outcome / cobertura |
+| --- | --- | --- |
+| ACT-36 marcador legível,arquivo/restauração | frontend/src/components/AtividadeLateral.test.jsx:96 `expect([...lista.querySelectorAll(".atividade-alteracao dd")].map(e => e.textContent)).toEqual([antes, depois])` | Dois casos definidos como Não/Sim e Sim/Não; coberto |
+| ACT-36 texto informativo literal | frontend/src/components/AtividadeLateral.test.jsx:104 `expect([...lista.querySelectorAll(".atividade-alteracao dd")].map(e => e.textContent)).toEqual(["false", "true"])` | Campo observacoes não recebe tradução; coberto |
+| ACT-22/36 histórico literal | frontend/src/components/AtividadeLateral.test.jsx:106 `expect([...lista.querySelectorAll(".atividade-texto")].map(e => e.textContent)).toEqual(["false true", "false", "true"])` | Três descrições antigas permanecem exatamente iguais; coberto |
+| ACT-36 navegador e ACT-03/13 valores originais | frontend/e2e/atividade.spec.js:92 `expect(await painel.locator(...).locator(".atividade-alteracao").filter({ hasText: "Arquivado" }).locator("dd").allTextContents()).toEqual(valores)`; :84 `expect(atividade.registros.find(r => r.tipo === tipo).alteracoes).toEqual([{ alvoTipo, alvoId, alvoNome, campo: "arquivado", anterior, novo }])` | Quatro eventos reais exibem Sim/Não; mesmas respostas preservam strings false/true,alvo e ID; coberto |
+
+| Reverse-map teste + assertion | AC / edge | Manter |
+| --- | --- | --- |
+| Dois casos marcador,AtividadeLateral.test.jsx:96 toEqual([antes,depois]) | ACT-36,apresentação compreensível | Sim |
+| Caso informativo/legado,AtividadeLateral.test.jsx:104/106 listas exatas | ACT-22/36,preservar literais | Sim |
+| Asserts extras no cenário completo,atividade.spec.js:92/84 valores/UI/DTO exatos | ACT-03/13/36,mesmo registro com apresentação local | Sim |
+
+A/B/C/D PASS: cada novo caso deriva da precisão documentada de ACT-36,asserts de valores reais e todas expectativas antigas preservadas. Matriz Vitest+E2E seguida,sem SPEC_DEVIATION ou regras novas. T1–T20 Implemented; Verifier fresco obrigatório após commitT20. Nenhum ACT Verified nem conclusão técnica antecipada.

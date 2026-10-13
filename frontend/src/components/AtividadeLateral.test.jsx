@@ -86,3 +86,22 @@ test.each([false, true])("ACT-34: unmount ignora resposta ou erro tardio%s", asy
     let resolver, rejeitar; const { unmount, f, fechar } = preparar(() => new Promise((a, b) => { resolver = a; rejeitar = b; })); unmount(); expect(f.mock.calls[0][1].signal.aborted).toBe(true);
     await act(async () => erro ? rejeitar(new TypeError("Offline")) : resolver(json(pagina()))); expect(screen.queryByRole("complementary")).toBeNull(); expect(fechar).not.toHaveBeenCalled();
 });
+
+test.each([
+    ["DEMANDA_ARQUIVADA", "false", "true", "Não", "Sim"],
+    ["DEMANDA_RESTAURADA", "true", "false", "Sim", "Não"]
+])("ACT-36 T20: %s mostra marcador em linguagem da interface", async (tipo, anterior, novo, antes, depois) => {
+    const r = { ...registro(), tipo, alteracoes: [{ alvoTipo: "DEMANDA", alvoId: 7, alvoNome: "N-7", campo: "arquivado", anterior, novo }] };
+    preparar(() => json(pagina([r]))); const lista = await screen.findByRole("list");
+    expect([...lista.querySelectorAll(".atividade-alteracao dd")].map(e => e.textContent)).toEqual([antes, depois]);
+});
+
+test("ACT-22/36 T20: false e true continuam literais em informação e histórico existente", async () => {
+    const r = { ...registro(), alteracoes: [{ alvoTipo: "DEMANDA", alvoId: 7, alvoNome: "N-7", campo: "observacoes", anterior: "false", novo: "true" }] };
+    const antigo = { ...registro(101), chave: "HISTORICO_EXISTENTE:101", origem: "HISTORICO_EXISTENTE", autorId: null, descricao: "false true", alteracoes: [] };
+    const literais = ["false", "true"].map((descricao, i) => ({ ...antigo, id: 102 + i, chave: `HISTORICO_EXISTENTE:${102 + i}`, descricao }));
+    preparar(() => json(pagina([r, antigo, ...literais]))); const lista = await screen.findByRole("list");
+    expect([...lista.querySelectorAll(".atividade-alteracao dd")].map(e => e.textContent)).toEqual(["false", "true"]);
+    expect(lista.querySelector(".atividade-texto").textContent).toBe("false true");
+    expect([...lista.querySelectorAll(".atividade-texto")].map(e => e.textContent)).toEqual(["false true", "false", "true"]);
+});

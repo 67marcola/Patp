@@ -380,6 +380,8 @@ Fechamento obrigatório posterior aos dois ajustes de revisão T19/T20: Verifier
 
 ### T20: Mostrar arquivo em linguagem da interface
 
+**Status:** Implemented em13/10/2026;1087 Java/H2,1183 Vitest/28 arquivos,18 Edge/H2/9 arquivos,lint/buildTEMP PASS. Verificação independente pendente.
+
 **What**: Exibir somente o campo arquivado como Sim/Não, mantendo strings true/false nos DTOs e outros textos literais.
 **Where**: `frontend/src/components/AtividadeLateral.jsx`
 **Depends on**: T19
@@ -388,8 +390,8 @@ Fechamento obrigatório posterior aos dois ajustes de revisão T19/T20: Verifier
 **Tests**: unit + e2e — arquivamento Não→Sim, restauração Sim→Não e texto informativo literal false/true; navegador confere os valores nos eventos reais sem modificar os cenários existentes.
 **Gate**: browser
 **Done when**:
-- [ ] Marcador compreensível em antes/depois; ausências e demais textos preservados, sem alterar dados/API.
-- [ ] Java/H2, Vitest, lint/buildTEMP e os18 cenários completos de navegador PASS antes do commit.
+- [x] Marcador compreensível em antes/depois; ausências e demais textos preservados, sem alterar dados/API.
+- [x] Java/H2, Vitest, lint/buildTEMP e os18 cenários completos de navegador PASS antes do commit.
 **Commit**: fix(atividade): present archive values clearly
 
 ## Diagram-Definition Cross-Check
@@ -444,7 +446,7 @@ Fechamento obrigatório posterior aos dois ajustes de revisão T19/T20: Verifier
 
 ## Requirement map
 
-ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. Correções T19 ACT-27/37 e T20 ACT-36. T1–T19 Implemented; T20 pendente. Nenhum critério Verified.
+ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. Correções T19 ACT-27/37 e T20 ACT-36. T1–T20 Implemented. Verifier obrigatório após o commitT20; nenhum critério Verified.
 
 ## Execution notes
 

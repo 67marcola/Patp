@@ -1,6 +1,6 @@
 # Atividade por gerenciamento Specification
 
-**Status:** Implementing — proposta/defaults, bloqueio manual e três adequações T13 aprovados pelo usuário em10/10/2026. Execução autorizada em três agentes sequenciais7/7/4. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Checkpoint13/10/2026: T1–T18 Implemented,1087 Java/H2,1176 Vitest,18 Edge/H2,847 MySQL fictício,lint/buildTEMP PASS. T19 Implemented,1180 Vitest PASS; T20 e Verifier independente pendentes,nenhum critério Verified. Datas históricas das tarefas preservadas.
+**Status:** Implementing — proposta/defaults, bloqueio manual e três adequações T13 aprovados pelo usuário em10/10/2026. Execução autorizada em três agentes sequenciais7/7/4. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Checkpoint13/10/2026: T1–T20 Implemented,1087 Java/H2,1183 Vitest,18 Edge/H2,847 MySQL fictício,lint/buildTEMP PASS. Verifier independente pendente,nenhum critério Verified. Datas históricas das tarefas preservadas.
 
 ## Problem Statement
 
@@ -179,7 +179,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-38 | Ações | Execute | Implementing |
 | ACT-39 | Consulta | Execute | Implementing |
 
-39 critérios em implementação; T1–T18 Implemented e mapa/evidências no plano. Ajustes pequenos identificados e Verifier permanecem pendentes. Nenhum Verified antes da verificação independente.
+39 critérios em implementação; T1–T20 Implemented e mapa/evidências no plano. Correções locais concluídas; Verifier permanece pendente. Nenhum Verified antes da verificação independente.
 
 ## Success Criteria
 
