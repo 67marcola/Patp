@@ -1530,3 +1530,19 @@ button:focus-visible {
 .texto-comentario { white-space: pre-wrap; overflow-wrap: anywhere; }
 .aviso-comentario { padding: 12px; background: #fff2ca; color: #49370b; border-radius: 6px; }
 @media (max-width: 480px) { .comentarios-demanda { padding: 16px; } }
+/* Consulta de atividade do quadro, inclusive em telas estreitas. */
+.atividade-lateral { position: fixed; inset: 0 0 0 auto; z-index: 30; width: min(560px, 100%); box-sizing: border-box; overflow-y: auto; background: white; padding: 20px; box-shadow: -4px 0 20px #0003; overflow-wrap: anywhere; }
+.atividade-topo, .atividade-controles { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.atividade-topo { justify-content: space-between; }
+.atividade-topo h2 { margin: 0; }
+.registros-atividade { list-style: none; padding: 0; }
+.registros-atividade > li { border-top: 1px solid #cbd5e1; padding: 16px 0; }
+.registros-atividade h3 { margin: 0 0 8px; }
+.atividade-origem { font-weight: 600; color: #475569; }
+.atividade-texto, .atividade-alteracao dd { white-space: pre-wrap; overflow-wrap: anywhere; }
+.atividade-alteracao { margin: 12px 0; }
+.atividade-alteracao dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin: 8px 0; }
+.atividade-alteracao dt { font-weight: 600; }
+.atividade-alteracao dd { margin: 4px 0 0; }
+.atividade-controles { padding-bottom: 8px; }
+@media (max-width: 480px) { .atividade-lateral { padding: 16px; } .atividade-alteracao dl { grid-template-columns: minmax(0, 1fr); } }

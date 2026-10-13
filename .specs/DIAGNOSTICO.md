@@ -152,6 +152,8 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 
 ## O que ainda falta nos requisitos originais
 
+Incluído no diagnóstico em12/10/2026: T16 Implemented,painel de leitura/antes-depois/fontes antigas/paginação/atualização e cancelamento;1156 Vitest PASS em27 arquivos (25 novos emT16),lint/buildTEMP PASS. T17–T18 e Verifier pendentes; nenhum ACT Verified.
+
 Incluído no diagnóstico em12/10/2026: T15 Implemented,cliente de atividade com validação integral de página/cursor/fontes;1131 Vitest PASS em26 arquivos (1000 anteriores+131 novos),zero falhas/skips. T14 já está no commit e53302f. T16–T18 e Verifier pendentes,nenhum ACT Verified. [Evidência T15](features/atividade-gerenciamento/evidence.md#t15--contrato-do-cliente).
 
 **Requisito em andamento:** registros de atividade por gerenciamento. Proposta/defaults, compatibilidade manual/T13 e três trabalhadores sequenciais aprovados em10/10/2026. Incluído no diagnóstico em12/10/2026: T1–T14 Implemented; diário de quadro/etapas/demandas/comentários,POST manual bloqueado e GET paginado estável.1087 Java/H2,1000 Vitest,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips. Próximo lote T15–T18,painel/browser e Verifier final pendentes. Nenhum critério ACT Verified. [Evidência](features/atividade-gerenciamento/evidence.md).

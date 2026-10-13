@@ -306,6 +306,8 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 
 ### T16: Exibir painel de atividade
 
+**Status:** Implemented em12/10/2026;1156 Vitest PASS (25 novos),27 arquivos,lint/buildTEMP PASS. Verificação independente pendente.
+
 **What**: Criar AtividadeLateral de leitura com estados, paginação, foco e atualização.
 **Where**: `frontend/src/components/AtividadeLateral.jsx`
 **Depends on**: T15
@@ -314,8 +316,8 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 **Tests**: unit — mínimo24, antes/depois literal, vazio/erro, duas fontes/nulos, retry/duplo clique, abort/late/unmount, foco/Escape e atualização que falha.
 **Gate**: quick + lint/build
 **Done when**:
-- [ ] Nenhuma ação de escrita; foco, lista conservada e texto escapado provados.
-- [ ] CSS no arquivo efetivamente carregado; gate quick/lint/build PASS.
+- [x] Nenhuma ação de escrita; foco, lista conservada e texto escapado provados.
+- [x] CSS no arquivo efetivamente carregado; gate quick/lint/build PASS.
 **Commit**: feat(atividade): add activity sidebar
 
 ### T17: Integrar atividade ao quadro
