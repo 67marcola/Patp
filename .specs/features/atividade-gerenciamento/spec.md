@@ -1,6 +1,6 @@
 # Atividade por gerenciamento Specification
 
-**Status:** Approved — usuário confirmou proposta/defaults, bloqueio manual e três adequações T13 em10/10/2026. Execução autorizada em três agentes sequenciais7/7/4. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Implementação iniciará por T1, nenhum critério Verified.
+**Status:** Approved — usuário confirmou proposta/defaults, bloqueio manual e três adequações T13 em10/10/2026. Execução autorizada em três agentes sequenciais7/7/4. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Checkpoint12/10/2026: T1–T7 Implemented, próximo lote T8–T14; nenhum critério Verified.
 
 ## Problem Statement
 
@@ -142,7 +142,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-03 | Ações | Execute | Implementing |
 | ACT-04 | Ações | Execute | Implementing |
 | ACT-05 | Ações | Execute | Implementing |
-| ACT-06 | Ações | Tasks | Pending |
+| ACT-06 | Ações | Execute | Implementing |
 | ACT-07 | Ações | Execute | Implementing |
 | ACT-08 | Ações | Tasks | Pending |
 | ACT-09 | Ações | Tasks | Pending |

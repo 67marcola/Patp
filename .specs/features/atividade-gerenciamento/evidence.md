@@ -8,9 +8,9 @@ Estado: em andamento. Tarefas Implemented não significam Verified; Verifier ind
 
 | Critério | Evidência | Resultado esperado | Cobertura |
 | --- | --- | --- | --- |
-| FK obrigatória ao quadro; sem FK/cascade ao alvo/autor | Atividade.java:25 `@ManyToOne(optional = false)`; :34–46 IDs/nomes escalares | Identificação independente do alvo/autor | Inspeção de mapeamento e compile |
-| Valores longos e precisão | Atividade.java:51 `TIMESTAMP(6)`; :54 `LONGTEXT` | Micros e JSON longo | Compile; persistência real atribuída a T2 |
-| Vínculo único | Atividade.java:57 `@Column(name = "historico_id", unique = true)` | Vínculo escalar único | Compile; persistência real atribuída a T2 |
+| FK obrigatória ao quadro; sem FK/cascade ao alvo/autor | Atividade.java:24 `@ManyToOne(optional = false)`; :34–44 IDs/nomes escalares | Identificação independente do alvo/autor | Inspeção de mapeamento e compile |
+| Valores longos e precisão | Atividade.java:46 `TIMESTAMP(6)`; :49 `LONGTEXT` | Micros e JSON longo | Compile; persistência real atribuída a T2 |
+| Vínculo único | Atividade.java:52 `@Column(name = "historico_id", unique = true)` | Vínculo escalar único | Compile; persistência real atribuída a T2 |
 
 Reverse-map: sem testes novos em T1, conforme matriz; nenhuma asserção especulativa. Adequação A/B/C/D: entidade sem lógica, gate compile aprovado; comportamento e rollback serão provados no writer T2. Sem desvio da spec ou alteração de testes antigos.
 
@@ -162,3 +162,43 @@ E=`sistema/src/test/java/com/patp/sistema/AtividadeEtapaEdicaoTests.java`; S=`si
 | falhaDoDiarioReverteNomeSetorSequenciaEVersao E:82/83 | ACT-17 | Sim |
 
 Adequação A/B/C/D aprovada:17 cenários com valores da spec, payload completo, todas posições e snapshots completos nas falhas; sem asserções só de chamada. Matriz JUnit/H2 seguida, sem SPEC_DEVIATION. T6 Implemented; Verifier da feature pendente.
+
+## T7 — remoção de etapa e fechamento do lote1
+
+12/10/2026: `mvn.cmd -B package` exit0,921 testes (904 anteriores+17 novos),0 falhas/erros/skips,BUILD SUCCESS com jar. O snapshot da etapa removida e a sequência anterior são capturados depois do lock; gravação usa somente escalares após delete/confirmar. Sem alteração de outcomes antigos/novos, sem SPEC_DEVIATION.
+
+R=`sistema/src/test/java/com/patp/sistema/AtividadeEtapaRemocaoTests.java`; S=`sistema/src/test/java/com/patp/sistema/AtividadeEtapaSupport.java`.
+
+| Critério / AC | file:line + asserção | Resultado esperado / cobertura |
+| --- | --- | --- |
+| ACT-06/15 identificação após remoção | R:32 `assertThat(etapas.findById(removida.getId())).isEmpty()`; S:24 `assertThat(a.getAlvoId()).isEqualTo(alvo.getId())` e `assertThat(a.getAlvoNome()).isEqualTo(alvo.getNome())`; S:28 `assertThat(json.readTree(a.getAlteracoesJson())).isEqualTo(json.readTree(json.writeValueAsString(esperado)))` | ID/nome/setor/ordem antigos conservados mesmo sem etapa; coberto |
+| Campos de remoção exatos | S:28 JSON inteiro; R:85–88 esperado nome antigo->null/setor Engenharia->null/ordem anterior->null | Cada propriedade alvoTipo/alvoId/alvoNome/campo/anterior/novo da lista verificada; coberto |
+| ACT-07 todos afetados no início/meio/fim | S:28 esperado R:26–29; R:30 `assertThat(etapas.findById(e.getId()).orElseThrow().getOrdem()).isEqualTo(i+1<posicao?i+1:i)` | Todas as posições anteriores/novas e persistidas; coberto |
+| ACT-19 finais e versão | R:33 `assertThat(r.gerenciamento().versao()).isEqualTo(1L)`; R:34 ordem final99; R:35 ordem final100 | Incremento atual e finais existentes preservadas; coberto |
+| Última etapa/sem alvo persistido | R:40 `assertThat(etapas.findById(e.getId())).isEmpty()` e S:28 JSON inteiro de remoção; R:41 categorias exatas CONCLUIDA/CANCELADA | Sem trabalho restante, atividade intacta, finais automáticas sem falsas ações; coberto |
+| Edge lacunas/empates | S:28 esperado R:45–46 removidaB7->null/A7->1/C20->2; R:47 ausênciaB; R:48 ordens1/2 | Valores reais antes e posições de todos afetados; coberto |
+| ACT-18 demandas ativas/arquivadas | R:53 `assertThatThrownBy(...).hasMessage("Esta etapa possui demandas. Mova-as para outra etapa antes de removê-la.")`; R:54 `assertThat(conteudoComAtividade()).isEqualTo(antes)` | Dois estados recusados sem atividade; coberto |
+| ACT-18 duas finais | R:59 `assertThatThrownBy(...).hasMessage("Etapas finais obrigatórias não podem ser alteradas.")`; R:60 snapshot igual | CONCLUIDA/CANCELADA protegidas; coberto |
+| ACT-18 demais recusas | R:75 `assertThatThrownBy(...).hasMessage(mensagem)` com mensagens R:67–73; R:76 `assertThat(conteudoComAtividade()).isEqualTo(antes)` | Permissão/versão/arquivo/sessão/outroquadro/ausências sem efeitos; coberto |
+| ACT-17 rollback | R:81 `assertThatThrownBy(...).hasMessage("Falha do diário")`; R:82 `assertThat(conteudoComAtividade()).isEqualTo(antes)` | Etapa removida, sequência, finais, versão, histórico e diário revertidos; coberto |
+| Evento único/autoria | S:21 `assertThat(atividades.count()).isEqualTo(1)`; S:23 tipoETAPA_REMOVIDA/alvoETAPA; S:25 quadroID; S:26 autorID/nome; S:27 históricoNull/horárioMicros | Um registro automático do autor da sessão; coberto |
+
+| Reverse-map teste + asserção | AC / Done-when | Manter |
+| --- | --- | --- |
+| removeInicioMeioFimPreservandoAlvoEPosicoesDeTodosAfetados três casos R:30–35/S:21–28 | ACT-06/07/15/19 | Sim |
+| removeUnicaEtapaMantendoDiarioSemAlvoPersistido R:40/41/S:28 | ACT-06/edge finais automáticas | Sim |
+| remocaoNormalizaLacunasEEmpatesSemPerderAntes R:47/48/S:28 | ACT-07/edge | Sim |
+| demandaAtivaOuArquivadaImpedeRemocaoSemEvento dois casos R:53/54 | ACT-18 e bloqueio ocupada | Sim |
+| finaisNaoPodemSerRemovidasENaoGeramEvento dois casos R:59/60 | ACT-18/proteção finais | Sim |
+| recusasNaoAlteramPersistencia sete casos R:75/76 | ACT-18 | Sim |
+| falhaDoDiarioReverteRemocaoSequenciaFinaisEVersao R:81/82 | ACT-17 | Sim |
+
+Adequação A/B/C/D aprovada:17 cenários, payload completo e valores da spec, todas posições e snapshots integrais nas falhas, sem testes de chamadas ou requisitos inventados. Matriz JUnit/H2 seguida. Referências de mapeamento T1 corrigidas mecanicamente nesta revisão para suas linhas exatas, sem modificar código/outcomes.
+
+### Gate de fim da fase1 em12/10/2026
+
+Executados sequencialmente: Maven package/test921 PASS; `npm.cmd test`1000/1000 em25 arquivos PASS,sem skips; `npm.cmd run lint` exit0; `npm.cmd run build -- --outDir <TEMP novo>` exit0. Vite gerou index.html/CSS/JS em `C:/Users/Marco/AppData/Local/Temp/atividade-T7-build-a345c50709ab4478b9a15b15d1432a00`, sem alterar dist real. Aviso normal de outDir externo sem limpeza; artefatos gerados e saída0 conferidos. Logs TEMP/atividade-T7-{java,vitest,lint,build}.log. Nenhuma aplicação iniciada contra MySQL real, nenhum push/deploy/upgrade/limpeza de gerados.
+
+Lote1 T1–T7 Implemented:81 novos casos Java além dos840 anteriores. T8–T18 permanecem pendentes; mysql/browser e Verifier final pertencem às próximas fases. Nenhum ACT Verified ou feature concluída neste fechamento.
+
+Gates documentais antes do commit T7: validate_spec --strict exit0,zero erros/avisos; validate_tasks exit0,zero erros/aviso esperado Tests:none T1 conferido na matriz; check_commit OK e git diff --check exit0. Arquivos de código/testes/documentos do lote conferidos explicitamente; gerados fora dos commits.

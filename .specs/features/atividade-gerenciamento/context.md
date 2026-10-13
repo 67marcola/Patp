@@ -13,6 +13,8 @@
 
 ## Respostas recebidas e próxima decisão
 
+Registro histórico da preparação em10/10/2026: a proposta abaixo foi confirmada posteriormente. Não há decisão pendente sobre compatibilidade ou forma de execução.
+
 As duas perguntas acima foram respondidas explicitamente com as recomendações, registradas em AD-032/033. Não estão mais pendentes.
 
 Proposta para a compatibilidade: impedir novas escritas manuais no histórico antigo, mantendo sua consulta e todos os registros existentes. Há três cenários antigos que aceitam essa escrita: HistoricoArchiveTests (um cenário), DemandaArquivoHistoricoApiTests (um) e DemandaArquivoHistoricoTests (um cenário parametrizado em dois estados). A alteração exige decisão do usuário e autorização exata para os testes; ainda não aplicada. A proposta completa está em spec.md/design.md/tasks.md, todos Draft até confirmação.
@@ -34,7 +36,7 @@ Caminhos acima estão em sistema/src/main/java/com/patp/sistema/ (service/contro
 
 ## Próximo passo
 
-Confirmar a proposta concreta e a compatibilidade da escrita histórica manual. Precisar os testes antigos antes de qualquer mudança de outcome. Esta preparação não conclui a atividade; nenhum código do sistema foi alterado nesta retomada.
+Checkpoint12/10/2026: lote1 T1–T7 Implemented com921 Java/H2,1000 Vitest,lint e builds aprovados. O orquestrador revisa o lote antes de liberar o segundo trabalhador para T8–T14. Atividade permanece em andamento, sem critérios Verified; os três cenários exatos T13 já estão autorizados. Evidências em evidence.md e estados em tasks.md.
 
 Respostas explícitas recebidas: proposta/defaults aprovados; bloquear escrita manual e adequar exatamente os três cenários T13; três agentes sequenciais7/7/4 aprovados. Não perguntar novamente. Verifier fresco automático após T18, independente da escolha dos trabalhadores.
 
