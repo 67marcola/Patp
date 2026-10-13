@@ -152,11 +152,11 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 
 ## O que ainda falta nos requisitos originais
 
-**Requisito em andamento:** registros de atividade por gerenciamento. Proposta/defaults, compatibilidade manual/T13 e três trabalhadores sequenciais aprovados em10/10/2026. Incluído no diagnóstico em12/10/2026: T1–T11 Implemented;1024 Java/H2 PASS,zero falhas/erros/skips. Próxima tarefa T12. Funcionalidade em andamento, nenhum critério Verified. [Evidência](features/atividade-gerenciamento/evidence.md).
+**Requisito em andamento:** registros de atividade por gerenciamento. Proposta/defaults, compatibilidade manual/T13 e três trabalhadores sequenciais aprovados em10/10/2026. Incluído no diagnóstico em12/10/2026: T1–T12 Implemented;1049 Java/H2 PASS,zero falhas/erros/skips. Próxima tarefa T13. Funcionalidade em andamento, nenhum critério Verified. [Evidência](features/atividade-gerenciamento/evidence.md).
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Logs em cada gerenciamento | Em andamento, incluído no diagnóstico em12/10/2026. T1–T11 Implemented;1024 Java/H2 PASS,zero falhas/erros/skips. Evidências e reverse-map em [evidence.md](features/atividade-gerenciamento/evidence.md). Próxima tarefa T12; nenhum ACT Verified antes do Verifier final. |
+| Logs em cada gerenciamento | Em andamento, incluído no diagnóstico em12/10/2026. T1–T12 Implemented;1049 Java/H2 PASS,zero falhas/erros/skips. Evidências e reverse-map em [evidence.md](features/atividade-gerenciamento/evidence.md). Próxima tarefa T13; nenhum ACT Verified antes do Verifier final. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |

@@ -151,7 +151,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-11 | Ações | Execute | Implementing |
 | ACT-12 | Ações | Execute | Implementing |
 | ACT-13 | Ações | Execute | Implementing |
-| ACT-14 | Ações | Tasks | Pending |
+| ACT-14 | Ações | Execute | Implementing |
 | ACT-15 | Ações | Execute | Implementing |
 | ACT-16 | Ações | Execute | Implementing |
 | ACT-17 | Ações | Execute | Implementing |

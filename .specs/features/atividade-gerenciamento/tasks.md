@@ -238,6 +238,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T12: Registrar envio de comentário
 
+**Status:** Implemented em12/10/2026;1049 Java/H2 PASS,25 novos; verificação independente pendente.
+
 **What**: Instrumentar gravar nas rotas de comentários sem repetir a mensagem.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/ComentarioService.java`
 **Depends on**: T11
@@ -246,8 +248,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo12, duas rotas, três estados, texto ausente do diário/DTO, horário exato, rollback e arquivo/restauração concorrentes.
 **Gate**: java
 **Done when**:
-- [ ] Evento tem autor/demanda/horário e alterações[], sem mensagem, histórico ou incremento de versão.
-- [ ] Corridas modernas/antigas e rollback completos; gate java PASS.
+- [x] Evento tem autor/demanda/horário e alterações[], sem mensagem, histórico ou incremento de versão.
+- [x] Corridas modernas/antigas e rollback completos; gate java PASS.
 **Commit**: feat(atividade): audit comment sends
 
 ### T13: Fechar escrita manual externa
