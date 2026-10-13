@@ -5,6 +5,7 @@ import EditorDemanda from "./EditorDemanda";
 import AcaoDemanda from "./AcaoDemanda";
 import AcaoArquivamentoDemanda from "./AcaoArquivamentoDemanda";
 import ComentariosDemanda from "./ComentariosDemanda";
+import AtividadeLateral from "../components/AtividadeLateral";
 
 function acoesDaDemanda(demanda) {
     if (demanda?.status === "Em andamento") return ["mover", "concluir", "cancelar"];
@@ -37,6 +38,8 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const [acaoDemanda, setAcaoDemanda] = useState(null);
     const [arquivoDemanda, setArquivoDemanda] = useState(null);
     const [comentariosDemanda, setComentariosDemanda] = useState(null);
+    const [atividadeQuadro, setAtividadeQuadro] = useState(null);
+    const botaoAtividade = useRef(null), retornoAtividade = useRef(null);
     const origemComentarios = useRef(null);
     const [confirmacao, setConfirmacao] = useState(null);
     const [erroRemocao, setErroRemocao] = useState("");
@@ -72,7 +75,8 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
         .find(demanda => demanda.id === arquivoAtual.demanda.id);
     const podeArquivarDemanda = podeConfigurar && !!demandaEmArquivo && acoesDaDemanda(demandaEmArquivo).length > 0;
     const comentariosAtuais = comentariosDemanda?.gerenciamentoId === gerenciamento.id ? comentariosDemanda : null;
-    const outrosFormularios = !!editor || !!confirmacao || editorDemanda || !!acaoAtual || !!edicaoAtual || !!arquivoAtual;
+    const atividadeAtual = atividadeQuadro === gerenciamento.id;
+    const outrosFormularios = !!editor || !!confirmacao || editorDemanda || !!acaoAtual || !!edicaoAtual || !!arquivoAtual || atividadeAtual;
     const formularioAberto = outrosFormularios || !!comentariosAtuais;
 
     function finalNoSnapshot(etapa) {
@@ -102,6 +106,8 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
             setAcaoDemanda(null);
             setArquivoDemanda(null);
             setComentariosDemanda(null);
+            setAtividadeQuadro(null);
+            retornoAtividade.current = null;
             origemComentarios.current = null;
             if (operando.current) { operando.current = false; setOcupado(false); aoOcupar?.(false); }
             setConfirmacao(null);
@@ -127,6 +133,25 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
         carregar();
         return () => controller.abort();
     }, [gerenciamento.id, tentativa]);
+
+    useEffect(() => {
+        const id = retornoAtividade.current;
+        if (!atividadeAtual && id !== null) {
+            retornoAtividade.current = null;
+            if (montado.current && id === quadroAtual.current && botaoAtividade.current?.isConnected) botaoAtividade.current.focus();
+        }
+    }, [atividadeAtual]);
+
+    function abrirAtividade() {
+        if (operando.current || bloqueado || formularioAberto) return;
+        setAtividadeQuadro(quadro.id);
+    }
+
+    function fecharAtividade() {
+        if (!montado.current || quadro.id !== quadroAtual.current) return;
+        retornoAtividade.current = quadro.id;
+        setAtividadeQuadro(null);
+    }
 
     useEffect(() => {
         if (confirmacao) cancelarConfirmacao.current?.focus();
@@ -306,12 +331,13 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
         <main className="quadro-page">
             <div className="quadro-topo">
                 <div>
-                    <button className="btn-voltar" ref={botaoVoltar} onClick={voltar} disabled={ocupado}>← Voltar</button>
+                    <button className="btn-voltar" ref={botaoVoltar} onClick={() => { if (!operando.current && !atividadeAtual) voltar(); }} disabled={ocupado || atividadeAtual}>← Voltar</button>
                     <h2>{quadro.nome}</h2>
                     <p>{quadro.descricao || "Controle e acompanhamento dos processos."}</p>
                     {quadro.arquivado && <p className="aviso-arquivado">Arquivado — somente consulta</p>}
                 </div>
                 <div className="quadro-acoes">
+                    <button className="btn-secundario" ref={botaoAtividade} disabled={bloqueado || formularioAberto} onClick={abrirAtividade}>Atividade</button>
                     {podeConfigurar && <button className="btn-criar" ref={novaEtapa}
                         disabled={bloqueado || formularioAberto} onClick={abrirEditor}>+ Nova etapa</button>}
                     {!quadro.arquivado && <button className="btn-criar" ref={criarProcesso}
@@ -319,6 +345,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                 </div>
             </div>
             {carregando && <p role="status">Carregando quadro...</p>}
+            {atividadeAtual && <AtividadeLateral gerenciamentoId={quadro.id} fechar={fecharAtividade} />}
             {comentariosAtuais && <ComentariosDemanda key={`${quadro.id}-${comentariosAtuais.demanda.id}`}
                 gerenciamentoId={quadro.id} demanda={comentariosAtuais.demanda}
                 fechar={fecharComentarios} aoOcupar={ocuparComentarios} />}

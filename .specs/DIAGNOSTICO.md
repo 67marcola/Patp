@@ -1,6 +1,6 @@
 # Diagnóstico e resumo atual do sistema Creral
 
-**Atualizado em 12/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
+**Atualizado em 13/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
 
 ## Como o sistema está organizado
 
@@ -151,6 +151,8 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 **Validação final independente:**840 Java/H2,1000 Vitest,336 selecionados no MySQL8.0.43 fictício,15 Edge/H2 em oito arquivos,lint/build PASS, zero falhas/erros/skips. Sensor7/7 falhas detectadas; controles íntegros102 Java/76 API PASS. HEAD/estado Git e4.147 hashes reais preservados. A primeira revisão revelou uma lacuna de concorrência no envio moderno; T9 acrescentou oito provas, preservou as antigas e detectou o mesmo mutante na segunda rodada. Tentativas ambientais negativas e lições candidatas ficam documentadas. Gate validate_state: zero erros. MySQL temporário encerrado com identidade atual conferida,shutdown0 e listener ausente; nenhum banco real utilizado. **Aceitação humana pendente**, com roteiro em [OPERACAO.md](../docs/OPERACAO.md).
 
 ## O que ainda falta nos requisitos originais
+
+Incluído no diagnóstico em13/10/2026: T17 Implemented,botão/coordenação/foco por quadro;1176 Vitest em28 arquivos e1087 Java/H2 PASS em12/10,16 Edge/H2 em9 arquivos (15 anteriores+1 novo),lint/buildTEMP PASS em13/10. Expectativa novaHTTP200→204 ematividade.spec.js autorizada pelo usuário,sem mudar produto ou outcomes antigos. T18/ajustes pequenos já identificados/Verifier pendentes; nenhum ACT Verified.
 
 Incluído no diagnóstico em12/10/2026: T16 Implemented,painel de leitura/antes-depois/fontes antigas/paginação/atualização e cancelamento;1156 Vitest PASS em27 arquivos (25 novos emT16),lint/buildTEMP PASS. T17–T18 e Verifier pendentes; nenhum ACT Verified.
 

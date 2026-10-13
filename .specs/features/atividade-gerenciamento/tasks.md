@@ -322,6 +322,8 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 
 ### T17: Integrar atividade ao quadro
 
+**Status:** Implemented em13/10/2026;1176 Vitest/28 arquivos e1087 Java/H2 PASS em12/10;16 Edge/H2/9 arquivos (15 anteriores+1 novo),lint/buildTEMP PASS em13/10. Verificação independente pendente.
+
 **What**: Adicionar botão no cabeçalho e coordenação exclusiva com os fluxos existentes.
 **Where**: `frontend/src/pages/Quadro.jsx`
 **Depends on**: T16
@@ -330,8 +332,8 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 **Tests**: unit + e2e — mínimo12 casos Vitest de criador/admin/leitor/arquivo, cada formulário/pending, rascunho/foco/mudança de quadro; cenário de navegador co-localizado em atividade.spec.js demonstra abrir/fechar em quadro ativo/arquivado.
 **Gate**: browser
 **Done when**:
-- [ ] Cabeçalho disponível a todos na consulta; cartões mantêm ações atuais.
-- [ ] Rascunhos e bloqueios anteriores preservados, >=15 casos E2E anteriores e novo cenário aprovados.
+- [x] Cabeçalho disponível a todos na consulta; cartões mantêm ações atuais.
+- [x] Rascunhos e bloqueios anteriores preservados, >=15 casos E2E anteriores e novo cenário aprovados.
 **Commit**: feat(atividade): integrate board activity
 
 ### T18: Provar fluxo completo entre duas contas
@@ -398,7 +400,7 @@ Fechamento obrigatório posterior ao commit: Verifier fresco com critérios39/39
 
 ## Requirement map
 
-ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. T1–T15 Implemented; T16–T18 pendentes. Nenhum critério Verified.
+ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. T1–T17 Implemented; T18 pendente. Nenhum critério Verified.
 
 ## Execution notes
 

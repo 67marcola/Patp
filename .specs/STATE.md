@@ -283,15 +283,15 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature:** atividade-gerenciamento,branch testes,checkpoint12/10/2026,trabalhador3 sequencial autorizado.
-- **Phase / Task:** Phase3,T16 Implemented; T17 é a próxima tarefa.
-- **Completed:** T1–T16 Implemented. T14 commit e53302f; T15 90379da.1087 Java/H2 e847 MySQL fictício aprovados emT14;1156 Vitest em27 arquivos,lint/buildTEMP aprovados emT16. Nenhum critério Verified.
-- **In progress:** atividade permanece em andamento,integração/browser T17–T18 e Verifier final pendentes. Evidências em features/atividade-gerenciamento/evidence.md; incluído no diagnóstico.
-- **Next step:** T17 integrar cabeçalho/guards e provar em Vitest/Edge; T18 fluxo real,fontes mistas/paginação e MySQL. Após commitT18,o orquestrador dispara Verifier fresco,sensor>=5 killed e validate_state0 antes de concluir.
-- **Blockers:** nenhum. Somente três outcomes antigos T13 autorizados foram adequados; nenhum outro outcome alterado.
-- **Environment:** JAVA_HOMEJDK25.0.2,Maven3.9.16,Node existentes; Python hermes venv. MySQL fictício8.0.43,TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,schema creral_arquivo_test,porta33823 inativo; confirmar identidade atual antes de reutilizar,nuncaPID antigo. Logs TEMP/atividade-T16-{vitest,lint,build}.log; buildTEMP/atividade-T16-build-0a4746f11a2249aa847f74142e32dc9d.
-- **Uncommitted files:** T16 painel/testes/index.css e documentos entram neste commit; gerados target/node_modules/test-results preexistentes preservados,não limpar/reset/stash.
-- **Restrictions:** commits locais,sem push/deploy/banco real/upgrades. Data originalT1–T5 em10/10 eT6–T16 em12/10 preservada. Só orquestrador após VerifierPASS pode concluir.
+- **Feature:** atividade-gerenciamento,branch testes,checkpoint13/10/2026,trabalhador3 sequencial autorizado.
+- **Phase / Task:** Phase3,T17 Implemented;próxima T18.
+- **Completed:** T1–T17 Implemented. T14 e53302f,T15 90379da,T16 449eb14. GatesT17 Java1087/Vitest1176 em28 arquivos passaram12/10;Edge/H2 16 cenários/9 arquivos e lint/buildTEMP passaram13/10. Nenhum ACT Verified.
+- **In progress:** T18 fluxo real/fontes mistas/paginação/MySQL e Verifier pendentes. Incluído no diagnóstico;evidência emfeatures/atividade-gerenciamento/evidence.md.
+- **Next step:** trabalhador3 executa T18 e para após commit;o orquestrador trata dois ajustes pequenos identificados (ceiling primeira página e booleano visual Sim/Não),então dispara Verifier fresco,sensor>=5/validate_state0 antes de concluir.
+- **Blockers / consent:** nenhum. Usuário autorizou13/10 corrigir somente expectativa novaHTTP200→204 ematividade.spec.jsT17. Três outcomes antigosT13 também já autorizados;demais preservados. Helperkeyboard agora conta focáveis,sem alterar assertion foco/Enter/timeouts.
+- **Environment:** JDK25.0.2/Maven3.9.16/Node/Pythonhermes. MySQL fictício8.0.43,TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,schema creral_arquivo_test,33823 inativo;confirmar identidade atual antes de iniciar,não reutilizarPID. LogsTEMP/atividade-T17-{java,vitest,lint,build,browser}.log;capturasTEMP/creral-atividade-T17-L3Icgk;buildTEMP/atividade-T17-build-26bbf69713d842fab5b4ce56967e535b.
+- **Uncommitted files:** T17 Quadro.jsx,keyboard.js,QuadroAtividade.test.jsx,atividade.spec.js e docs entram juntos neste commit;gerados antigos preservados.
+- **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Datas históricas10/10 e12/10 preservadas;só orquestrador após VerifierPASS conclui.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

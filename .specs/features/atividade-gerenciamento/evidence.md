@@ -2,6 +2,33 @@
 
 Estado: em andamento. Tarefas Implemented não significam Verified; Verifier independente posterior a T18.
 
+## T17 — cabeçalho e coordenação
+
+13/10/2026: gatebrowser completo16/16 Edge/H2 em9 arquivos (15 anteriores+1 novo),sem falhas/skips/retries;lint0/buildTEMP0. Java1087 eVitest1176/28 arquivos PASS em12/10 (20 novosVitestT17). LogsTEMP/atividade-T17-{java,vitest,lint,build,browser}.log. BuildTEMP/atividade-T17-build-26bbf69713d842fab5b4ce56967e535b;capturasdesktop/360/arquivadoTEMP/creral-atividade-T17-L3Icgk,inspeção visual confirma controles íntegros/rolagem.
+
+Premissas: atividade ligada ao ID do quadro,apenas leitura para todos;exclusão inclui outrosFormularios e guard dos handlers;foco depois de reabilitar botão só quadro montado correspondente. ArquivosQuadro.jsx,QuadroAtividade.test.jsx,atividade.spec.js,keyboard.js e acompanhamento. PrimeiroVitest1175PASS/1FAIL: limite mecânico30Tabs do helper impedia alcançar controle após cabeçalho extra;ajuste autorizado conta controles realmente focáveis+1 e mantém `expect(document.activeElement).toBe(controle)`/Enter,sem timeout. PrimeiroE2E novo esperava200 no setup arquivo,recebeu204;usuário autorizou explicitamente13/10 somente200→204 nessa assertion. ContratoGerenciamentoController@ResponseStatus(NO_CONTENT)/void já era204;produto inalterado. Um crash nativo3221226505 na retomada ocorreu antes de qualquerteste;portas livres/processos próprios ausentes conferidos e gate repetido íntegro PASS. Nenhum outro outcome mudou,SPEC_DEVIATION ausente.
+
+Q=`frontend/src/pages/QuadroAtividade.test.jsx`;B=`frontend/e2e/atividade.spec.js`.
+
+| Critério / AC | file:line + asserção exata | Outcome / cobertura |
+| --- | --- | --- |
+| ACT-20/30 criador/admin/leitor/arquivo | Q:20 `expect(within(card).getAllByRole("button").map(b => b.textContent)).toEqual(...)` com listas exatas;Q:21 leitura vazia/URL exata;B:31 `await expect(painel).toContainText("Quadro criado")` eDono | Cabeçalho acessível sem mudar ações/permissões dos cartões; coberto |
+| ACT-35 dez formulários/rascunhos | Q:25 `expect(atividade().disabled).toBe(true)`;Q:26 `expect(screen.queryByRole("complementary", { name: "Atividade", exact: true })).toBeNull()`,`expect(campo.value).toBe("Rascunho preservado")` | Guard conserva rascunhos mesmo forçando atributo disabled; coberto |
+| Comentários/atividade exclusiva | Q:30 rascunhoRascunho eatividadeNull;Q:34 disabled para8 ações;Q:35 textbox/dialog/comentáriosNull,VoltarNão | Nenhum fluxo simultâneo; coberto |
+| ACT-34 retorno foco/ID | Q:40 `expect(document.activeElement).toBe(b)` eNovaEtapaenabled;Q:45 `expect(sinal.aborted).toBe(true)`,painelNull,novoBotãoNãoFocado | Retorno só mesmo quadro,mudança ignora late; coberto |
+| Pending preservado | Q:50 atividadeDisabled,painelNull,`expect(screen.getByLabelText("Nome da etapa").value).toBe("Nova")` | Mutação pendente conserva campos/bloqueios; coberto |
+| ACT-20/34/35 leitura arquivada/foco real | B:32 botões exatamenteFechar/Atualizar;B:34 Escape/painel0/foco;B:35 HTTP204;B:37 criado+arquivado;B:38 focoFechar | API/sessões reais preservam leitura,sem escrita no painel; coberto |
+| ACT-36 dimensões/controlos | B:23 limites esquerda/direita/baixo/semOverflow;B:24 boundingBoxcontroles dentroviewport;B:33/37 capturas1440/360 | Desktop/celular usáveis; coberto |
+
+| Reverse-map grupos / assertions | AC / Done-when | Manter |
+| --- | --- | --- |
+| Quatro perfis Q:20/21 | ACT-20/30 | Sim |
+| Dezformulários Q:25/26;comentário Q:30;atividade Q:34/35 | ACT-35 | Sim |
+| Fechar2 Q:40;troca Q:45;pending Q:50 | ACT-34/35 | Sim |
+| CenárioAPIreal B:31–38 econtrolesB:23/24 | ACT-20/30/34/35/36 | Sim |
+
+A/B/C/D PASS:20 Vitest+1E2E novo,outcomes exatos/guards/dados/teclado reais;matriz Vitest/EdgeH2 e padrões existentes seguidos. Incluído no diagnóstico,T17 Implemented,Verifier pendente. Precisões pequenas identificadas pelo orquestrador (booleano visual eceiling de primeira resposta) serão tarefas próprias antes da verificação final,sem expandir este commit.
+
 ## T16 — painel de leitura
 
 12/10/2026:1156/1156 Vitest em27 arquivos PASS,25 novos;lint0/buildViteTEMP0. Logs TEMP/atividade-T16-{vitest,lint,build}.log,buildTEMP/atividade-T16-build-0a4746f11a2249aa847f74142e32dc9d. Premissas: painel keyed quadro/token,fechar chama retorno seguro da páginaT17; somente GET,sem timer. Arquivos AtividadeLateral.jsx/test.jsx,index.css e acompanhamento. Primeiro gate1154PASS/1FAIL evidenciou renderer de edição vaziaETAPA_EDITADA; corrigido produto sem mudar teste. Revisão StrictMode acrescentou prova do ciclo real e correção do lock no cleanup. Nenhum outcome alterado/skip/SPEC_DEVIATION.
