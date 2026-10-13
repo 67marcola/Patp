@@ -573,3 +573,21 @@ S=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaSupport.java`; C=`sist
 | Comentário sem texto ACT-14/19 | C:23 `assertThat(a.getHistoricoId()).isNull()`,`assertThat(json.readTree(a.getAlteracoesJson()).size()).isZero()`,`assertThat(a.getAlteracoesJson()).doesNotContain(mensagem)` | Sem texto,histórico ou diferenças informativas |
 | Comentário data ACT-14 | C:24 `assertThat(a.getDataHora()).isEqualTo(jdbc.queryForObject("select data_hora from comentarios",LocalDateTime.class))`,intervalo inicio/now e micros0 | Horário exatamente igual ao comentário persistido |
 | Comentário preservação ACT-19 | C:25 count1/texto/funcionario/processo_id exatos; C:26 `assertThat(jdbc.queryForObject("select count(*) from historicos",Long.class)).isZero()` e versão0 | Mensagem somente na conversa,sem histórico/incremento |
+
+## T19 — limites da primeira página no cliente
+
+13/10/2026: Implemented, incluído no diagnóstico; Verifier pendente. Premissas: máximos do cursor pertencem a cada fonte e incluem os IDs já retornados, ACT-27/37; não alterar formato, dados ou regras do servidor. Arquivos: api.js,apiAtividade.test.js e documentos de rastreio. Sucesso:50 registros com máximo igual ao maior ID aceitos; máximo menor recusado nas duas fontes, com a página inteira rejeitada.
+
+Quatro casos escritos antes da correção. O controle inicial executou135 casos do arquivo:133 PASS e os dois negativos FAIL porque a resposta inconsistente era aceita. Log TEMP/atividade-T19-red.log. A alteração mínima acrescenta a conferência de cada ID contra o máximo de sua fonte no próximo cursor; os testes anteriores permanecem intactos. Gate quick completo:1180/1180 Vitest em28 arquivos,zero falhas/skips,55.43s,log TEMP/atividade-T19-vitest.log. Os1176 casos anteriores foram preservados.
+
+| AC / critério | file:line + assertion | Outcome / cobertura |
+| --- | --- | --- |
+| ACT-27/37 máximo inclusivo das duas fontes | frontend/src/services/apiAtividade.test.js:111 `expect(await consultarAtividade("s", 9)).toEqual(p)` | Página50 e todos os valores preservados com maior ID100 e máximo100; dois casos,coberto |
+| ACT-27/37 cursor inconsistente | frontend/src/services/apiAtividade.test.js:116 `await expect(consultarAtividade("s", 9)).rejects.toMatchObject({ message: erro, status: 200 })` | Mesmo conjunto50/maiorID100, máximo99; recusa integral com ApiError,dois casos,coberto |
+
+| Reverse-map teste + assertion | Âncora | Manter |
+| --- | --- | --- |
+| Primeira página aceita máximo igual,origens AUTOMATICA/HISTORICO_EXISTENTE;apiAtividade.test.js:111 toEqual(p) | ACT-27/37,limite inclusivo | Sim |
+| Primeira página recusa máximo menor,mesmas duas origens;apiAtividade.test.js:116 rejects.toMatchObject | ACT-27/37,cursor incorreto | Sim |
+
+A/B/C/D PASS: resultado exato e payload completo,casos positivos/negativos isolam o limite com cursor canônico e página50; litmus negativo detectou o erro antes da implementação. Padrões da matriz Vitest/API seguidos,sem guidelines adicionais ou SPEC_DEVIATION. T20 ainda pendente; nenhuma conclusão técnica ou ACT Verified antecipada.

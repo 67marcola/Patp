@@ -283,15 +283,15 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature:** atividade-gerenciamento,branch testes,checkpoint13/10/2026,trabalhador3 sequencial autorizado.
-- **Phase / Task:** Phase3,T18 Implemented;trabalhador3 encerra lote após commit.
-- **Completed:** T1–T18 Implemented. T14 e53302f,T15 90379da,T16 449eb14,T17 a708d26. Gates finais13/10:1087 Java/H2,1176 Vitest/28 arquivos,18 Edge/H2/9 arquivos,847 MySQL fictício,lint/buildTEMP PASS;zero falhas/erros/skips/retries nos gates aprovados. Nenhum ACT Verified.
-- **In progress:** feature em andamento,dois ajustes pequenos identificados e Verifier independentes pendentes. Incluído no diagnóstico;evidência emfeatures/atividade-gerenciamento/evidence.md.
-- **Next step:** orquestrador trata ceiling primeira resposta e booleano visual Sim/Não com testes/commits próprios;depois dispara Verifier fresco,sensor>=5/validate_state0. Trabalhador3 não executa ownVerifier nem conclui feature.
-- **Blockers / consent:** nenhum. Usuário autorizou13/10 corrigir somente expectativa novaHTTP200→204 ematividade.spec.jsT17. Três outcomes antigosT13 também já autorizados;demais preservados. Helperkeyboard agora conta focáveis,sem alterar assertion foco/Enter/timeouts.
-- **Environment:** JDK25.0.2/Maven3.9.16/Node/Pythonhermes. MySQL owned19572 confirmado porlistener/CIM/SQL8.0.43,datadirTEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,creral_arquivo_test/33823;shutdownrootfictício0 eporta ausente. LogsTEMP/atividade-T18-{java,vitest,lint,build,browser,mysql}.log;capturasfluxo-ggWZ1x/mista-Jv7nmF;buildTEMP/atividade-T18-build-fa12a421877d4f13af43c77856cb7b9f.
-- **Uncommitted files:** T18 atividade.spec.js,runnersisolated-system/run-e2e,OPERACAO e docs entram neste commit;somente gerados target/node_modules/test-results restarão,preservar. Falhas iniciais de navegação/timeout antigo5033ms emlogs separados;gates repetidos íntegros sem mudar outcomes/timeouts.
-- **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Datas históricas10/10 e12/10 preservadas;só orquestrador após VerifierPASS conclui.
+- **Feature:** atividade-gerenciamento,branch testes,checkpoint13/10/2026.
+- **Phase / Task:** Phase4,T19 Implemented;T20 pendente. Três trabalhadores sequenciais encerrados.
+- **Completed:** T1–T18 até6cc1e60;T19 em commit imediato.1180 Vitest/28 arquivos PASS (quatro novosT19). GatesT18:1087 Java/H2,18 Edge/H2/9 arquivos,847 MySQL fictício,lint/buildTEMP PASS. Nenhum ACT Verified.
+- **In progress:** apresentar arquivado como Sim/Não mantendo DTOs/textos literais;depois Verifier fresco. Incluído no diagnóstico,evidência nos mapasT19.
+- **Next step:** T20 testes/renderização/gatebrowser;commit atômico,Verifier independente39critérios/sensor>=5 evalidate_state0 antes de concluir.
+- **Blockers / consent:** nenhum. HTTP200→204 novoT17 autorizado13/10;três outcomes antigosT13 autorizados. Helperkeyboard ajustou teto mecânico,mantendo foco/Enter/timeouts.
+- **Environment:** JDK25.0.2/Maven3.9.16/Node/Pythonhermes. MySQLfictício8.0.43,TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,creral_arquivo_test/33823 inativo;owned19572 encerrado,não reutilizarPID. LogsTEMP/atividade-T18-{java,vitest,lint,build,browser,mysql}.log;T19-red.log dois negativos detectaram erro;T19-vitest.log1180PASS.
+- **Uncommitted files:** T19 api.js/apiAtividade.test.js e documentos entram juntos neste commit. Gerados target/node_modules/test-results preservados.
+- **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Datas históricas preservadas;aceitação humana pendente.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

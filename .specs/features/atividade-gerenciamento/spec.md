@@ -1,6 +1,6 @@
 # Atividade por gerenciamento Specification
 
-**Status:** Implementing — proposta/defaults, bloqueio manual e três adequações T13 aprovados pelo usuário em10/10/2026. Execução autorizada em três agentes sequenciais7/7/4. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Checkpoint13/10/2026: T1–T18 Implemented,1087 Java/H2,1176 Vitest,18 Edge/H2,847 MySQL fictício,lint/buildTEMP PASS. Dois ajustes pequenos identificados e Verifier independente pendentes; nenhum critério Verified. Datas históricas das tarefas preservadas.
+**Status:** Implementing — proposta/defaults, bloqueio manual e três adequações T13 aprovados pelo usuário em10/10/2026. Execução autorizada em três agentes sequenciais7/7/4. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Checkpoint13/10/2026: T1–T18 Implemented,1087 Java/H2,1176 Vitest,18 Edge/H2,847 MySQL fictício,lint/buildTEMP PASS. T19 Implemented,1180 Vitest PASS; T20 e Verifier independente pendentes,nenhum critério Verified. Datas históricas das tarefas preservadas.
 
 ## Problem Statement
 
@@ -119,6 +119,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 - Nas duas fontes, todos os registros pertencem ao quadro; histórico sem data/autor conserva null. Demanda antiga pode usar identificação atual porque não existe snapshot, deixando origem explícita.
 - Concorrência: quadro/demanda arquivado ou restaurado em outra transação antes do lock da ação; testar caminhos modernos e antigos. Uma falha do diário não pode deixar ação/histórico persistidos.
 - Não adicionar timers, envio automático, limpeza de dados, TTL ou serviços externos.
+- Precisão de apresentação ACT-36 em13/10: somente o campo arquivado mostra true como Sim e false como Não. DTOs e outros textos, inclusive literais true/false em observações ou histórico existente, permanecem inalterados.
 
 ## Implicit dimensions
 

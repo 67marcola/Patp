@@ -359,6 +359,7 @@ function paginaAtividadeValida(pagina, id, cursor, status) {
     if (pagina.proximoCursor === null) return true;
     const proximo = cursorAtividade(pagina.proximoCursor, id);
     return !!proximo && pagina.registros.length === 50
+        && pagina.registros.every(r => r.id <= proximo[r.origem === "AUTOMATICA" ? 1 : 2])
         && (cursor == null ? proximo[3] === 50 : !!anterior && proximo[1] === anterior[1] && proximo[2] === anterior[2] && proximo[3] === anterior[3] + 50);
 }
 
