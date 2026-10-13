@@ -36,7 +36,7 @@ Caminhos acima estão em sistema/src/main/java/com/patp/sistema/ (service/contro
 
 ## Próximo passo
 
-Checkpoint12/10/2026: lote1 T1–T7 Implemented com921 Java/H2,1000 Vitest,lint e builds aprovados. O orquestrador revisa o lote antes de liberar o segundo trabalhador para T8–T14. Atividade permanece em andamento, sem critérios Verified; os três cenários exatos T13 já estão autorizados. Evidências em evidence.md e estados em tasks.md.
+Checkpoint12/10/2026: T1–T14 Implemented; lote2 adicionou166 testes Java,com1087 Java/H2,1000 Vitest,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips. O orquestrador revisa o lote antes de iniciar trabalhador3 T15–T18. Atividade permanece em andamento,sem critérios Verified. Os três cenários exatos T13 autorizados foram adequados; escrita manual bloqueada sem alterar consulta antiga. Evidências em evidence.md e estados em tasks.md.
 
 Respostas explícitas recebidas: proposta/defaults aprovados; bloquear escrita manual e adequar exatamente os três cenários T13; três agentes sequenciais7/7/4 aprovados. Não perguntar novamente. Verifier fresco automático após T18, independente da escolha dos trabalhadores.
 

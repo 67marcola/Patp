@@ -284,12 +284,12 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** atividade-gerenciamento, branch testes, execução aprovada em três lotes sequenciais7/7/4.
-- **Completed:** T1–T13 Implemented em12/10/2026;1059 Java/H2 PASS,zero falhas/erros/skips; tarefa/evidência/diagnóstico atualizados. Nenhum ACT Verified. Lote1 também1000 Vitest,lint/buildTEMP PASS.
-- **In progress:** lote2 T8–T14; próxima tarefa T14. Não alterar outcomes de testes sem autorização, exceto três casos T13 já aprovados.
-- **Next step:** executar T14 após commit atômico da T13. Lote3 somente depois de T14; Verifier fresco após T18.
+- **Completed:** checkpoint12/10/2026,T1–T14 Implemented. Datas originais T1–T5 em10/10 e T6–T14 em12/10 preservadas.1087 Java/H2 (840 antigos+247 novos),1000 Vitest,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips. Lote2 T8–T14 adicionou166 cenários; tarefas/evidência/diagnóstico atualizados. Nenhum ACT Verified. T8–T13 commits a6fa709,0ea333d,5e38434,e41c9c9,5e7ea07,47d710b; T14 incluído no próximo commit atômico.
+- **In progress:** feature atividade-gerenciamento,ainda sem painel/browser ou Verifier final. Lote2 completo como implementação; próxima tarefa T15 no lote3 após revisão do orquestrador. Apenas três outcomes antigos T13 já autorizados foram adequados; demais testes preservados.
+- **Next step:** iniciar trabalhador3 T15–T18 após revisão/commit T14. Contrato DTO RegistroAtividadeResponse/PaginaAtividadeResponse,cursor canônico Base64URL sem padding de quadro:maxA:maxH:offset,quatro inteiros seguros; formato em design.md. Transições incluem contexto etapaNome mesmo quando nomes iguais e etapaId muda. Verifier fresco automático após T18,sensor>=5/validate_state0 antes de concluir.
 - **Blocker:** nenhum.
-- **Environment:** MySQL fictício OWNED TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,porta33823,inativo; confirmar identidade antes da T14. Banco real intocado. JAVA_HOME JDK25.0.2,Maven3.9.16,npm existentes.
-- **Uncommitted files:** código/testes/documentos T13 serão incluídos juntos neste commit; gerados target/node_modules/test-results preexistentes fora do commit,não limpar/reset/stash. Gate log TEMP/atividade-T13-java.log.
+- **Environment:** MySQL fictício8.0.43 OWNED TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,schema creral_arquivo_test,porta33823 encerrado após confirmar identidade atual13172/datadir/porta: mysqladminrootfictíciosem senha shutdown0,listener33823 ausente. Banco real intocado. JAVA_HOME JDK25.0.2,Maven3.9.16,npm existentes. Logs TEMP/atividade-T14-{java,vitest,lint,build,mysql}.log; buildTEMP/atividade-T14-build-4a2d3f4a6e1443dbb688ac1f192bfc33.
+- **Uncommitted files:** código/testes/documentos T14 serão incluídos juntos neste commit; depois restarão somente gerados target/node_modules/test-results preexistentes e dos gates,não limpar/reset/stash. Nenhuma atividade concluída/Verified antes do Verifier. Mensagem T13 corrigida só em metadata de92c9fc1 para47d710b com !/BREAKING CHANGE,sem mudança de árvore ou gates.
 - **Restrictions:** somente implementação/commits locais; sem push/deploy/MySQL real/upgrades.
 - **User preference:** registrar progresso real e dizer incluído no diagnóstico; concluir somente com gates e Verifier PASS.
 

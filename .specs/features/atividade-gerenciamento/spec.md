@@ -1,6 +1,6 @@
 # Atividade por gerenciamento Specification
 
-**Status:** Approved — usuário confirmou proposta/defaults, bloqueio manual e três adequações T13 em10/10/2026. Execução autorizada em três agentes sequenciais7/7/4. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Checkpoint12/10/2026: T1–T7 Implemented, próximo lote T8–T14; nenhum critério Verified.
+**Status:** Implementing — proposta/defaults, bloqueio manual e três adequações T13 aprovados pelo usuário em10/10/2026. Execução autorizada em três agentes sequenciais7/7/4. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Checkpoint12/10/2026: T1–T14 Implemented,1087 Java/H2,1000 Vitest,847 MySQL fictício,lint/buildTEMP PASS. Próximo lote T15–T18; nenhum critério Verified.
 
 ## Problem Statement
 
@@ -157,15 +157,15 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-17 | Ações | Execute | Implementing |
 | ACT-18 | Ações | Execute | Implementing |
 | ACT-19 | Ações | Execute | Implementing |
-| ACT-20 | Consulta | Tasks | Pending |
-| ACT-21 | Consulta | Tasks | Pending |
+| ACT-20 | Consulta | Execute | Implementing |
+| ACT-21 | Consulta | Execute | Implementing |
 | ACT-22 | Consulta | Execute | Implementing |
 | ACT-23 | Consulta | Execute | Implementing |
 | ACT-24 | Consulta | Execute | Implementing |
-| ACT-25 | Consulta | Tasks | Pending |
-| ACT-26 | Consulta | Tasks | Pending |
-| ACT-27 | Consulta | Tasks | Pending |
-| ACT-28 | Consulta | Tasks | Pending |
+| ACT-25 | Consulta | Execute | Implementing |
+| ACT-26 | Consulta | Execute | Implementing |
+| ACT-27 | Consulta | Execute | Implementing |
+| ACT-28 | Consulta | Execute | Implementing |
 | ACT-29 | Consulta | Execute | Implementing |
 | ACT-30 | Painel | Tasks | Pending |
 | ACT-31 | Painel | Tasks | Pending |
@@ -176,7 +176,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-36 | Painel | Tasks | Pending |
 | ACT-37 | Painel | Tasks | Pending |
 | ACT-38 | Ações | Execute | Implementing |
-| ACT-39 | Consulta | Tasks | Pending |
+| ACT-39 | Consulta | Execute | Implementing |
 
 39 critérios em implementação ou pendentes; mapa e estado de cada tarefa no plano. Nenhum Verified antes da verificação independente.
 

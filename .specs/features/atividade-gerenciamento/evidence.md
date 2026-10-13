@@ -358,3 +358,68 @@ N=`sistema/src/test/java/com/patp/sistema/AtividadeHistoricoManualTests.java`; H
 | Três nomes exatos T13 antigos H/A/S acima,nenhum outro outcome | ACT-24/AD-034 | Sim |
 
 A/B/C/D PASS: outcomes autorizados precisos,integridade/consulta antigas mantidas,matriz JUnit/H2. Sem SPEC_DEVIATION. T13 Implemented,Verifier pendente.
+
+## T14 — consulta por quadro e fechamento do lote2
+
+12/10/2026: Java/H2 completo1087/0/0/0 PASS (1059+28 novos),Vitest1000/1000 PASS em25 arquivos,lint0 e build ViteTEMP0. MySQL fictício8.0.43:847/0/0/0 PASS,todos testes novos Atividade e regressão das rotas tocadas. Logs TEMP/atividade-T14-{java,vitest,lint,build,mysql}.log. Build em `C:/Users/Marco/AppData/Local/Temp/atividade-T14-build-4a2d3f4a6e1443dbb688ac1f192bfc33`,sem tocar dist.
+Comando MySQL: Maven `-B "-Dtest=Atividade*Tests,Demanda*Tests,ProcessoArchiveTests,HistoricoArchiveTests,Comentario*Tests,EtapaDemandConcurrencyTests,GerenciamentoArchiveApiTests,EtapaArchiveTests" test`; ENV URLjdbc:mysql://127.0.0.1:33823/creral_arquivo_test?useSSL=false&allowPublicKeyRetrieval=true&connectionTimeZone=LOCAL,drivercom.mysql.cj.jdbc.Driver,userarquivo_test,ddl-autocreate-drop,server.port0. Credencial somente fictícia,não configuração real.
+
+Identidade confirmada por listener/linha de comando e SQL SELECT@@port,@@datadir,DATABASE(),@@version:porta33823,datadirTEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,schema creral_arquivo_test,versão8.0.43. Primeiro gate846 PASS e shutdownOWNEDPID19992; após adicionar descrição nula,H2 completo e mesma seleção MySQL847 repetidos PASS. Nova instância confirmadaOWNEDPID13172,encerrada via mysqladminrootfictíciosem senha shutdown0;listener33823 ausente. Sem reutilizar PID antigo ou operar banco real.
+Compilação inicialmente apontou List.reversed indisponível emrelease17; ajuste mecânico por cópia/Collections.reverse preservou sequências/assertions. Fixture de cursor malformado passou a caractere não numérico Q? para manter ramo400,inicial Q seria substituído pelo quadro real e formaria cursor válido. Nenhum outcome antigo/novo alterado; novo caso de descrição nula foi acrescentado após adequação inicial.
+Fixtures de schema legado tornam somente data_hora ou descricao nullable em testes dedicados,removem respectivas linhas nulas e restauram NOTNULL emfinally. Constraints de produção/model não mudam. Consulta usa UNION/NOTEXISTS parametrizados,51 para emitir50,sem backfill ou UPDATE.
+
+Q=`sistema/src/test/java/com/patp/sistema/AtividadeConsultaTests.java`.
+
+| Critério / AC | file:line + asserção | Outcome da spec / cobertura |
+| --- | --- | --- |
+| ACT-20/15 quadros/demandas arquivados/encerrados e três perfis | Q:44 `assertThat(resposta.get("registros")).isEqualTo(json.readTree(json.writeValueAsString(esperado)))`,esperado completo Q:41–43; Q:44 quadroID/cursorNull | Mesmo contrato200 nos seis casos,autor/número snapshots preservados após mudanças; coberto |
+| ACT-22 fonte literal | Q:43 esperado chave/origem/ID/tipo/alvo/quadro/autorIDnull/nome/data/descrição/alterações[] exatos; Q:44 JSON inteiro | Legado literal e origem explícita,sem antes/depois inventado; coberto |
+| ACT-23 evitar duplicidade/conservar histórico | Q:44 JSON exatamente3 registros,dois automáticos+um antigo; Q:46 countHist2; Q:47 GET antigo length2/ações exatas | Histórico ligado não aparece duas vezes,não foi apagado; coberto |
+| ACT-29 DTO sem entidades/segredos/texto | Q:45 chaves exatamente14; Q:46 `assertThat(resposta.toString()).doesNotContain("Mensagem privada secreta","senha","hash-ficticio-nao-publico","Bearer","processo","funcionario","historicoId")` | DTO plano e texto da conversa ausente; coberto |
+| Leitura sem escrita | Q:46 `assertThat(conteudoComAtividade()).isEqualTo(antes)`; Q:51/54/55/58/61/65/66/71/75/80 snapshots integrais iguais | Dados existentes intactos em todos cenários aceitos/recusados; coberto |
+| ACT-26 vazio | Q:51 `assertThat(r.get("registros").isArray()).isTrue()`,size0,cursorNull,quadroID |200/registros[]/cursorNull em ativo/arquivo; coberto |
+| ACT-21 auth | Q:54 status401/erro ausente ou inválida exato/snapshot igual |401 sem escrita; coberto |
+| ACT-39 quadro ausente | Q:55 status404/erroGerenciamento não encontrado./snapshot igual |404 sem escrita; coberto |
+| ACT-28 cursor malformado | Q:58 status400/erroCursor de atividade inválido./snapshot igual;12 fixtures Q:56 | Vazio/caracteres/513/quadro0/negativo/unsafe/decimal/faltante/excedente/zero inicial recusados; coberto |
+| ACT-28/29 outro quadro/isolamento | Q:60 registros0 apesar duas fontes do outro quadro; Q:61 status400/snapshot igual | Sem vazamento,cursor de outro quadro recusado; coberto |
+| ACT-25/26/27 paginação126/empates/inserts | Q:65 `assertThat(chaves(primeira)).containsExactlyElementsOf(expected.subList(0,50))`,cursor<=512/Base64URL; Q:66 páginas50/26,mesmo cursor igual,`assertThat(todas).containsExactlyElementsOf(expected).doesNotHaveDuplicates()`,refresh começa novosAuto/Antigo | DataDESC,automática antes de existente,idDESC; conjunto fixo com novos inserts nas duas fontes; coberto |
+| ACT-22/25/27 data/autor nulos e continuação | Q:71 páginas50/3 exatas,dataHora/autorId/autorNomeNull,tipo/descrição literal,alterações[],fimNull,snapshot igual | Nulos por último,sem inventar autor/data,sem repetir na página seguinte; coberto |
+| ACT-15 remoção de etapa | Q:75 tipoETAPA_REMOVIDA/alvoId/nomeRemovida/tipoETAPA/anteriorRemovida/novonull,`assertThat(etapas.existsById(e.getId())).isFalse()`,snapshot igual | Alvo preservado sem entidade existir; coberto |
+| ACT-22 descrição nula | Q:80 JSON registro completo igual a esperado,`assertThat(r.get("registros").get(0).get("descricao").isNull()).isTrue()`,cursorNull,snapshot igual | Sem descrição inventada,autor/tipo/data literais preservados; coberto |
+
+| Reverse-map teste + asserção | AC / edge / Done-when | Manter |
+| --- | --- | --- |
+| duasFontesContratoCompletoSemDuplicarHistoricoOuExporMensagem6 casos Q:44–47 | ACT-15/20/22/23/29 | Sim |
+| vazio200EmQuadroAtivoOuArquivado2 casos Q:51 | ACT-20/26 | Sim |
+| ausenteOuInvalida401SemGravacao2 casos Q:54 | ACT-21 | Sim |
+| quadroAusente404SemGravacao Q:55 | ACT-39 | Sim |
+| cursorMalformado400SemEscrita12 casos Q:58 | ACT-28 | Sim |
+| cursorDeOutroQuadro400EIsolamentoDeFontes Q:60–61 | ACT-28/29 | Sim |
+| maisDe100FontesMistasEmpatadasPaginamSemRepetirMesmoComNovosInserts Q:65–66 | ACT-25/26/27 | Sim |
+| dataHoraNulaLegadaVaiAoFimSemInventarAutorOuData Q:71 | ACT-22/25/27 | Sim |
+| etapaRemovidaContinuaNaConsultaComSnapshot Q:75 | ACT-15/29 | Sim |
+| descricaoNulaLegadaPermaneceNulaSemInventarTexto Q:80 | ACT-22/29,null do contrato | Sim |
+
+A/B/C/D PASS:28 cenários,outcomes da spec,payload completo/valores de cada campo e páginas inteiras,matriz JUnit/H2/MySQL seguida. Sem SPEC_DEVIATION. Cursor canônico de quatro inteiros separados por dois-pontos documentado para lote3. Escrita/rollback das ações tocadas comprovados na mesma seleção MySQL,sem skips/retries/timeout alterados.
+T14 e lote2 T8–T14 Implemented,166 casos novos sobre921 do lote1,total1087=840 antigos+247 novos da feature. Interface/browser e Verifier independente ainda pendentes emT15–T18; nenhum ACT Verified. T13 commit corrigido somente em metadata para `47d710b fix(atividade)!: reject manual activity forgery` com BREAKING CHANGE footer,em lugar de92c9fc1; índices/árvore não alterados pela correção.
+
+Gates documentais finais antes do commit T14: validate_spec --strict exit0,zero erros/avisos; validate_tasks exit0,zero erros,aviso esperado T1 Tests:none confirmado pela matriz entity/compile. check_commit e diff --check fazem parte da preparação do commit. Arquivos explícitos limitados aos cinco novos Java e sete documentos de acompanhamento; target/node_modules/test-results permanecem fora do commit.
+
+### Campos comuns das provas de escrita do lote2
+
+S=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaSupport.java`; C=`sistema/src/test/java/com/patp/sistema/AtividadeComentarioSupport.java`. Esta tabela explicita as propriedades de payload citadas nos mapas T8–T12; cada assertion é usada pelos cenários já relacionados nos respectivos reverse-maps.
+
+| Campo / AC | file:line + assertion exata | Outcome da spec |
+| --- | --- | --- |
+| Tipo/alvoTipo ACT-08–13 | S:25 `assertThat(a.getTipo()).isEqualTo(tipo)` e `assertThat(a.getAlvoTipo()).isEqualTo("DEMANDA")` | Enum da ação e DEMANDA |
+| AlvoID/número ACT-15 | S:26 `assertThat(a.getAlvoId()).isEqualTo(alvo.getId())` e `assertThat(a.getAlvoNome()).isEqualTo(alvo.getNumeroProcesso())` | Identificação no momento da ação |
+| Quadro ACT-08–13/29 | S:27 `assertThat(a.getGerenciamento().getId()).isEqualTo(alvo.getEtapa().getGerenciamento().getId())` | Mesmo quadro autorizado |
+| AutorID/nome ACT-15/18 | S:28 `assertThat(a.getAutorId()).isEqualTo(autor.getId())` e `assertThat(a.getAutorNome()).isEqualTo(autor.getNome())` | Conta real da sessão |
+| Data ACT-08–13/15 | S:29 `assertThat(a.getDataHora().getNano()%1000).isZero()`; S:30 `assertThat(a.getDataHora()).isBetween(inicio,java.time.LocalDateTime.now())` | Hora do servidor com micros |
+| Alterações ACT-08–13/16 | S:31 `assertThat(json.readTree(a.getAlteracoesJson())).isEqualTo(json.readTree(json.writeValueAsString(esperado)))` | Lista inteira com alvoTipo/alvoId/alvoNome/campo/anterior/novo e ordem exatos |
+| HistóricoID ACT-23 | S:32 `assertThat(jdbc.queryForObject("select count(*) from historicos", Long.class)).isEqualTo(1L)`; S:33 `assertThat(jdbc.queryForObject("select id from historicos", Long.class)).isEqualTo(a.getHistoricoId())` | Um histórico ligado à própria ação |
+| Histórico conteúdo ACT-19/23 | S:34 `assertThat(jdbc.queryForObject("select acao from historicos", String.class)).isEqualTo(acao)`; S:35 usuário igual autor; S:36 processo_id igual alvo.getId() | Histórico automático preservado com autor/demanda reais |
+| Comentário metadados ACT-14/15 | C:22 `assertThat(a.getTipo()).isEqualTo("COMENTARIO_ADICIONADO")`,alvoTipoDEMANDA,alvoID/número/quadro exatos; C:23 autorID/nome iguais à sessão | Registro do envio identifica ação,demanda,autor e quadro |
+| Comentário sem texto ACT-14/19 | C:23 `assertThat(a.getHistoricoId()).isNull()`,`assertThat(json.readTree(a.getAlteracoesJson()).size()).isZero()`,`assertThat(a.getAlteracoesJson()).doesNotContain(mensagem)` | Sem texto,histórico ou diferenças informativas |
+| Comentário data ACT-14 | C:24 `assertThat(a.getDataHora()).isEqualTo(jdbc.queryForObject("select data_hora from comentarios",LocalDateTime.class))`,intervalo inicio/now e micros0 | Horário exatamente igual ao comentário persistido |
+| Comentário preservação ACT-19 | C:25 count1/texto/funcionario/processo_id exatos; C:26 `assertThat(jdbc.queryForObject("select count(*) from historicos",Long.class)).isZero()` e versão0 | Mensagem somente na conversa,sem histórico/incremento |
