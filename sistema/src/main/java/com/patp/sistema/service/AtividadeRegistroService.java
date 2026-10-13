@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.patp.sistema.model.Atividade;
 import com.patp.sistema.model.Etapa;
 import com.patp.sistema.model.Gerenciamento;
+import com.patp.sistema.model.Processo;
 import com.patp.sistema.model.Usuario;
 import com.patp.sistema.repository.AtividadeRepository;
 import com.patp.sistema.repository.HistoricoRepository;
@@ -40,10 +41,10 @@ public class AtividadeRegistroService {
             String campo, String anterior, String novo) { }
     private record Chave(AlvoTipo tipo, Long id) { }
 
-    private static final List<String> CAMPOS = List.of("nome", "descricao", "arquivado", "setor", "ordem",
+    private static final List<String> CAMPOS = List.of("nome", "descricao", "setor", "ordem",
             "numeroProcesso", "pessoa", "responsavel", "prioridade", "dataEmissao", "prazoEtapa",
             "prazoGeral", "observacoes", "status", "etapaId", "etapaNome", "dataConclusao",
-            "dataCancelamento", "motivoCancelamento");
+            "dataCancelamento", "motivoCancelamento", "arquivado");
     private final AtividadeRepository atividades;
     private final HistoricoRepository historicos;
     private final ObjectMapper json;
@@ -86,6 +87,18 @@ public class AtividadeRegistroService {
     public static Alvo snapshotEtapa(Etapa etapa) {
         return new Alvo(AlvoTipo.ETAPA, etapa.getId(), etapa.getNome(), valores(
                 "nome", etapa.getNome(), "setor", etapa.getSetor(), "ordem", etapa.getOrdem()));
+    }
+
+    public static Alvo snapshotDemanda(Processo demanda) {
+        return new Alvo(AlvoTipo.DEMANDA, demanda.getId(), demanda.getNumeroProcesso(), valores(
+                "numeroProcesso", demanda.getNumeroProcesso(), "pessoa", demanda.getPessoa(),
+                "responsavel", demanda.getResponsavel(), "prioridade", demanda.getPrioridade(),
+                "dataEmissao", demanda.getDataEmissao(), "prazoEtapa", demanda.getPrazoEtapa(),
+                "prazoGeral", demanda.getPrazoGeral(), "observacoes", demanda.getObservacoes(),
+                "status", demanda.getStatus(), "etapaId", demanda.getEtapa().getId(),
+                "etapaNome", demanda.getEtapa().getNome(), "dataConclusao", demanda.getDataConclusao(),
+                "dataCancelamento", demanda.getDataCancelamento(), "motivoCancelamento", demanda.getMotivoCancelamento(),
+                "arquivado", demanda.getMarcadorArquivado()));
     }
 
     public static Map<String, String> valores(Object... pares) {

@@ -283,16 +283,15 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-
-- **Feature:** atividade-gerenciamento em execução, branch testes, base aprovada3717f06; três lotes sequenciais7/7/4. Entrega anterior comentarios-lateral concluída/verificada em10/10/2026, base8584e5b, tarefas3a5934c..3831104.
-- **Completed:** atividade lote1 T1–T7 Implemented; T6/T7 concluídas como implementação em12/10/2026. Gates921 Java/H2 (81 novos),1000 Vitest,lint e builds Maven/ViteTEMP PASS,zero falhas/erros/skips; evidência/diagnóstico/tasks atualizados. Nenhum ACT Verified. Comentários anteriores: T1–T9/28 critérios COM Verified;840 Java/H2,1000 Vitest,336 MySQL fictício,15 Edge/H2,lint/build e sensor7/7 PASS,validate_state0. Arquivamento anterior concluído/verificado.
-- **In progress:** atividade por gerenciamento aprovada; proposta/defaults, bloqueio manual e testes T13 confirmados. Usuário escolheu três agentes sequenciais7/7/4. Primeiro lote T1–T7 autorizado; depois T8–T14 e T15–T18, sem concorrência de edição/gates. Nenhum critério ACT Verified. Aceitação humana anterior pendente, distinta do PASS técnico.
-- **Next step:** orquestrador revisa lote1 e inicia trabalhador2 para T8–T14, somente após todos os gates/commits do lote1. Depois trabalhador3 T15–T18; após T18 Verifier fresco automático com sensor>=5 e validate_state0 antes de concluir.
-- **Blocker:** nenhum. Não reabrir as autorizações recebidas. Teste com outcome genuinamente errado diferente dos já aprovados exige confirmação TLC.
-- **Environment:** tecnologias AD-024 mantidas. MySQL fictício8.0.43 porta33823/datadirTEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql encerrado após conferir identidade atual22852/datadir/porta: mysqladmin shutdown0,listener ausente. Banco real intocado. Logs autor TEMP/comentarios-T*.log; revisão2 TEMP/cv2877ba, relatório em features/comentarios-lateral/validation.md. Build frontend TEMP/comentarios-T8-build. Sem processos residuais próprios do Verifier.
-- **Uncommitted files:** após este commit T7 permanecem somente gerados target/node_modules/test-results preexistentes e dos gates; não limpar/reset/stash. Código/testes/acompanhamento T7 incluídos juntos, gates técnicos e documentais PASS. Planejamento Approved já commitado; T1–T6 em3919c8a..2a1f0e2. Logs TEMP/atividade-T7-{java,vitest,lint,build}.log; build frontend TEMP/atividade-T7-build-a345c50709ab4478b9a15b15d1432a00. Nenhuma atividade concluída antes do Verifier.
-- **Restrictions:** sem push/deploy/migração real/exclusão física/upgrade; AD-027/028 preservadas. Arquivo não reabre nem move demanda.
-- **User preference:** regra permanente no início de Decisions: dizer “incluído no diagnóstico”; marcar concluído e tudo ok somente com testes/verificação aprovados, guardar evidências e seguir ao próximo. Explicar o que vai entrar no sistema e recomendar opções quando perguntar.
+- **Feature:** atividade-gerenciamento, branch testes, execução aprovada em três lotes sequenciais7/7/4.
+- **Completed:** T1–T8 Implemented em12/10/2026;934 Java/H2 PASS,zero falhas/erros/skips; tarefa/evidência/diagnóstico atualizados. Nenhum ACT Verified. Lote1 também1000 Vitest,lint/buildTEMP PASS.
+- **In progress:** lote2 T8–T14; próxima tarefa T9. Não alterar outcomes de testes sem autorização, exceto três casos T13 já aprovados.
+- **Next step:** executar T9 após commit atômico da T8. Lote3 somente depois de T14; Verifier fresco após T18.
+- **Blocker:** nenhum.
+- **Environment:** MySQL fictício OWNED TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,porta33823,inativo; confirmar identidade antes da T14. Banco real intocado. JAVA_HOME JDK25.0.2,Maven3.9.16,npm existentes.
+- **Uncommitted files:** código/testes/documentos T8 serão incluídos juntos neste commit; gerados target/node_modules/test-results preexistentes fora do commit,não limpar/reset/stash. Gate log TEMP/atividade-T8-java.log.
+- **Restrictions:** somente implementação/commits locais; sem push/deploy/MySQL real/upgrades.
+- **User preference:** registrar progresso real e dizer incluído no diagnóstico; concluir somente com gates e Verifier PASS.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

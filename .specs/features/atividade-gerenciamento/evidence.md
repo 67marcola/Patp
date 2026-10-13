@@ -202,3 +202,28 @@ Executados sequencialmente: Maven package/test921 PASS; `npm.cmd test`1000/1000 
 Lote1 T1–T7 Implemented:81 novos casos Java além dos840 anteriores. T8–T18 permanecem pendentes; mysql/browser e Verifier final pertencem às próximas fases. Nenhum ACT Verified ou feature concluída neste fechamento.
 
 Gates documentais antes do commit T7: validate_spec --strict exit0,zero erros/avisos; validate_tasks exit0,zero erros/aviso esperado Tests:none T1 conferido na matriz; check_commit OK e git diff --check exit0. Arquivos de código/testes/documentos do lote conferidos explicitamente; gerados fora dos commits.
+
+## T8 — cadastro de demanda
+
+12/10/2026: `mvn.cmd -B test` exit0,934 testes (921+13 novos),0 falhas/erros/skips. Gate repetido após fortalecer horário. Log TEMP/atividade-T8-java.log. Rotas moderna/antiga conservam versões1/0; helper bruto conserva null e campo arquivado termina ordem da demanda. Sem SPEC_DEVIATION.
+C=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaCadastroTests.java`; S=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaSupport.java`.
+
+| Critério / AC | file:line + asserção | Outcome da spec / cobertura |
+| --- | --- | --- |
+| ACT-08/15/23 evento/vínculo | S:23 `assertThat(atividades.count()).isEqualTo(1)`; S:25–28 tipo/alvo/quadro/autor; S:32–36 count1,ID vinculado,acaoCRIACAO,autor e demanda exatos | Um evento e um histórico da sessão,ID/número snapshot; coberto |
+| Horário servidor/micros | S:29 `assertThat(a.getDataHora().getNano()%1000).isZero()`; S:30 `assertThat(a.getDataHora()).isBetween(inicio,java.time.LocalDateTime.now())` | Horário real da ação,micros; coberto |
+| ACT-08 valores normalizados/10000 | S:31 `assertThat(json.readTree(a.getAlteracoesJson())).isEqualTo(json.readTree(json.writeValueAsString(esperado)))`; C:27–29 todos12 campos; C:31 observações literal10000 | JSON inteiro com cada propriedade das alterações e ordem; coberto |
+| ACT-15 preservação futura | C:33 `assertThat(preservado.getAlvoNome()).isEqualTo("N-1")`,autorLeitor e JSON igual | Identificação/autor não reconstruídos; coberto |
+| Null/opcionais | C:40/S:31 JSON exato somente seis campos; C:41 `assertThat(p.getResponsavel()).isNull()` e demais opcionais/encerramento | Ausências não inventadas; coberto |
+| ACT-19 rotas/versões | C:26 status200/201; C:31 `assertThat(quadros.findById(q.getId()).orElseThrow().getVersao()).isEqualTo(legado?0L:1L)` | Versões atuais mantidas; coberto |
+| ACT-18 recusas | C:53 status/erro exatos sete casos; C:54 `assertThat(conteudoComAtividade()).isEqualTo(antes)` | duplicidade/arquivo/versão/sessão/validação/semtrabalho/forjado sem escrita; coberto |
+| ACT-17 rollback | C:60 `andExpect(status().isInternalServerError())` e `assertThat(conteudoComAtividade()).isEqualTo(antes)` | Todas tabelas/versão revertidas nas duas rotas; coberto |
+
+| Reverse-map teste + asserção | AC / edge / Done-when | Manter |
+| --- | --- | --- |
+| cadastroCompletoNasDuasRotasTemValoresLiteraisAutorRealEVinculo dois casos C:26–33/S:23–36 | ACT-08/15/19/23,edge10000 | Sim |
+| opcionaisNullOuVaziosNaoInventamMudancas dois casos C:39–41/S:31 | ACT-08,edge null/normalização | Sim |
+| recusasConservamTodasAsTabelas sete casos C:53–54 | ACT-18 | Sim |
+| falhaDoDiarioReverteCadastroHistoricoEVersao dois casos C:60 | ACT-17 | Sim |
+
+A/B/C/D PASS: outcomes exatos,payload integral,sem testes rasos/fora da spec; matriz JUnit/H2. Outcomes antigos/novos não alterados. T8 Implemented,Verifier pendente.
