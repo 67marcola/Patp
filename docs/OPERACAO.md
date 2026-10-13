@@ -1,5 +1,25 @@
 # Operação local do sistema Creral
 
+## Atividade por gerenciamento
+
+O botão Atividade no cabeçalho abre a consulta para todos os usuários autenticados, inclusive em quadros arquivados. A lista reúne ações do quadro, das etapas e das demandas, além do envio de comentários. Cada ação automática mostra alvo, autor da conta, horário do servidor e os valores anteriores/novos. A mensagem do comentário continua na conversa da demanda. Edição aceita sem diferenças aparece como Nenhum campo foi alterado.
+
+Histórico existente identifica os registros antigos e mostra sua ação, descrição, autor e horário literalmente. Ausências aparecem como Não informado; a origem não confirma autoria antiga nem inventa antes/depois. Etapas removidas e nomes anteriores continuam nos registros automáticos. Etapas homônimas mostram os IDs da origem/destino para distinguir uma movimentação.
+
+A consulta mostra até50 registros,mais recentes primeiro. Carregar mais acrescenta a próxima página do conjunto iniciado; ações feitas depois aparecem ao escolher Atualizar. Falha de paginação ou atualização conserva a lista; atualização falha informa Atividade não atualizada. Fechar atividade ou Escape retorna foco ao botão do mesmo quadro. Formulários/comentários e atividade são exclusivos; feche o painel antes de outra ação. A lateral possui rolagem no computador e em360px.
+
+GET `/api/gerenciamentos/{id}/atividade?cursor=...` responde200 com `{gerenciamentoId,registros,proximoCursor}`. Cada registro contém13 campos: `chave,origem,id,gerenciamentoId,tipo,alvoTipo,alvoId,alvoNome,autorId,autorNome,dataHora,descricao,alteracoes`. Origem é AUTOMATICA ou HISTORICO_EXISTENTE; alterações têm `{alvoTipo,alvoId,alvoNome,campo,anterior,novo}`. Histórico automático vinculado continua na rota antiga e aparece uma vez no painel. POST histórico manual agora recebe409 em demanda ativa; consultas antigas permanecem disponíveis.
+
+### Roteiro humano da atividade,aceitação pendente
+
+No preview fictício,crie duas contas e um quadro. Com o criador,cadastre/edite/remova uma etapa vazia e cadastre uma demanda. Edite cliente,responsável e observações; abra Atividade e confira os valores anteriores/novos. Salve uma edição sem diferenças e confira a mensagem. Feche por Escape e confira o foco no cabeçalho. Mova/conclua/cancele/reabra a demanda e consulte as ações com seus destinos e campos limpos.
+
+Entre com a segunda conta e envie um comentário. Confira o autor na atividade e a mensagem somente em Comentários. Arquive/restaure demanda e quadro com o criador,conservando consulta pelos dois usuários. Confira etapas removidas e nomes anteriores após renomear. No celular,use a rolagem para alcançar Carregar mais/Atualizar/Fechar,sem corte horizontal. Informe os resultados observados; testes automáticos não representam aceitação humana da Creral.
+
+### Fixture de navegador da atividade
+
+`npm.cmd run test:e2e` mantém um H2 em memória novo por arquivo. Somente `atividade.spec.js` recebe a flag interna `CRERAL_E2E_ATIVIDADE_FIXTURE=1`;os outros arquivos recebem0. O runner isolado escreve SQL em sua pastaTEMP própria e inicializa,após o DDL create-drop,um quadro sem criador,uma demanda antiga e121 históricos literais,um deles sem data/autor/descrição. A alteração de nulabilidade pertence somente a esse H2 efêmero. Contas,sessões e comentários do cenário são criados pelas APIs reais. Não há endpoint de seed nem configuração nova de produção. Para executar apenas esse arquivo com a mesma fixture,use `npm.cmd run test:e2e -- atividade.spec.js`.
+
 ## Histórico integral das movimentações
 
 A próxima entrega das transições usa `historicos.descricao LONGTEXT NOT NULL` para guardar motivos e os dados anteriores de encerramento sem truncamento. A alteração abaixo é somente documentação. Não foi executada no banco configurado; conferir backup, schema e tipo atual antes de uma atualização autorizada no ambiente escolhido:

@@ -26,7 +26,8 @@ for (const arquivo of arquivos) {
     console.log(`E2E isolado: ${arquivo}`);
     const codigo = await new Promise((resolve, reject) => {
         const filho = spawn(process.execPath, [cli, "test", `e2e/${arquivo}`, ...opcoes], {
-            cwd: frontend, stdio: "inherit", windowsHide: true
+            cwd: frontend, stdio: "inherit", windowsHide: true,
+            env: { ...process.env, CRERAL_E2E_ATIVIDADE_FIXTURE: arquivo === "atividade.spec.js" ? "1" : "0" }
         });
         filho.once("error", reject);
         filho.once("exit", status => resolve(status ?? 1));

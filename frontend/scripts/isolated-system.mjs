@@ -1,5 +1,5 @@
 import { spawn, spawnSync } from "node:child_process";
-import { access, mkdtemp, readFile, realpath } from "node:fs/promises";
+import { access, mkdtemp, readFile, realpath, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { delimiter, join, resolve } from "node:path";
@@ -76,6 +76,23 @@ try {
     await terminou(maven);
     const dependencias = (await readFile(arquivoClasspath, "utf8")).trim();
     const classpath = [join(sistema, "target/test-classes"), join(sistema, "target/classes"), dependencias].join(delimiter);
+    const fixtureAtividade = [];
+    if (process.env.CRERAL_E2E_ATIVIDADE_FIXTURE === "1") {
+        // Somente o H2 create-drop deste runner, nunca endpoints ou configuração de produção.
+        const arquivoDados = join(pasta, "atividade-ficticia.sql");
+        const sql = [
+            "insert into gerenciamentos(id,nome,descricao,criador_id,arquivado,versao) values(900000,'Quadro histórico fictício','Dados antigos literais',null,false,0);",
+            "insert into etapas(id,nome,setor,ordem,categoria,gerenciamento_id) values(900001,'Trabalho antigo','Teste',1,'TRABALHO',900000);",
+            "insert into processos(id,numero_processo,pessoa,status,arquivado,etapa_id) values(900001,'LEGADO-FICTICIO','Cliente antigo','Em andamento',false,900001);",
+            "alter table historicos alter column data_hora drop not null;",
+            "alter table historicos alter column descricao drop not null;",
+            ...Array.from({ length: 120 }, (_, i) => `insert into historicos(id,acao,descricao,usuario,data_hora,processo_id) values(${900001 + i},' Ação antiga ${i + 1} ',' <b>Descrição antiga ${i + 1}</b>\n fim ',' Autor antigo ','2010-01-02 03:04:05',900001);`),
+            "insert into historicos(id,acao,descricao,usuario,data_hora,processo_id) values(900121,' Ação antiga sem data ',null,null,null,900001);"
+        ];
+        await writeFile(arquivoDados, sql.join("\n"), "utf8");
+        fixtureAtividade.push("--spring.jpa.defer-datasource-initialization=true", "--spring.sql.init.mode=always", `--spring.sql.init.data-locations=file:${arquivoDados.replaceAll("\\", "/")}`, "--spring.sql.init.encoding=UTF-8");
+        console.log(`Fixture atividade somente H2: ${arquivoDados}`);
+    }
     const backend = iniciar(java, [
         "-cp", classpath, "com.patp.sistema.SistemaApplication",
         "--server.port=18082", "--server.address=127.0.0.1",
@@ -84,7 +101,7 @@ try {
         "--spring.datasource.username=sa", "--spring.datasource.password=",
         "--spring.jpa.hibernate.ddl-auto=create-drop", "--spring.jpa.open-in-view=false",
         "--spring.jpa.show-sql=false", "--debug=false", "--logging.level.root=WARN",
-        "--logging.level.com.zaxxer.hikari=INFO", "--spring.main.banner-mode=off"
+        "--logging.level.com.zaxxer.hikari=INFO", "--spring.main.banner-mode=off", ...fixtureAtividade
     ], { cwd: sistema });
     backend.once("error", error => { console.error(error.message); parar(1); });
     backend.once("exit", () => { if (!encerrando) parar(1); });

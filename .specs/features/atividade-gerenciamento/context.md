@@ -36,6 +36,8 @@ Caminhos acima estão em sistema/src/main/java/com/patp/sistema/ (service/contro
 
 ## Próximo passo
 
+Checkpoint final do trabalhador3 em13/10/2026: T1–T18 Implemented;1087 Java/H2,1176 Vitest/28 arquivos,18 Edge/H2/9 arquivos,847 MySQL fictício,lint/buildTEMP PASS. MySQL owned19572 encerrado após identidade atual e shutdown,porta33823 ausente. O orquestrador executará dois ajustes pequenos já identificados (ceiling da primeira resposta e booleano visual Sim/Não),depois Verifier fresco/sensor/validate_state. Trabalhador3 não declara nenhum ACT Verified. As notas datadas abaixo conservam os checkpoints anteriores.
+
 Checkpoint atual13/10/2026: T1–T17 Implemented;T18 é a próxima tarefa. Usuário autorizou especificamente corrigir a expectativa nova de arquivo do quadro ematividade.spec.jsT17:200→204,compatível com@ResponseStatus(NO_CONTENT) existente,após falha concreta204. Nenhum outro outcome novo/antigo foi alterado. Helperkeyboard ajustado mecanicamente para contar controles focáveis em vez de limite30,conservando assertion de foco e Enter. Verifier fresco será disparado pelo orquestrador após T18 e eventuais correções pequenas documentadas,sem conclusão antecipada.
 
 Checkpoint12/10/2026: T1–T14 Implemented; lote2 adicionou166 testes Java,com1087 Java/H2,1000 Vitest,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips. O orquestrador revisa o lote antes de iniciar trabalhador3 T15–T18. Atividade permanece em andamento,sem critérios Verified. Os três cenários exatos T13 autorizados foram adequados; escrita manual bloqueada sem alterar consulta antiga. Evidências em evidence.md e estados em tasks.md.
