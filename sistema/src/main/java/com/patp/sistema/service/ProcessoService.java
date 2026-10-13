@@ -248,6 +248,7 @@ public class ProcessoService {
                 throw new ApiException(HttpStatus.BAD_REQUEST, "O número da demanda não pode ser alterado após o cadastro.");
             }
         }
+        var antes = AtividadeRegistroService.snapshotDemanda(processo);
         processo.setPessoa(obrigatorio(request.pessoa(), "Informe um cliente/solicitante entre 1 e 255 caracteres."));
         processo.setResponsavel(opcional(request.responsavel(), 255, "Informe um responsável com até 255 caracteres."));
         processo.setPrioridade(opcional(request.prioridade(), 255, "Informe uma prioridade com até 255 caracteres."));
@@ -256,7 +257,10 @@ public class ProcessoService {
         processo.setPrazoEtapa(request.prazoEtapa());
         processo.setPrazoGeral(request.prazoGeral());
         Processo salvo = processoRepository.saveAndFlush(processo);
-        historicoService.registrar(id, "EDICAO", "Processo alterado.", usuario.getNome());
+        var historico = historicoService.registrar(id, "EDICAO", "Processo alterado.", usuario.getNome());
+        var depois = AtividadeRegistroService.snapshotDemanda(salvo);
+        atividades.registrar(quadro, usuario, AtividadeRegistroService.Tipo.DEMANDA_EDITADA, depois,
+                AtividadeRegistroService.diferencas(List.of(antes), List.of(depois)), historico.getId(), null);
         entityManager.flush();
         entityManager.lock(quadro, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
         entityManager.flush();

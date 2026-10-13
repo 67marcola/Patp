@@ -190,6 +190,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T9: Registrar edição informativa da demanda
 
+**Status:** Implemented em12/10/2026;965 Java/H2 PASS,31 novos; verificação independente pendente.
+
 **What**: Instrumentar executarEdicao com diferenças de todos os campos editáveis.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/ProcessoService.java`
 **Depends on**: T8
@@ -198,8 +200,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo12, cada campo,10000 literal, null/limpeza, idêntica, concluída/cancelada, imutabilidade do número e rollback/recusas.
 **Gate**: java
 **Done when**:
-- [ ] Valores normalizados reais antes/depois, sem alterar encerramento ou número.
-- [ ] Edição idêntica aceita com alterações[]; falhas conservam tudo; gate java PASS.
+- [x] Valores normalizados reais antes/depois, sem alterar encerramento ou número.
+- [x] Edição idêntica aceita com alterações[]; falhas conservam tudo; gate java PASS.
 **Commit**: feat(atividade): audit demand edits
 
 ### T10: Registrar transições de demanda
