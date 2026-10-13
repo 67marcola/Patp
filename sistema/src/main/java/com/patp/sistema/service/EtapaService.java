@@ -117,9 +117,13 @@ public class EtapaService {
                     "Esta etapa possui demandas. Mova-as para outra etapa antes de removê-la.");
         }
         List<Etapa> sequencia = sequencia(gerenciamentoId);
+        var antes = snapshots(sequencia);
+        var alvoRemovido = AtividadeRegistroService.snapshotEtapa(etapa);
         sequencia.remove(etapa);
         etapas.delete(etapa);
         confirmar(gerenciamento, sequencia);
+        atividade.registrar(gerenciamento, usuario, AtividadeRegistroService.Tipo.ETAPA_REMOVIDA,
+                alvoRemovido, AtividadeRegistroService.diferencas(antes, snapshots(sequencia)), null, null);
         return resposta(gerenciamento, usuario);
     }
 
