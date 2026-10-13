@@ -331,3 +331,30 @@ T=`sistema/src/test/java/com/patp/sistema/AtividadeComentarioTests.java`; C=`sis
 | envioEsperaLockELêArquivoMaisRecente8 casos C:24–25/S:21–26 | ACT-18,edge concorrência | Sim |
 
 A/B/C/D PASS: payload completo,outcomes exatos,texto mantido só na conversa,matriz JUnit/H2. T12 Implemented,Verifier pendente. DTO da atividade sem texto será provado diretamente na T14.
+
+## T13 — bloqueio da escrita manual externa
+
+12/10/2026: gate Java completo exit0,1059 testes (1049+10 novos),0 falhas/erros/skips;log TEMP/atividade-T13-java.log. ACT-24/AD-034 e exatamente três adequações autorizados explicitamente pelo usuário em10/10/2026. Somente registrarExterno passa a409 após existência/arquivos; registrar interno intacto. Nenhum teste excluído/ignorado.
+N=`sistema/src/test/java/com/patp/sistema/AtividadeHistoricoManualTests.java`; H=`sistema/src/test/java/com/patp/sistema/HistoricoArchiveTests.java`; A=`sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoApiTests.java`; S=`sistema/src/test/java/com/patp/sistema/DemandaArquivoHistoricoTests.java`.
+
+| Critério / AC | file:line + asserção | Outcome da spec / cobertura |
+| --- | --- | --- |
+| ACT-24 falsificação/null/false | N:26 `andExpect(status().isConflict())`,erro automático exato,`assertThat(conteudoComAtividade()).isEqualTo(antes)` | Quatro tentativas tipo/autor forjados recusadas409 sem escrita; coberto |
+| ACT-18 sessão | N:30 `andExpect(status().isUnauthorized())` e snapshot igual | Ausente/inválida401; coberto |
+| ACT-24 precedência arquivo | N:35 status409/erro quadro ou demanda exato,snapshot igual | Recusas antigas de arquivo preservadas; coberto |
+| Ausência | N:37 `assertThatThrownBy(...).hasMessage("Processo não encontrado.")`,snapshot igual | Existência ainda verificada antes da nova recusa; coberto |
+| ACT-22 leitura literal | N:40 status200,length1,ação/descrição/autorNull/dataMicros exatos,snapshot igual | Não normalizar valores antigos/autor; coberto |
+| Adequação autorizada1 | H:57–66 POST409/snapshot integral/GET MANUAL,Observação,Informado,horário e demanda; H:67–80 conclusão/autoria/leitura/arquivo preservados | MANUAL via fixture,interno automático intacto; coberto |
+| Adequação autorizada2 | A:29–39 POST409/erro/snapshot integral,GET literal,e campos/data antiga/processo/versão | POST não grava,linha anterior literal preservada; coberto |
+| Adequação autorizada3 | S:21–29 exceção409/erro/snapshot integral,leitura literal/data fixture/processo/count1/versão | Null/false conservados com recusa,sem normalização; coberto |
+
+| Reverse-map teste + asserção | AC / edge / Done-when | Manter |
+| --- | --- | --- |
+| tipoEAutorForjadosEmDemandaAtivaNaoGravam4 casos N:26 | ACT-18/24 | Sim |
+| semSessaoOuInvalidaPermanece4012 casos N:30 | ACT-18 | Sim |
+| precedenciaDeArquivoPermanece2 casos N:35 | ACT-24 | Sim |
+| ausenciaPreservaErroAnteriorESemEscrita N:37 | ACT-18/existência | Sim |
+| leituraAntigaContinuaLiteralSemNormalizacao N:40 | ACT-22 | Sim |
+| Três nomes exatos T13 antigos H/A/S acima,nenhum outro outcome | ACT-24/AD-034 | Sim |
+
+A/B/C/D PASS: outcomes autorizados precisos,integridade/consulta antigas mantidas,matriz JUnit/H2. Sem SPEC_DEVIATION. T13 Implemented,Verifier pendente.
