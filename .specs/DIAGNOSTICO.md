@@ -152,11 +152,11 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 
 ## O que ainda falta nos requisitos originais
 
-**Requisito em andamento:** registros de atividade por gerenciamento. AD-030–034 e proposta/defaults, compatibilidade manual/T13 e três trabalhadores sequenciais já aprovados em10/10/2026. Incluído no diagnóstico em12/10/2026: T1–T7 Implemented, diário e ações de quadro/etapas com snapshots e rollback;921 Java/H2,1000 Vitest,lint/build PASS. Próximo lote T8–T14 após revisão do orquestrador.39 critérios/18 tarefas; a funcionalidade ainda não está concluída nem Verified. [Evidência](features/atividade-gerenciamento/evidence.md).
+**Requisito em andamento:** registros de atividade por gerenciamento. Proposta/defaults, compatibilidade manual/T13 e três trabalhadores sequenciais aprovados em10/10/2026. Incluído no diagnóstico em12/10/2026: T1–T8 Implemented;934 Java/H2 PASS,zero falhas/erros/skips. Próxima tarefa T9. Funcionalidade em andamento, nenhum critério Verified. [Evidência](features/atividade-gerenciamento/evidence.md).
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Logs em cada gerenciamento | Em andamento, incluído no diagnóstico em12/10/2026. T1–T7 Implemented: diário/writer e ações de quadro/etapas, incluindo snapshot após remoção e todas as posições afetadas.921 Java/H2 (81 novos),1000 Vitest,lint/build PASS,0 falhas/erros/skips. [Evidência](features/atividade-gerenciamento/evidence.md). Próximo lote T8–T14 demandas/comentários/leitura;39 critérios/18 tarefas aprovados, nenhum Verified antes dos gates completos e Verifier. |
+| Logs em cada gerenciamento | Em andamento, incluído no diagnóstico em12/10/2026. T1–T8 Implemented;934 Java/H2 PASS,zero falhas/erros/skips. Evidências e reverse-map em [evidence.md](features/atividade-gerenciamento/evidence.md). Próxima tarefa T9; nenhum ACT Verified antes do Verifier final. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |

@@ -174,6 +174,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T8: Registrar cadastro de demanda
 
+**Status:** Implemented em12/10/2026;934 Java/H2 PASS,13 novos; verificação independente pendente.
+
 **What**: Instrumentar salvarInicial com valores iniciais e vínculo ao histórico automático.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/ProcessoService.java`
 **Depends on**: T7
@@ -182,8 +184,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo10 parametrizados nas duas rotas, campos opcionais/null, autoria, duplicidade, arquivo/versão e rollback.
 **Gate**: java
 **Done when**:
-- [ ] Um evento e um histórico vinculados por cadastro, versões modernas/antigas atuais mantidas.
-- [ ] ID/número não reconstruídos do estado futuro; gate java PASS.
+- [x] Um evento e um histórico vinculados por cadastro, versões modernas/antigas atuais mantidas.
+- [x] ID/número não reconstruídos do estado futuro; gate java PASS.
 **Commit**: feat(atividade): audit demand creation
 
 ### T9: Registrar edição informativa da demanda

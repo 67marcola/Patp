@@ -39,6 +39,7 @@ public class ProcessoService {
     private final EtapaService etapas;
     private final EntityManager entityManager;
     private final ObjectMapper json;
+    private final AtividadeRegistroService atividades;
 
     public ProcessoService(
             ProcessoRepository processoRepository,
@@ -48,7 +49,8 @@ public class ProcessoService {
             GerenciamentoGuard guard,
             EtapaService etapas,
             EntityManager entityManager,
-            ObjectMapper json) {
+            ObjectMapper json,
+            AtividadeRegistroService atividades) {
 
         this.processoRepository = processoRepository;
         this.etapaRepository = etapaRepository;
@@ -58,6 +60,7 @@ public class ProcessoService {
         this.etapas = etapas;
         this.entityManager = entityManager;
         this.json = json;
+        this.atividades = atividades;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -136,7 +139,10 @@ public class ProcessoService {
             if (violacaoUnica(erro)) { throw duplicado(); }
             throw erro;
         }
-        historicoService.registrar(salvo.getId(), "CRIACAO", "Processo criado.", usuario.getNome());
+        var historico = historicoService.registrar(salvo.getId(), "CRIACAO", "Processo criado.", usuario.getNome());
+        var alvo = AtividadeRegistroService.snapshotDemanda(salvo);
+        atividades.registrar(etapa.getGerenciamento(), usuario, AtividadeRegistroService.Tipo.DEMANDA_CRIADA,
+                alvo, AtividadeRegistroService.diferencas(List.of(), List.of(alvo)), historico.getId(), null);
         entityManager.flush();
         return salvo;
     }
