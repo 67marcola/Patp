@@ -283,6 +283,8 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
+Checkpoint atual12/10/2026: T1–T15 Implemented. T14 confirmado em e53302f,sem trabalho pendente dessa tarefa. T15 quick1131/1131 em26 arquivos PASS,131 novos além dos1000 anteriores; próximos T16–T18 pelo trabalhador3 e depois Verifier fresco automático. Fonte/testes/docs T15 entram no commit atômico; gerados anteriores preservados. Nenhum ACT Verified. Branch testes; sem blocker,sem operações remotas/reais. A lista histórica abaixo registra o checkpoint anterior do lote2,com sua próxima ação já reconciliada neste parágrafo.
+
 - **Feature:** atividade-gerenciamento, branch testes, execução aprovada em três lotes sequenciais7/7/4.
 - **Completed:** checkpoint12/10/2026,T1–T14 Implemented. Datas originais T1–T5 em10/10 e T6–T14 em12/10 preservadas.1087 Java/H2 (840 antigos+247 novos),1000 Vitest,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips. Lote2 T8–T14 adicionou166 cenários; tarefas/evidência/diagnóstico atualizados. Nenhum ACT Verified. T8–T13 commits a6fa709,0ea333d,5e38434,e41c9c9,5e7ea07,47d710b; T14 incluído no próximo commit atômico.
 - **In progress:** feature atividade-gerenciamento,ainda sem painel/browser ou Verifier final. Lote2 completo como implementação; próxima tarefa T15 no lote3 após revisão do orquestrador. Apenas três outcomes antigos T13 já autorizados foram adequados; demais testes preservados.

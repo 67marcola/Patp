@@ -296,3 +296,74 @@ export function enviarComentario(token, gerenciamentoId, processoId, texto, ante
         validar: (resposta, status) => status === 201 && comentarioValido(resposta, processoId)
             && resposta.texto === texto && !!resposta.funcionario.trim() && !anteriores.some(anterior => anterior.id === resposta.id) });
 }
+
+const CAMPOS_ATIVIDADE = ["chave", "origem", "id", "gerenciamentoId", "tipo", "alvoTipo", "alvoId", "alvoNome", "autorId", "autorNome", "dataHora", "descricao", "alteracoes"];
+const CAMPOS_ALTERACAO = ["alvoTipo", "alvoId", "alvoNome", "campo", "anterior", "novo"];
+const TIPOS_ATIVIDADE = ["QUADRO_CRIADO", "QUADRO_EDITADO", "QUADRO_ARQUIVADO", "QUADRO_RESTAURADO", "ETAPA_CRIADA", "ETAPA_EDITADA", "ETAPA_REMOVIDA", "DEMANDA_CRIADA", "DEMANDA_EDITADA", "DEMANDA_MOVIDA", "DEMANDA_CONCLUIDA", "DEMANDA_CANCELADA", "DEMANDA_REABERTA", "DEMANDA_ARQUIVADA", "DEMANDA_RESTAURADA", "COMENTARIO_ADICIONADO"];
+const CAMPOS_POR_ALVO = {
+    QUADRO: ["nome", "descricao", "arquivado"], ETAPA: ["nome", "setor", "ordem"],
+    DEMANDA: ["numeroProcesso", "pessoa", "responsavel", "prioridade", "dataEmissao", "prazoEtapa", "prazoGeral", "observacoes", "status", "etapaId", "etapaNome", "dataConclusao", "dataCancelamento", "motivoCancelamento", "arquivado"]
+};
+const textoOuNull = valor => valor === null || typeof valor === "string";
+
+function cursorAtividade(valor, id) {
+    if (typeof valor !== "string" || valor.length > 512 || !/^[a-zA-Z0-9_-]+$/.test(valor)) return null;
+    try {
+        const texto = atob(valor.replaceAll("-", "+").replaceAll("_", "/"));
+        if (btoa(texto).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "") !== valor
+            || !/^(0|[1-9]\d*):(0|[1-9]\d*):(0|[1-9]\d*):(0|[1-9]\d*)$/.test(texto)) return null;
+        const numeros = texto.split(":").map(Number);
+        return numeros.every(Number.isSafeInteger) && numeros[0] === id && idValido(id) ? numeros : null;
+    } catch { return null; }
+}
+
+function alteracaoValida(a, registro) {
+    if (!camposExatos(a, CAMPOS_ALTERACAO) || !idValido(a.alvoId) || typeof a.alvoNome !== "string"
+        || !Object.hasOwn(CAMPOS_POR_ALVO, a.alvoTipo) || !CAMPOS_POR_ALVO[a.alvoTipo].includes(a.campo) || !textoOuNull(a.anterior) || !textoOuNull(a.novo)) return false;
+    if (a.alvoTipo === registro.alvoTipo && a.alvoId === registro.alvoId) {
+        if (a.alvoNome !== registro.alvoNome) return false;
+    } else if (a.alvoTipo !== "ETAPA" || !["QUADRO_CRIADO", "ETAPA_CRIADA", "ETAPA_EDITADA", "ETAPA_REMOVIDA"].includes(registro.tipo)) return false;
+    if (a.anterior !== a.novo) return true;
+    return a.campo === "etapaNome" && a.anterior !== null
+        && ["DEMANDA_MOVIDA", "DEMANDA_CONCLUIDA", "DEMANDA_CANCELADA", "DEMANDA_REABERTA"].includes(registro.tipo)
+        && registro.alteracoes.some(id => id?.campo === "etapaId" && id.alvoTipo === a.alvoTipo && id.alvoId === a.alvoId && id.anterior !== id.novo);
+}
+
+function registroAtividadeValido(r, id) {
+    if (!camposExatos(r, CAMPOS_ATIVIDADE) || !idValido(r.id) || !idValido(r.gerenciamentoId)
+        || r.gerenciamentoId !== id || !idValido(r.alvoId) || typeof r.alvoNome !== "string"
+        || typeof r.tipo !== "string" || !Object.hasOwn(CAMPOS_POR_ALVO, r.alvoTipo)
+        || !Array.isArray(r.alteracoes) || r.chave !== `${r.origem}:${r.id}`) return false;
+    if (r.origem === "HISTORICO_EXISTENTE") return r.alvoTipo === "DEMANDA" && r.autorId === null
+        && textoOuNull(r.autorNome) && (r.dataHora === null || horaComentario(r.dataHora))
+        && textoOuNull(r.descricao) && r.alteracoes.length === 0;
+    const alvo = r.tipo.startsWith("QUADRO_") ? "QUADRO" : r.tipo.startsWith("ETAPA_") ? "ETAPA" : "DEMANDA";
+    return r.origem === "AUTOMATICA" && TIPOS_ATIVIDADE.includes(r.tipo) && r.alvoTipo === alvo
+        && (alvo !== "QUADRO" || r.alvoId === id) && idValido(r.autorId) && typeof r.autorNome === "string"
+        && horaComentario(r.dataHora) && r.descricao === null
+        && (r.tipo !== "COMENTARIO_ADICIONADO" || r.alteracoes.length === 0)
+        && r.alteracoes.every(a => alteracaoValida(a, r));
+}
+
+function paginaAtividadeValida(pagina, id, cursor, status) {
+    if (status !== 200 || !camposExatos(pagina, ["gerenciamentoId", "registros", "proximoCursor"])
+        || !idValido(id) || pagina.gerenciamentoId !== id || !Array.isArray(pagina.registros) || pagina.registros.length > 50) return false;
+    const anterior = cursor == null ? null : cursorAtividade(cursor, id);
+    if (cursor != null && !anterior) return false;
+    const chaves = new Set(), pares = new Set();
+    for (const r of pagina.registros) {
+        if (!registroAtividadeValido(r, id) || chaves.has(r.chave) || pares.has(`${r.origem}:${r.id}`)
+            || anterior && r.id > anterior[r.origem === "AUTOMATICA" ? 1 : 2]) return false;
+        chaves.add(r.chave); pares.add(`${r.origem}:${r.id}`);
+    }
+    if (pagina.proximoCursor === null) return true;
+    const proximo = cursorAtividade(pagina.proximoCursor, id);
+    return !!proximo && pagina.registros.length === 50
+        && (cursor == null ? proximo[3] === 50 : !!anterior && proximo[1] === anterior[1] && proximo[2] === anterior[2] && proximo[3] === anterior[3] + 50);
+}
+
+export function consultarAtividade(token, gerenciamentoId, cursor = null, options = {}) {
+    const consulta = cursor == null ? "" : `?cursor=${encodeURIComponent(cursor)}`;
+    return requisicao(`/gerenciamentos/${gerenciamentoId}/atividade${consulta}`, { token, signal: options.signal,
+        validar: (resposta, status) => paginaAtividadeValida(resposta, gerenciamentoId, cursor, status) });
+}

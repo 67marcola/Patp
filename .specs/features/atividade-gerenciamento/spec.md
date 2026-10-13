@@ -174,7 +174,7 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 | ACT-34 | Painel | Tasks | Pending |
 | ACT-35 | Painel | Tasks | Pending |
 | ACT-36 | Painel | Tasks | Pending |
-| ACT-37 | Painel | Tasks | Pending |
+| ACT-37 | Painel | Execute | Implementing |
 | ACT-38 | Ações | Execute | Implementing |
 | ACT-39 | Consulta | Execute | Implementing |
 

@@ -290,6 +290,8 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 
 ### T15: Validar consulta no cliente
 
+**Status:** Implemented em12/10/2026;1131 Vitest PASS (1000 anteriores+131 novos),26 arquivos,zero falhas/skips. Verificação independente pendente.
+
 **What**: Acrescentar consultarAtividade com validação estrita do contrato e cursor.
 **Where**: `frontend/src/services/api.js`
 **Depends on**: T14
@@ -298,8 +300,8 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 **Tests**: unit — mínimo24, cada campo inválido, origem, enum, mudança, null permitido, pares origem/ID e chaves duplicados, gerenciamentoId divergente,51 registros, cursor e status/abort. Pertencimento real do alvo é provado no servidor; o cliente verifica os vínculos explícitos do DTO.
 **Gate**: quick
 **Done when**:
-- [ ] Rejeita página inválida inteira; não retorna vazio nem dados parciais no erro.
-- [ ] >=1000 casos anteriores preservados e gate quick PASS.
+- [x] Rejeita página inválida inteira; não retorna vazio nem dados parciais no erro.
+- [x] >=1000 casos anteriores preservados e gate quick PASS.
 **Commit**: feat(atividade): validate activity responses
 
 ### T16: Exibir painel de atividade
@@ -394,7 +396,7 @@ Fechamento obrigatório posterior ao commit: Verifier fresco com critérios39/39
 
 ## Requirement map
 
-ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. T1–T14 Implemented; T15–T18 pendentes. Nenhum critério Verified.
+ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. T1–T15 Implemented; T16–T18 pendentes. Nenhum critério Verified.
 
 ## Execution notes
 
