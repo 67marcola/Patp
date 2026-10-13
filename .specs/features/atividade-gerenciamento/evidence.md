@@ -227,3 +227,29 @@ C=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaCadastroTests.java`; S
 | falhaDoDiarioReverteCadastroHistoricoEVersao dois casos C:60 | ACT-17 | Sim |
 
 A/B/C/D PASS: outcomes exatos,payload integral,sem testes rasos/fora da spec; matriz JUnit/H2. Outcomes antigos/novos não alterados. T8 Implemented,Verifier pendente.
+
+## T9 — edição informativa de demanda
+
+12/10/2026: `mvn.cmd -B test` exit0,965 testes (934+31 novos),0 falhas/erros/skips. Log TEMP/atividade-T9-java.log. Antes capturado após lock; somente campos informativos diferentes. Sem outcomes modificados/SPEC_DEVIATION.
+E=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaEdicaoTests.java`; S=`sistema/src/test/java/com/patp/sistema/AtividadeDemandaSupport.java`.
+
+| Critério / AC | file:line + asserção | Outcome da spec / cobertura |
+| --- | --- | --- |
+| ACT-09 todos campos/datas/10000 literal | E:31 esperado um campo; S:31 `assertThat(json.readTree(a.getAlteracoesJson())).isEqualTo(json.readTree(json.writeValueAsString(esperado)))`; E:34 `assertThat(json.readTree(json.writeValueAsString(salvo)).get(campo).asText()).isEqualTo(novo)` | Cada campo normalizado com antes/depois exatos,10000 preservados; coberto |
+| Null/limpeza | E:40/S:31 JSON completo seis alterações para null; E:41 `assertThat(salvo.getResponsavel()).isNull()` e cinco outros | Seis opcionais limpos sem inventar valores; coberto |
+| ACT-16 idêntica | E:46/S:31 lista[] e `assertThat(jdbc.queryForList("select * from processos")).isEqualTo(antes)` | Edição aceita com evento vazio,versão1; coberto |
+| ACT-09/19 número/ciclo | E:32 número/status/etapa exatos; E:53 status/etapa/datas/motivo literais | Encerramentos Concluido/Cancelado e número preservados; coberto |
+| ACT-15/19/23 metadados/versão/vínculo | S:23–36 evento único,alvo/autor/quadro/hora/vínculo/açãoEDICAO; E:33 `getVersao().isEqualTo(1L)` | Autor real,micros/intervalo,vínculo sem duplicar e incremento atual; coberto |
+| ACT-18 recusas | E:61 status/erro exatos e `assertThat(conteudoComAtividade()).isEqualTo(antes)` | número/ciclo/arquivo/versão/permissão/sessão/validação/status recusados integralmente; coberto |
+| ACT-17 rollback | E:66 `andExpect(status().isInternalServerError())` e snapshot integral igual | Edição,histórico,atividade e versão revertidos nas duas rotas; coberto |
+
+| Reverse-map teste + asserção | AC / edge / Done-when | Manter |
+| --- | --- | --- |
+| cadaCampoNasDuasRotasTemAntesDepoisReal14 casos E:31–34/S:23–36 | ACT-09/15/19/23,10000/normalização | Sim |
+| limpezaDosSeisOpcionaisRegistraNull2 casos E:40–41 | ACT-09/null | Sim |
+| identicaTemAlteracoesVaziasEIncrementoAtual2 casos E:46 | ACT-16/19 | Sim |
+| encerramentoPermaneceIntegral2 casos E:52–53 | ACT-09/19 | Sim |
+| recusasPreservamTodaPersistencia9 casos E:61 | ACT-18 | Sim |
+| falhaReverteEdicaoHistoricoEVersao2 casos E:66 | ACT-17 | Sim |
+
+A/B/C/D PASS: todos campos/payload inteiros,outcomes da spec,sem testes rasos/fora do alcance; matriz JUnit/H2 seguida. Implemented,Verifier pendente.
