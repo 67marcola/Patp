@@ -2,6 +2,66 @@
 
 Estado: em andamento. Tarefas Implemented não significam Verified; Verifier independente posterior a T18.
 
+## T18 — fluxo real e paginação mista
+
+13/10/2026:1087/0/0/0 Java/H2 PASS;1176/1176 Vitest em28 arquivos PASS;18/18 Edge/H2 em9 arquivos PASS (15 anteriores+3 novos da feature);847/0/0/0 MySQL fictício PASS;lint0/buildTEMP0. Playwrightretries0 e nenhumskip. LogsTEMP/atividade-T18-{java,vitest,lint,build,browser,mysql}.log. BuildTEMP/atividade-T18-build-fa12a421877d4f13af43c77856cb7b9f. Capturas desktop/360 do gate completo: TEMP/creral-atividade-T18-fluxo-ggWZ1x eTEMP/creral-atividade-T18-mista-Jv7nmF;capturas alvo iniciaisQk2F2Z/9i7iL3 também preservadas. Inspeção visual confirma texto literal/rolagem/controles íntegros;boundingBoxes provam limites de cada controle.
+
+Premissas: ações reais nas APIs existentes/edição/comentário pelo navegador,duas sessões reais;somente H2MEM recebe fixture antiga antes das ações. Arquivosatividade.spec.js,isolated-system.mjs,run-e2e.mjs,OPERACAO e acompanhamento. Sem mudança em produto/outcomes existentes. Fixtures corrigidas mecanicamente: helper aguarda Atividade enabled antes foco/Enter;reload volta à lista e reabre nome atual antes painel,conservando assertion20/foco. Primeirotarget mistaPASS com duas falhas de navegação;logTEMP/atividade-T18-target-inicial-falhas-fixture.log preservado. Target repetido3PASS24.1s e depois gate integral18PASS. Um Vitest antigo QuadroEtapas:65 excedeu5000ms em5033ms,1175PASS/1FAIL;logTEMP/atividade-T18-vitest-inicial-timeout.log preservado. Repetição íntegra isolada1176PASS55.72s,sem alterar teste/helper/timeout.
+
+Fixture121 históricos: o runner marca1 somente no arquivoatividade.spec.js e0 nos outros;cria arquivoSQL em seu mkdtemp próprio (alvo inicialTEMP/creral-preview-lK69QI/atividade-ficticia.sql,23883bytes). H2MEM/driverH2/create-drop já são fixos;flags init diferida/modealways/datafile/UTF8 carregam quadro900000 criadorNULL,etapa/demanda900001 e históricos900001–900121. Só essa fixture H2 relaxa data_hora/descricao para o último legadoNULL. Nenhumusuário/admin/hash/sessão é inserido;contas e comentários são APIs reais. Não há endpoint/backdoor,migração real ou configuração de produção alterada.
+
+MySQL final: seleção Maven `-Dtest=Atividade*Tests,Demanda*Tests,ProcessoArchiveTests,HistoricoArchiveTests,Comentario*Tests,EtapaDemandConcurrencyTests,GerenciamentoArchiveApiTests,EtapaArchiveTests`,ENVdatasourcejdbc:mysql://127.0.0.1:33823/creral_arquivo_test?useSSL=false&allowPublicKeyRetrieval=true&connectionTimeZone=LOCAL,driverMySQL/create-drop,credenciais somente fictícias. Antes de iniciar,datadir resolvido sobTEMP eporta livre;após iniciar,CIM/listener atualPID19572 eSQL `SELECT @@port,@@datadir,DATABASE(),@@version` confirmaram33823,TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,creral_arquivo_test,8.0.43. Após847PASS,identidade atual19572 revalidada;mysqladminrootfictíciosem senha shutdown0 elistener ausente. Nunca reutilizadoPID13172nem banco real.
+
+B=`frontend/e2e/atividade.spec.js`.
+
+| Critério / AC | file:line + assertion exata | Outcome da spec / cobertura |
+| --- | --- | --- |
+| ACT-01–14 ações reais/sem duplicação | B:80 `expect(atividade.registros).toHaveLength(20)` eCursorNull;B:81 `expect(new Set(atividade.registros.map(r => r.tipo))).toEqual(new Set([...16tipos...]))`;B:79 histórico10 |16 tipos dos20 envios aceitos,10históricos de demanda conservados e não duplicados; coberto vertical |
+| ACT-15/18/29 metadados reais | B:82 `expect(atividade.registros.every(r => r.origem === "AUTOMATICA" && r.gerenciamentoId === quadro.id && r.autorId === (...) && r.autorNome === (...) && r.dataHora && r.descricao === null)).toBe(true)` | Quadro/cada autor real/horário presentes,sem descrição inventada; coberto |
+| ACT-14/19 comentário | B:78 `expect(aposComentario.gerenciamento.versao).toBe(s.gerenciamento.versao)` eDemandasEqual;B:83 `expect(envio).toMatchObject({...dataHora:comentarioSalvo.dataHora,alteracoes:[]})`;B:86 JSONsemMensagem | ContaColegaFluxo,hora exatamente salva,sem texto/ciclo/versão/histórico extra; coberto |
+| ACT-03/13 antes/depois arquivo | B:84 `expect(atividade.registros.find(r => r.tipo === tipo).alteracoes).toEqual([{ alvoTipo, alvoId, alvoNome, campo: "arquivado", anterior, novo }])` nosquatro tiposfalse->true/true->false | Strings JSON exatas sem exigir formato técnico naUI; coberto |
+| ACT-02/15 snapshot quadro | B:85 `expect(quadroIntermediario.alteracoes).toEqual([...nome/descricao...])`;B:92 painelNomeIntermediario | Nome e descrição anteriores/novos e alvo intermediário preservados após rename posterior; coberto |
+| ACT-10 homônimas | B:86 `expect(movimento.alteracoes).toEqual([...etapaId,etapaNome...])`;B:91 UITrabalhoIDorigem/destino | IDs distintos e nomesTrabalho/Trabalho,sem falsa renomeação; coberto |
+| ACT-06/15 remoção | B:87 `expect(excluida.alvoId).toBe(removida.id)`,`expect(excluida.alvoNome).toBe("Removida literal")`,nome antigo->null;B:91 UI | Identificação conservada sem entidade; coberto |
+| ACT-09/16/36 edições literais10000/null/vazia | B:88 `expect(edicao.alteracoes).toEqual([...pessoa,responsavel,observacoes...])`;B:90 `expect(...dd.allTextContents()).toEqual([antes.trim(), depois.trim()])` eAna/Não informado;img/b/script0;B:92 mensagemNenhumcampo | Dados normalizados reais,literais10000 escapados,vazio explicado; coberto |
+| ACT-20/23/30/34 persistência/leitor | B:70 quadroarquivado consultado;B:89 chavesUIExactly20;B:94 reload20/foco;B:79 histórico10 | Leitura mesmo contrato,autorcolega e persistência sem duplicação; coberto |
+| ACT-22 legado literal/null | B:106 `expect(await antigo.locator("h3").textContent()).toBe(" Ação antiga 120 ")` eDescriçãoLiteralexata;B:107 semtime;B:112 histórico121/campos/data/null exatos | Origem identificada,textos/autor/data/ausências preservados; coberto |
+| ACT-25–27/32/33 conjunto fixo | B:101 página50/primeiroauto/hora;B:104 páginas100/122;B:105 `expect(...dataset.atividadeChave...).toEqual(esperados)` com120datasempatadasIDsDESC+NULLlast eColegaAusente;B:108–110 refresh50/100/123,`expect(atuais.slice(1)).toEqual(esperados)` | Inserção entre páginas só aparece no novo conjunto,sem repetição; coberto |
+| ACT-29/36 sem mensagem/controlos | B:110 mensagensprivadasausentes;B:93/111 capturas/B:23/24 boundingBoxes desktop1440/360 | Textoescapado/controles sem corte,com leituraold; coberto |
+
+| Reverse-map cenário / assertions | AC / Done-when | Manter |
+| --- | --- | --- |
+| Fluxo duas contas B:78–94:20 registros/16tipos/metadados/comentário/4arquivos/snapshots/edicao10000/movimento/removida/foco/reload | ACT-01–16/19/20/23/29/30/34/36 eDone-whenT18 | Sim |
+| Fontes mistas B:101–112:50/100/122,fimNULL,ordem/chavesexatas,legado/null,refresh123/preservação | ACT-22/25–27/29/30/32/33/36 eDone-whenT18 | Sim |
+| T17 preservado B:23/24/31–38 | ACT-20/30/34/35/36 | Sim |
+
+A/B/C/D PASS:dois novos E2E deT18+T17,payload/valores e resultados reais,não só chamadas;matrizEdgeH2/retries0 seguida. T18 é prova vertical;erros/rollback/concorrência e demais critérios continuam nos mapas co-localizadosT1–17 e seleçãoMySQL,sem exigir cenários duplicados. Sem SPEC_DEVIATION. Incluído no diagnóstico,T1–T18 Implemented. Orquestrador ainda tratará ceiling da primeira resposta e booleano visual Sim/Não,então Verifier fresco/sensor/validate_state;nenhumACT Verified ou feature concluída neste commit.
+
+Payloads completos das assertions abreviadas no mapaT18,mesmo B acima:
+
+```js
+// B:81
+expect(new Set(atividade.registros.map(r => r.tipo))).toEqual(new Set(["QUADRO_CRIADO", "QUADRO_EDITADO", "QUADRO_ARQUIVADO", "QUADRO_RESTAURADO", "ETAPA_CRIADA", "ETAPA_EDITADA", "ETAPA_REMOVIDA", "DEMANDA_CRIADA", "DEMANDA_EDITADA", "DEMANDA_MOVIDA", "DEMANDA_CONCLUIDA", "DEMANDA_CANCELADA", "DEMANDA_REABERTA", "DEMANDA_ARQUIVADA", "DEMANDA_RESTAURADA", "COMENTARIO_ADICIONADO"]));
+// B:82
+expect(atividade.registros.every(r => r.origem === "AUTOMATICA" && r.gerenciamentoId === quadro.id && r.autorId === (r.tipo === "COMENTARIO_ADICIONADO" ? colega.id : dona.id) && r.autorNome === (r.tipo === "COMENTARIO_ADICIONADO" ? "ColegaFluxo" : "AutoraFluxo") && r.dataHora && r.descricao === null)).toBe(true);
+// B:83
+expect(envio).toMatchObject({ alvoTipo: "DEMANDA", alvoId: demanda.id, alvoNome: demanda.numeroProcesso, autorId: colega.id, autorNome: "ColegaFluxo", dataHora: comentarioSalvo.dataHora, descricao: null, alteracoes: [] });
+// B:85
+expect(quadroIntermediario.alteracoes).toEqual([{ alvoTipo: "QUADRO", alvoId: quadro.id, alvoNome: "<b>Nome intermediário</b>", campo: "nome", anterior: quadro.nome, novo: "<b>Nome intermediário</b>" }, { alvoTipo: "QUADRO", alvoId: quadro.id, alvoNome: "<b>Nome intermediário</b>", campo: "descricao", anterior: "Descrição anterior", novo: "Descrição corrigida\nLiteral" }]);
+// B:86
+expect(movimento.alteracoes).toEqual([{ alvoTipo: "DEMANDA", alvoId: demanda.id, alvoNome: demanda.numeroProcesso, campo: "etapaId", anterior: String(origem.id), novo: String(destino.id) }, { alvoTipo: "DEMANDA", alvoId: demanda.id, alvoNome: demanda.numeroProcesso, campo: "etapaNome", anterior: "Trabalho", novo: "Trabalho" }]);
+// B:88
+expect(edicao.alteracoes).toEqual([{ alvoTipo: "DEMANDA", alvoId: demanda.id, alvoNome: demanda.numeroProcesso, campo: "pessoa", anterior: "Cliente anterior", novo: "<b>Cliente novo</b>" }, { alvoTipo: "DEMANDA", alvoId: demanda.id, alvoNome: demanda.numeroProcesso, campo: "responsavel", anterior: "Ana", novo: null }, { alvoTipo: "DEMANDA", alvoId: demanda.id, alvoNome: demanda.numeroProcesso, campo: "observacoes", anterior: antes.trim(), novo: depois.trim() }]);
+// B:89
+expect(await painel.locator("[data-atividade-chave]").evaluateAll(es => es.map(e => e.dataset.atividadeChave))).toEqual(atividade.registros.map(r => r.chave));
+// B:90
+expect(await editada.locator(".atividade-alteracao").filter({ hasText: "Observações" }).locator("dd").allTextContents()).toEqual([antes.trim(), depois.trim()]);
+expect(await editada.locator(".atividade-alteracao").filter({ hasText: "Responsável" }).locator("dd").allTextContents()).toEqual(["Ana", "Não informado"]);
+// B:105/110
+expect(await painel.locator("[data-atividade-chave]").evaluateAll(es => es.map(e => e.dataset.atividadeChave))).toEqual(esperados);
+expect(atuais.slice(1)).toEqual(esperados);
+```
+
 ## T17 — cabeçalho e coordenação
 
 13/10/2026: gatebrowser completo16/16 Edge/H2 em9 arquivos (15 anteriores+1 novo),sem falhas/skips/retries;lint0/buildTEMP0. Java1087 eVitest1176/28 arquivos PASS em12/10 (20 novosVitestT17). LogsTEMP/atividade-T17-{java,vitest,lint,build,browser}.log. BuildTEMP/atividade-T17-build-26bbf69713d842fab5b4ce56967e535b;capturasdesktop/360/arquivadoTEMP/creral-atividade-T17-L3Icgk,inspeção visual confirma controles íntegros/rolagem.

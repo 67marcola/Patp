@@ -284,13 +284,13 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** atividade-gerenciamento,branch testes,checkpoint13/10/2026,trabalhador3 sequencial autorizado.
-- **Phase / Task:** Phase3,T17 Implemented;próxima T18.
-- **Completed:** T1–T17 Implemented. T14 e53302f,T15 90379da,T16 449eb14. GatesT17 Java1087/Vitest1176 em28 arquivos passaram12/10;Edge/H2 16 cenários/9 arquivos e lint/buildTEMP passaram13/10. Nenhum ACT Verified.
-- **In progress:** T18 fluxo real/fontes mistas/paginação/MySQL e Verifier pendentes. Incluído no diagnóstico;evidência emfeatures/atividade-gerenciamento/evidence.md.
-- **Next step:** trabalhador3 executa T18 e para após commit;o orquestrador trata dois ajustes pequenos identificados (ceiling primeira página e booleano visual Sim/Não),então dispara Verifier fresco,sensor>=5/validate_state0 antes de concluir.
+- **Phase / Task:** Phase3,T18 Implemented;trabalhador3 encerra lote após commit.
+- **Completed:** T1–T18 Implemented. T14 e53302f,T15 90379da,T16 449eb14,T17 a708d26. Gates finais13/10:1087 Java/H2,1176 Vitest/28 arquivos,18 Edge/H2/9 arquivos,847 MySQL fictício,lint/buildTEMP PASS;zero falhas/erros/skips/retries nos gates aprovados. Nenhum ACT Verified.
+- **In progress:** feature em andamento,dois ajustes pequenos identificados e Verifier independentes pendentes. Incluído no diagnóstico;evidência emfeatures/atividade-gerenciamento/evidence.md.
+- **Next step:** orquestrador trata ceiling primeira resposta e booleano visual Sim/Não com testes/commits próprios;depois dispara Verifier fresco,sensor>=5/validate_state0. Trabalhador3 não executa ownVerifier nem conclui feature.
 - **Blockers / consent:** nenhum. Usuário autorizou13/10 corrigir somente expectativa novaHTTP200→204 ematividade.spec.jsT17. Três outcomes antigosT13 também já autorizados;demais preservados. Helperkeyboard agora conta focáveis,sem alterar assertion foco/Enter/timeouts.
-- **Environment:** JDK25.0.2/Maven3.9.16/Node/Pythonhermes. MySQL fictício8.0.43,TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,schema creral_arquivo_test,33823 inativo;confirmar identidade atual antes de iniciar,não reutilizarPID. LogsTEMP/atividade-T17-{java,vitest,lint,build,browser}.log;capturasTEMP/creral-atividade-T17-L3Icgk;buildTEMP/atividade-T17-build-26bbf69713d842fab5b4ce56967e535b.
-- **Uncommitted files:** T17 Quadro.jsx,keyboard.js,QuadroAtividade.test.jsx,atividade.spec.js e docs entram juntos neste commit;gerados antigos preservados.
+- **Environment:** JDK25.0.2/Maven3.9.16/Node/Pythonhermes. MySQL owned19572 confirmado porlistener/CIM/SQL8.0.43,datadirTEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,creral_arquivo_test/33823;shutdownrootfictício0 eporta ausente. LogsTEMP/atividade-T18-{java,vitest,lint,build,browser,mysql}.log;capturasfluxo-ggWZ1x/mista-Jv7nmF;buildTEMP/atividade-T18-build-fa12a421877d4f13af43c77856cb7b9f.
+- **Uncommitted files:** T18 atividade.spec.js,runnersisolated-system/run-e2e,OPERACAO e docs entram neste commit;somente gerados target/node_modules/test-results restarão,preservar. Falhas iniciais de navegação/timeout antigo5033ms emlogs separados;gates repetidos íntegros sem mudar outcomes/timeouts.
 - **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Datas históricas10/10 e12/10 preservadas;só orquestrador após VerifierPASS conclui.
 
 ## Registro histórico das conversas sobre destinos e movimentação

@@ -338,6 +338,8 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 
 ### T18: Provar fluxo completo entre duas contas
 
+**Status:** Implemented em13/10/2026;1087 Java/H2,1176 Vitest/28 arquivos,18 Edge/H2/9 arquivos,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips/retries nos gates aprovados. Verificação independente pendente.
+
 **What**: Acrescentar cenário de navegador de ações reais, antes/depois e preservação histórica.
 **Where**: `frontend/e2e/atividade.spec.js`
 **Depends on**: T17
@@ -346,8 +348,8 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 **Tests**: e2e — mínimo2 novos cenários de fluxo completo e paginação/fontes mistas, além do cenário integrado T17; desktop e360px, captura/asserções de controles e strings reais.
 **Gate**: browser + mysql; close executado pelo orquestrador após o commit desta tarefa
 **Done when**:
-- [ ] Dados e autores reais da sessão, edição, etapas removidas, comentário sem texto, arquivo/restauração e histórico existente comprovados no navegador.
-- [ ] Gates técnicos finais aprovados; commit da tarefa com estado Implemented, sem declarar Verified antes do Verifier fresco automático.
+- [x] Dados e autores reais da sessão, edição, etapas removidas, comentário sem texto, arquivo/restauração e histórico existente comprovados no navegador.
+- [x] Gates técnicos finais aprovados; commit da tarefa com estado Implemented, sem declarar Verified antes do Verifier fresco automático.
 
 Fechamento obrigatório posterior ao commit: Verifier fresco com critérios39/39, sensor>=5 killed e validate_state0; fechamento documental marca conclusão e aceitação humana separada. O commit de T18 exige gates técnicos aprovados e não pode depender de um Verifier que só é disparado depois dele.
 **Commit**: test(atividade): verify complete activity flow
@@ -400,7 +402,7 @@ Fechamento obrigatório posterior ao commit: Verifier fresco com critérios39/39
 
 ## Requirement map
 
-ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. T1–T17 Implemented; T18 pendente. Nenhum critério Verified.
+ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. T1–T18 Implemented. Dois ajustes pequenos identificados serão tratados pelo orquestrador antes do Verifier. Nenhum critério Verified.
 
 ## Execution notes
 
