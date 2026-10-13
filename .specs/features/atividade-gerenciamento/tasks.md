@@ -266,11 +266,15 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Done when**:
 - [x] ACT-24 confirmado e autorização exata recebida antes de alterar qualquer outcome antigo.
 - [x] Externo409 sem escrita, interno automático intacto, dados antigos e leitura preservados; gate java PASS.
-**Commit**: fix(atividade): reject manual activity forgery
+**Commit**: fix(atividade)!: reject manual activity forgery
+
+Commit local T13:47d710b,com rodapé BREAKING CHANGE para POST manual agora409; mensagem corrigida emHEAD sem incluir arquivos T14 ou alterar código/testes.
 
 Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAutomaticoNaMesmaProtecaoDepoisPermiteConsultaArquivada passa a preparar MANUAL/Informado via fixture, provar POST409 sem mudança e manter todas as verificações de conclusão/autoria/leitura/preservação. DemandaArquivoHistoricoApiTests.postAtivoPermaneceCompativelParaQualquerAutenticado passa a exigir409/erro exato e preservação integral, preparando uma linha literal anterior para conferir leitura. DemandaArquivoHistoricoTests.externoAceitaAtivoIncluindoNullSemNormalizacao conserva os dois estados null/false, exige409 e compara toda a persistência, com linha anterior literal de fixture. Não mudar os casos de arquivo, histórico interno ou401; não excluir/ignorar testes.
 
 ### T14: Consultar atividade por quadro
+
+**Status:** Implemented em12/10/2026;1087 Java/H2 PASS,28 novos;1000 Vitest,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips. Verificação independente pendente.
 
 **What**: Criar consulta de duas fontes com cursor estável, DTO e GET de suporte ao único entregável de leitura.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/AtividadeService.java`
@@ -280,8 +284,8 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 **Tests**: integration — mínimo22, happy/vazio/arquivos/leitor/401/404/400, mais100 entradas, empate/nulos, inserts entre páginas, repetição, fonte literal, DTO sem segredo/texto e outro quadro; H2 e mysql.
 **Gate**: full + mysql
 **Done when**:
-- [ ] GET tem todas as branches e isolamento provados; nenhuma escrita, duplicação ou alteração histórica.
-- [ ] Mesmos resultados e rollback das ações tocadas em MySQL fictício; gates full/mysql PASS.
+- [x] GET tem todas as branches e isolamento provados; nenhuma escrita, duplicação ou alteração histórica.
+- [x] Mesmos resultados e rollback das ações tocadas em MySQL fictício; gates full/mysql PASS.
 **Commit**: feat(atividade): expose stable board activity
 
 ### T15: Validar consulta no cliente
@@ -390,7 +394,7 @@ Fechamento obrigatório posterior ao commit: Verifier fresco com critérios39/39
 
 ## Requirement map
 
-ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. T1–T7 Implemented; T8–T18 pendentes. Nenhum critério Verified.
+ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. T1–T14 Implemented; T15–T18 pendentes. Nenhum critério Verified.
 
 ## Execution notes
 

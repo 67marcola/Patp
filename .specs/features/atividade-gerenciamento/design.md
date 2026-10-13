@@ -69,6 +69,8 @@ GET vazio200 com registros[] e proximoCursor null. Cursor opaco Base64 URL de qu
 
 As fontes são imutáveis pelas rotas consultadas: não há ação que vincule um evento novo a histórico antigo. Assim máximos fixos e ordenação mantêm páginas estáveis mesmo com novas inserções. Intervenção direta no banco fica fora da garantia. Consulta pode usar JdbcTemplate (já disponível no projeto) para UNION; JPA continua escrevendo na transação atual. Provar o SQL nos dois bancos antes da conclusão.
 
+Formato técnico do cursor implementado em12/10/2026: codificar em UTF-8 a string `quadroId:maximoIdAtividade:maximoIdHistorico:deslocamento` e usar Base64URL sem padding. Exigir representação canônica de quatro inteiros decimais (`0` ou primeiro dígito1–9 seguido de dígitos), quadro positivo igual à rota, demais valores não negativos e todos até9007199254740991. O servidor rejeita vazio,caracteres fora de Base64URL,tamanho>512,padding,quatro campos inválidos e codificação não canônica com400/`Cursor de atividade inválido.`. O cliente pode conferir o mesmo formato e vínculo ao quadro; máximos se conservam e deslocamento aumenta50 na continuação emitida pelo servidor.
+
 ## Compatibility and operation capture
 
 - Criação do quadro gera um evento de criação, incluindo snapshot das etapas iniciais; as finais automáticas não viram falsas ações de criação de etapa.
