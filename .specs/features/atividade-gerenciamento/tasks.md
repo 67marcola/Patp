@@ -222,6 +222,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 ### T11: Registrar arquivo de demanda
 
+**Status:** Implemented em12/10/2026;1024 Java/H2 PASS,21 novos; verificação independente pendente.
+
 **What**: Instrumentar mudarArquivo sem alterar etapa, ciclo ou identificação.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/ProcessoService.java`
 **Depends on**: T10
@@ -230,8 +232,8 @@ T14 -> T15 -> T16 -> T17 -> T18
 **Tests**: integration — mínimo12, três estados, arquivo/restauração, repetição409, versão/permissão, falha e corrida de arquivo de quadro.
 **Gate**: java
 **Done when**:
-- [ ] Um evento vinculado ao histórico por mudança, com somente marcador alterado.
-- [ ] Antes/depois e versões corretos sob concorrência; gate java PASS.
+- [x] Um evento vinculado ao histórico por mudança, com somente marcador alterado.
+- [x] Antes/depois e versões corretos sob concorrência; gate java PASS.
 **Commit**: feat(atividade): audit demand archive
 
 ### T12: Registrar envio de comentário

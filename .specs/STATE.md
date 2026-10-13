@@ -284,12 +284,12 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** atividade-gerenciamento, branch testes, execução aprovada em três lotes sequenciais7/7/4.
-- **Completed:** T1–T10 Implemented em12/10/2026;1003 Java/H2 PASS,zero falhas/erros/skips; tarefa/evidência/diagnóstico atualizados. Nenhum ACT Verified. Lote1 também1000 Vitest,lint/buildTEMP PASS.
-- **In progress:** lote2 T8–T14; próxima tarefa T11. Não alterar outcomes de testes sem autorização, exceto três casos T13 já aprovados.
-- **Next step:** executar T11 após commit atômico da T10. Lote3 somente depois de T14; Verifier fresco após T18.
+- **Completed:** T1–T11 Implemented em12/10/2026;1024 Java/H2 PASS,zero falhas/erros/skips; tarefa/evidência/diagnóstico atualizados. Nenhum ACT Verified. Lote1 também1000 Vitest,lint/buildTEMP PASS.
+- **In progress:** lote2 T8–T14; próxima tarefa T12. Não alterar outcomes de testes sem autorização, exceto três casos T13 já aprovados.
+- **Next step:** executar T12 após commit atômico da T11. Lote3 somente depois de T14; Verifier fresco após T18.
 - **Blocker:** nenhum.
 - **Environment:** MySQL fictício OWNED TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,porta33823,inativo; confirmar identidade antes da T14. Banco real intocado. JAVA_HOME JDK25.0.2,Maven3.9.16,npm existentes.
-- **Uncommitted files:** código/testes/documentos T10 serão incluídos juntos neste commit; gerados target/node_modules/test-results preexistentes fora do commit,não limpar/reset/stash. Gate log TEMP/atividade-T10-java.log.
+- **Uncommitted files:** código/testes/documentos T11 serão incluídos juntos neste commit; gerados target/node_modules/test-results preexistentes fora do commit,não limpar/reset/stash. Gate log TEMP/atividade-T11-java.log.
 - **Restrictions:** somente implementação/commits locais; sem push/deploy/MySQL real/upgrades.
 - **User preference:** registrar progresso real e dizer incluído no diagnóstico; concluir somente com gates e Verifier PASS.
 

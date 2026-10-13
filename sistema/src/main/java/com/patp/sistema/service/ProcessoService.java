@@ -438,10 +438,15 @@ public class ProcessoService {
         if (processo.isArquivado() == arquivar) {
             throw new ApiException(HttpStatus.CONFLICT, arquivar ? "A demanda já está arquivada." : "A demanda já está ativa.");
         }
+        var antes = AtividadeRegistroService.snapshotDemanda(processo);
         processo.setArquivado(arquivar);
         processoRepository.saveAndFlush(processo);
-        historicoService.registrar(demandaId, arquivar ? "ARQUIVAMENTO" : "RESTAURACAO",
+        var historico = historicoService.registrar(demandaId, arquivar ? "ARQUIVAMENTO" : "RESTAURACAO",
                 arquivar ? "Demanda arquivada." : "Demanda restaurada.", usuario.getNome());
+        var depois = AtividadeRegistroService.snapshotDemanda(processo);
+        atividades.registrar(quadro, usuario, arquivar ? AtividadeRegistroService.Tipo.DEMANDA_ARQUIVADA
+                : AtividadeRegistroService.Tipo.DEMANDA_RESTAURADA, depois,
+                AtividadeRegistroService.diferencas(List.of(antes), List.of(depois)), historico.getId(), null);
         entityManager.flush();
         entityManager.lock(quadro, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
         entityManager.flush();
