@@ -113,4 +113,5 @@ Formato técnico do cursor implementado em12/10/2026: codificar em UTF-8 a strin
 - Usar stack e runners locais já aprovados. Sem upgrade, fila, evento assíncrono ou biblioteca nova.
 - Diário transacional independente, DTO plano e consulta das duas fontes; teste real em MySQL fictício.
 - 18 entregáveis atômicos no plano, gates por camada, commits individuais e Verifier fresco obrigatório após a última tarefa.
+- Revisão13/10: T19 confere máximos da primeira página; T20 mostra o campo arquivado como Sim/Não. São correções locais dos requisitos aprovados, antes do Verifier, com commits próprios. DTOs mantêm strings true/false; outros textos históricos continuam literais.
 - Sem promoção de lições candidatas: confirmed vazio. Risco já observado no sensor anterior orienta novas provas de lock, sem afirmar lição confirmada.

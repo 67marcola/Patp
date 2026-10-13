@@ -99,3 +99,19 @@ test("ACT-34/37: rede, JSON e abort não retornam lista vazia", async () => {
     f.mockResolvedValue(new Response("{", { status: 200 })); await expect(consultarAtividade("s", 9)).rejects.toMatchObject({ message: erro, status: 200 });
     const abort = new DOMException("Cancelado", "AbortError"); f.mockRejectedValue(abort); await expect(consultarAtividade("s", 9)).rejects.toBe(abort);
 });
+
+function primeiraPorFonte(origem, maximo) {
+    const registros = Array.from({ length: 50 }, (_, i) => origem === "AUTOMATICA" ? registro(100 - i)
+        : { ...registro(100 - i), origem, chave: `${origem}:${100 - i}`, autorId: null, descricao: "Registro antigo literal", alteracoes: [] });
+    return { gerenciamentoId: 9, registros, proximoCursor: cursor(origem === "AUTOMATICA" ? `9:${maximo}:0:50` : `9:0:${maximo}:50`) };
+}
+
+test.each(["AUTOMATICA", "HISTORICO_EXISTENTE"])("ACT-27/37 T19: primeira página%s aceita máximo igual ao maior ID", async origem => {
+    const p = primeiraPorFonte(origem, 100); resposta(p);
+    expect(await consultarAtividade("s", 9)).toEqual(p);
+});
+
+test.each(["AUTOMATICA", "HISTORICO_EXISTENTE"])("ACT-27/37 T19: primeira página%s recusa cursor abaixo de um ID retornado", async origem => {
+    resposta(primeiraPorFonte(origem, 99));
+    await expect(consultarAtividade("s", 9)).rejects.toMatchObject({ message: erro, status: 200 });
+});

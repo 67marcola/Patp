@@ -58,6 +58,14 @@ T14 -> T15 -> T16 -> T17 -> T18
 
 18 tarefas em3 lotes de fases inteiras (7/7/4), com aceite explícito recebido. Executar sequencialmente, um trabalhador por lote. A validação independente final permanece obrigatória.
 
+### Phase 4: Correções da revisão antes do fechamento
+
+```text
+T18 -> T19 -> T20
+```
+
+Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executados pelo orquestrador após os três lotes. Não acrescentam regras de negócio, fontes ou tecnologias. O Verifier fresco será disparado após T20, a última tarefa.
+
 ## Task Breakdown
 
 ### T1: Persistir entidade de atividade
@@ -351,8 +359,38 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 - [x] Dados e autores reais da sessão, edição, etapas removidas, comentário sem texto, arquivo/restauração e histórico existente comprovados no navegador.
 - [x] Gates técnicos finais aprovados; commit da tarefa com estado Implemented, sem declarar Verified antes do Verifier fresco automático.
 
-Fechamento obrigatório posterior ao commit: Verifier fresco com critérios39/39, sensor>=5 killed e validate_state0; fechamento documental marca conclusão e aceitação humana separada. O commit de T18 exige gates técnicos aprovados e não pode depender de um Verifier que só é disparado depois dele.
+Fechamento obrigatório posterior aos dois ajustes de revisão T19/T20: Verifier fresco com critérios39/39, sensor>=5 killed e validate_state0; fechamento documental marca conclusão e aceitação humana separada. O commit de T18 exige gates técnicos aprovados e não depende do Verifier posterior.
 **Commit**: test(atividade): verify complete activity flow
+
+### T19: Conferir máximos do primeiro cursor
+
+**Status:** Implemented em13/10/2026;1180 Vitest/28 arquivos PASS,quatro casos novos. Verificação independente pendente.
+
+**What**: Recusar a primeira página quando um ID retornado ultrapassa o máximo da sua fonte no próximo cursor.
+**Where**: `frontend/src/services/api.js`
+**Depends on**: T18
+**Requirement**: ACT-27/37
+**Reuses**: Validação canônica e limites já conferidos na continuação; testes em apiAtividade.test.js.
+**Tests**: unit — quatro casos: máximo igual ao maior ID aceito e máximo menor recusado para AUTOMATICA e HISTORICO_EXISTENTE, com50 registros e cursor canônico.
+**Gate**: quick
+**Done when**:
+- [x] Página inteira rejeitada quando o cursor omitiria um registro retornado; igualdade aceita nas duas fontes.
+- [x] >=1176 casos anteriores preservados e gate quick PASS.
+**Commit**: fix(atividade): check initial cursor ceilings
+
+### T20: Mostrar arquivo em linguagem da interface
+
+**What**: Exibir somente o campo arquivado como Sim/Não, mantendo strings true/false nos DTOs e outros textos literais.
+**Where**: `frontend/src/components/AtividadeLateral.jsx`
+**Depends on**: T19
+**Requirement**: ACT-36
+**Reuses**: Renderer de antes/depois; testes AtividadeLateral.test.jsx e asserções adicionais no cenário real atividade.spec.js.
+**Tests**: unit + e2e — arquivamento Não→Sim, restauração Sim→Não e texto informativo literal false/true; navegador confere os valores nos eventos reais sem modificar os cenários existentes.
+**Gate**: browser
+**Done when**:
+- [ ] Marcador compreensível em antes/depois; ausências e demais textos preservados, sem alterar dados/API.
+- [ ] Java/H2, Vitest, lint/buildTEMP e os18 cenários completos de navegador PASS antes do commit.
+**Commit**: fix(atividade): present archive values clearly
 
 ## Diagram-Definition Cross-Check
 
@@ -376,6 +414,8 @@ Fechamento obrigatório posterior ao commit: Verifier fresco com critérios39/39
 | T16 | T15 | T15 -> T16 | Match |
 | T17 | T16 | T16 -> T17 | Match |
 | T18 | T17 | T17 -> T18 | Match |
+| T19 | T18 | fronteira Phase3 -> Phase4 | Match |
+| T20 | T19 | T19 -> T20 | Match |
 
 ## Test Co-location Validation
 
@@ -399,10 +439,12 @@ Fechamento obrigatório posterior ao commit: Verifier fresco com critérios39/39
 | T16 | Component | unit | unit/quick/lint/build | OK |
 | T17 | Page | unit + e2e | unit + e2e/browser | OK |
 | T18 | Browser | e2e | e2e/close | OK |
+| T19 | API client | unit | unit/quick | OK |
+| T20 | Component | unit + e2e | unit + e2e/browser | OK |
 
 ## Requirement map
 
-ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. T1–T18 Implemented. Dois ajustes pequenos identificados serão tratados pelo orquestrador antes do Verifier. Nenhum critério Verified.
+ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. Correções T19 ACT-27/37 e T20 ACT-36. T1–T19 Implemented; T20 pendente. Nenhum critério Verified.
 
 ## Execution notes
 
