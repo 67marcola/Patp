@@ -8,7 +8,11 @@ const acoes = {
     DEMANDA_CANCELADA: "Demanda cancelada", DEMANDA_REABERTA: "Demanda reaberta", DEMANDA_ARQUIVADA: "Demanda arquivada", DEMANDA_RESTAURADA: "Demanda restaurada", COMENTARIO_ADICIONADO: "Comentário adicionado"
 };
 const campos = { nome: "Nome", descricao: "Descrição", arquivado: "Arquivado", setor: "Setor", ordem: "Posição", numeroProcesso: "Número", pessoa: "Cliente/solicitante", responsavel: "Responsável", prioridade: "Prioridade", dataEmissao: "Data de emissão", prazoEtapa: "Prazo da etapa", prazoGeral: "Prazo geral", observacoes: "Observações", status: "Status", etapaId: "ID da etapa", etapaNome: "Etapa", dataConclusao: "Data de conclusão", dataCancelamento: "Data de cancelamento", motivoCancelamento: "Motivo do cancelamento" };
-const valor = texto => texto === null ? "Não informado" : texto;
+function valor(texto, campo) {
+    if (texto === null) return "Não informado";
+    if (campo === "arquivado" && (texto === "true" || texto === "false")) return texto === "true" ? "Sim" : "Não";
+    return texto;
+}
 const horario = iso => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)} ${iso.slice(11, 19)}`;
 
 function Alteracao({ alteracao, registro }) {
@@ -16,8 +20,8 @@ function Alteracao({ alteracao, registro }) {
     const homonimas = alteracao.campo === "etapaNome" && alteracao.anterior === alteracao.novo && ids;
     return <div className="atividade-alteracao">
         <strong>{alteracao.alvoNome}: {campos[alteracao.campo]}</strong>
-        <dl><div><dt>Antes</dt><dd>{homonimas ? `${alteracao.anterior} (ID ${ids.anterior})` : valor(alteracao.anterior)}</dd></div>
-            <div><dt>Depois</dt><dd>{homonimas ? `${alteracao.novo} (ID ${ids.novo})` : valor(alteracao.novo)}</dd></div></dl>
+        <dl><div><dt>Antes</dt><dd>{homonimas ? `${alteracao.anterior} (ID ${ids.anterior})` : valor(alteracao.anterior, alteracao.campo)}</dd></div>
+            <div><dt>Depois</dt><dd>{homonimas ? `${alteracao.novo} (ID ${ids.novo})` : valor(alteracao.novo, alteracao.campo)}</dd></div></dl>
     </div>;
 }
 

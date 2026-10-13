@@ -284,14 +284,14 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 ## Handoff
 
 - **Feature:** atividade-gerenciamento,branch testes,checkpoint13/10/2026.
-- **Phase / Task:** Phase4,T19 Implemented;T20 pendente. Três trabalhadores sequenciais encerrados.
-- **Completed:** T1–T18 até6cc1e60;T19 em commit imediato.1180 Vitest/28 arquivos PASS (quatro novosT19). GatesT18:1087 Java/H2,18 Edge/H2/9 arquivos,847 MySQL fictício,lint/buildTEMP PASS. Nenhum ACT Verified.
-- **In progress:** apresentar arquivado como Sim/Não mantendo DTOs/textos literais;depois Verifier fresco. Incluído no diagnóstico,evidência nos mapasT19.
-- **Next step:** T20 testes/renderização/gatebrowser;commit atômico,Verifier independente39critérios/sensor>=5 evalidate_state0 antes de concluir.
-- **Blockers / consent:** nenhum. HTTP200→204 novoT17 autorizado13/10;três outcomes antigosT13 autorizados. Helperkeyboard ajustou teto mecânico,mantendo foco/Enter/timeouts.
-- **Environment:** JDK25.0.2/Maven3.9.16/Node/Pythonhermes. MySQLfictício8.0.43,TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,creral_arquivo_test/33823 inativo;owned19572 encerrado,não reutilizarPID. LogsTEMP/atividade-T18-{java,vitest,lint,build,browser,mysql}.log;T19-red.log dois negativos detectaram erro;T19-vitest.log1180PASS.
-- **Uncommitted files:** T19 api.js/apiAtividade.test.js e documentos entram juntos neste commit. Gerados target/node_modules/test-results preservados.
-- **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Datas históricas preservadas;aceitação humana pendente.
+- **Phase / Task:** T1–T20 Implemented;próximo Verifier fresco automático.
+- **Completed:** três lotes T1–T18 até6cc1e60;T19 10f39eb;T20 neste commit. GatesT20:1087 Java/H2,1183 Vitest/28 arquivos,18 Edge/H2/9 arquivos,lint/buildTEMP PASS.847 MySQL fictícioT18 PASS,Java inalterado desde então. Nenhum ACT Verified.
+- **In progress:** verificação independente39critérios,sensor>=5 emscratch evalidate_state0;incluído no diagnóstico.
+- **Next step:** despachar Verifier novo forkNone para084757d..HEAD,sem modificar código/testes. Após PASS,concluir diagnóstico/trace/memória e seguir requisito pendente;aceitação humana separada.
+- **Blockers / consent:** nenhum. HTTP200→204 novoT17 autorizado13/10;três outcomes antigosT13 autorizados. Helperkeyboard teto mecânico,foco/Enter/timeouts intactos. CorreçõesT19/T20 não mudam dados/regras,novasasserts sem enfraquecer antigas.
+- **Environment:** JDK25.0.2/Maven3.9.16/Node/Pythonhermes. MySQLfictício8.0.43,TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,creral_arquivo_test/33823 INATIVO;owned19572 encerrado,não reutilizarPID. Confirmar instância atual ao reiniciar. LogsTEMP/atividade-T20-{java,vitest,lint,build,browser}.log; buildTEMP/atividade-T20-build-75902ef942c543d197719b79c336d059. CapturasT17-6o2dgB/T18-fluxo-cuIkIQ/mista-5Nwtqi. LogsPS podem serUTF16 comBOM.
+- **Uncommitted files:** T20 painel/teste/atividade.spec.js e documentos neste commit;gerados target/node_modules/test-results preservados. Realizar comparação integral no sensor só após gates,sem writes na árvore real.
+- **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Datas históricas preservadas.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 
