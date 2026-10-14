@@ -1,5 +1,9 @@
 # Evidência da revisão visual
 
+## T3 implementado
+
+Guia em docs/OPERACAO.md descreve identificação, rótulos, controles, foco, contraste, quebra de nomes e preservação dos fluxos. Aceitação humana separada e pendente. Conferência documental contra VIS-01–07, sem alteração de código desde os gatesT2. `validate_spec --strict` e diff-check aprovados; nenhuma repetição de teste para texto documental. T1–T3 implementados, ainda aguardando Verifier independente e validate_state antes de concluir.
+
 ## T2 implementado, 14/10/2026
 
 Arquivos: index.css e e2e/visual.spec.js. Premissa: preservar estrutura, regras e ações. Sucesso: contraste, controles44px, foco3px e telas sem overflow em1280/360. Um cenário de navegador percorre login, cadastro, carregando, erro, lista vazia/preenchida, formulário de quadro, quadro, editor de etapa/demanda, movimentação, arquivo de demanda, comentários, atividade e quadro arquivado; capturas dos15 estados em dois tamanhos.

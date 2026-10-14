@@ -297,13 +297,22 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-14
 - **Status**: active
 
+### AD-037
+- **Decision**: revisao visual geral com Creral textual,azul-escuro/verde existentes,contraste/foco/controles e layout desktop/celular;sem alterar regras ou navegacao.
+- **Reason**: usuario confirmou alcance/estilo e autorizou continuar proposta detalhada em14/10/2026. Correcoes de referencias do teste novo tambem autorizadas ao continuar apos a pergunta especifica.
+- **Trade-off**: sem logo oficial ou redesign de fluxos;criterios delimitados,nao certificacao integral de acessibilidade.
+- **Scope**: features/revisao-visual/spec.md,VIS-01 a07.
+- **Date**: 2026-10-14
+- **Status**: active
+
 ## Handoff
 
-- **Feature / branch:** revisao-visual, testes. T1 Implemented em14/10,sem Verified.
-- **Completed:** identidadeCreral,rótulosLogin,lang/titulo. Usuario autorizou corrigir referencias do teste ao pedir continuar apos pergunta. Gate9/9PASS (3novos+6sessao),2invocacoes autor incluindo falha inicial documentada.
-- **Next:** T2 index.css e E2Evisual,lint/buildTEMP;T3guia/evidencias;Verifier fresco automatico,sensorleve,validate_state antes de concluir diagnostico.
-- **Files:** T1 fontes/teste/spec/evidence/DIAG/STATE no commit atomico. CSS ainda nao alterado.
-- **Restrictions:** AD-035 testesfocados/saida compacta,sem suites completas/baselines ou exclusao de testes. Local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean;gerados existentes preservados. Aceitacao humana pendente.
+- **Feature / branch:** revisao-visual, testes. T1 3bcb251,T2 3650f34,T3 guia neste commit;Implemented,sem Verified.
+- **Gates:**9/9Vitest focados (3novos+6sessao),1Edge/H2visual15estados em1280/360,lint/buildTEMP PASS. Cinco invocacoes autor,incluindo falha inicial autorizada do teste e duas tentativas browser,documentadas.
+- **Fix real:** overflow no formulario mover com numero longo,quebra de form-card/select corrigida. Sem mudanca de testes antigos/outcomes/timeouts.
+- **Next:** Verifier fresco automatico,escopo focado,sensor leve,validate_state;so depois concluir diagnostico. Aceitacao humana pendente,guia OPERACAO.
+- **Evidence:** features/revisao-visual/evidence.md;logsTEMP/visual-autor-browser{,2,3}.log;capturasTEMP/creral-visual-bIt5pL.
+- **Restrictions:** AD-035 testesfocados/saida compacta,sem suites completas/baselines ou exclusao de testes. Local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean;gerados existentes preservados.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

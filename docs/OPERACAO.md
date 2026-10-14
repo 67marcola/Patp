@@ -1,5 +1,15 @@
 # Operação local do sistema Creral
 
+## Apresentação e uso em computador/celular
+
+Login, cadastro e cabeçalho identificam a Creral. A aba usa Creral | Gestão de demandas, com documento em português do Brasil. A apresentação mantém azul-escuro e verde; Creral é identificação textual, sem representação de logotipo oficial.
+
+No login, clicar em E-mail ou Senha foca o campo correspondente. Botões e campos têm altura mínima de44px; o teclado mostra contorno de foco verde, com verde claro no cabeçalho escuro. Textos secundários usam contraste mais forte. Nomes longos quebram linha e as ações se reorganizam no celular; os dados não são abreviados nem alterados por esse ajuste.
+
+O funcionamento e os nomes das ações permanecem iguais. Carregamento, vazio, erro e arquivado continuam com mensagens e permissões próprias; o erro de consulta recebe faixa e fundo destacados. Rascunhos continuam nos formulários enquanto eles permanecem abertos.
+
+Aceitação humana da apresentação permanece pendente. Roteiro recomendado: entrar por teclado, criar/editar um cadastro fictício de quadro/demanda e consultar comentários/atividade no computador e no celular; informar se os textos, ações e espaçamentos facilitam o uso diário. Os testes automáticos não registram essa aceitação em nome da Creral.
+
 ## Gráficos por quadro
 
 Abra um gerenciamento e escolha Gráficos junto ao título. A seção compara a quantidade atual de demandas por situação e por etapa. Total não arquivadas corresponde às demandas nas colunas; Arquivadas tem contagem separada e não entra nas barras. Todos os usuários autenticados podem consultar, inclusive quadros arquivados.
