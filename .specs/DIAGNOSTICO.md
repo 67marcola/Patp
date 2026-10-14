@@ -28,6 +28,8 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 
 T2 integrado: botão Gráficos junto ao título abre a distribuição por situação e etapa, com arquivadas separadas. Gates focados: 51 testes da interface aprovados; após corrigir sobreposição do botão pelos comentários, seis testes novos e um cenário Edge/H2 aprovados, lint/build ok. Rascunhos preservados e consulta de leitor em quadro arquivado/360px comprovadas. T3 e Verifier ainda pendentes. Cinco execuções do autor até aqui, sem suítes completas.
 
+T3 concluído: instruções e roteiro humano em docs/OPERACAO.md, sem novo teste por ser alteração documental. Implementação dos gráficos pronta para Verifier independente; ainda sem declarar Concluído e verificado.
+
 **14/10/2026 — incluído no diagnóstico:** atividade por gerenciamento encerrada no commit local feb0eea. Próximo requisito, gráficos por quadro, teve o alcance confirmado: distribuição por situação e etapa, com arquivadas separadas. [Proposta](features/graficos-quadro/spec.md) preparada; implementação ainda não iniciada. Preferência de reduzir pelo menos metade das execuções de testes registrada em AD-035: testes focados, sem repetições completas por tarefa nem exclusão de cenários existentes.
 
 | Entrega | O que já é possível fazer | Evidência |

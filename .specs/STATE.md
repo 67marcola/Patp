@@ -291,11 +291,11 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature / branch:** graficos-quadro, testes. Proposta de nove criterios e tres passos aprovada explicitamente em14/10/2026.
-- **Completed:** atividade-gerenciamento fechada emfeb0eea,39/39 PASS. Graficos T1 componente pronto,3 testes focados PASS; ainda nao integrado. AD-035: reduzir execucoes pelo menos metade, preservar testes.
-- **Next:** T2 integrar Quadro.jsx, testes focados e um E2E; T3 instrucoes/evidencias, Verifier fresco automatico e validate_state antes de concluir.
-- **Restrictions:** local apenas; sem push/deploy/banco real/upgrades/reset/stash/clean. Arquivos gerados existentes preservados. Nenhuma suite Java/MySQL sera repetida para esta alteracao de interface.
-- **Uncommitted:** T1 e documentos no commit atomico; gerados target/node_modules preservados.
+- **Feature / branch:** graficos-quadro, testes. Nove criterios e tres passos aprovados14/10/2026.
+- **Completed:** atividade fechada feb0eea,39/39 PASS. Graficos T1 6b9f6ad; T2 bc631be; T3 instrucoes neste commit. Implementacao pronta, ainda nao Verified.
+- **Gates:** 51 Vitest focados (45 existentes+6 novos) PASS; apos mover botao para corrigir sobreposicao pelos comentarios,6 novos PASS e1 Edge/H2 PASS,lint/buildTEMP PASS. Cinco execucoes autor,sem suite completa. Evidencias/logs/capturas em features/graficos-quadro/evidence.md.
+- **Next:** Verifier fresco automatico,escopo focado/sensor leve,validate_state; so depois concluir diagnostico. Aceitacao humana permanece pendente.
+- **Restrictions:** AD-035 reduzir execucoes pelo menos metade; preservar testes e nao refazer baselines. Local apenas;sem push/deploy/banco real/upgrades/reset/stash/clean. Gerados existentes preservados.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 
