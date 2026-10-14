@@ -126,11 +126,11 @@ function App() {
                 <div>
 
                     <h1>
-                        Sistema de Gerenciamento
+                        Creral
                     </h1>
 
                     <p>
-                        Controle e acompanhamento dos processos
+                        Gestão de demandas e gerenciamentos
                     </p>
 
                 </div>

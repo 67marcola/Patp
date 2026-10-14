@@ -1,6 +1,6 @@
 # Revisão visual geral Specification
 
-**Date:** 2026-10-14. **Status:** Draft, alcance/estilo confirmados, proposta detalhada para confirmação. Porte médio, três passos implícitos.
+**Date:** 2026-10-14. **Status:** Approved em14/10/2026; usuário autorizou continuar a proposta preparada. Porte médio, três passos implícitos.
 
 ## Problem Statement
 
@@ -27,11 +27,11 @@ Login/cadastro e sistema ainda não apresentam identificação consistente da Cr
 | --- | --- | --- | --- |
 | Alcance | Login, cadastro, lista de quadros, quadro e formulários/painéis existentes | Usuário escolheu revisão geral | Sim, 14/10 |
 | Estilo | Azul-escuro e verde existentes, Creral em texto | Usuário confirmou manter estilo; sem asset oficial fornecido | Sim, 14/10 |
-| Identificação | Creral visível nas três áreas; aba Creral \| Gestão de demandas; documento pt-BR | Nome da empresa e conteúdo já são conhecidos | Proposta |
-| Controles | Altura mínima44px; foco3px visível; texto secundário mais escuro | Melhor leitura e acionamento sem nova navegação | Proposta |
-| Layout | Manter estrutura atual; ajustar quebra de nomes, espaçamentos e colunas em360px | Limita risco e conserva aprendizado de uso | Proposta |
+| Identificação | Creral visível nas três áreas; aba Creral \| Gestão de demandas; documento pt-BR | Nome da empresa e conteúdo já são conhecidos | Sim, conjunto aprovado em14/10 |
+| Controles | Altura mínima44px; foco3px visível; texto secundário mais escuro | Melhor leitura e acionamento sem nova navegação | Sim, conjunto aprovado em14/10 |
+| Layout | Manter estrutura atual; ajustar quebra de nomes, espaçamentos e colunas em360px | Limita risco e conserva aprendizado de uso | Sim, conjunto aprovado em14/10 |
 
-**Open questions:** none — defaults não respondidos têm escolha e justificativa acima; confirmação do conjunto antes de implementar.
+**Open questions:** none — defaults não respondidos têm escolha e justificativa acima; conjunto autorizado pelo usuário ao pedir continuar a proposta preparada.
 
 ## User Stories
 
@@ -61,13 +61,13 @@ Login/cadastro e sistema ainda não apresentam identificação consistente da Cr
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| VIS-01 | P1: Clareza | Specify | Pending |
-| VIS-02 | P1: Clareza | Specify | Pending |
+| VIS-01 | P1: Clareza | Execute | Implementing |
+| VIS-02 | P1: Clareza | Execute | Implementing |
 | VIS-03 | P1: Clareza | Specify | Pending |
 | VIS-04 | P1: Clareza | Specify | Pending |
 | VIS-05 | P1: Clareza | Specify | Pending |
 | VIS-06 | P1: Clareza | Specify | Pending |
-| VIS-07 | P1: Clareza | Specify | Pending |
+| VIS-07 | P1: Clareza | Execute | Implementing |
 
 ## Success Criteria
 

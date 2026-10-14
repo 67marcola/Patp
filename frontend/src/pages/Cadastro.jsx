@@ -80,6 +80,8 @@ function Cadastro({ voltar, onLogin }) {
 
             <div className="login-card cadastro-card">
 
+                <p className="marca-creral">Creral</p>
+
                 <h1>
                     Criar cadastro
                 </h1>
