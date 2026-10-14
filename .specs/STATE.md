@@ -281,17 +281,25 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-10
 - **Status**: active
 
+### AD-035
+- **Decision**: reduzir em pelo menos metade o volume de execuções de testes nas próximas entregas em relação ao fluxo anterior, priorizando os cenários afetados e evitando repetir suítes completas já aprovadas sem mudança relevante.
+- **Reason**: pedido explícito do usuário em 14/10/2026 para diminuir o consumo de tokens.
+- **Trade-off**: testes focados por tarefa e uma verificação de fechamento proporcional ao risco; relatórios compactos, sem despejar logs. Preservar os testes existentes e a verificação independente da TLC, sem refazer baselines históricos por rotina.
+- **Scope**: próximas entregas; contar execuções para conferir a redução. Repetir somente quando houver alteração, falha ou risco concreto ainda não resolvido. Não significa apagar metade dos testes ou declarar cobertura não executada.
+- **Date**: 2026-10-14
+- **Status**: active
+
 ## Handoff
 
-- **Feature:** atividade-gerenciamento,branch testes,checkpoint13/10/2026.
-- **Phase / Task:** T1–T20 Implemented;próximo Verifier fresco automático.
-- **Completed:** três lotes T1–T18 até6cc1e60;T19 10f39eb;T20 neste commit. GatesT20:1087 Java/H2,1183 Vitest/28 arquivos,18 Edge/H2/9 arquivos,lint/buildTEMP PASS.847 MySQL fictícioT18 PASS,Java inalterado desde então. Nenhum ACT Verified.
-- **In progress:** verificação independente39critérios,sensor>=5 emscratch evalidate_state0;incluído no diagnóstico.
-- **Next step:** despachar Verifier novo forkNone para084757d..HEAD,sem modificar código/testes. Após PASS,concluir diagnóstico/trace/memória e seguir requisito pendente;aceitação humana separada.
-- **Blockers / consent:** nenhum. HTTP200→204 novoT17 autorizado13/10;três outcomes antigosT13 autorizados. Helperkeyboard teto mecânico,foco/Enter/timeouts intactos. CorreçõesT19/T20 não mudam dados/regras,novasasserts sem enfraquecer antigas.
-- **Environment:** JDK25.0.2/Maven3.9.16/Node/Pythonhermes. MySQLfictício8.0.43,TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,creral_arquivo_test/33823 INATIVO;owned19572 encerrado,não reutilizarPID. Confirmar instância atual ao reiniciar. LogsTEMP/atividade-T20-{java,vitest,lint,build,browser}.log; buildTEMP/atividade-T20-build-75902ef942c543d197719b79c336d059. CapturasT17-6o2dgB/T18-fluxo-cuIkIQ/mista-5Nwtqi. LogsPS podem serUTF16 comBOM.
-- **Uncommitted files:** T20 painel/teste/atividade.spec.js e documentos neste commit;gerados target/node_modules/test-results preservados. Realizar comparação integral no sensor só após gates,sem writes na árvore real.
-- **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Datas históricas preservadas.
+- **Feature:** atividade-gerenciamento concluída e verificada em13/10/2026,branch testes;próximo requisito gráficos.
+- **Phase / Task:** T1–T20 Verified,39/39 ACT eedges/Donewhen PASS independente.
+- **Completed:** implementação18d27a8,relatório features/atividade-gerenciamento/validation.md. Verifier repetiu1087 Java/H2,1183 Vitest/28 arquivos,18 Edge/H2/9 arquivos,847 MySQL fictício,lint/build evalidate_state0. Baseline840/1000 reexecutada. Sensor8/8 killed,controles247/183 PASS,scratch removido,HEAD/porcelain e4392 hashes preservados. Incluído no diagnóstico como Concluído e verificado — tudo ok.
+- **In progress:** descoberta do próximo requisito: gráficos,alcance/indicadores ainda precisam de resposta;sem nova implementação iniciada. Aceitação humana separada,pending conforme OPERACAO.
+- **Next step:** conferir dados/API e recomendações para gráficos,perguntar alcance/indicadores com efeito no sistema e seguir TLC. Não refazer entregas comprovadas.
+- **Blockers / consent:** nenhum da atividade;perguntas de produto de gráficos ainda abertas. User200→204 novoT17 autorizado13/10;três outcomes antigosT13 autorizados,nenhum teste apagado/enfraquecido/skip/timeout alterado.
+- **Environment:** JDK25.0.2/Maven3.9.16/Node/Pythonhermes. MySQLfictício8.0.43,TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,creral_arquivo_test/33823 INATIVO;owned18700 encerrado,porta ausente,nunca reutilizarPID. LogsTEMP/atividade-verifier-{java,vitest,lint,build,browser2,mysql}.log;sensor8logs/control e4392hashes emmanifests. Browser inicial4173 encerrou,trace preservado;gate completo idêntico depoisPASS.
+- **Uncommitted files:** fechamento documental DIAG/STATE/spec/tasks/evidence/validation neste commit;source/testes limpos. Gerados target/node_modules/test-results preservados.
+- **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Tecnologias AD-024 mantidas,regra permanente de diagnóstico preservada.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

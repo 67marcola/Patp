@@ -36,6 +36,7 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 | Edição informativa de demandas | Corrigir cliente, responsável, prioridade, emissão, prazos e observações. Número fixo; demandas concluídas/canceladas mantêm seu encerramento. Somente criador/admin em quadro ativo. | [29 critérios e edges aprovados](features/demandas-edicao/validation.md). |
 | Arquivamento e restauração de demandas | Arquivar demandas em andamento, concluídas ou canceladas; consultar Arquivadas e restaurar na mesma etapa e estado, preservando dados, número, comentários e histórico. Somente criador/admin em quadro ativo altera o arquivo. | [30 critérios e 10 bordas aprovados](features/demandas-arquivamento/validation.md). |
 | Comentários por demanda | Conversar com autor da sessão e horário, mensagens separadas por demanda, consulta de arquivados, recuperação manual de envio incerto e uso por teclado no computador/celular. | [28 critérios e bordas aprovados](features/comentarios-lateral/validation.md). |
+| Atividade por gerenciamento | Consultar alterações do quadro, etapas e demandas com autor, horário e antes/depois, inclusive em arquivados; histórico existente identificado e preservado, comentários registrados sem duplicar a mensagem,50 registros por página. | [39 critérios e bordas aprovados](features/atividade-gerenciamento/validation.md),sensor8/8. |
 
 A criação de demandas registra histórico com autoria da sessão e é transacional: uma falha não deve deixar apenas parte dos dados gravada. O frontend confirma que a resposta contém a demanda solicitada antes de fechar o formulário; respostas incompletas ou divergentes preservam o rascunho e exigem atualização manual.
 
@@ -150,7 +151,59 @@ Enquanto o envio está pendente, o sistema bloqueia duplicidade e outras ações
 
 **Validação final independente:**840 Java/H2,1000 Vitest,336 selecionados no MySQL8.0.43 fictício,15 Edge/H2 em oito arquivos,lint/build PASS, zero falhas/erros/skips. Sensor7/7 falhas detectadas; controles íntegros102 Java/76 API PASS. HEAD/estado Git e4.147 hashes reais preservados. A primeira revisão revelou uma lacuna de concorrência no envio moderno; T9 acrescentou oito provas, preservou as antigas e detectou o mesmo mutante na segunda rodada. Tentativas ambientais negativas e lições candidatas ficam documentadas. Gate validate_state: zero erros. MySQL temporário encerrado com identidade atual conferida,shutdown0 e listener ausente; nenhum banco real utilizado. **Aceitação humana pendente**, com roteiro em [OPERACAO.md](../docs/OPERACAO.md).
 
-## O que ainda falta nos requisitos originais
+## Atividade por gerenciamento — concluída
+
+**Concluído e verificado — tudo ok, incluído no diagnóstico em13/10/2026.** Vinte tarefas locais e39/39 critérios aprovados pelo [Verifier independente](features/atividade-gerenciamento/validation.md). [Tarefas](features/atividade-gerenciamento/tasks.md) e [evidências](features/atividade-gerenciamento/evidence.md) registram cada commit e suas provas.
+
+O botão **Atividade** no quadro mostra ações do gerenciamento, das etapas e das demandas,com autor da conta,horário e valores anteriores/novos. Todos os autenticados podem consultar,inclusive arquivados. Registros antigos aparecem como **Histórico existente**,sem inventar autoria ou dados. A lista carrega50 por página; **Carregar mais** conserva o conjunto e **Atualizar** consulta os registros novos. Comentários aparecem como envio,sem repetir a mensagem. Fechar/Escape devolve foco e libera as ações do quadro; formulários e comentários preservam seus bloqueios e rascunhos. Arquivado aparece como Sim/Não; dados originais continuam preservados.
+
+**Validação independente:**1087 Java/H2,1183 Vitest,18 Edge/H2,847 MySQL fictício,lint/build e validate_state aprovados. Baseline reexecutada840 Java/1000 Vitest confirma os247/183 casos adicionados. Sensor8/8 falhas detectadas,controles247/183 PASS;HEAD/porcelain e4392 hashes reais preservados após limpeza da cópia. A primeira execução de navegador perdeu o serviço4173; traces foram preservados e o gate completo passou na repetição,sem mudar testes/timeouts/retries. MySQL fictício encerrado; nenhum banco real utilizado. **Aceitação humana pendente**,com roteiro em [OPERACAO.md](../docs/OPERACAO.md).
+
+| Critério | Resultado no sistema | Estado |
+| --- | --- | --- |
+| ACT-01 | Registrar criação do quadro com autor e horário. | Concluído e verificado — tudo ok |
+| ACT-02 | Edição do quadro mostra campos anteriores e novos. | Concluído e verificado — tudo ok |
+| ACT-03 | Arquivar/restaurar quadro registra a mudança. | Concluído e verificado — tudo ok |
+| ACT-04 | Criação de etapa identifica nome,setor e posição. | Concluído e verificado — tudo ok |
+| ACT-05 | Edição de etapa registra diferenças reais. | Concluído e verificado — tudo ok |
+| ACT-06 | Remoção conserva identificação e dados anteriores da etapa. | Concluído e verificado — tudo ok |
+| ACT-07 | Reorganização registra todas as posições afetadas. | Concluído e verificado — tudo ok |
+| ACT-08 | Cadastro de demanda registra dados iniciais e autor. | Concluído e verificado — tudo ok |
+| ACT-09 | Edição informativa mostra diferenças sem mudar número/encerramento. | Concluído e verificado — tudo ok |
+| ACT-10 | Movimentação identifica etapa anterior e destino,inclusive nomes iguais. | Concluído e verificado — tudo ok |
+| ACT-11 | Conclusão/cancelamento registra estado,datas,etapa e motivo alterados. | Concluído e verificado — tudo ok |
+| ACT-12 | Reabertura registra retorno ao trabalho e limpeza do encerramento. | Concluído e verificado — tudo ok |
+| ACT-13 | Arquivar/restaurar demanda conserva seu ciclo. | Concluído e verificado — tudo ok |
+| ACT-14 | Envio de comentário registra autor/horário,sem copiar mensagem. | Concluído e verificado — tudo ok |
+| ACT-15 | Nomes e identificações anteriores permanecem nos novos registros. | Concluído e verificado — tudo ok |
+| ACT-16 | Edição sem diferenças informa que nenhum campo mudou. | Concluído e verificado — tudo ok |
+| ACT-17 | Falha reverte ação,histórico e atividade juntos. | Concluído e verificado — tudo ok |
+| ACT-18 | Ações recusadas conservam todos os dados. | Concluído e verificado — tudo ok |
+| ACT-19 | Versões e histórico atuais são preservados;comentário não altera versão. | Concluído e verificado — tudo ok |
+| ACT-20 | Todos os autenticados consultam,inclusive arquivados e encerrados. | Concluído e verificado — tudo ok |
+| ACT-21 | Sessão ausente/inválida recebe401 sem gravação. | Concluído e verificado — tudo ok |
+| ACT-22 | Histórico existente conserva valores e origem explícita. | Concluído e verificado — tudo ok |
+| ACT-23 | Ação nova não aparece duplicada,histórico da demanda continua disponível. | Concluído e verificado — tudo ok |
+| ACT-24 | Nova escrita manual de histórico é recusada409;consulta antiga preservada. | Concluído e verificado — tudo ok |
+| ACT-25 | Mais recentes primeiro,desempates estáveis e datas ausentes no fim. | Concluído e verificado — tudo ok |
+| ACT-26 | Página limitada a50,com continuação ou fim identificado. | Concluído e verificado — tudo ok |
+| ACT-27 | Paginação conserva conjunto sem repetição;novos aparecem ao atualizar. | Concluído e verificado — tudo ok |
+| ACT-28 | Cursor inválido ou de outro quadro é recusado400. | Concluído e verificado — tudo ok |
+| ACT-29 | Respostas pertencem ao quadro e não expõem senha,sessão ou mensagem. | Concluído e verificado — tudo ok |
+| ACT-30 | Painel de leitura mostra ação,alvo,autor,horário e diferenças. | Concluído e verificado — tudo ok |
+| ACT-31 | Carregamento,vazio e erro possuem estados claros e nova tentativa. | Concluído e verificado — tudo ok |
+| ACT-32 | Carregar mais bloqueia duplicidade e conserva lista na falha. | Concluído e verificado — tudo ok |
+| ACT-33 | Atualizar inicia nova consulta;falha conserva lista e avisa. | Concluído e verificado — tudo ok |
+| ACT-34 | Fechamento/troca ignora respostas atrasadas e devolve foco adequado. | Concluído e verificado — tudo ok |
+| ACT-35 | Atividade,formulários e comentários ficam exclusivos,sem perder rascunhos. | Concluído e verificado — tudo ok |
+| ACT-36 | Texto escapado,ausências claras,Sim/Não e controles em desktop/360px. | Concluído e verificado — tudo ok |
+| ACT-37 | Resposta inconsistente é rejeitada inteira,sem lista parcial ou falso vazio. | Concluído e verificado — tudo ok |
+| ACT-38 | Arquivo repetido do quadro não cria evento adicional. | Concluído e verificado — tudo ok |
+| ACT-39 | Quadro inexistente recebe404 sem gravação. | Concluído e verificado — tudo ok |
+
+## Checkpoints históricos da atividade
+
+Os registros abaixo preservam o estado de cada etapa naquela data. A conclusão atual é a seção acima; suas pendências já foram resolvidas.
 
 Incluído no diagnóstico em13/10/2026: T17 Implemented,botão/coordenação/foco por quadro;1176 Vitest em28 arquivos e1087 Java/H2 PASS em12/10,16 Edge/H2 em9 arquivos (15 anteriores+1 novo),lint/buildTEMP PASS em13/10. Expectativa novaHTTP200→204 ematividade.spec.js autorizada pelo usuário,sem mudar produto ou outcomes antigos. T18/ajustes pequenos já identificados/Verifier pendentes; nenhum ACT Verified.
 
@@ -158,11 +211,12 @@ Incluído no diagnóstico em12/10/2026: T16 Implemented,painel de leitura/antes-
 
 Incluído no diagnóstico em12/10/2026: T15 Implemented,cliente de atividade com validação integral de página/cursor/fontes;1131 Vitest PASS em26 arquivos (1000 anteriores+131 novos),zero falhas/skips. T14 já está no commit e53302f. T16–T18 e Verifier pendentes,nenhum ACT Verified. [Evidência T15](features/atividade-gerenciamento/evidence.md#t15--contrato-do-cliente).
 
-**Requisito em andamento:** registros de atividade por gerenciamento. Incluído no diagnóstico em13/10/2026: T1–T20 Implemented,diário transacional/GET/cliente/painel/coordenação e fluxo real com duas contas/fontes mistas. A primeira página também recusa limites incompatíveis; Arquivado aparece como Sim/Não,com DTOs e textos literais preservados. Gates finais:1087 Java/H2,1183 Vitest em28 arquivos,18 Edge/H2 em9 arquivos,lint/buildTEMP PASS;847 MySQL fictícioT18 PASS,servidor inalterado. InstânciaMySQL própria encerrada,porta33823 ausente. Verifier independente pendente,nenhum ACT Verified. Datas/autorização histórica e checkpoints anteriores acima preservados. [Evidência](features/atividade-gerenciamento/evidence.md).
+**Checkpoint anterior ao Verifier:** incluído no diagnóstico em13/10/2026,T1–T20 Implemented e gates técnicos aprovados,com primeira página validada e Sim/Não. A verificação independente foi concluída posteriormente neste mesmo dia,conforme relatório acima. Datas e autorizações anteriores preservadas.
+
+## O que ainda falta nos requisitos originais
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Logs em cada gerenciamento | Em andamento, incluído no diagnóstico em13/10/2026. T1–T20 Implemented;1087 Java/H2,1183 Vitest,18 Edge/H2,847 MySQL fictício,lint/buildTEMP PASS. [Evidência e reverse-map](features/atividade-gerenciamento/evidence.md). Verifier/sensor final pendentes;nenhum ACT Verified. |
 | Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |
@@ -321,7 +375,7 @@ As questões técnicas descobríveis pelo código serão resolvidas pela anális
 - Fazer verificação independente após finalizar a funcionalidade, incluindo evidências exigidas pela skill.
 - Avançar ao próximo requisito mantendo a cobertura dos pedidos da tabela inicial.
 
-Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias, CRUD de demandas e comentários por demanda foram entregues e verificados. Atividade por gerenciamento, gráficos, revisão visual geral e aceitação humana continuam como próximos trabalhos.
+Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias, CRUD de demandas,comentários por demanda e atividade por gerenciamento foram entregues e verificados. Próximo requisito: gráficos,com definição de indicadores/alcance ainda necessária;revisão visual geral e aceitação humana permanecem pendentes.
 
 ## Registro histórico de execução do arquivamento
 
