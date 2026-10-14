@@ -1,5 +1,7 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+**Revisão visual geral em preparação, 14/10/2026 — incluído no diagnóstico:** alcance e estilo confirmados pelo usuário: login, cadastro, lista de quadros e quadro de demandas/celular; manter azul-escuro e verde e identificar a Creral. [Proposta com sete critérios](features/revisao-visual/spec.md) preparada e validada estruturalmente. Nenhuma alteração de interface iniciada; confirmação da proposta detalhada pendente. Testes focados conforme AD-035.
+
 **Atualizado em 14/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
 
 ## Gráficos por quadro — concluídos em 14/10/2026
