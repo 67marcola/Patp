@@ -1,5 +1,27 @@
 # Evidência da revisão visual
 
+## T2 implementado, 14/10/2026
+
+Arquivos: index.css e e2e/visual.spec.js. Premissa: preservar estrutura, regras e ações. Sucesso: contraste, controles44px, foco3px e telas sem overflow em1280/360. Um cenário de navegador percorre login, cadastro, carregando, erro, lista vazia/preenchida, formulário de quadro, quadro, editor de etapa/demanda, movimentação, arquivo de demanda, comentários, atividade e quadro arquivado; capturas dos15 estados em dois tamanhos.
+
+Tentativa browser1 identificou leitura intermediária da transição CSS de foco. Ajustada sincronização para esperar o mesmo resultado definido (expect.poll), sem alterar valores ou timeout. Também corrigidos dois seletores de ações existentes: Tentar atualizar e Mover/pular etapa demanda. Nenhuma expectativa foi enfraquecida.
+
+Browser2 detectou bug real: número de demanda longo no formulário de movimentação causava overflow em1280px. Corrigida quebra de texto de form-card e limite do select. Browser3 **1/1 Edge/H2 PASS**, 16,2s total, cenário5,9s. Lint/buildTEMP finais PASS. Caminho de capturas TEMP/creral-visual-bIt5pL; login360, quadro360 e mover1280 inspecionados visualmente, legíveis e sem corte. Build final TEMP/creral-visual-build-final-3704be8886fe45d1899beaf3cd56f73b. Logs TEMP/visual-autor-browser{,2,3}.log preservam tentativas.
+
+| AC / resultado definido | Evidência em frontend/e2e/visual.spec.js | Coberto |
+| --- | --- | --- |
+| VIS-01 Creral/aba/idioma | :37 título exato e html lang; :38/47 Creral e títulos; :61 cabeçalho | Sim |
+| VIS-02 associação/autocomplete | :39–42 rótulos focam inputs e atributos username/current-password | Sim |
+| VIS-03 paleta, fonte e44px | :24 `c.altura >=44`; :26 `c.fonte ===true`; :44 variáveis exatas; :45 cor computada rgb82/97/107 | Sim |
+| VIS-04 foco sólido3px/offset3px/cores | :33–35 foco real e array exato; :43 input, :61 botão escuro, :64 textarea, :77 select | Sim |
+| VIS-05 dentro da tela1280/360 | :22 `medidas.pagina ===true`; :25 `c.dentro ===true`, em cada chamada conferir nos15 estados | Sim |
+| VIS-06 mensagens e estados | :53 loading, :54 erro, :55 fundo distinto, :57 vazio; :92 arquivado e ausência de Nova etapa; dados/ações existentes preservados | Sim |
+| VIS-07 sessão/rascunhos/sem chamadas de estilo | :66 rascunho quadro; :75/76 cache/calls estáveis na conferência; :81 demanda; :88 comentário | Sim |
+
+Mapeamento reverso: o único teste :7, com helpers :12/31, cobre VIS-01–07; asserts de preparação de API comprovam que os dados fictícios são válidos antes da medição. Sem testes de domínio duplicados, dependências, mudanças de API/banco ou testes existentes alterados. Verificação de controles cobre botões/inputs/selects/textareas, incluindo controles desabilitados; formulários da mesma família mantêm as classes existentes. Testes focados da sessão vigentes, sem alteração de JS desdeT1.
+
+Adequação A/B/C/D: resultados da spec concretos, casos necessários, medidas em navegador real, fluxo preservado; padrões Playwright e coding-principles existentes. Verifier independente ainda pendente. Cinco invocações acumuladas do autor (duas Vitest, três browser); nenhuma suíte completa Java/MySQL/Vitest.
+
 14/10/2026. Proposta autorizada pelo usuário ao pedir continuar após a apresentação do plano. Escopo médio, três passos implícitos em spec.md.
 
 ## T1: checkpoint inicial antes da autorização
