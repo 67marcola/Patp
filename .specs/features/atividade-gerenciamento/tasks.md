@@ -6,6 +6,8 @@ Implementar com a skill tlc-spec-driven já ativada e suas Critical Rules. Ler i
 
 **Design:**design.md. **Status:**Approved, execução por três agentes sequenciais7/7/4 confirmada em10/10/2026. **Base:**084757d. Defaults/compatibilidade aprovados; T13 recebeu autorização exata para os três cenários descritos. Ferramentas: PowerShell, apply_patch, git local, Maven, npm, Python, runners isolados existentes; TLC. AD-024 e autorizações anteriores persistem; não repetir pedido de tecnologias/ferramentas.
 
+**Fechamento:** Concluído e verificado — tudo ok em13/10/2026. Os20 entregáveis foram verificados independentemente; datas/gates originais preservados nas tarefas. validation.md contém39 critérios,edges,Done when e sensor8/8.
+
 ## Test Coverage Matrix
 
 Gerada de pom.xml, package.json, vitest.config.js, playwright.config.js, docs/OPERACAO.md, ApiIntegrationSupport, HistoricoArchiveTests, DemandaArquivoHistoricoTests/ApiTests, ComentarioEnvioTests, api/Quadro tests e runners E2E existentes. Não há AGENTS/quality guidelines adicionais encontrados; aplicar defaults fortes. Configuração Vitest não exige threshold numérico; Playwright é sequencial com retries0.
@@ -70,7 +72,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T1: Persistir entidade de atividade
 
-**Status:** Implemented em10/10/2026; compile PASS. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em10/10/2026; compile PASS. Verifier independente PASS,ver validation.md.
 
 **What**: Criar a entidade do diário com snapshots, índice e vínculo histórico único conforme design.
 **Where**: `sistema/src/main/java/com/patp/sistema/model/Atividade.java`
@@ -86,7 +88,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T2: Gravar diário na transação atual
 
-**Status:** Implemented em10/10/2026;853 Java PASS,13 novos. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em10/10/2026;853 Java PASS,13 novos. Verifier independente PASS,ver validation.md.
 
 **What**: Criar writer com diferenças e persistência atômica; repositório e tipos são suporte deste único entregável.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/AtividadeRegistroService.java`
@@ -102,7 +104,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T3: Registrar criação do quadro
 
-**Status:** Implemented em10/10/2026;860 Java PASS,7 novos. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em10/10/2026;860 Java PASS,7 novos. Verifier independente PASS,ver validation.md.
 
 **What**: Instrumentar criarGerenciamento com evento único e identificação das etapas iniciais.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/GerenciamentoService.java`
@@ -118,7 +120,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T4: Registrar edição e arquivo do quadro
 
-**Status:** Implemented em10/10/2026;873 Java PASS,13 novos. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em10/10/2026;873 Java PASS,13 novos. Verifier independente PASS,ver validation.md.
 
 **What**: Instrumentar editar e mudarEstado no mesmo serviço com diferenças e regras de no-op atuais.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/GerenciamentoService.java`
@@ -134,7 +136,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T5: Registrar criação de etapa
 
-**Status:** Implemented em10/10/2026;887 Java PASS,14 novos. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em10/10/2026;887 Java PASS,14 novos. Verifier independente PASS,ver validation.md.
 
 **What**: Instrumentar criar preservando sequência anterior e posições reorganizadas.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/EtapaService.java`
@@ -150,7 +152,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T6: Registrar edição e reordenação de etapa
 
-**Status:** Implemented em12/10/2026;904 Java PASS,17 novos. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;904 Java PASS,17 novos. Verifier independente PASS,ver validation.md.
 
 **What**: Instrumentar editar com snapshots de nome/setor e de todas as posições alteradas.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/EtapaService.java`
@@ -166,7 +168,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T7: Registrar remoção de etapa
 
-**Status:** Implemented em12/10/2026;921 Java PASS,17 novos;1000 Vitest,lint/build PASS no fim da fase. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;921 Java PASS,17 novos;1000 Vitest,lint/build PASS no fim da fase. Verifier independente PASS,ver validation.md.
 
 **What**: Instrumentar excluir com snapshot anterior independente da entidade removida.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/EtapaService.java`
@@ -182,7 +184,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T8: Registrar cadastro de demanda
 
-**Status:** Implemented em12/10/2026;934 Java/H2 PASS,13 novos; verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;934 Java/H2 PASS,13 novos; Verifier independente PASS, ver validation.md.
 
 **What**: Instrumentar salvarInicial com valores iniciais e vínculo ao histórico automático.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/ProcessoService.java`
@@ -198,7 +200,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T9: Registrar edição informativa da demanda
 
-**Status:** Implemented em12/10/2026;965 Java/H2 PASS,31 novos; verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;965 Java/H2 PASS,31 novos; Verifier independente PASS, ver validation.md.
 
 **What**: Instrumentar executarEdicao com diferenças de todos os campos editáveis.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/ProcessoService.java`
@@ -214,7 +216,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T10: Registrar transições de demanda
 
-**Status:** Implemented em12/10/2026;1003 Java/H2 PASS,38 novos; verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;1003 Java/H2 PASS,38 novos; Verifier independente PASS, ver validation.md.
 
 **What**: Instrumentar executarTransicao com evento e diferenças do ciclo para mover/concluir/cancelar/reabrir.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/ProcessoService.java`
@@ -230,7 +232,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T11: Registrar arquivo de demanda
 
-**Status:** Implemented em12/10/2026;1024 Java/H2 PASS,21 novos; verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;1024 Java/H2 PASS,21 novos; Verifier independente PASS, ver validation.md.
 
 **What**: Instrumentar mudarArquivo sem alterar etapa, ciclo ou identificação.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/ProcessoService.java`
@@ -246,7 +248,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T12: Registrar envio de comentário
 
-**Status:** Implemented em12/10/2026;1049 Java/H2 PASS,25 novos; verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;1049 Java/H2 PASS,25 novos; Verifier independente PASS, ver validation.md.
 
 **What**: Instrumentar gravar nas rotas de comentários sem repetir a mensagem.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/ComentarioService.java`
@@ -262,7 +264,7 @@ Dois ajustes identificados na revisão de13/10, dentro de ACT-27/36/37, executad
 
 ### T13: Fechar escrita manual externa
 
-**Status:** Implemented em12/10/2026;1059 Java/H2 PASS,10 novos; verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;1059 Java/H2 PASS,10 novos; Verifier independente PASS, ver validation.md.
 
 **What**: Recusar registrarExterno em demanda ativa mantendo consulta e precedência de arquivo.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/HistoricoService.java`
@@ -282,7 +284,7 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 
 ### T14: Consultar atividade por quadro
 
-**Status:** Implemented em12/10/2026;1087 Java/H2 PASS,28 novos;1000 Vitest,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;1087 Java/H2 PASS,28 novos;1000 Vitest,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips. Verifier independente PASS,ver validation.md.
 
 **What**: Criar consulta de duas fontes com cursor estável, DTO e GET de suporte ao único entregável de leitura.
 **Where**: `sistema/src/main/java/com/patp/sistema/service/AtividadeService.java`
@@ -298,7 +300,7 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 
 ### T15: Validar consulta no cliente
 
-**Status:** Implemented em12/10/2026;1131 Vitest PASS (1000 anteriores+131 novos),26 arquivos,zero falhas/skips. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;1131 Vitest PASS (1000 anteriores+131 novos),26 arquivos,zero falhas/skips. Verifier independente PASS,ver validation.md.
 
 **What**: Acrescentar consultarAtividade com validação estrita do contrato e cursor.
 **Where**: `frontend/src/services/api.js`
@@ -314,7 +316,7 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 
 ### T16: Exibir painel de atividade
 
-**Status:** Implemented em12/10/2026;1156 Vitest PASS (25 novos),27 arquivos,lint/buildTEMP PASS. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em12/10/2026;1156 Vitest PASS (25 novos),27 arquivos,lint/buildTEMP PASS. Verifier independente PASS,ver validation.md.
 
 **What**: Criar AtividadeLateral de leitura com estados, paginação, foco e atualização.
 **Where**: `frontend/src/components/AtividadeLateral.jsx`
@@ -330,7 +332,7 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 
 ### T17: Integrar atividade ao quadro
 
-**Status:** Implemented em13/10/2026;1176 Vitest/28 arquivos e1087 Java/H2 PASS em12/10;16 Edge/H2/9 arquivos (15 anteriores+1 novo),lint/buildTEMP PASS em13/10. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em13/10/2026;1176 Vitest/28 arquivos e1087 Java/H2 PASS em12/10;16 Edge/H2/9 arquivos (15 anteriores+1 novo),lint/buildTEMP PASS em13/10. Verifier independente PASS,ver validation.md.
 
 **What**: Adicionar botão no cabeçalho e coordenação exclusiva com os fluxos existentes.
 **Where**: `frontend/src/pages/Quadro.jsx`
@@ -346,7 +348,7 @@ Adequações concretas propostas: HistoricoArchiveTests.ativoRegistraManualEAuto
 
 ### T18: Provar fluxo completo entre duas contas
 
-**Status:** Implemented em13/10/2026;1087 Java/H2,1176 Vitest/28 arquivos,18 Edge/H2/9 arquivos,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips/retries nos gates aprovados. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em13/10/2026;1087 Java/H2,1176 Vitest/28 arquivos,18 Edge/H2/9 arquivos,847 MySQL fictício,lint/buildTEMP PASS,zero falhas/erros/skips/retries nos gates aprovados. Verifier independente PASS,ver validation.md.
 
 **What**: Acrescentar cenário de navegador de ações reais, antes/depois e preservação histórica.
 **Where**: `frontend/e2e/atividade.spec.js`
@@ -364,7 +366,7 @@ Fechamento obrigatório posterior aos dois ajustes de revisão T19/T20: Verifier
 
 ### T19: Conferir máximos do primeiro cursor
 
-**Status:** Implemented em13/10/2026;1180 Vitest/28 arquivos PASS,quatro casos novos. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em13/10/2026;1180 Vitest/28 arquivos PASS,quatro casos novos. Verifier independente PASS,ver validation.md.
 
 **What**: Recusar a primeira página quando um ID retornado ultrapassa o máximo da sua fonte no próximo cursor.
 **Where**: `frontend/src/services/api.js`
@@ -380,7 +382,7 @@ Fechamento obrigatório posterior aos dois ajustes de revisão T19/T20: Verifier
 
 ### T20: Mostrar arquivo em linguagem da interface
 
-**Status:** Implemented em13/10/2026;1087 Java/H2,1183 Vitest/28 arquivos,18 Edge/H2/9 arquivos,lint/buildTEMP PASS. Verificação independente pendente.
+**Status:** Verified em13/10/2026; implementação em13/10/2026;1087 Java/H2,1183 Vitest/28 arquivos,18 Edge/H2/9 arquivos,lint/buildTEMP PASS. Verifier independente PASS,ver validation.md.
 
 **What**: Exibir somente o campo arquivado como Sim/Não, mantendo strings true/false nos DTOs e outros textos literais.
 **Where**: `frontend/src/components/AtividadeLateral.jsx`
@@ -446,7 +448,7 @@ Fechamento obrigatório posterior aos dois ajustes de revisão T19/T20: Verifier
 
 ## Requirement map
 
-ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. Correções T19 ACT-27/37 e T20 ACT-36. T1–T20 Implemented. Verifier obrigatório após o commitT20; nenhum critério Verified.
+ACT-01 T3;02/03 T4;04 T5;05 T6;06 T7;07 T5–7;08 T8;09 T9;10–12 T10;13 T11;14 T12;15 T2–12;16 T4/T6/T9;17/18/19 T2–13 conforme operação;20/21/22/23/25/26/27/28/29/39 T14;24 T13;30/34 T16–17;31/32/33/36 T16;35 T17;37 T15–16;38 T4. T18 prova vertical sem substituir testes co-localizados. Correções T19 ACT-27/37 e T20 ACT-36. T1–T20 Verified em13/10/2026. Verifier fresco PASS39/39 critérios,sensor8/8 killed evalidate_state0; ver validation.md. Aceitação humana pendente.
 
 ## Execution notes
 

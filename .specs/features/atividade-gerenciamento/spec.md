@@ -1,6 +1,6 @@
 # Atividade por gerenciamento Specification
 
-**Status:** Implementing — proposta/defaults, bloqueio manual e três adequações T13 aprovados pelo usuário em10/10/2026. Execução autorizada em três agentes sequenciais7/7/4. **Data:**10/10/2026. **Tamanho:** Large, persistência, múltiplas rotas e painel. Base084757d; stack AD-024. Checkpoint13/10/2026: T1–T20 Implemented,1087 Java/H2,1183 Vitest,18 Edge/H2,847 MySQL fictício,lint/buildTEMP PASS. Verifier independente pendente,nenhum critério Verified. Datas históricas das tarefas preservadas.
+**Status:** Verified em13/10/2026,39/39 critérios e bordas PASS. Especificação aprovada em10/10/2026; três lotes sequenciais7/7/4 e correções T19/T20 concluídos. Base084757d,implementação18d27a8. Verifier independente:1087 Java/H2,1183 Vitest,18 Edge/H2,847 MySQL fictício,lint/build PASS,sensor8/8 killed evalidate_state0. Aceitação humana pendente. Relatório validation.md.
 
 ## Problem Statement
 
@@ -139,51 +139,51 @@ O quadro não reúne as alterações do gerenciamento e das etapas; as demandas 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| ACT-01 | Ações | Execute | Implementing |
-| ACT-02 | Ações | Execute | Implementing |
-| ACT-03 | Ações | Execute | Implementing |
-| ACT-04 | Ações | Execute | Implementing |
-| ACT-05 | Ações | Execute | Implementing |
-| ACT-06 | Ações | Execute | Implementing |
-| ACT-07 | Ações | Execute | Implementing |
-| ACT-08 | Ações | Execute | Implementing |
-| ACT-09 | Ações | Execute | Implementing |
-| ACT-10 | Ações | Execute | Implementing |
-| ACT-11 | Ações | Execute | Implementing |
-| ACT-12 | Ações | Execute | Implementing |
-| ACT-13 | Ações | Execute | Implementing |
-| ACT-14 | Ações | Execute | Implementing |
-| ACT-15 | Ações | Execute | Implementing |
-| ACT-16 | Ações | Execute | Implementing |
-| ACT-17 | Ações | Execute | Implementing |
-| ACT-18 | Ações | Execute | Implementing |
-| ACT-19 | Ações | Execute | Implementing |
-| ACT-20 | Consulta | Execute | Implementing |
-| ACT-21 | Consulta | Execute | Implementing |
-| ACT-22 | Consulta | Execute | Implementing |
-| ACT-23 | Consulta | Execute | Implementing |
-| ACT-24 | Consulta | Execute | Implementing |
-| ACT-25 | Consulta | Execute | Implementing |
-| ACT-26 | Consulta | Execute | Implementing |
-| ACT-27 | Consulta | Execute | Implementing |
-| ACT-28 | Consulta | Execute | Implementing |
-| ACT-29 | Consulta | Execute | Implementing |
-| ACT-30 | Painel | Execute | Implementing |
-| ACT-31 | Painel | Execute | Implementing |
-| ACT-32 | Painel | Execute | Implementing |
-| ACT-33 | Painel | Execute | Implementing |
-| ACT-34 | Painel | Execute | Implementing |
-| ACT-35 | Painel | Execute | Implementing |
-| ACT-36 | Painel | Execute | Implementing |
-| ACT-37 | Painel | Execute | Implementing |
-| ACT-38 | Ações | Execute | Implementing |
-| ACT-39 | Consulta | Execute | Implementing |
+| ACT-01 | Ações | Execute | Verified |
+| ACT-02 | Ações | Execute | Verified |
+| ACT-03 | Ações | Execute | Verified |
+| ACT-04 | Ações | Execute | Verified |
+| ACT-05 | Ações | Execute | Verified |
+| ACT-06 | Ações | Execute | Verified |
+| ACT-07 | Ações | Execute | Verified |
+| ACT-08 | Ações | Execute | Verified |
+| ACT-09 | Ações | Execute | Verified |
+| ACT-10 | Ações | Execute | Verified |
+| ACT-11 | Ações | Execute | Verified |
+| ACT-12 | Ações | Execute | Verified |
+| ACT-13 | Ações | Execute | Verified |
+| ACT-14 | Ações | Execute | Verified |
+| ACT-15 | Ações | Execute | Verified |
+| ACT-16 | Ações | Execute | Verified |
+| ACT-17 | Ações | Execute | Verified |
+| ACT-18 | Ações | Execute | Verified |
+| ACT-19 | Ações | Execute | Verified |
+| ACT-20 | Consulta | Execute | Verified |
+| ACT-21 | Consulta | Execute | Verified |
+| ACT-22 | Consulta | Execute | Verified |
+| ACT-23 | Consulta | Execute | Verified |
+| ACT-24 | Consulta | Execute | Verified |
+| ACT-25 | Consulta | Execute | Verified |
+| ACT-26 | Consulta | Execute | Verified |
+| ACT-27 | Consulta | Execute | Verified |
+| ACT-28 | Consulta | Execute | Verified |
+| ACT-29 | Consulta | Execute | Verified |
+| ACT-30 | Painel | Execute | Verified |
+| ACT-31 | Painel | Execute | Verified |
+| ACT-32 | Painel | Execute | Verified |
+| ACT-33 | Painel | Execute | Verified |
+| ACT-34 | Painel | Execute | Verified |
+| ACT-35 | Painel | Execute | Verified |
+| ACT-36 | Painel | Execute | Verified |
+| ACT-37 | Painel | Execute | Verified |
+| ACT-38 | Ações | Execute | Verified |
+| ACT-39 | Consulta | Execute | Verified |
 
-39 critérios em implementação; T1–T20 Implemented e mapa/evidências no plano. Correções locais concluídas; Verifier permanece pendente. Nenhum Verified antes da verificação independente.
+39 critérios Verified após PASS independente em13/10/2026; T1–T20 verificados. Evidências e sensor no relatório validation.md,aceitação humana separada e pendente.
 
 ## Success Criteria
 
-- [ ]39 critérios com evidência positiva e negativa; não inferir sucesso de compilação.
-- [ ]Java/H2, Vitest, MySQL fictício, Edge/H2, lint/build aprovados, sem skips/retries/deletar cenários.
-- [ ]Verifier independente PASS e sensor mínimo5 falhas comportamentais detectadas, árvore real preservada.
-- [ ]Diagnóstico atualizado com conclusão somente após gates; aceitação humana registrada separadamente.
+- [x]39 critérios com evidência positiva e negativa; não inferir sucesso de compilação.
+- [x]Java/H2, Vitest, MySQL fictício, Edge/H2, lint/build aprovados, sem skips/retries/deletar cenários.
+- [x]Verifier independente PASS e sensor mínimo5 falhas comportamentais detectadas, árvore real preservada.
+- [x]Diagnóstico atualizado com conclusão somente após gates; aceitação humana registrada separadamente.

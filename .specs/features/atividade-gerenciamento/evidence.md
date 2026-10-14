@@ -616,3 +616,11 @@ Capturas reaisT20: TEMP/creral-atividade-T17-6o2dgB,creral-atividade-T18-fluxo-c
 | Asserts extras no cenário completo,atividade.spec.js:92/84 valores/UI/DTO exatos | ACT-03/13/36,mesmo registro com apresentação local | Sim |
 
 A/B/C/D PASS: cada novo caso deriva da precisão documentada de ACT-36,asserts de valores reais e todas expectativas antigas preservadas. Matriz Vitest+E2E seguida,sem SPEC_DEVIATION ou regras novas. T1–T20 Implemented; Verifier fresco obrigatório após commitT20. Nenhum ACT Verified nem conclusão técnica antecipada.
+
+## Fechamento independente em13/10/2026
+
+**Concluído e verificado — tudo ok, incluído no diagnóstico.** Verifier fresco `/root/verifier_atividade` rederivou39/39 critérios,edges eDonewhen e retornou PASS no range084757d..18d27a8. Relatório integral em[validation.md](validation.md). Todos os gates repetidos independentemente:1087 Java/H2,1183 Vitest,18 Edge/H2,847 MySQL fictício,lint/buildTEMP evalidate_state0. Baseline840 Java/1000 Vitest reexecutada emcópia,sem testes removidos/ignorados ou outcomes não autorizados.
+
+Sensor8/8 killed por assertions comportamentais,controles247 Java/183 Vitest PASS. Cópia física própria removida depois de verificar caminho; HEAD/porcelain e4392 hashes reais idênticos antes/depois,sem writes emcódigo/testes reais. MySQL próprio atual18700 foi identificado porCIM/listener/SQL e conexões runtime daJVM,encerrado comshutdown0/porta33823ausente. Logs e traces da interrupção inicial do webServer4173 foram preservados; gate completo posterior PASS sem mudar testes/timeouts/retries. Nenhum gap de critério,mutante sobrevivente ou lição nova.
+
+Spec eT1–T20 marcados Verified somente após o relatório PASS evalidate_state0. Documentação de fechamento não altera implementação/testes verificados. Aceitação humana permanece pendente,roteiro emOPERACAO.md. Próximo requisito original: gráficos,ainda requer definição de alcance/indicadores; não está implementado nem aprovado por este fechamento.
