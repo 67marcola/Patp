@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.patp.sistema.ComentarioEnvioTests
+-------------------------------------------------------------------------------
+Tests run: 39, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.526 s -- in com.patp.sistema.ComentarioEnvioTests

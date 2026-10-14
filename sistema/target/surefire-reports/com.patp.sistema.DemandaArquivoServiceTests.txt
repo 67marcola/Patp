@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.patp.sistema.DemandaArquivoServiceTests
+-------------------------------------------------------------------------------
+Tests run: 39, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.975 s -- in com.patp.sistema.DemandaArquivoServiceTests
