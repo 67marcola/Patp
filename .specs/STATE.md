@@ -299,12 +299,12 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature / branch:** graficos-quadro concluida e verificada14/10/2026, testes.
-- **Completed:** atividade fechada feb0eea,39/39 PASS. Graficos T1 6b9f6ad,T2 bc631be,T3 68d427d;9/9 GRAF PASS independente,2/2 mutants mortos. Incluido no diagnostico como Concluido e verificado, tudo ok. Relatorio features/graficos-quadro/validation.md.
-- **Gates:** autor51 Vitest focados (45 existentes+6 novos);apos fix visual6novos+1Edge/H2 PASS,lint/buildTEMP. Verifier6Vitest+1Edge/H2,lint/buildTEMP,controle6,sensor2. Dez invocacoes totais,>=50%menos que20gates minimos anteriores,sem medir tokens. Nenhuma suite completa Java/MySQL/Vitest.
-- **Sensor:** scratch fisico removido,HEAD/porcelain e5hashes preservados. Nenhum gap/sobrevivente ou licao nova. Logs TEMP/graficos-verifier-*.log;capturas mobile verificadas.
-- **Next:** proximo requisito e revisao visual geral;definir alcance com recomendacao antes de implementar. Aceitacao humana do sistema permanece pendente,roteiro em OPERACAO. Nao refazer funcionalidades verificadas.
-- **Restrictions:** AD-035 reduzir execucoes pelo menos metade;preservar testes,nao refazer baselines. Local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Gerados target,node_modules,test-results preexistentes preservados.
+- **Feature / branch:** revisao-visual, testes, Specify. Alcance/estilo confirmados14/10; proposta detalhada aguarda resposta.
+- **Completed:** graficos-quadro fechado56fd985,9/9PASS independente,sensor2/2. Revisao visual: spec/context preparados,validate_spec strict0,sem licoes confirmadas.
+- **Next:** aguardar confirmacao do conjunto;T1 identificacao/semantica,T2 CSS e navegador,T3 guia/evidencias;gates focados e Verifier independente automatico.
+- **Scope:** login,cadastro,lista,quadro/formularios/celular;azul-escuro/verde atuais,Creral textual. Sem mudar regras/API/banco/tecnologias. Sete criterios em features/revisao-visual/spec.md.
+- **Tests:** AD-035 permanece;nao repetir suites completas ou baseline,nao apagar testes. Nesta preparacao somente validador de documentos,nenhum teste funcional.
+- **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Gerados preexistentes preservados. Aceitacao humana pendente.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 
