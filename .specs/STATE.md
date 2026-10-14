@@ -291,15 +291,11 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature:** atividade-gerenciamento concluída e verificada em13/10/2026,branch testes;próximo requisito gráficos.
-- **Phase / Task:** T1–T20 Verified,39/39 ACT eedges/Donewhen PASS independente.
-- **Completed:** implementação18d27a8,relatório features/atividade-gerenciamento/validation.md. Verifier repetiu1087 Java/H2,1183 Vitest/28 arquivos,18 Edge/H2/9 arquivos,847 MySQL fictício,lint/build evalidate_state0. Baseline840/1000 reexecutada. Sensor8/8 killed,controles247/183 PASS,scratch removido,HEAD/porcelain e4392 hashes preservados. Incluído no diagnóstico como Concluído e verificado — tudo ok.
-- **In progress:** descoberta do próximo requisito: gráficos,alcance/indicadores ainda precisam de resposta;sem nova implementação iniciada. Aceitação humana separada,pending conforme OPERACAO.
-- **Next step:** conferir dados/API e recomendações para gráficos,perguntar alcance/indicadores com efeito no sistema e seguir TLC. Não refazer entregas comprovadas.
-- **Blockers / consent:** nenhum da atividade;perguntas de produto de gráficos ainda abertas. User200→204 novoT17 autorizado13/10;três outcomes antigosT13 autorizados,nenhum teste apagado/enfraquecido/skip/timeout alterado.
-- **Environment:** JDK25.0.2/Maven3.9.16/Node/Pythonhermes. MySQLfictício8.0.43,TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql,creral_arquivo_test/33823 INATIVO;owned18700 encerrado,porta ausente,nunca reutilizarPID. LogsTEMP/atividade-verifier-{java,vitest,lint,build,browser2,mysql}.log;sensor8logs/control e4392hashes emmanifests. Browser inicial4173 encerrou,trace preservado;gate completo idêntico depoisPASS.
-- **Uncommitted files:** fechamento documental DIAG/STATE/spec/tasks/evidence/validation neste commit;source/testes limpos. Gerados target/node_modules/test-results preservados.
-- **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Tecnologias AD-024 mantidas,regra permanente de diagnóstico preservada.
+- **Feature / branch:** graficos-quadro, testes. Proposta de nove criterios e tres passos aprovada explicitamente em14/10/2026.
+- **Completed:** atividade-gerenciamento fechada emfeb0eea,39/39 PASS. Graficos T1 componente pronto,3 testes focados PASS; ainda nao integrado. AD-035: reduzir execucoes pelo menos metade, preservar testes.
+- **Next:** T2 integrar Quadro.jsx, testes focados e um E2E; T3 instrucoes/evidencias, Verifier fresco automatico e validate_state antes de concluir.
+- **Restrictions:** local apenas; sem push/deploy/banco real/upgrades/reset/stash/clean. Arquivos gerados existentes preservados. Nenhuma suite Java/MySQL sera repetida para esta alteracao de interface.
+- **Uncommitted:** T1 e documentos no commit atomico; gerados target/node_modules preservados.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

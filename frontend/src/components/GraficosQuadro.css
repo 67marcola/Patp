@@ -1,0 +1,14 @@
+.graficos-quadro { margin: 1rem 0; padding: 1rem; border: 1px solid #d9e2ec; border-radius: 12px; background: #fff; min-width: 0; }
+.graficos-quadro h3, .grafico-grupo h4 { margin: 0 0 .75rem; }
+.graficos-quadro p { color: #43536b; }
+.graficos-totais { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin: 1rem 0; }
+.graficos-grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.grafico-grupo { min-width: 0; }
+.grafico-grupo ul { list-style: none; padding: 0; margin: 0; }
+.grafico-grupo li { margin-bottom: 1rem; }
+.grafico-rotulo { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; margin-bottom: .35rem; }
+.grafico-rotulo span { min-width: 0; overflow-wrap: anywhere; }
+.grafico-rotulo strong { flex-shrink: 0; }
+.grafico-trilho { height: .65rem; background: #edf1f5; border-radius: 4px; overflow: hidden; }
+.grafico-barra { height: 100%; background: #147d64; border-radius: 4px; }
+@media (max-width: 650px) { .graficos-grade { grid-template-columns: minmax(0, 1fr); } }

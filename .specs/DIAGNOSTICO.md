@@ -1,6 +1,6 @@
 # Diagnóstico e resumo atual do sistema Creral
 
-**Atualizado em 13/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
+**Atualizado em 14/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
 
 ## Como o sistema está organizado
 
@@ -23,6 +23,10 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 **Registro de acompanhamento em 10/10/2026 — incluído no diagnóstico:** a regra solicitada está na memória e os comentários por demanda foram concluídos e verificados conforme a seção abaixo. Próximo requisito: atividade por gerenciamento; alcance de quadro/etapas/demandas e consulta por todos os autenticados confirmados em AD-030/031, definição detalhada em andamento.
 
 ## O que está pronto e validado
+
+**Gráficos por quadro em andamento, 14/10/2026 — incluído no diagnóstico:** proposta completa aprovada. T1: componente e contagens implementados, três testes focados aprovados; integração e verificação independente ainda pendentes. Não é entrega concluída.
+
+**14/10/2026 — incluído no diagnóstico:** atividade por gerenciamento encerrada no commit local feb0eea. Próximo requisito, gráficos por quadro, teve o alcance confirmado: distribuição por situação e etapa, com arquivadas separadas. [Proposta](features/graficos-quadro/spec.md) preparada; implementação ainda não iniciada. Preferência de reduzir pelo menos metade das execuções de testes registrada em AD-035: testes focados, sem repetições completas por tarefa nem exclusão de cenários existentes.
 
 | Entrega | O que já é possível fazer | Evidência |
 | --- | --- | --- |
