@@ -6,6 +6,7 @@ import AcaoDemanda from "./AcaoDemanda";
 import AcaoArquivamentoDemanda from "./AcaoArquivamentoDemanda";
 import ComentariosDemanda from "./ComentariosDemanda";
 import AtividadeLateral from "../components/AtividadeLateral";
+import GraficosQuadro from "../components/GraficosQuadro";
 
 function acoesDaDemanda(demanda) {
     if (demanda?.status === "Em andamento") return ["mover", "concluir", "cancelar"];
@@ -39,6 +40,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
     const [arquivoDemanda, setArquivoDemanda] = useState(null);
     const [comentariosDemanda, setComentariosDemanda] = useState(null);
     const [atividadeQuadro, setAtividadeQuadro] = useState(null);
+    const [graficosQuadro, setGraficosQuadro] = useState(null);
     const botaoAtividade = useRef(null), retornoAtividade = useRef(null);
     const origemComentarios = useRef(null);
     const [confirmacao, setConfirmacao] = useState(null);
@@ -107,6 +109,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
             setArquivoDemanda(null);
             setComentariosDemanda(null);
             setAtividadeQuadro(null);
+            setGraficosQuadro(null);
             retornoAtividade.current = null;
             origemComentarios.current = null;
             if (operando.current) { operando.current = false; setOcupado(false); aoOcupar?.(false); }
@@ -335,6 +338,8 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                     <h2>{quadro.nome}</h2>
                     <p>{quadro.descricao || "Controle e acompanhamento dos processos."}</p>
                     {quadro.arquivado && <p className="aviso-arquivado">Arquivado — somente consulta</p>}
+                    <button className="btn-secundario" disabled={bloqueado} aria-expanded={graficosQuadro === gerenciamento.id && !bloqueado}
+                        aria-controls="graficos-quadro" onClick={() => setGraficosQuadro(atual => atual === gerenciamento.id ? null : gerenciamento.id)}>Gráficos</button>
                 </div>
                 <div className="quadro-acoes">
                     <button className="btn-secundario" ref={botaoAtividade} disabled={bloqueado || formularioAberto} onClick={abrirAtividade}>Atividade</button>
@@ -345,6 +350,7 @@ function Quadro({ gerenciamento, voltar, atualizar, aoOcupar }) {
                 </div>
             </div>
             {carregando && <p role="status">Carregando quadro...</p>}
+            {graficosQuadro === gerenciamento.id && !bloqueado && <GraficosQuadro etapas={etapas} demandas={demandas} demandasArquivadas={demandasArquivadas} />}
             {atividadeAtual && <AtividadeLateral gerenciamentoId={quadro.id} fechar={fecharAtividade} />}
             {comentariosAtuais && <ComentariosDemanda key={`${quadro.id}-${comentariosAtuais.demanda.id}`}
                 gerenciamentoId={quadro.id} demanda={comentariosAtuais.demanda}

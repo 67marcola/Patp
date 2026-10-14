@@ -63,13 +63,13 @@ O quadro já lista demandas e etapas, mas exige contar cartões para entender a 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| GRAF-01 | P1: Distribuição atual | Specify | Pending |
+| GRAF-01 | P1: Distribuição atual | Execute | Implementing |
 | GRAF-02 | P1: Distribuição atual | Execute | Implementing |
 | GRAF-03 | P1: Distribuição atual | Execute | Implementing |
 | GRAF-04 | P1: Distribuição atual | Execute | Implementing |
-| GRAF-05 | P1: Distribuição atual | Specify | Pending |
-| GRAF-06 | P1: Distribuição atual | Specify | Pending |
-| GRAF-07 | P1: Distribuição atual | Specify | Pending |
+| GRAF-05 | P1: Distribuição atual | Execute | Implementing |
+| GRAF-06 | P1: Distribuição atual | Execute | Implementing |
+| GRAF-07 | P1: Distribuição atual | Execute | Implementing |
 | GRAF-08 | P1: Distribuição atual | Execute | Implementing |
 | GRAF-09 | P1: Distribuição atual | Execute | Implementing |
 
