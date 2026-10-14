@@ -47,6 +47,8 @@ function Login({ onLogin, abrirCadastro }) {
 
             <div className="login-card">
 
+                <p className="marca-creral">Creral</p>
+
                 <h1>
                     Bem-vindo
                 </h1>
@@ -61,11 +63,13 @@ function Login({ onLogin, abrirCadastro }) {
 
                     <div className="campo">
 
-                        <label>
+                        <label htmlFor="login-email">
                             E-mail
                         </label>
 
                         <input
+                            id="login-email"
+                            autoComplete="username"
                             type="email"
                             placeholder="seu@email.com"
                             value={email}
@@ -80,11 +84,13 @@ function Login({ onLogin, abrirCadastro }) {
 
                     <div className="campo">
 
-                        <label>
+                        <label htmlFor="login-senha">
                             Senha
                         </label>
 
                         <input
+                            id="login-senha"
+                            autoComplete="current-password"
                             type="password"
                             placeholder="Digite sua senha"
                             value={senha}

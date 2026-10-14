@@ -299,12 +299,11 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature / branch:** revisao-visual, testes, Specify. Alcance/estilo confirmados14/10; proposta detalhada aguarda resposta.
-- **Completed:** graficos-quadro fechado56fd985,9/9PASS independente,sensor2/2. Revisao visual: spec/context preparados,validate_spec strict0,sem licoes confirmadas.
-- **Next:** aguardar confirmacao do conjunto;T1 identificacao/semantica,T2 CSS e navegador,T3 guia/evidencias;gates focados e Verifier independente automatico.
-- **Scope:** login,cadastro,lista,quadro/formularios/celular;azul-escuro/verde atuais,Creral textual. Sem mudar regras/API/banco/tecnologias. Sete criterios em features/revisao-visual/spec.md.
-- **Tests:** AD-035 permanece;nao repetir suites completas ou baseline,nao apagar testes. Nesta preparacao somente validador de documentos,nenhum teste funcional.
-- **Restrictions:** local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Gerados preexistentes preservados. Aceitacao humana pendente.
+- **Feature / branch:** revisao-visual, testes. T1 Implemented em14/10,sem Verified.
+- **Completed:** identidadeCreral,rótulosLogin,lang/titulo. Usuario autorizou corrigir referencias do teste ao pedir continuar apos pergunta. Gate9/9PASS (3novos+6sessao),2invocacoes autor incluindo falha inicial documentada.
+- **Next:** T2 index.css e E2Evisual,lint/buildTEMP;T3guia/evidencias;Verifier fresco automatico,sensorleve,validate_state antes de concluir diagnostico.
+- **Files:** T1 fontes/teste/spec/evidence/DIAG/STATE no commit atomico. CSS ainda nao alterado.
+- **Restrictions:** AD-035 testesfocados/saida compacta,sem suites completas/baselines ou exclusao de testes. Local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean;gerados existentes preservados. Aceitacao humana pendente.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

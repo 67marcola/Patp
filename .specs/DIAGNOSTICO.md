@@ -1,6 +1,10 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+**Revisão visual T1 implementado, 14/10/2026 — incluído no diagnóstico:** identidade Creral, idioma/título da página e rótulos do login prontos. As duas referências do teste novo foram corrigidas após autorização; nove casos focados aprovados, incluindo seis existentes de sessão. Revisão ainda parcial: estilos, navegador e verificação independente pendentes. Notas abaixo preservam os checkpoints anteriores.
+
 **Revisão visual geral em preparação, 14/10/2026 — incluído no diagnóstico:** alcance e estilo confirmados pelo usuário: login, cadastro, lista de quadros e quadro de demandas/celular; manter azul-escuro e verde e identificar a Creral. [Proposta com sete critérios](features/revisao-visual/spec.md) preparada e validada estruturalmente. Nenhuma alteração de interface iniciada; confirmação da proposta detalhada pendente. Testes focados conforme AD-035.
+
+**Atualização da revisão visual, 14/10/2026 — incluído no diagnóstico:** proposta autorizada ao pedir continuar. T1 parcial: identificação Creral e rótulos de login implementados. Gate focado: sete de nove casos passaram; duas falhas são referências incorretas no teste novo (mensagem existente e caminho de HTML). Correção recomendada perguntada ao usuário, ainda sem resposta. Nenhum teste existente alterado; T1 sem conclusão/commit, estilos e Verifier ainda não iniciados. Detalhes em features/revisao-visual/evidence.md.
 
 **Atualizado em 14/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
 
