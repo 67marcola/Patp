@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | T1 Componente de contagens | components/GraficosQuadro.jsx, .css, .test.jsx | Vitest somente componente | Implemented, 3/3 PASS |
 | T2 Integração | pages/Quadro.jsx, QuadroGraficos.test.jsx, e2e/graficos.spec.js | Vitest focado + um E2E, lint/build | Implemented, PASS |
-| T3 Uso e evidências | docs/OPERACAO.md, spec/evidence, diagnóstico/STATE | conferência documental, gates técnicos T2 sem mudança de código | Pending |
+| T3 Uso e evidências | docs/OPERACAO.md, spec/evidence, diagnóstico/STATE | conferência documental, gates técnicos T2 sem mudança de código | Implemented |
 
 Premissa: snapshot já validado pela API atual, sem escrita ou chamada adicional. T1 toca somente componente, CSS e testes. Sucesso: contagens literais por situação/ID, arquivadas separadas, vazio e texto escapado.
 
@@ -62,3 +62,7 @@ Browser inicial encontrou falha real: o painel de comentários interceptava o bo
 E2E `frontend/e2e/graficos.spec.js`: :34–38 foco, valores3/0, estados1/1/1 e etapas; :42 rascunho de comentário preservado; :46–47 totais2/1 e estado0/1/1 após arquivar; :53–54 consulta real de leitor em quadro arquivado; :56 layout dentro de360px. Todos os asserts mapeiam GRAF-01/02/03/04/05/07/09. GRAF-06/08 e legados foram provados nos testes focados, sem fixture adicional de banco.
 
 Execuções de testes do autor até T2: **5** (componente3; integração/regressão51; browser1 falhou; após correção novos6 e browser1 PASS). Redução de75% contra os20 gates mínimos de tarefas da entrega anterior, sem contar suas repetições. Comparação de volume por entrega, não de tempo ou tokens medidos. Suítes completas Java/MySQL/Vitest não foram executadas nesta entrega; cobertura declarada é somente a realmente executada. Build final: TEMP/creral-graficos-build-final-f391d60ad9a34459adc01d0985aa8dbd.
+
+## T3: instruções e fechamento da implementação
+
+OPERACAO.md descreve acesso, totais, proporção das barras, atualização pelo snapshot, legados, arquivadas e teste humano pendente. Conferido contra GRAF-01–09 e interface, sem alteração de código desde os gates T2. `validate_spec --strict` e diff-check documental aprovados. Não foi adicionada execução de testes para esta mudança apenas documental. Próximo passo: Verifier independente com gates focados e sensor leve de recurso de consulta; sem baseline histórica ou suítes alheias ao diff. A conclusão técnica ainda depende do PASS e de validate_state.

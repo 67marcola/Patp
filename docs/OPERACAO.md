@@ -1,5 +1,15 @@
 # Operação local do sistema Creral
 
+## Gráficos por quadro
+
+Abra um gerenciamento e escolha Gráficos junto ao título. A seção compara a quantidade atual de demandas por situação e por etapa. Total não arquivadas corresponde às demandas nas colunas; Arquivadas tem contagem separada e não entra nas barras. Todos os usuários autenticados podem consultar, inclusive quadros arquivados.
+
+As barras têm valores escritos e usam o maior valor de cada gráfico como largura de referência. Etapas com o mesmo nome continuam separadas. Registros antigos com situação desconhecida entram em Não informado; vínculos sem etapa identificada entram em Etapa não identificada. O gráfico não estima informações ausentes.
+
+Os números acompanham a configuração carregada do quadro e as ações concluídas nessa tela. Não há atualização automática de alterações feitas em outro computador: reabra o quadro para consultá-las. Falha de consulta ou conflito oculta os gráficos até atualizar. O botão abre/fecha a seção sem apagar formulários ou comentários em edição. Em telas pequenas, os dois gráficos ficam um abaixo do outro.
+
+Roteiro de aceitação humana, ainda pendente: abrir um quadro com demandas nos três estados; conferir totais com os cartões; arquivar uma demanda e conferir a contagem separada; experimentar como leitor em quadro arquivado e em celular. Informar se a apresentação ajuda a identificar onde o trabalho está concentrado. Este roteiro não registra aceitação sem resposta dos usuários.
+
 ## Atividade por gerenciamento
 
 O botão Atividade no cabeçalho abre a consulta para todos os usuários autenticados, inclusive em quadros arquivados. A lista reúne ações do quadro, das etapas e das demandas, além do envio de comentários. Cada ação automática mostra alvo, autor da conta, horário do servidor e os valores anteriores/novos. A mensagem do comentário continua na conversa da demanda. Edição aceita sem diferenças aparece como Nenhum campo foi alterado.
