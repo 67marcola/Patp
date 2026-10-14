@@ -63,10 +63,10 @@ Login/cadastro e sistema ainda não apresentam identificação consistente da Cr
 | --- | --- | --- | --- |
 | VIS-01 | P1: Clareza | Execute | Implementing |
 | VIS-02 | P1: Clareza | Execute | Implementing |
-| VIS-03 | P1: Clareza | Specify | Pending |
-| VIS-04 | P1: Clareza | Specify | Pending |
-| VIS-05 | P1: Clareza | Specify | Pending |
-| VIS-06 | P1: Clareza | Specify | Pending |
+| VIS-03 | P1: Clareza | Execute | Implementing |
+| VIS-04 | P1: Clareza | Execute | Implementing |
+| VIS-05 | P1: Clareza | Execute | Implementing |
+| VIS-06 | P1: Clareza | Execute | Implementing |
 | VIS-07 | P1: Clareza | Execute | Implementing |
 
 ## Success Criteria

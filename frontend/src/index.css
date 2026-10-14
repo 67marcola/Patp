@@ -11,7 +11,7 @@
   --branco: #ffffff;
 
   --texto: #17212b;
-  --texto-secundario: #717b83;
+  --texto-secundario: #52616b;
 
   --borda: #e4e1df;
 
@@ -47,8 +47,11 @@ body {
 
 
 button,
-input {
+input,
+select,
+textarea {
   font: inherit;
+  min-height: 44px;
 }
 
 
@@ -1453,7 +1456,7 @@ button:focus-visible {
 
 .campo-form select {
     width: 100%;
-    min-height: 43px;
+    min-height: 44px;
     padding: 10px;
     border: 1px solid var(--borda);
     border-radius: 8px;
@@ -1546,3 +1549,36 @@ button:focus-visible {
 .atividade-alteracao dd { margin: 4px 0 0; }
 .atividade-controles { padding-bottom: 8px; }
 @media (max-width: 480px) { .atividade-lateral { padding: 16px; } .atividade-alteracao dl { grid-template-columns: minmax(0, 1fr); } }
+
+/* Apresentação comum das telas Creral. */
+.marca-creral { color: var(--azul); text-align: center; font-size: 22px; font-weight: 750; letter-spacing: .04em; margin-bottom: 20px; }
+.marca-creral::after { content: ""; display: block; width: 36px; height: 4px; margin: 8px auto 0; border-radius: 2px; background: var(--verde); }
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.campo input:focus-visible,
+.campo-form input:focus-visible,
+.campo-form select:focus-visible,
+.campo-form textarea:focus-visible { outline: 3px solid #147d64; outline-offset: 3px; }
+.topbar button:focus-visible { outline-color: #8be0bb; }
+.topbar > div:first-child, .gerenciamentos-topo > div, .card-conteudo { min-width: 0; overflow-wrap: anywhere; }
+.usuario { min-width: 0; max-width: 100%; }
+.usuario strong { min-width: 0; overflow-wrap: anywhere; }
+.usuario span, .usuario .btn-sair { flex-shrink: 0; }
+.campo label, .campo-form label { font-size: 14px; }
+.campo-form { min-width: 0; }
+.form-card { min-width: 0; overflow-wrap: anywhere; }
+.form-card select { min-width: 0; max-width: 100%; }
+.btn-remover { min-width: 44px; }
+.card-acoes, .acoes-form { flex-wrap: wrap; }
+.falha-consulta { padding: 16px; margin-bottom: 20px; border-left: 4px solid #b42318; border-radius: 8px; background: #fff5f4; }
+.quadro-topo .aviso-arquivado { border-left: 4px solid var(--azul); }
+.vazio { border: 1px dashed var(--borda); border-radius: var(--raio); }
+@media (max-width: 480px) {
+    .login-card { padding: 26px 22px; }
+    .topbar > div:first-child { width: 100%; }
+    .usuario { width: 100%; }
+    .usuario strong { flex: 1; }
+    .gerenciamentos-page, .criar-page, .quadro-page { padding-left: 16px; padding-right: 16px; }
+}
