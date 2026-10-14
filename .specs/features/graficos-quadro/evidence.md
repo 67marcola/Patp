@@ -66,3 +66,9 @@ Execuções de testes do autor até T2: **5** (componente3; integração/regress
 ## T3: instruções e fechamento da implementação
 
 OPERACAO.md descreve acesso, totais, proporção das barras, atualização pelo snapshot, legados, arquivadas e teste humano pendente. Conferido contra GRAF-01–09 e interface, sem alteração de código desde os gates T2. `validate_spec --strict` e diff-check documental aprovados. Não foi adicionada execução de testes para esta mudança apenas documental. Próximo passo: Verifier independente com gates focados e sensor leve de recurso de consulta; sem baseline histórica ou suítes alheias ao diff. A conclusão técnica ainda depende do PASS e de validate_state.
+
+## Fechamento técnico, 14/10/2026
+
+**Concluído e verificado — tudo ok, incluído no diagnóstico.** Verifier independente PASS9/9 e sensor2/2, sem gaps/sobreviventes; relatório validation.md. T1–T3 passam a Verified. Controle scratch6/6; real HEAD/porcelain/cinco hashes preservados e scratch removido. Gates independentes: seis Vitest, um Edge/H2, lint/buildTEMP. Aceitação humana permanece pendente.
+
+Economia de execuções conforme AD-035: cinco invocações do autor + cinco do Verifier (duas de produto, controle e duas mutações), dez totais, contra pelo menos vinte gates da entrega anterior. Redução mínima de50% por número de invocações entre essas entregas; não é medição de tokens, duração nem equivalência de escopo. Nenhum teste existente excluído ou enfraquecido. Nenhuma nova suíte completa/Java/MySQL; não repetir gates técnicos para este fechamento documental.

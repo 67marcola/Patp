@@ -1,6 +1,6 @@
 # Gráficos por quadro Specification
 
-**Status:** Approved pelo usuário em 14/10/2026. **Date:** 2026-10-14. **Scope:** Medium, interface de consulta usando a configuração já carregada do quadro; sem alteração de API ou banco.
+**Status:** Verified em 14/10/2026, 9/9 critérios PASS independente; sensor2/2. Proposta aprovada pelo usuário em14/10. **Date:** 2026-10-14. **Scope:** Medium, interface de consulta usando a configuração já carregada do quadro; sem alteração de API ou banco.
 
 ## Problem Statement
 
@@ -63,21 +63,21 @@ O quadro já lista demandas e etapas, mas exige contar cartões para entender a 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| GRAF-01 | P1: Distribuição atual | Execute | Implementing |
-| GRAF-02 | P1: Distribuição atual | Execute | Implementing |
-| GRAF-03 | P1: Distribuição atual | Execute | Implementing |
-| GRAF-04 | P1: Distribuição atual | Execute | Implementing |
-| GRAF-05 | P1: Distribuição atual | Execute | Implementing |
-| GRAF-06 | P1: Distribuição atual | Execute | Implementing |
-| GRAF-07 | P1: Distribuição atual | Execute | Implementing |
-| GRAF-08 | P1: Distribuição atual | Execute | Implementing |
-| GRAF-09 | P1: Distribuição atual | Execute | Implementing |
+| GRAF-01 | P1: Distribuição atual | Execute | Verified |
+| GRAF-02 | P1: Distribuição atual | Execute | Verified |
+| GRAF-03 | P1: Distribuição atual | Execute | Verified |
+| GRAF-04 | P1: Distribuição atual | Execute | Verified |
+| GRAF-05 | P1: Distribuição atual | Execute | Verified |
+| GRAF-06 | P1: Distribuição atual | Execute | Verified |
+| GRAF-07 | P1: Distribuição atual | Execute | Verified |
+| GRAF-08 | P1: Distribuição atual | Execute | Verified |
+| GRAF-09 | P1: Distribuição atual | Execute | Verified |
 
 ## Success Criteria
 
-- [ ] Quantidades por situação e etapa conferem com as demandas do próprio quadro; arquivadas separadas.
-- [ ] Consulta acessível em desktop e 360px, incluindo vazio, erro, leitor e arquivado.
-- [ ] Testes pertinentes e verificação independente aprovados; diagnóstico atualizado com resultado real.
+- [x] Quantidades por situação e etapa conferem com as demandas do próprio quadro; arquivadas separadas.
+- [x] Consulta acessível em desktop e 360px, incluindo vazio, erro, leitor e arquivado.
+- [x] Testes pertinentes e verificação independente aprovados; diagnóstico atualizado com resultado real.
 
 ## Execução proposta e orçamento de testes
 

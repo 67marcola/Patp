@@ -2,6 +2,22 @@
 
 **Atualizado em 14/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
 
+## Gráficos por quadro — concluídos em 14/10/2026
+
+**Concluído e verificado — tudo ok. Incluído no diagnóstico.** O botão Gráficos junto ao título abre barras da situação atual por situação e etapa, com arquivadas separadas. Dados acompanham o quadro, sem requisição extra, alteração de banco ou biblioteca nova. [Verificação independente](features/graficos-quadro/validation.md):9/9 critérios PASS, seis testes focados e um cenário real Edge/H2 aprovados, lint/build ok, sensor2/2. Teste prático pelos usuários pendente.
+
+| Requisito | Resultado | Estado |
+| --- | --- | --- |
+| GRAF-01 | Abrir/fechar pelo botão, identificação acessível e foco preservado | Concluído e verificado — tudo ok |
+| GRAF-02 | Situações conhecidas e Não informado com quantidades exatas | Concluído e verificado — tudo ok |
+| GRAF-03 | Distribuição por ID da etapa, inclusive zero e etapa não identificada | Concluído e verificado — tudo ok |
+| GRAF-04 | Totais conferem; arquivadas separadas das barras | Concluído e verificado — tudo ok |
+| GRAF-05 | Atualização pelo snapshot e troca sem dados do quadro anterior | Concluído e verificado — tudo ok |
+| GRAF-06 | Erro/conflito oculta números até atualizar | Concluído e verificado — tudo ok |
+| GRAF-07 | Consulta para todos autenticados, inclusive arquivados, sem nova chamada | Concluído e verificado — tudo ok |
+| GRAF-08 | Vazio explícito, zeros e barras válidas | Concluído e verificado — tudo ok |
+| GRAF-09 | Rótulos legíveis em360px e rascunhos preservados | Concluído e verificado — tudo ok |
+
 ## Como o sistema está organizado
 
 Cada **gerenciamento é um quadro** com várias **demandas**. As etapas são as colunas desse quadro. Por exemplo: um quadro de instalações de postes pode acompanhar diferentes solicitações, passando por Comprar, Verificar local e Instalar. Cada demanda tem sua própria etapa atual. “Criar processo”, na interface, cadastra uma demanda.
@@ -24,16 +40,11 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 
 ## O que está pronto e validado
 
-**Gráficos por quadro em andamento, 14/10/2026 — incluído no diagnóstico:** proposta completa aprovada. T1: componente e contagens implementados, três testes focados aprovados; integração e verificação independente ainda pendentes. Não é entrega concluída.
-
-T2 integrado: botão Gráficos junto ao título abre a distribuição por situação e etapa, com arquivadas separadas. Gates focados: 51 testes da interface aprovados; após corrigir sobreposição do botão pelos comentários, seis testes novos e um cenário Edge/H2 aprovados, lint/build ok. Rascunhos preservados e consulta de leitor em quadro arquivado/360px comprovadas. T3 e Verifier ainda pendentes. Cinco execuções do autor até aqui, sem suítes completas.
-
-T3 concluído: instruções e roteiro humano em docs/OPERACAO.md, sem novo teste por ser alteração documental. Implementação dos gráficos pronta para Verifier independente; ainda sem declarar Concluído e verificado.
-
-**14/10/2026 — incluído no diagnóstico:** atividade por gerenciamento encerrada no commit local feb0eea. Próximo requisito, gráficos por quadro, teve o alcance confirmado: distribuição por situação e etapa, com arquivadas separadas. [Proposta](features/graficos-quadro/spec.md) preparada; implementação ainda não iniciada. Preferência de reduzir pelo menos metade das execuções de testes registrada em AD-035: testes focados, sem repetições completas por tarefa nem exclusão de cenários existentes.
+**14/10/2026 — incluído no diagnóstico:** gráficos por quadro: **Concluído e verificado — tudo ok**, 9/9 critérios independentes PASS, sensor2/2. Atividade por gerenciamento também encerrada. AD-035 registra redução de execuções: dez nesta entrega, pelo menos50% menos que os vinte gates mínimos da anterior; sem medir economia de tokens. Testes existentes preservados. Aceitação humana pendente.
 
 | Entrega | O que já é possível fazer | Evidência |
 | --- | --- | --- |
+| Gráficos por quadro | Consultar distribuição atual por situação e etapa, com total de arquivadas separado; acesso para todos autenticados, inclusive quadros arquivados. | [9 critérios aprovados](features/graficos-quadro/validation.md). |
 | Gerenciamentos | Criar, listar, consultar, editar, arquivar e restaurar quadros. Todos os usuários autenticados podem criar e consultar; edição e administração ficam com o criador ou administradores. Arquivar preserva os dados e deixa o conteúdo somente para consulta. | [41 critérios aprovados](features/gerenciamentos/validation.md). |
 | Etapas de trabalho | Criar, renomear, definir setor, escolher posição e remover colunas vazias. A ordem das demais se ajusta automaticamente. Uma etapa com demandas não pode ser removida. Somente criador/admin configura etapas de quadros ativos. | [30 critérios aprovados](features/etapas/validation.md). |
 | Entrada após cadastro | Cadastro confirmado abre o sistema sem exigir outro login. Há proteção contra envio duplicado, tratamento de erros e preservação dos campos. Contas comuns começam como funcionário; respostas e dados da sessão não expõem senha ou hash. | [14 critérios aprovados](features/autocadastro/validation.md). |
@@ -225,7 +236,6 @@ Incluído no diagnóstico em12/10/2026: T15 Implemented,cliente de atividade com
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Gráficos | Ainda não implementados. Precisamos definir quais indicadores, períodos e filtros serão úteis para a Creral. |
 | Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |
 
@@ -383,7 +393,7 @@ As questões técnicas descobríveis pelo código serão resolvidas pela anális
 - Fazer verificação independente após finalizar a funcionalidade, incluindo evidências exigidas pela skill.
 - Avançar ao próximo requisito mantendo a cobertura dos pedidos da tabela inicial.
 
-Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias, CRUD de demandas,comentários por demanda e atividade por gerenciamento foram entregues e verificados. Próximo requisito: gráficos,com definição de indicadores/alcance ainda necessária;revisão visual geral e aceitação humana permanecem pendentes.
+Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias, CRUD de demandas,comentários por demanda e atividade por gerenciamento foram entregues e verificados. Gráficos por quadro também concluídos e verificados em14/10/2026. Próximo requisito: revisão visual geral, com alcance a esclarecer; aceitação humana permanece pendente.
 
 ## Registro histórico de execução do arquivamento
 
