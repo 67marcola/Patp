@@ -1,5 +1,7 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+**Revisão visual T3 implementado — incluído no diagnóstico:** guia e roteiro de aceitação humana atualizados, sem repetir testes para alteração documental. T1–T3 prontos, aguardando verificação independente automática; não declarar concluído antes do PASS.
+
 **Revisão visual T2 implementado, 14/10/2026 — incluído no diagnóstico:** contraste, foco de teclado, controles44px, layout em1280/360 e quebra de nomes longos ajustados. Um cenário Edge/H2 percorreu15 estados/telas e passou após corrigir overflow real no formulário de movimentação; lint/build aprovados. Cinco execuções de testes acumuladas do autor, sem suítes completas. Falta guia/Verifier; entrega ainda não concluída tecnicamente.
 
 **Revisão visual T1 implementado, 14/10/2026 — incluído no diagnóstico:** identidade Creral, idioma/título da página e rótulos do login prontos. As duas referências do teste novo foram corrigidas após autorização; nove casos focados aprovados, incluindo seis existentes de sessão. Revisão ainda parcial: estilos, navegador e verificação independente pendentes. Notas abaixo preservam os checkpoints anteriores.
