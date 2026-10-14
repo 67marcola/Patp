@@ -289,13 +289,22 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-14
 - **Status**: active
 
+### AD-036
+- **Decision**: graficos por quadro com barras de situacao e etapa, total de arquivadas separado; snapshot atual, consulta de autenticados inclusive arquivados. Defaults da spec aprovados em conjunto.
+- **Reason**: duas respostas explicitas do usuario em14/10/2026.
+- **Trade-off**: sem evolucao temporal, filtros ou visao global nesta entrega; preserva legados e totais sem inventar dados.
+- **Scope**: features/graficos-quadro/spec.md, nove criterios implementados e verificados.
+- **Date**: 2026-10-14
+- **Status**: active
+
 ## Handoff
 
-- **Feature / branch:** graficos-quadro, testes. Nove criterios e tres passos aprovados14/10/2026.
-- **Completed:** atividade fechada feb0eea,39/39 PASS. Graficos T1 6b9f6ad; T2 bc631be; T3 instrucoes neste commit. Implementacao pronta, ainda nao Verified.
-- **Gates:** 51 Vitest focados (45 existentes+6 novos) PASS; apos mover botao para corrigir sobreposicao pelos comentarios,6 novos PASS e1 Edge/H2 PASS,lint/buildTEMP PASS. Cinco execucoes autor,sem suite completa. Evidencias/logs/capturas em features/graficos-quadro/evidence.md.
-- **Next:** Verifier fresco automatico,escopo focado/sensor leve,validate_state; so depois concluir diagnostico. Aceitacao humana permanece pendente.
-- **Restrictions:** AD-035 reduzir execucoes pelo menos metade; preservar testes e nao refazer baselines. Local apenas;sem push/deploy/banco real/upgrades/reset/stash/clean. Gerados existentes preservados.
+- **Feature / branch:** graficos-quadro concluida e verificada14/10/2026, testes.
+- **Completed:** atividade fechada feb0eea,39/39 PASS. Graficos T1 6b9f6ad,T2 bc631be,T3 68d427d;9/9 GRAF PASS independente,2/2 mutants mortos. Incluido no diagnostico como Concluido e verificado, tudo ok. Relatorio features/graficos-quadro/validation.md.
+- **Gates:** autor51 Vitest focados (45 existentes+6 novos);apos fix visual6novos+1Edge/H2 PASS,lint/buildTEMP. Verifier6Vitest+1Edge/H2,lint/buildTEMP,controle6,sensor2. Dez invocacoes totais,>=50%menos que20gates minimos anteriores,sem medir tokens. Nenhuma suite completa Java/MySQL/Vitest.
+- **Sensor:** scratch fisico removido,HEAD/porcelain e5hashes preservados. Nenhum gap/sobrevivente ou licao nova. Logs TEMP/graficos-verifier-*.log;capturas mobile verificadas.
+- **Next:** proximo requisito e revisao visual geral;definir alcance com recomendacao antes de implementar. Aceitacao humana do sistema permanece pendente,roteiro em OPERACAO. Nao refazer funcionalidades verificadas.
+- **Restrictions:** AD-035 reduzir execucoes pelo menos metade;preservar testes,nao refazer baselines. Local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Gerados target,node_modules,test-results preexistentes preservados.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 
