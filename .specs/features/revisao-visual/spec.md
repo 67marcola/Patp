@@ -1,6 +1,6 @@
 # Revisão visual geral Specification
 
-**Date:** 2026-10-14. **Status:** Approved em14/10/2026; usuário autorizou continuar a proposta preparada. Porte médio, três passos implícitos.
+**Date:** 2026-10-14. **Status:** Verified em14/10/2026, 7/7 critérios PASS independente, sensor visual1/1. Proposta autorizada pelo usuário. Porte médio, três passos implícitos.
 
 ## Problem Statement
 
@@ -61,19 +61,19 @@ Login/cadastro e sistema ainda não apresentam identificação consistente da Cr
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| VIS-01 | P1: Clareza | Execute | Implementing |
-| VIS-02 | P1: Clareza | Execute | Implementing |
-| VIS-03 | P1: Clareza | Execute | Implementing |
-| VIS-04 | P1: Clareza | Execute | Implementing |
-| VIS-05 | P1: Clareza | Execute | Implementing |
-| VIS-06 | P1: Clareza | Execute | Implementing |
-| VIS-07 | P1: Clareza | Execute | Implementing |
+| VIS-01 | P1: Clareza | Execute | Verified |
+| VIS-02 | P1: Clareza | Execute | Verified |
+| VIS-03 | P1: Clareza | Execute | Verified |
+| VIS-04 | P1: Clareza | Execute | Verified |
+| VIS-05 | P1: Clareza | Execute | Verified |
+| VIS-06 | P1: Clareza | Execute | Verified |
+| VIS-07 | P1: Clareza | Execute | Verified |
 
 ## Success Criteria
 
-- [ ] Identificação, rótulos e foco conferidos nos pontos definidos.
-- [ ] Telas do escopo legíveis e sem overflow horizontal em1280/360; fluxos existentes preservados.
-- [ ] Gates focados e Verifier independente PASS; diagnóstico e guia de aceite atualizados com resultado real.
+- [x] Identificação, rótulos e foco conferidos nos pontos definidos.
+- [x] Telas do escopo legíveis e sem overflow horizontal em1280/360; fluxos existentes preservados.
+- [x] Gates focados e Verifier independente PASS; diagnóstico e guia de aceite atualizados com resultado real.
 
 ## Plano local
 

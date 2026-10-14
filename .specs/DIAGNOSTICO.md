@@ -1,16 +1,23 @@
 # Diagnóstico e resumo atual do sistema Creral
 
-**Revisão visual T3 implementado — incluído no diagnóstico:** guia e roteiro de aceitação humana atualizados, sem repetir testes para alteração documental. T1–T3 prontos, aguardando verificação independente automática; não declarar concluído antes do PASS.
-
-**Revisão visual T2 implementado, 14/10/2026 — incluído no diagnóstico:** contraste, foco de teclado, controles44px, layout em1280/360 e quebra de nomes longos ajustados. Um cenário Edge/H2 percorreu15 estados/telas e passou após corrigir overflow real no formulário de movimentação; lint/build aprovados. Cinco execuções de testes acumuladas do autor, sem suítes completas. Falta guia/Verifier; entrega ainda não concluída tecnicamente.
-
-**Revisão visual T1 implementado, 14/10/2026 — incluído no diagnóstico:** identidade Creral, idioma/título da página e rótulos do login prontos. As duas referências do teste novo foram corrigidas após autorização; nove casos focados aprovados, incluindo seis existentes de sessão. Revisão ainda parcial: estilos, navegador e verificação independente pendentes. Notas abaixo preservam os checkpoints anteriores.
-
-**Revisão visual geral em preparação, 14/10/2026 — incluído no diagnóstico:** alcance e estilo confirmados pelo usuário: login, cadastro, lista de quadros e quadro de demandas/celular; manter azul-escuro e verde e identificar a Creral. [Proposta com sete critérios](features/revisao-visual/spec.md) preparada e validada estruturalmente. Nenhuma alteração de interface iniciada; confirmação da proposta detalhada pendente. Testes focados conforme AD-035.
-
-**Atualização da revisão visual, 14/10/2026 — incluído no diagnóstico:** proposta autorizada ao pedir continuar. T1 parcial: identificação Creral e rótulos de login implementados. Gate focado: sete de nove casos passaram; duas falhas são referências incorretas no teste novo (mensagem existente e caminho de HTML). Correção recomendada perguntada ao usuário, ainda sem resposta. Nenhum teste existente alterado; T1 sem conclusão/commit, estilos e Verifier ainda não iniciados. Detalhes em features/revisao-visual/evidence.md.
 
 **Atualizado em 14/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
+
+## Revisão visual geral — concluída em14/10/2026
+
+**Concluído e verificado — tudo ok. Incluído no diagnóstico.** Creral identificada em login, cadastro e cabeçalho; aba e idioma corrigidos, rótulos associados, contraste/foco/controles e quebras em celular padronizados. Estrutura e regras preservadas. Identidade textual, sem logotipo oficial ou certificação integral de acessibilidade. [Verificação independente](features/revisao-visual/validation.md):7/7 critérios PASS;3 testes focados e1 Edge/H2,lint/build aprovados;sensor visual1/1. Autor também executou os6 testes existentes de sessão. Quinze estados em1280/360px conferidos.
+
+Dez invocações totais de testes, incluindo tentativas de preparação,50% menos que a referência de vinte do fluxo anterior (AD-035). Não mede tokens. Nenhum teste existente removido, ignorado ou enfraquecido. Sem suítes completas ou alteração de servidor/banco. Aceitação humana permanece pendente. Checkpoints anteriores e correções autorizadas estão nas [evidências](features/revisao-visual/evidence.md).
+
+| Requisito | Resultado | Estado |
+| --- | --- | --- |
+| VIS-01 | Creral nas telas, aba identificada e documento em português | Concluído e verificado — tudo ok |
+| VIS-02 | Rótulos do login focam campos com autocomplete adequado | Concluído e verificado — tudo ok |
+| VIS-03 | Paleta preservada, contraste, fonte e controles44px | Concluído e verificado — tudo ok |
+| VIS-04 | Foco de teclado visível nos quatro tipos de controle | Concluído e verificado — tudo ok |
+| VIS-05 | Telas/formulários/painéis sem overflow em1280/360 | Concluído e verificado — tudo ok |
+| VIS-06 | Carregamento, vazio, erro e arquivado preservados e distintos | Concluído e verificado — tudo ok |
+| VIS-07 | Sessão, rascunhos e ações preservados, sem novas requisições | Concluído e verificado — tudo ok |
 
 ## Gráficos por quadro — concluídos em 14/10/2026
 
@@ -54,6 +61,7 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 
 | Entrega | O que já é possível fazer | Evidência |
 | --- | --- | --- |
+| Revisão visual geral | Identificação Creral, rótulos acessíveis, contraste/foco, controles44px e layout em computador/celular, com regras preservadas. | [7 critérios aprovados](features/revisao-visual/validation.md). |
 | Gráficos por quadro | Consultar distribuição atual por situação e etapa, com total de arquivadas separado; acesso para todos autenticados, inclusive quadros arquivados. | [9 critérios aprovados](features/graficos-quadro/validation.md). |
 | Gerenciamentos | Criar, listar, consultar, editar, arquivar e restaurar quadros. Todos os usuários autenticados podem criar e consultar; edição e administração ficam com o criador ou administradores. Arquivar preserva os dados e deixa o conteúdo somente para consulta. | [41 critérios aprovados](features/gerenciamentos/validation.md). |
 | Etapas de trabalho | Criar, renomear, definir setor, escolher posição e remover colunas vazias. A ordem das demais se ajusta automaticamente. Uma etapa com demandas não pode ser removida. Somente criador/admin configura etapas de quadros ativos. | [30 critérios aprovados](features/etapas/validation.md). |
@@ -246,7 +254,6 @@ Incluído no diagnóstico em12/10/2026: T15 Implemented,cliente de atividade com
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Melhoria geral da interface | Houve melhorias nas telas e fluxos entregues, além da retirada do PM. A revisão visual geral e a identidade completa da Creral ainda não estão concluídas. |
 | Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |
 
 ## Testes já registrados
@@ -403,7 +410,7 @@ As questões técnicas descobríveis pelo código serão resolvidas pela anális
 - Fazer verificação independente após finalizar a funcionalidade, incluindo evidências exigidas pela skill.
 - Avançar ao próximo requisito mantendo a cobertura dos pedidos da tabela inicial.
 
-Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias, CRUD de demandas,comentários por demanda e atividade por gerenciamento foram entregues e verificados. Gráficos por quadro também concluídos e verificados em14/10/2026. Próximo requisito: revisão visual geral, com alcance a esclarecer; aceitação humana permanece pendente.
+Gerenciamentos, etapas de trabalho, entrada após cadastro, retirada de PM, etapas finais obrigatórias, CRUD de demandas,comentários por demanda e atividade por gerenciamento foram entregues e verificados. Gráficos por quadro também concluídos e verificados em14/10/2026. Revisão visual geral também concluída em14/10/2026 no alcance aprovado. Próximo passo: aceitação prática pelos usuários e planejamento da preparação para uso real, sem autorização implícita para executar no banco da empresa.
 
 ## Registro histórico de execução do arquivamento
 

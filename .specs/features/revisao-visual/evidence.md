@@ -1,5 +1,11 @@
 # Evidência da revisão visual
 
+## Fechamento técnico em14/10/2026
+
+**Concluído e verificado — tudo ok. Incluído no diagnóstico.** T1–T3 Verified,7/7 VIS PASS independente,lint/build/3Vitest/1Edge-H2 aprovados. SensorCSS1/1 detectado,zero sobreviventes. Real HEAD/porcelain/hashes de fontes/testes/CSS/HTML preservados; scratch removido. Relatório validation.md. Gate de conclusão validate_state0. Nenhuma lição nova em clean PASS. Aceite humano permanece pendente,com roteiro em OPERACAO.
+
+Economia AD-035: cinco invocações do autor e cinco do Verifier (incluindo duas falhas de preparação sem casos executados),dez totais,50%menos que a referência vinte;nenhuma suíte completa,baseline histórica ou testeJava/MySQL. Contagem não mede tokens,duração nem equivalência de escopo. As falhas/autorizações e progresso parcial abaixo são checkpoints históricos resolvidos; não indicam pendência atual. Fechamento apenas documental,sem repetir testes técnicos.
+
 ## T3 implementado
 
 Guia em docs/OPERACAO.md descreve identificação, rótulos, controles, foco, contraste, quebra de nomes e preservação dos fluxos. Aceitação humana separada e pendente. Conferência documental contra VIS-01–07, sem alteração de código desde os gatesT2. `validate_spec --strict` e diff-check aprovados; nenhuma repetição de teste para texto documental. T1–T3 implementados, ainda aguardando Verifier independente e validate_state antes de concluir.
@@ -14,13 +20,13 @@ Browser2 detectou bug real: número de demanda longo no formulário de movimenta
 
 | AC / resultado definido | Evidência em frontend/e2e/visual.spec.js | Coberto |
 | --- | --- | --- |
-| VIS-01 Creral/aba/idioma | :37 título exato e html lang; :38/47 Creral e títulos; :61 cabeçalho | Sim |
+| VIS-01 Creral/aba/idioma | :37 título exato e html lang; :38/47 Creral e títulos; :59 cabeçalho | Sim |
 | VIS-02 associação/autocomplete | :39–42 rótulos focam inputs e atributos username/current-password | Sim |
 | VIS-03 paleta, fonte e44px | :24 `c.altura >=44`; :26 `c.fonte ===true`; :44 variáveis exatas; :45 cor computada rgb82/97/107 | Sim |
-| VIS-04 foco sólido3px/offset3px/cores | :33–35 foco real e array exato; :43 input, :61 botão escuro, :64 textarea, :77 select | Sim |
+| VIS-04 foco sólido3px/offset3px/cores | :33–35 foco real e array exato; :43 input, :59 botão escuro, :63 textarea, :78 select | Sim |
 | VIS-05 dentro da tela1280/360 | :22 `medidas.pagina ===true`; :25 `c.dentro ===true`, em cada chamada conferir nos15 estados | Sim |
-| VIS-06 mensagens e estados | :53 loading, :54 erro, :55 fundo distinto, :57 vazio; :92 arquivado e ausência de Nova etapa; dados/ações existentes preservados | Sim |
-| VIS-07 sessão/rascunhos/sem chamadas de estilo | :66 rascunho quadro; :75/76 cache/calls estáveis na conferência; :81 demanda; :88 comentário | Sim |
+| VIS-06 mensagens e estados | :54 loading, :55 erro, :56 fundo distinto, :58 vazio; :92 arquivado e ausência de Nova etapa; dados/ações existentes preservados | Sim |
+| VIS-07 sessão/rascunhos/sem chamadas de estilo | :64 rascunho quadro; :76/77 cache/calls estáveis na conferência; :81 demanda; :88 comentário | Sim |
 
 Mapeamento reverso: o único teste :7, com helpers :12/31, cobre VIS-01–07; asserts de preparação de API comprovam que os dados fictícios são válidos antes da medição. Sem testes de domínio duplicados, dependências, mudanças de API/banco ou testes existentes alterados. Verificação de controles cobre botões/inputs/selects/textareas, incluindo controles desabilitados; formulários da mesma família mantêm as classes existentes. Testes focados da sessão vigentes, sem alteração de JS desdeT1.
 

@@ -307,12 +307,12 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature / branch:** revisao-visual, testes. T1 3bcb251,T2 3650f34,T3 guia neste commit;Implemented,sem Verified.
-- **Gates:**9/9Vitest focados (3novos+6sessao),1Edge/H2visual15estados em1280/360,lint/buildTEMP PASS. Cinco invocacoes autor,incluindo falha inicial autorizada do teste e duas tentativas browser,documentadas.
-- **Fix real:** overflow no formulario mover com numero longo,quebra de form-card/select corrigida. Sem mudanca de testes antigos/outcomes/timeouts.
-- **Next:** Verifier fresco automatico,escopo focado,sensor leve,validate_state;so depois concluir diagnostico. Aceitacao humana pendente,guia OPERACAO.
-- **Evidence:** features/revisao-visual/evidence.md;logsTEMP/visual-autor-browser{,2,3}.log;capturasTEMP/creral-visual-bIt5pL.
-- **Restrictions:** AD-035 testesfocados/saida compacta,sem suites completas/baselines ou exclusao de testes. Local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean;gerados existentes preservados.
+- **Feature / branch:** revisao-visual concluida e verificada14/10/2026, testes.
+- **Completed:** T1 3bcb251,T2 3650f34,T3 d92b3ee;7/7 VIS Verified,relatorio features/revisao-visual/validation.md. Incluido no diagnostico como Concluido e verificado,tudo ok. Graficos/atividade e entregas anteriores preservados.
+- **Gates:** autor9Vitest focados(3novos+6sessao),1Edge/H2 apos correcoes documentadas,lint/buildTEMP. Verifier3Vitest+1Edge/H2,lint/buildTEMP PASS,sensorCSS1/1killed,0sobreviventes.15estados em1280/360. Dez invocacoes incluindo2falhasinfra,50%menos20referenciaAD035,sem medir tokens.
+- **Integrity:** controles/mutacao emscratch fisico isolado,HEAD/porcelain/hashes reais preservados,scratchremovido. Nenhum testeantigoalterado,sem suites completas/Java/MySQL. Reportleitura completa,semgaps.
+- **Next:** aceitaçao pratica pelos usuarios e planejamento do uso real. Roteiro em docs/OPERACAO.md;nao fingir UAT por autorizacao de continuar. Nenhuma operacao em banco real autorizada;contas admin/ambiente/dados reais exigem escolhas e autorizacoes especificas.
+- **Restrictions:** AD-035 testesfocados/saida compacta,nao refazer entregas comprovadas/baselines nem apagar testes. Local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Gerados preexistentes preservados.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 
