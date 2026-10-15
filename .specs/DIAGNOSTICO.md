@@ -2,7 +2,7 @@
 
 ## Internet — progresso técnico em 14/10/2026
 
-**Em implementação, ainda sem publicação:** T1–T6 concluídas localmente. Servidor/preparo explícito e cliente prontos; cadastro202 agora mostra espera sem entrar/gravar sessão, com proteção de envio e erros preservados. Gates TEMP:5+6+5+5 Java e32+6 Vitest aprovados, oito invocações contando duas tentativas corrigidas (comparação JSON autorizada). Nenhum teste antigo alterado. Fixture MySQL33823 ativa para integração. [Evidências](features/acesso-internet/evidence.md). T7–T11 e Verifier pendentes; acesso por dados móveis ainda não observado.
+**Em implementação, ainda sem publicação:** T1–T7 concluídas localmente. Servidor/preparo explícito, cadastro pendente, painel administrativo e saída online prontos; papel conferido pelo servidor, cache público conservado e respostas incertas explícitas. Gates finais TEMP:76 casos distintos aprovados (21 Java,55 Vitest), dez invocações contando duas falhas corrigidas e reforço de StrictMode. Alvo de sete no lote excedido, sem declarar economia alvo como alcançada. Build HTTPS fictício/lint sem diagnósticos aprovados. Nenhum teste antigo alterado. Fixture MySQL33823 ativa para integração. [Evidências](features/acesso-internet/evidence.md). T8–T11, layout real360px e Verifier pendentes; acesso por dados móveis ainda não observado.
 
 ## Segundo administrador e teste pela rede — 14/10/2026
 
