@@ -1,5 +1,25 @@
 # Evidências operacionais do piloto
 
+## T1 iniciador implementado, ainda sem fechamento da feature
+
+14/10/2026. Proposta do modo piloto aprovada explicitamente após spec validada. Passos: T1 iniciador/configuração/checks focados; T2 ciclo real com MySQL fictício e duas sessões; T3 guia/evidências. Verifier fresco ao final. Sem tasks/design separados pelo porte médio.
+
+Arquivos T1: scripts/piloto-config.mjs, piloto-lan.mjs, piloto-config.test.mjs, package.json e WebConfig.java. Premissa: mesmo endereço para interface/API, build em cópia TEMP de src/main/POM para não tocar target real, MySQL original resolvido pelo Spring e override explícito quando fornecido. Interceptor limitado a /api/** para permitir HTML/assets; autenticação da API preservada e prova HTTP fica em T2. A documentação oficial Spring confirma index.html em static-locations como welcome page: https://docs.spring.io/spring-boot/reference/web/servlet.html.
+
+Gate focado `npm run test:piloto`:6/6 PASS,0falhas/skips,92ms;lint PASS. Duas invocações até aqui, repetição após reforços de cleanup/credenciais apontados por revisão de código independente,sem falhas de teste. Runtime e prova Java/duas sessões aguardam T2,sem declarar piloto concluído.
+
+| Critério / resultado | Evidência frontend/scripts/piloto-config.test.mjs | Coberto em T1 |
+| --- | --- | --- |
+| PIL-01/04 endereço local e porta | :11 deepEqual host/8082; :12 assert.throws para ausente,externo,wildcard,porta0/texto,argumento desconhecido/repetido | Sim, acesso real em T2 |
+| PIL-02 MySQL local e configuração | :16 objeto de configuração exato; :17 override fictício; :18 throws para H2/remoto/banco vazio | Sim, persistência em T2 |
+| PIL-03 validate/sem SQLinit | :22/23 args includes validate e never | Sim, banco incompatível em T2 |
+| PIL-06 credenciais só servidor | :27 args.every semusername/password/url; :29/30 JSON contém sóURL e env mantém literal da senha fictícia | Sim, assets/auth em T2 |
+| PIL-04/05 serviço ocupado preservado | teste Porta ocupada exige rejeição e servidor.listening true; nova reserva após fechar | Sim |
+| PIL-05 limpeza confinada | teste Limpeza rejeita cwd e TEMPraiz,remove somente creral-piloto-* próprio | Sim |
+| PIL-04 corrida/prontidão | teste Página própria aceita nonce correto,rejeita outra página e nonce diferente | Sim |
+
+Mapeamento reverso: os seis testes correspondem às sete linhas acima; nenhuma asserção especulativa. Resultados esperados derivam dos8PIL. Revisão independente de código resolveu: preservação de credenciais escapadas pelo Spring, cancelamento durante cópia, identidade da própria página e preservação de TEMP se filho não confirma saída. Nenhum teste antigo alterado ou removido. T2 comprovará efeitos observáveis sem suite completa Java/MySQL/Vitest.
+
 ## Administrador inicial, 14/10/2026
 
 **Concluído e verificado — tudo ok: configuração operacional do administrador inicial. Incluído no diagnóstico.** A funcionalidade de autorização já existia; não houve novo código ou mudança de regra. O acesso em rede como um todo ainda não está concluído.
