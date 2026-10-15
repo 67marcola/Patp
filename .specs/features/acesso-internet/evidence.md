@@ -1,5 +1,9 @@
 # Evidências — acesso pela internet
 
+## Render — recusa da origem na inicialização real,15/10/2026
+
+Usuário relatou preenchimento de CRERAL_DATABASE_PASSWORD e inclusão da CA no painel; não foram lidos valores protegidos pelo agente. Primeiro recorte mostrava só exit1/JAVA_TOOL_OPTIONS, sem causa. Log completo posterior2026-10-15T12:15:29.279Z mostra IllegalStateException em ValidarAmbienteInternet.validarOrigem:56/initialize:34, “Informe origem HTTPS exata, sem caminho, barra final ou curinga.” Leitura local :49–56 confirmou HTTPS, host, caminho vazio, ausência de userinfo/query/fragmento/curinga e trim idêntico. Não se conhece o valor atual no painel. Correção indicada somente no Value da variável: https://creral-piloto-online.vercel.app; Save and deploy reutiliza imagem existente. Sem alteração produtiva ou testes repetidos. Log prova execução Java/Spring até o inicializador, ainda sem contexto ativo/conexão MySQL/acesso público verificados. Aguardar resultado após correção; NET-01/02/19 externos permanecem pendentes.
+
 ## Vercel — domínio fornecido pelo usuário,15/10/2026
 
 Usuário enviou creral-piloto-online.vercel.app. Origem completa a configurar: https://creral-piloto-online.vercel.app, sem barra final/caminho. Domínio é relato do usuário, sem inferir disponibilidade da aplicação; primeiro build recusado ainda é a única evidência de execução Vercel. Conferência somente leitura de render.yaml/Dockerfile/entrypoint confirmou Docker/Free, raiz do contexto,6variáveis e CA em /etc/secrets/aiven-ca.pem. Documentação Render consultada confirmou importação de repo privado via Git Provider, Dockerfile Path e variáveis/Secret Files. Nenhum recurso/deploy criado pelo agente ou teste repetido; próximo passo é configuração no painel Render pelo usuário em sua própria conta.
