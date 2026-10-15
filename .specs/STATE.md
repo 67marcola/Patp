@@ -305,14 +305,31 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-14
 - **Status**: active
 
+### AD-038
+- **Decision**: uso inicial pelos estudantes,depois pelos empregados da Creral;varios computadores na mesma rede no primeiro piloto,com este computador como servidor central.
+- **Reason**: respostas explicitas do usuario em14/10/2026 sobre publico,rede e maquina central.
+- **Trade-off**: servidor central precisa ficar ligado e acessivel na mesma rede;internet e ambiente empresarial posterior ficam fora desta primeira etapa.
+- **Scope**: preparacao acesso-piloto,tecnologias AD-024 e banco MySQL compartilhado. Uso pela rede ainda nao foi habilitado/verificado.
+- **Date**: 2026-10-14
+- **Status**: active
+
+### AD-039
+- **Decision**: primeiro administrador e Marco Polinski,conta existente marcoimmarquin@gmail.com. Outros administradores serao definidos por e-mails indicados depois;novos cadastros seguem FUNCIONARIO.
+- **Reason**: escolha explicita do usuario com identificacao do e-mail em14/10/2026.
+- **Trade-off**: promocao dirigida de conta existente,sem administrador automatico nem regra por nome. Gerente nao define terceiro papel neste corte.
+- **Scope**: autorizado e aplicado somente papel da conta ID2 do MySQL local sistema,localhost3306. Transacao ROW_COUNT1,COMMIT e leitura independente ADMINISTRADOR,contagem1. Sem schema/senha/dados/outrosusuarios alterados.
+- **Date**: 2026-10-14
+- **Status**: active
+
 ## Handoff
 
-- **Feature / branch:** revisao-visual concluida e verificada14/10/2026, testes.
-- **Completed:** T1 3bcb251,T2 3650f34,T3 d92b3ee;7/7 VIS Verified,relatorio features/revisao-visual/validation.md. Incluido no diagnostico como Concluido e verificado,tudo ok. Graficos/atividade e entregas anteriores preservados.
-- **Gates:** autor9Vitest focados(3novos+6sessao),1Edge/H2 apos correcoes documentadas,lint/buildTEMP. Verifier3Vitest+1Edge/H2,lint/buildTEMP PASS,sensorCSS1/1killed,0sobreviventes.15estados em1280/360. Dez invocacoes incluindo2falhasinfra,50%menos20referenciaAD035,sem medir tokens.
-- **Integrity:** controles/mutacao emscratch fisico isolado,HEAD/porcelain/hashes reais preservados,scratchremovido. Nenhum testeantigoalterado,sem suites completas/Java/MySQL. Reportleitura completa,semgaps.
-- **Next:** aceitaçao pratica pelos usuarios e planejamento do uso real. Roteiro em docs/OPERACAO.md;nao fingir UAT por autorizacao de continuar. Nenhuma operacao em banco real autorizada;contas admin/ambiente/dados reais exigem escolhas e autorizacoes especificas.
-- **Restrictions:** AD-035 testesfocados/saida compacta,nao refazer entregas comprovadas/baselines nem apagar testes. Local apenas,sem push/deploy/banco real/upgrades/reset/stash/clean. Gerados preexistentes preservados.
+- **Feature / branch:** acesso-piloto, testes, preparacao de rede. Contexto em features/acesso-piloto/context.md.
+- **Completed:** revisao-visual440bb6e/7VIS e graficos56fd985/9GRAF verificados. Administrador operacional Marco Polinski,id2,marcoimmarquin@gmail.com,promovido no MySQL local sistema;1conta alterada e exatamente1admin confirmado por leitura e agente independente. Incluido no diagnostico.
+- **Confirmed:** estudantes primeiro,empregados depois;mesma rede inicialmente;estePCcentral. Demais computadores navegador. Sem terceiro papelGERENTE decidido.
+- **Next:** preparar proposta de acessoLAN persistenteMySQL,endereco do servidor,sem confundir previewH2temporario com piloto;rede ainda nao configurada/verificada. Aceitacao humana pendente.
+- **Consent:** AD039 autoriza e concluiu somente UPDATEpapel da conta exata no banco local;nao autoriza outras alteracoes/migracoes de banco,outrascontas ou publicacaoInternet. Nao repetir pedido do e-mail ou da maquina/rede.
+- **Environment:** MySQL8.0.43,localhost3306/sistema,DESKTOP-ESO6LOG;servicos existentes8081java e5173interface preservados. Credenciais nao registrar emdocs/logs.
+- **Restrictions:** AD035 testesfocados/saida compacta,nao refazer suites completas ou entregas aprovadas. Sem push/deployInternet/upgrades/reset/stash/clean. Gerados existentes preservados.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

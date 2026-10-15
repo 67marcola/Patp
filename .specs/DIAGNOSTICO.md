@@ -1,5 +1,13 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Preparação do piloto — 14/10/2026
+
+**Incluído no diagnóstico:** primeiro uso pelos estudantes; depois pelos empregados da Creral. Piloto inicialmente na mesma rede, com este computador como servidor central e os demais acessando pelo navegador. Acesso em rede ainda em preparação, sem endereço compartilhado entregue ou verificado.
+
+**Administrador inicial: Concluído e verificado — tudo ok (configuração operacional).** A conta existente de Marco Polinski, marcoimmarquin@gmail.com, ID2 no banco MySQL local sistema, foi promovida para ADMINISTRADOR conforme escolha do usuário. Uma conta alterada em transação; leitura posterior e conferência independente confirmaram exatamente1 administrador. Senha, dados e demais contas preservados; novos cadastros continuam FUNCIONARIO. Outros administradores dependerão de e-mails indicados posteriormente. [Evidências](features/acesso-piloto/evidence.md).
+
+Os papéis existentes continuam Funcionário e Administrador; gerente ainda não é um papel separado. Aceitação pelos estudantes e preparação completa da rede permanecem pendentes.
+
 
 **Atualizado em 14/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
 
