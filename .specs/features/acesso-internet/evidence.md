@@ -1,5 +1,9 @@
 # Evidências — acesso pela internet
 
+## Vercel — log humano do primeiro build,15/10/2026
+
+Usuário forneceu log08:30:07–08:30:12: clone main/c496d91 do repositório privado, instalação98pacotes concluída; comando VITE_MODO_INTERNET=true npm run build encerrou1 com “Build internet recusado. Informe VITE_API_URL HTTPS pública terminando em /api, sem credenciais, query ou fragmento.” Conferência somente leitura de frontend/vite.config.js confirmou a origem da recusa; frontend/vercel.json força modo internet. O log não distingue variável ausente de valor inválido e não contém domínio de produção. Warning npm cache-dir precede a instalação bem-sucedida e não é a exceção que encerra o build. Nenhum teste repetido ou código alterado. Solicitado domínio Settings → Domains para configuração exata CRERAL_FRONTEND_ORIGIN no Render; URL real da API depois alimentará VITE_API_URL e novo build. NET-01/02/19 continuam pendentes no alcance externo.
+
 ## GitHub privado — envio autorizado e conferido,15/10/2026
 
 Destino exato fornecido pelo usuário:67marcola/-creral-piloto-online. (inclusive ponto final), confirmado pelo conector como private, owner67marcola, push/admin true. Main em1db23c882d533423768c5b0e0ef2e3c21d4d5a20, tree733ccfb0662cfe8ea8d090b5a0bbd40ed531d8b6, somenteREADME.md. Conector já consegue acessar; login do navegador não é necessário para o envio por API.

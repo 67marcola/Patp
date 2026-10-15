@@ -1,5 +1,9 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Vercel — primeiro build recebido em15/10/2026
+
+**Incluído no diagnóstico — publicação em andamento.** Log fornecido pelo usuário confirma clone da main/c496d91 e instalação das dependências. Build online recusado pela guarda VITE_API_URL HTTPS pública terminando em/api, conforme configuração existente. O log não informa o valor da variável nem o domínio Vercel; não comprova build concluído ou acesso público. Aviso npm cache-dir não é a causa da interrupção. Sem alteração de código ou testes repetidos. Próximo passo: obter domínio de produção em Settings → Domains, configurar a API no Render e então informar sua URL real em VITE_API_URL na Vercel para novo deploy.
+
 ## GitHub — código enviado e conferido em15/10/2026
 
 **Incluído no diagnóstico:** usuário criou e informou https://github.com/67marcola/-creral-piloto-online. (o hífen inicial e o ponto final fazem parte do nome real). Conector confirmou repositório privado, permissão de escrita e branch main com somente README.md. Não é necessário login no navegador do Codex para enviar por esse conector.
