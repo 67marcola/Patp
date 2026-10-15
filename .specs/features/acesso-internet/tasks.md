@@ -171,7 +171,7 @@ T7 → T8
 **Requirement**: NET-02,NET-03,NET-04,NET-06,NET-07,NET-08,NET-09,NET-10,NET-11,NET-13,NET-14,NET-16,NET-17
 **Tools**: shell/arquivos/Edge; skill tlc-spec-driven.
 **Done when**:
-- [ ] MySQL fictício guardado, dois contextos e360px, sem dados reais; outcomes do spec com file:line; compile/build reais; cleanup próprio; gate passa e tentativas contabilizadas.
+- [x] MySQL fictício TLS guardado, dois contextos e360px, sem dados reais; outcomes do spec com file:line; compile/build reais; cleanup próprio; gate1/1 passou na primeira tentativa,86,7s. Total autor11 invocações,77 casos distintos; publicação/4G não inferidos.
 **Tests**: e2e — cenário novo Node/Playwright e sem3306.
 **Gate**: Full
 

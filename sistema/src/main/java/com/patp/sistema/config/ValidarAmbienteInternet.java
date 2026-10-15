@@ -57,7 +57,7 @@ public class ValidarAmbienteInternet implements ApplicationContextInitializer<Co
         }
     }
 
-    private static void validarBanco(String url) {
+    public static void validarBanco(String url) {
         try {
             if (!url.startsWith("jdbc:mysql://")) throw new IllegalArgumentException();
             URI uri = URI.create(url.substring(5));

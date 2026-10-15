@@ -1,5 +1,31 @@
 # Evidências — acesso pela internet
 
+## T10 — fluxo integrado
+
+Premissas: fixture MySQL8.0.43 porta33823/datadir TEMP exatos, nunca3306; CA/servidor fictícios com SANlocalhost/127.0.0.1 e truststore PKCS12. Chaves só no TEMP próprio, sem credenciais reais. Dois servidores HTTPS locais representam interface/API distintas e preservam CORS real; Java usa configuração exclusiva internet. Fonte e node_modules copiados fisicamente, sem alterar target/dist/cache reais. SQL cria/remove somente dois schemas e usuário com nomes únicos depois da guarda de identidade.
+
+Gate `node --test scripts/internet-integracao.test.mjs`: primeira tentativa PASS1/1,0skips,86,7s; compila Java e Vite no próprio TEMP. CA válida aceita pelo JDBC VERIFY_IDENTITY; CA desconhecida falha. Cenário fecha navegadores/servidores/processos filhos, remove seus schemas/usuário/TEMP; preserva fixture TLS para Verifier e serviços originais. Total autor11 invocações comportamentais e77casos distintos (21Java,55Vitest,1integrado), contando falhas anteriores; alvo original de oito invocações excedido. Não usar isso como medição de tokens ou prometer50% de economia atingida.
+
+Revisão documental encontrou a CLI aceitando opções TLS duplicadas depois da regex textual. Correção coesa NET-03/04: preparador reutiliza a guarda completa de URL de T8; regex original e seus testes permanecem. Integrado prova a recusa antes de DDL. Nenhuma expectativa/teste antigo alterado, removido ou ignorado. Lint final JSON diagnostics[]/74arquivos/96regras PASS; a captura inicial do PowerShell exigiu ler o JSON na chamada seguinte, sem repetir testes.
+
+Check A, caminho `frontend/scripts/internet-integracao.test.mjs`:
+
+| Critério | Assertion file:line | Outcome do spec | Coberto |
+| --- | --- | --- | --- |
+| Isolamento NET-05/07 | :21/26/27 status/porta/datadir exatos, :200 confinamento TEMP | Nenhum destino local real ou cleanup externo | Sim |
+| NET-03/04 CLI/TLS/config | :105 exit1/mensagem; :114 senhaausente; :116 TLSfraco; :119 CA não confiável exit1/mensagem; :191 segredo ausente de todos logs | Falha explícita sem fallback/segredo | Sim |
+| NET-04/05 estrutura | :107–111 plano0tabelas/aplicação8/0contas; :121 schema vazio continua0; :190 sem acesso falha e continua7 | Preparo explícito; execução normal só validate | Sim |
+| NET-02 origem/build | :124 origempermitida exata; :125 intruso semCORS; :139 buildexit0; :141 endereçoHTTPS presente/localhost8081 e credenciais ausentes; :176 única origem APIHTTPS | Conexão navegador/APIHTTPS e CORS restrito | Sim, fixture, não nuvem |
+| NET-08/09/15 | :130202/bodyexato; :131 FUNCIONARIO; :133403/erroexato; :135 CLI conta conferida; :146 login funcional | Cadastro público não concede papel/sessão; bootstrap explícito | Sim |
+| NET-13 | :150 mensagemstatus exata; :151 token/usuário null | Pendente não entra nem grava sessão | Sim |
+| NET-10/11/14 | :154401; :155200/lista quatrocampos/valores; :156 e-mailvisível; :161 geometria; :163 statusaprovação; :165 repetição/SQLidêntico; :166 FUNCIONARIO; :169 controleausente; :170403 | Admin aprova, comum não administra; autoria/hora/papel preservados | Sim |
+| NET-06 persistência | :174/175 cartãoidêntico emduassessões; :180 count1apósstop; :182 tokenantigo401; :183 novo200; :184 snapshotinteiro igual; :185 aprovaçãoigual | Dados/conta sobrevivem reinício, sessão pede login novo | Sim, MySQLfictício |
+| NET-17 | :187 LoginvisívelapósSair; :188 token/usuárionull e API401 | Saída revoga e limpa | Sim |
+
+Check C reverso: guardas/compile/timeouts/cleanup→T10 Donewhen/NET-03/05/07; :105–125→NET-02/03/04/05; :130–151→NET-08/09/13/15; :154–170→NET-10/11/14; :174–185→NET-06/17; :187–191→NET-03/04/17. Todos necessários; componentes/rollback/clock8h e falhas incertas usam provas específicas T1–7 já citadas, sem refazer suítes históricas. Adequação A/B/C/D: outcomes de JSON/SQL/cache/dados completos, sem assertions apenas de chamada; guidelines tasks/AD-035/padrão integrado existente.
+
+QA visual pelo autor: qa/aprovacoes-360.png mostra painel dentro360px, e-mail longo com quebra, controles acessíveis, foco no título; qa/demanda-360.png mostra os mesmos dados e colunas adaptadas, sem corte horizontal. Leitura visual e geometria real aprovadas. São capturas locais, não celular físico ou4G. NET-01/19 continuam sem observação externa; demais requisitos Implementing até Verifier.
+
 ## T8 — pacote Render
 
 Build em cópia física TEMP/creral-internet-root-94babcdf879b474b87cbcb7f40acfbef, excluindo application.properties local: Maven compile + dependency:build-classpath runtime PASS,65 fontes/release17, sem fase de testes ou conexão ao banco. Bash -n entrypoint.sh PASS após permitir o runtime Bash fora do sandbox (a primeira chamada foi impedida antes da análise pelo MSYS). Nenhuma execução comportamental adicional. git diff --check PASS.

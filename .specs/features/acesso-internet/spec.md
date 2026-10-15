@@ -107,7 +107,7 @@ O piloto funciona em outro computador do mesmo Wi-Fi, conforme relato do usuári
 | NET-03 | P1: Outras redes | Execute | Implementing |
 | NET-04 | P1: Outras redes | Execute | Implementing |
 | NET-05 | P1: Outras redes | Execute | Implementing |
-| NET-06 | P1: Outras redes | Specify | Pending |
+| NET-06 | P1: Outras redes | Execute | Implementing |
 | NET-07 | P1: Outras redes | Execute | Implementing |
 | NET-08 | P1: Autorizar contas | Execute | Implementing |
 | NET-09 | P1: Autorizar contas | Execute | Implementing |
