@@ -1,6 +1,6 @@
 # Primeiro acesso pelo celular com dados móveis
 
-**Estado em15/10/2026:** preparação técnica local implementada e verificada independentemente. Usuário confirmou as três contas (Vercel,Render,Aiven). Ainda não existe URL publicada desta entrega; criação/configuração dos serviços, construção da imagem no Render e conferência4G permanecem pendentes.
+**Estado em15/10/2026:** preparação técnica local implementada e verificada independentemente. API Render https://creral-piloto-online.onrender.com agora Live por captura do usuário; GET /api/usuarios/me real retornou401 sem sessão e CORS para a origem Vercel exata. Projeto Vercel/domain criados, mas primeiro build recusou API ausente/inválida. Falta configurar VITE_API_URL e Redeploy, conferir interface/assets, preparar conta/admin online e validar login/4G. Não declarar fechamento integral pela API estar Live.
 
 **Atualização operacional:** MySQL Aiven criado e estrutura de oito tabelas aplicada com autorização explícita, todas vazias e validadas pelo Spring Boot. Não executar novamente o bloco Estrutura nesse banco. Ainda sem contas/admins online. Fonte enviada com autorização ao repositório privado [67marcola/-creral-piloto-online.](https://github.com/67marcola/-creral-piloto-online.), main c496d91b495dea5b2fa2fa299c337cb15c375377.139/139 hashes conferidos e README preservado; login no navegador do Codex não é necessário para o conectorGitHub. Próximo passo: importar na Vercel com raiz frontend, obter domínio de produção e configurar Render/Vercel conforme abaixo.
 
@@ -32,7 +32,7 @@ Projeto Vercel criado com pasta raiz frontend; usuário informou domínio https:
 | Ambiente protegido Render | CRERAL_DATABASE_HOST, CRERAL_DATABASE_PORT, CRERAL_DATABASE_NAME, CRERAL_DATABASE_USERNAME, CRERAL_DATABASE_PASSWORD, fornecidos pelo Aiven. Nome usual defaultdb, conferir no painel. |
 | Secret File Render | Nome aiven-ca.pem, conteúdo da CA pública baixada do Aiven; fica em /etc/secrets/aiven-ca.pem. Nunca enviar a chave privada. |
 | Origem permitida Render | CRERAL_FRONTEND_ORIGIN=https://creral-piloto-online.vercel.app, sem barra final/caminho. Domínio informado pelo usuário; somente essa origem de produção será liberada. |
-| Build Vercel | VITE_API_URL=https://SUA-API.onrender.com/api e VITE_MODO_INTERNET=true. vercel.json força o modo internet. Nenhuma variável de banco na Vercel. |
+| Build Vercel | Salvar VITE_API_URL=https://creral-piloto-online.onrender.com/api em Production e Redeploy. vercel.json já força VITE_MODO_INTERNET=true. Nenhuma variável de banco na Vercel. |
 
 O Render define PORT e termina o HTTPS. O processo Java escuta em0.0.0.0:PORT. Seu entrypoint constrói a URL JDBC com TLS VERIFY_IDENTITY e importa a CA para PKCS12 temporário; não precisa fornecer CRERAL_DATABASE_URL no painel. Configuração ausente/insegura ou estrutura incompatível impede a inicialização, sem usar o banco local. Docker não está instalado neste computador: a construção da imagem no Render ainda precisa ser observada.
 

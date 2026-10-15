@@ -1,5 +1,11 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Render — deploy Live e API pública conferidos em15/10/2026
+
+**Concluído e verificado — tudo ok: deploy da API e consulta sem sessão. Incluído no diagnóstico.** Captura do usuário mostra Deploy succeeded | Live, fonte c496d91, deploy manual às09:47:55GMT-3. Consulta somente leitura real às12:53:06Z a https://creral-piloto-online.onrender.com/api/usuarios/me, sem autenticação, respondeu HTTP401 e Access-Control-Allow-Origin exato https://creral-piloto-online.vercel.app. Prova em features/acesso-internet/qa/render-publico-20261015.json. Falha de origem superada no deploy observado; nenhum código alterado ou suíte repetida.
+
+Próximo passo: no projeto Vercel, salvar VITE_API_URL=https://creral-piloto-online.onrender.com/api em Production e Redeploy. vercel.json já força VITE_MODO_INTERNET=true. Ainda pendentes build público/assets da interface, integração no navegador, cadastro e preparação controlada do primeiro admin na base nova, login autorizado e celular com dados móveis. Não marcar requisito Internet integral concluído.
+
 ## Render — barra final confirmada na origem em15/10/2026
 
 **Incluído no diagnóstico — causa confirmada, correção pendente de execução.** Após repetição do erro validarOrigem às12:27:59Z, usuário copiou o valor salvo: https://creral-piloto-online.vercel.app/. A barra final cria caminho /, recusado pela regra de origem exata. Correção pontual: remover somente a última barra, deixando https://creral-piloto-online.vercel.app, e Save and deploy. Nenhuma alteração de código ou teste repetido; aguardar resultado real do novo deploy antes de marcar funcionamento confirmado.
