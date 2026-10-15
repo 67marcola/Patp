@@ -1,5 +1,7 @@
 # Operação local do sistema Creral
 
+Para a preparação separada do piloto na internet, com Vercel, Render, Aiven e aprovação de cadastros, consulte [Primeiro acesso pelo celular com dados móveis](PUBLICACAO_INTERNET.md). A URL pública e a observação por dados móveis ainda estão pendentes.
+
 ## Piloto persistente na mesma rede
 
 Este é o modo para o primeiro uso pelos estudantes. Este computador guarda o Java/Spring Boot e o MySQL; os colegas usam somente o navegador. O servidor precisa permanecer ligado. O modo não publica o sistema na internet nem abre o MySQL para os outros computadores. Use uma rede local de confiança; o ambiente definitivo para empregados será preparado separadamente.

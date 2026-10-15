@@ -1,5 +1,13 @@
 # Evidências — acesso pela internet
 
+## T11 — operação e entrega local
+
+docs/PUBLICACAO_INTERNET.md contém sequência de contas gratuitas, fonte sem histórico/configuração locais, endereços Vercel/Render, CASecretFile, preparação explícita via Java no PC (sem RenderShell), consulta SQL remota somente leitura ID/e-mail e bootstrap dos dois novos admins, aprovação comum e roteiro4G. docs/OPERACAO.md referencia o guia separado. Código PowerShell foi conferido sintaticamente; comandos remotos não executados. Variáveis de credenciais restauradas emfinally e senha obtida somente por entrada oculta.
+
+Cópia de publicação local construída por allowlist em deploy/internet/private/publicacao-6854ab28c5e8421d9412aa7c7e55e2f8.zip:139arquivos; SHA256 BED19025F5FD8FB87529B2E8F2C721352CA0542F63F57B5C33731CB5CBCE20A6. Zeroapplication.properties/.env/certificados/chaves/.git/node_modules/target/dist, senha local ausente de todos textos conferidos em memória, sem imprimir seu valor. Cópia ignorada peloGit, não publicada. Guia identifica hash e necessidade de renovar se houver mudança posterior. Nenhuma credencial nova persistida.
+
+Gate documental: validate_spec --strict e validate_tasks sem erros; trêsavisos none de configuração/docs previstos na matriz. diff --check PASS; check_commit PASS. Nenhuma execução de testes adicional T11. Verifier fresco será disparado depois do commit, para preparação técnica e sensor emscratch; NET-01/19 e construção Docker real/publicação continuam pendentes de recursos externos e observação. Não apresentar uma verificação local como aceite integral da spec ou4G.
+
 ## T10 — fluxo integrado
 
 Premissas: fixture MySQL8.0.43 porta33823/datadir TEMP exatos, nunca3306; CA/servidor fictícios com SANlocalhost/127.0.0.1 e truststore PKCS12. Chaves só no TEMP próprio, sem credenciais reais. Dois servidores HTTPS locais representam interface/API distintas e preservam CORS real; Java usa configuração exclusiva internet. Fonte e node_modules copiados fisicamente, sem alterar target/dist/cache reais. SQL cria/remove somente dois schemas e usuário com nomes únicos depois da guarda de identidade.

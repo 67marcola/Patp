@@ -2,6 +2,8 @@
 
 ## Internet — progresso técnico em 14/10/2026
 
+**Incluído no diagnóstico — T11:** guia operacional pronto em docs/PUBLICACAO_INTERNET.md e cópia local da fonte de publicação preparada sem configurações/segredos/histórico locais. Ainda sem envio, imagem Docker ou URL pública. Próximo passo técnico é o Verifier independente; depois, criação/configuração dos serviços e conferência real com dados móveis.
+
 **Incluído no diagnóstico — T10:** integração nova passou na primeira tentativa (1 cenário,86,7s), com TLS MySQL real fictício33823, HTTPS local, dois contextos Edge e tela360px. Cadastro pendente, aprovação administrativa, demanda compartilhada, persistência após reinício e revogação ao sair conferidos; configurações inseguras/CA não confiável/estrutura incompatível recusadas. Capturas aprovadas em features/acesso-internet/qa. Total autor77 casos distintos,11 invocações incluindo tentativas anteriores; nenhuma suíte histórica repetida. Verifier independente e publicação/4G ainda pendentes.
 
 **Incluído no diagnóstico — T9:** configuração Vercel preparada com build obrigatoriamente online e API HTTPS pública validada, sem credenciais/query/fragmento/host local ou privado. Build público fictício/assets e lint aprovados em TEMP; nove configurações inválidas recusadas, build local conservado e exceção de fixture HTTPS restrita ao processo de build. Sem nova invocação de testes: total comportamental permanece dez. Nenhum serviço externo ou URL real criado; T10/T11/Verifier/publicação e prova4G permanecem pendentes.
