@@ -119,7 +119,7 @@ O piloto funciona em outro computador do mesmo Wi-Fi, conforme relato do usuári
 | NET-15 | P1: Autorizar contas | Execute | Implementing |
 | NET-16 | P1: Autorizar contas | Execute | Implementing |
 | NET-17 | P1: Autorizar contas | Execute | Implementing |
-| NET-18 | P1: Publicação | Specify | Pending |
+| NET-18 | P1: Publicação | Execute | Implementing |
 | NET-19 | P1: Publicação | Specify | Pending |
 | NET-20 | P1: Publicação | Execute | Implementing |
 

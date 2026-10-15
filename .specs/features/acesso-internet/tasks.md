@@ -183,7 +183,7 @@ T7 → T8
 **Requirement**: NET-01,NET-05,NET-15,NET-18,NET-19,NET-20
 **Tools**: shell/arquivos; skill tlc-spec-driven.
 **Done when**:
-- [ ] Guia de planos grátis/base nova/primeirosadmins/aprovação/URL/4G pronto; validadores/diff passam; nada não observado marcado concluído. Disparar Verifier fresco ao concluir passos locais; publicar/acesso4G seguem pendentes até recursos/execução reais.
+- [x] Guia de planos grátis/base nova/primeirosadmins/aprovação/URL/4G pronto, cópia de fonte sem configuração/histórico locais preparada; validadores/diff passam. Nada não observado marcado concluído. Disparar Verifier fresco após este commit; publicação/acesso4G seguem pendentes até recursos/execução reais.
 **Tests**: none — documentação, sem repetição de testes.
 **Gate**: Build
 
