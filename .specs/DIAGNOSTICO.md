@@ -2,6 +2,8 @@
 
 ## Internet — progresso técnico em 14/10/2026
 
+**Incluído no diagnóstico — T10:** integração nova passou na primeira tentativa (1 cenário,86,7s), com TLS MySQL real fictício33823, HTTPS local, dois contextos Edge e tela360px. Cadastro pendente, aprovação administrativa, demanda compartilhada, persistência após reinício e revogação ao sair conferidos; configurações inseguras/CA não confiável/estrutura incompatível recusadas. Capturas aprovadas em features/acesso-internet/qa. Total autor77 casos distintos,11 invocações incluindo tentativas anteriores; nenhuma suíte histórica repetida. Verifier independente e publicação/4G ainda pendentes.
+
 **Incluído no diagnóstico — T9:** configuração Vercel preparada com build obrigatoriamente online e API HTTPS pública validada, sem credenciais/query/fragmento/host local ou privado. Build público fictício/assets e lint aprovados em TEMP; nove configurações inválidas recusadas, build local conservado e exceção de fixture HTTPS restrita ao processo de build. Sem nova invocação de testes: total comportamental permanece dez. Nenhum serviço externo ou URL real criado; T10/T11/Verifier/publicação e prova4G permanecem pendentes.
 
 **Incluído no diagnóstico — T8:** pacote Render preparado, classes/runtime compilados em TEMP e sintaxe do inicializador conferida. Configuração online exige TLS, origem HTTPS e estrutura validada, excluindo credenciais locais do contexto Docker. Imagem Docker/publicação ainda não executadas; provas integradas e Verifier pendentes.

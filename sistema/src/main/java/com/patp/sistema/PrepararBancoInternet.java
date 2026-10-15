@@ -31,6 +31,7 @@ public final class PrepararBancoInternet {
             throw new IllegalArgumentException("Configuração obrigatória ausente: CRERAL_DATABASE_URL/USERNAME/PASSWORD.");
         if (!url.matches("(?i).*([?&])sslMode=VERIFY_IDENTITY(&.*)?$"))
             throw new IllegalArgumentException("A base online exige TLS sslMode=VERIFY_IDENTITY e certificado confiável.");
+        com.patp.sistema.config.ValidarAmbienteInternet.validarBanco(url);
         try (Connection alvo = DriverManager.getConnection(url, usuario, senha)) {
             return admin ? prepararAdministrador(alvo,id,args[4]) : prepararEstrutura(alvo,args[0].equals("--aplicar"));
         }
