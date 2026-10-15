@@ -1,6 +1,6 @@
 # Primeiro acesso pelo celular com dados móveis
 
-**Estado em 14/10/2026:** preparo do código em andamento. Ainda não existe uma URL publicada desta entrega. O usuário tem Vercel; a criação das contas Render/Aiven ainda não foi confirmada. Este roteiro não declara acesso4G aprovado.
+**Estado em15/10/2026:** preparação técnica local implementada e verificada independentemente. Usuário confirmou as três contas (Vercel,Render,Aiven). Ainda não existe URL publicada desta entrega; criação/configuração dos serviços, construção da imagem no Render e conferência4G permanecem pendentes.
 
 O caminho escolhido é React/Vercel, Java e Spring Boot/Render e MySQL/Aiven, com base nova de testes. As contas, quadros e dados deste computador não serão enviados para esse banco.
 

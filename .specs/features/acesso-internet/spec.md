@@ -104,24 +104,24 @@ O piloto funciona em outro computador do mesmo Wi-Fi, conforme relato do usuári
 | --- | --- | --- | --- |
 | NET-01 | P1: Outras redes | Execute | Implementing |
 | NET-02 | P1: Outras redes | Execute | Implementing |
-| NET-03 | P1: Outras redes | Execute | Implementing |
-| NET-04 | P1: Outras redes | Execute | Implementing |
-| NET-05 | P1: Outras redes | Execute | Implementing |
-| NET-06 | P1: Outras redes | Execute | Implementing |
-| NET-07 | P1: Outras redes | Execute | Implementing |
-| NET-08 | P1: Autorizar contas | Execute | Implementing |
-| NET-09 | P1: Autorizar contas | Execute | Implementing |
-| NET-10 | P1: Autorizar contas | Execute | Implementing |
-| NET-11 | P1: Autorizar contas | Execute | Implementing |
-| NET-12 | P1: Autorizar contas | Execute | Implementing |
-| NET-13 | P1: Autorizar contas | Execute | Implementing |
-| NET-14 | P1: Autorizar contas | Execute | Implementing |
-| NET-15 | P1: Autorizar contas | Execute | Implementing |
-| NET-16 | P1: Autorizar contas | Execute | Implementing |
-| NET-17 | P1: Autorizar contas | Execute | Implementing |
-| NET-18 | P1: Publicação | Execute | Implementing |
+| NET-03 | P1: Outras redes | Execute | Verified |
+| NET-04 | P1: Outras redes | Execute | Verified |
+| NET-05 | P1: Outras redes | Execute | Verified |
+| NET-06 | P1: Outras redes | Execute | Verified |
+| NET-07 | P1: Outras redes | Execute | Verified |
+| NET-08 | P1: Autorizar contas | Execute | Verified |
+| NET-09 | P1: Autorizar contas | Execute | Verified |
+| NET-10 | P1: Autorizar contas | Execute | Verified |
+| NET-11 | P1: Autorizar contas | Execute | Verified |
+| NET-12 | P1: Autorizar contas | Execute | Verified |
+| NET-13 | P1: Autorizar contas | Execute | Verified |
+| NET-14 | P1: Autorizar contas | Execute | Verified |
+| NET-15 | P1: Autorizar contas | Execute | Verified |
+| NET-16 | P1: Autorizar contas | Execute | Verified |
+| NET-17 | P1: Autorizar contas | Execute | Verified |
+| NET-18 | P1: Publicação | Execute | Verified |
 | NET-19 | P1: Publicação | Specify | Pending |
-| NET-20 | P1: Publicação | Execute | Implementing |
+| NET-20 | P1: Publicação | Execute | Verified |
 
 ## Success Criteria
 

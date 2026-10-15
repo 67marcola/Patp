@@ -1,5 +1,13 @@
 # Evidências — acesso pela internet
 
+## Fechamento do preparo local —15/10/2026
+
+Verifier concluiu e persistiu validation.md sobre006f3b8: controle final independente1/1 em88,9s, histórico integral não vazio preservado;17NET com evidência local suficiente,NET-02 parcial eNET-01/19 externos. Sensor anterior1/1 morto por200≠403 reutilizado porque93arquivos produtivos tinham hashes idênticos; nenhuma alteração de código produtivo emT12. Total autor12 +Verifier3=15invocações,77casos distintos; sem fullsuite. Matriz/cobertura/limites no relatório independente. A mensagem final do agente foi interrompida por limite de uso depois que controle, limpeza, comparação de hashes e relatório já tinham sido concluídos; os arquivos persistidos confirmam resultado, não foi presumida uma aprovação ausente.
+
+validate_state exit1 esperado e preservado: feature integral não concluída por construção real/publicação/4G. Preparação local aprovada, sem tarefa de correção local restante. Usuário confirmou as três contas em15/10, próximo passo criação do MySQL gratuito vazio no Aiven. Nenhuma operação remota nesta entrega. Logs finais do autor/controle/sensor preservados emqa; certificados e processos próprios serão encerrados com guarda de identidade, preservando datadir fictício original e sem ação dirigida aos serviços reais.
+
+Cleanup final15/10 confirmado: identidadeSQL fresca33823/datadir exato e WMI processo próprio; mysqladminshutdownexit0; processo/listener ausentes antes de remover TEMP root por caminho absoluto confinado. Datadir original preservado. MySQL3306/PID5560 ativo;8081/5173 não observados nessa leitura, nenhuma parada direcionada a eles. Uma probe intermediária teve argumentoCA mal passado pelo PowerShell e falhou antes deSQL; argumento único corrigido e identidade reconfirmada, nenhuma operação no destino errado.
+
 ## T12 — cobertura explícita de histórico,15/10/2026
 
 A primeira revisão independente passou controle1/1 e matou sensor de pendente1/1, mas a conferência final das conjunções NET-06 encontrou que o snapshot de estrutura não trazia histórico. Correção de cobertura, sem mudança produtiva: `frontend/scripts/internet-integracao.test.mjs:179` lê id/acao/descricao/data_hora/usuario/processo_id de todos os históricos ordenados e exige resultado não vazio antes do reinício; `:185` exige igualdade completa depois. Assim nenhum campo/histórico pode desaparecer ou mudar silenciosamente. Checks existentes permanecem intactos, sem ajuste de expectativa, exclusão ou skip.
