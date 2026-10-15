@@ -1,5 +1,9 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Internet — complemento de evidência em15/10/2026
+
+**Incluído no diagnóstico — T12:** a revisão independente apontou que faltava comparar o histórico completo após reinício. Acrescentada a comparação dos seis campos, com histórico não vazio antes do reinício; cenário focado passou1/1 na primeira tentativa,91,4s. Nenhuma mudança no comportamento do sistema ou nos testes antigos. Autor12 invocações/77casos distintos; rechecagem independente desse complemento em seguida. Publicação/imagem real/4G continuam pendentes.
+
 ## Internet — progresso técnico em 14/10/2026
 
 **Incluído no diagnóstico — T11:** guia operacional pronto em docs/PUBLICACAO_INTERNET.md e cópia local da fonte de publicação preparada sem configurações/segredos/histórico locais. Ainda sem envio, imagem Docker ou URL pública. Próximo passo técnico é o Verifier independente; depois, criação/configuração dos serviços e conferência real com dados móveis.

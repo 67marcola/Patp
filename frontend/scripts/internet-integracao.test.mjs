@@ -176,13 +176,13 @@ test("NET: pacote online, TLS real, aprovação, dois navegadores e reinício pr
         assert.deepEqual([...origensApi], [new URL(apiPublica).origin]);
         await colega.screenshot({ path: join(artefatos, "demanda-360.png"), fullPage: true });
         const quadro = (await (await pedido("/gerenciamentos?arquivado=false", { token: tokenAdmin })).json()).find(q => q.nome === nomeQuadro);
-        const antes = await (await pedido(`/gerenciamentos/${quadro.id}/estrutura-etapas`, { token: tokenAdmin })).json();
+        const antes = await (await pedido(`/gerenciamentos/${quadro.id}/estrutura-etapas`, { token: tokenAdmin })).json(); const historicoAntes = sql(`SELECT id,acao,descricao,data_hora,usuario,processo_id FROM ${schema}.historicos ORDER BY id`); assert.notEqual(historicoAntes, "", "A fixture precisa de histórico salvo antes do reinício.");
         await parar(servidor); identidade(); assert.equal(sql(`SELECT COUNT(*) FROM ${schema}.processos`), "1");
         servidor = iniciar(); await pronto(servidor, api);
         assert.equal((await pedido("/gerenciamentos", { token: tokenAdmin })).status, 401);
         const reentrada = await pedido("/usuarios/login", { dados: { email: contaAdmin.email, senha: senhaConta } }); assert.equal(reentrada.status, 200); const novaSessao = await reentrada.json();
         assert.deepEqual(await (await pedido(`/gerenciamentos/${quadro.id}/estrutura-etapas`, { token: novaSessao.token })).json(), antes);
-        assert.equal(sql(`SELECT aprovado,aprovado_por,aprovado_em FROM ${schema}.acessos_usuarios WHERE usuario_id=${idColega}`), primeiraAprovacao);
+        assert.equal(sql(`SELECT aprovado,aprovado_por,aprovado_em FROM ${schema}.acessos_usuarios WHERE usuario_id=${idColega}`), primeiraAprovacao); assert.equal(sql(`SELECT id,acao,descricao,data_hora,usuario,processo_id FROM ${schema}.historicos ORDER BY id`), historicoAntes);
         await contextoAdmin.clearCookies(); await admin.evaluate(() => localStorage.clear()); await login(admin, contaAdmin);
         const tokenSaida = await admin.evaluate(() => localStorage.getItem("token")); await admin.getByRole("button", { name: "Sair", exact: true }).click(); await expect(admin.getByRole("button", { name: "Entrar", exact: true })).toBeVisible();
         assert.equal(await admin.evaluate(() => localStorage.getItem("token")), null); assert.equal(await admin.evaluate(() => localStorage.getItem("usuario")), null); assert.equal((await pedido("/gerenciamentos", { token: tokenSaida })).status, 401);
