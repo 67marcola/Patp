@@ -8,6 +8,8 @@
 
 Atualização: proposta aprovada. T1 iniciador/configuração implementado, seis checks focados e lint aprovados; build temporário, mesma origem e proteção da API preparados. T2 de ciclo real em MySQL fictício e duas sessões ainda pendente. Nenhuma inicialização do piloto no banco real; rede ainda sem teste observado de outro computador. Incluído no diagnóstico como progresso parcial.
 
+T2 implementado — incluído no diagnóstico: ciclo real com MySQL fictício e dois navegadores PASS, dados preservados no reinício, porta ocupada/dependência ausente recusadas e schema vazio preservado. Corrigido encerramento do Node no Windows;lint final ok. Banco local conferido apenas por Hibernate validate sem web/DML,exit0. Falta guia e Verifier independente. Sete invocações autor acumuladas,sem suítes completas; nenhum endereço real LAN iniciado nesta entrega ainda.
+
 **Administrador inicial: Concluído e verificado — tudo ok (configuração operacional).** A conta existente de Marco Polinski, marcoimmarquin@gmail.com, ID2 no banco MySQL local sistema, foi promovida para ADMINISTRADOR conforme escolha do usuário. Uma conta alterada em transação; leitura posterior e conferência independente confirmaram exatamente1 administrador. Senha, dados e demais contas preservados; novos cadastros continuam FUNCIONARIO. Outros administradores dependerão de e-mails indicados posteriormente. [Evidências](features/acesso-piloto/evidence.md).
 
 Os papéis existentes continuam Funcionário e Administrador; gerente ainda não é um papel separado. Aceitação pelos estudantes e preparação completa da rede permanecem pendentes.

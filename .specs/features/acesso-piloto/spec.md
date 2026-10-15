@@ -71,7 +71,7 @@ O sistema está configurado para acesso local neste computador. Os estudantes pr
 | PIL-04 | P1: Rede local | Execute | Implementing |
 | PIL-05 | P1: Rede local | Execute | Implementing |
 | PIL-06 | P1: Rede local | Execute | Implementing |
-| PIL-07 | P1: Rede local | Specify | Pending |
+| PIL-07 | P1: Rede local | Execute | Implementing |
 | PIL-08 | P1: Rede local | Specify | Pending |
 
 ## Success Criteria

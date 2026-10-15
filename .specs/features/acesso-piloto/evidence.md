@@ -1,5 +1,31 @@
 # Evidências operacionais do piloto
 
+## T2 ciclo persistente implementado e aprovado
+
+14/10/2026. Um único teste integrado cobre o iniciador real, build Java/Vite em TEMP, MySQL8.0.43 fictício33823, dois contextos Edge independentes, reinício e falhas. A fixture confere porta/datadir exatos antes de qualquer DDL, cria schemas/usuário exclusivos creral_piloto_*, e os apaga no final. O banco real3306 nunca é banco de testes.
+
+Último gate `npm run test:piloto:integracao`:1/1 PASS,45,3s,0falhas/skips;lint final PASS. Compilação Java e build Vite fazem parte do ciclo real e usam TEMP. Dois usuários comuns criam/consultam o mesmo quadro/demanda; colega não tem Nova etapa; após encerramento e reinício, novo login e snapshot integral idêntico. Captura TEMP/piloto-duas-sessoes-80987167678a.png conferida visualmente.
+
+| Critério / resultado | Evidência frontend/scripts/piloto-integracao.test.mjs | Coberto |
+| --- | --- | --- |
+| PIL-01 UI/API mesma origem | :80 HTML identificado; :81 API401 sem sessão; :83 bundle sem localhost:8081/api; :99 origens de API exatamente[url] | Sim |
+| PIL-02 persistência | :103 MySQL vivo e1processo após encerrar; :105 login da conta preservada; :106 deepEqual(depois,antes) após reinício | Sim |
+| PIL-03 validar sem criação | :109 processo inválido exit1/sem pronto e tabela count0 no schema vazio | Sim |
+| PIL-04 falhas sem falso sucesso | :79 porta ocupada exit1/sem pronto e página do servidor original segue acessível; :111 JAVA_HOME ausente exit1/sem pronto | Sim, entradas inválidas nos unitários |
+| PIL-05 saída/cleanup próprios | :62 exit0 em10s; :64 temporário ENOENT; :103 servidorMySQL continua disponível; :110 falha também limpa temporário | Sim |
+| PIL-06 auth/segredos | :81 anon401; :83 bundle sem credenciais; :56/109 saída sem senha; :96 colega sem ação administrativa | Sim |
+| PIL-07 duas sessões | :95 quadro salvo, :96 colega consulta; :97/98 mesmo cartão/demanda nas duas sessões | Sim |
+
+Necessidade reversa: o único teste :47 e cada assertion acima cobrem os8PIL; preparações SQL/API somente garantem as precondições fictícias. Não duplicar suítes de domínio. Roteiro real entre computadores permanece PIL-08/documentação/humano. Adequação: valores concretos, nenhuma remoção/skip/teste antigo modificado,convenções Node/Playwright existentes. Verifier ainda pendente.
+
+Tentativas preservadas:1 CLI MySQL escapava barras do datadir; corrigido --raw sem mudar expected path.2 seletor do cartão procurava heading em vez de article; texto e visible preservados.3 bug real no Windows: Java/TEMP fechavam,mas stdin encanado mantinha Node vivo; corrigido process.exit apenas DEPOIS do encerramento/cleanup e flush da mensagem. Processo preso da fixture foi identificado por PID/pai/comando e encerrado somente com seu conhost,sem Java/MySQL; harness limpou schemas. Temporário daquela tentativa removido com caminho absoluto,artefatos e ausência de processo conferidos.4 ciclo completo PASS44s.5 extensão dos checks porta ocupada/dependência ausente PASS45s. Logs TEMP/piloto-autor-integracao{,2,3,4,5}.log. Nenhum outcome/timeouts existentes alterado. Saída normal do novo cenário tem limite10s para detectar processo preso.
+
+Execuções autor acumuladas:7 (2unitários+5integrados),incluindo falhas/preparação;sem suíte completa. Gerados preexistentes de node_modules/target preservados e fora dos commits.
+
+## Conferência operacional do banco local
+
+Após os testes, Hibernate validate foi executado em cópia compilada TEMP, com web-application-type=none, SQLinit=never e sem servidor web. Banco local configurado localhost3306/sistema confirmado antes de rodar: exit0,estrutura compatível;TEMP removido. Nenhuma migração/DML,sem publicar endereço LAN. Consulta dirigida confirmou Marco ID2 ainda ADMINISTRADOR. Essa conferência de preparação não é teste de aplicação em dados reais nem prova de acesso de um segundo computador.
+
 ## T1 iniciador implementado, ainda sem fechamento da feature
 
 14/10/2026. Proposta do modo piloto aprovada explicitamente após spec validada. Passos: T1 iniciador/configuração/checks focados; T2 ciclo real com MySQL fictício e duas sessões; T3 guia/evidências. Verifier fresco ao final. Sem tasks/design separados pelo porte médio.

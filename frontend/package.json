@@ -12,7 +12,8 @@
     "test:e2e": "node scripts/run-e2e.mjs",
     "preview:isolated": "node scripts/isolated-system.mjs",
     "piloto:rede": "node scripts/piloto-lan.mjs",
-    "test:piloto": "node --test scripts/piloto-config.test.mjs"
+    "test:piloto": "node --test scripts/piloto-config.test.mjs",
+    "test:piloto:integracao": "node --test scripts/piloto-integracao.test.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",
