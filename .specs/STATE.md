@@ -323,13 +323,13 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature / branch:** acesso-piloto, testes. T1d526ccd,T262a8ba0,T3guia nestecommit;Implemented,naoVerified.
-- **Completed:** adminMarcoid2 emailmarcoimmarquin@gmail.com promovido e conferido independentemente no MySQLlocal3306/sistema,exatamente1admin. IniciadorMySQLpersistente+UI/API mesmaorigem+schema validate+shutdownWindows implementados.
-- **Gates:**6checksNode PASS,1cenariointegrado MySQLficticio+2EdgeContexts+reinicio+falhas PASS45s,lintPASS;compileJava/Vite fazparte do cenario emTEMP.7invocacoesautor(2unit+5integracao),sem suitescompletas. Tentativas/fixrealWindows em evidence.md. SchemaLOCAL conferido validate semweb/DML exit0;sem piloto real iniciado.
-- **Next:** Verifier fresco automatico8PIL,sensor leve emscratch+MySQLficticio,validate_state;depoisfechamentodiag. Continuam pendentes inicioLAN observado/segundoPC eaceitacaohumana. Nao repetir perguntas de publico/rede/maquina/email.
-- **Fixture ACTIVE:** MySQL8.0.43,127.0.0.1:33823,datadirTEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql. Usarrootvazio SOMENTE aposidentidadeSQLdatadir+porta. PIDreal11776ao conferir,parent6724 diferente;NUNCAreutilizarPID. Encerrar ao final por mysqladmin shutdown SOMENTE depoisidentidadeconfirmada. Harnesscria/drop schemascreral_piloto_*+usuariosficticios;originalcreral_arquivo_test preservado.
-- **Environment:** IP Ethernet192.168.0.102,8082padrao parafuturopiloto;servicosreais8081/5173 preservados. Credenciaisnuncalogar.
-- **Restrictions:** AD035 testesfocados/saida compacta;sem baseline/fullsuite. Nao alteraroutrosdados/schemareal/firewall/roteador ou publicarInternet. Localcommits autorizados,sem push/upgrades/reset/stash/clean. Geradospreexistentespreservados.
+- **Feature / branch:** acesso-piloto, testes. Preparação técnica Concluída e verificada — tudo ok; incluído no diagnóstico. T1 d526ccd, T2 62a8ba0, T3 330d984; oito PIL Verified no validation.md independente.
+- **Completed:** conta Marco Polinski, ID2, marcoimmarquin@gmail.com, promovida e conferida independentemente no MySQL local 3306/sistema, exatamente um admin. Iniciador MySQL persistente, UI/API na mesma origem, schema validate, encerramento Windows e guia entregues.
+- **Gates:** Verifier aprovou seis checks Node, lint e um cenário integrado MySQL fictício/dois contextos Edge/reinício/falhas (48,7s); sensor 1/1 detectado. 4.701 hashes, HEAD e porcelain preservados; scratch removido. Total dez invocações (autor sete, Verifier três), incluindo tentativas/sensor, sem suítes completas. Schema local conferido validate sem web/DML exit0; sem piloto real iniciado.
+- **Next:** iniciar o piloto neste computador e observar acesso de outro computador da mesma rede, seguindo docs/OPERACAO.md; registrar resultado e aceite dos estudantes. Primeiro acesso real ainda precisa ser combinado. Não repetir perguntas de público/rede/máquina/e-mail. Ambiente posterior dos empregados e eventual importação antiga continuam separados.
+- **Fixture INACTIVE:** MySQL fictício 33823 encerrado após identidade SQL exata de porta/datadir e mysqladmin shutdown exit0; listener ausente. Datadir TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql preservado, sem reutilizar PIDs históricos. Harness removeu somente seus schemas/usuários exclusivos. Serviços reais 3306/PID5560, 8081/PID5184 e 5173/PID23848 permaneceram ativos.
+- **Environment:** Ethernet 192.168.0.102, porta padrão 8082 para futuro piloto; confirmar IP via --listar. Comando não muda firewall/roteador. Gerado preexistente frontend/node_modules/.vite/deps/_metadata.json preservado e fora do commit. Credenciais nunca nos logs.
+- **Restrictions:** AD-035 testes focados/saída compacta; sem baseline/fullsuite. Não alterar outros dados/schema real/firewall/roteador ou publicar Internet. Commits locais autorizados; sem push/upgrades/reset/stash/clean. Próxima retomada parte deste fechamento técnico, sem refazer entregas comprovadas.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 
