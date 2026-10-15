@@ -1,5 +1,13 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Internet — preparação local verificada em15/10/2026
+
+**Concluído e verificado — tudo ok: preparação técnica local. Incluído no diagnóstico.** Cadastro pendente, aprovação administrativa, sessão online de8h, saída com revogação, pacote Render/Vercel, preparador explícito da base nova e guia prontos. Verifier independente aprovou o controle final (1/1,88,9s), confirmou o histórico completo após reinício e preservou4.590 hashes; sensor de liberação indevida detectado. Gates focados:77casos distintos;15invocações totais (autor12,Verifier3), incluindo falhas/reforços registrados, sem suítes históricas. [Verificação e limites](features/acesso-internet/validation.md).
+
+**Acesso público ainda pendente:** faltam criar/configurar os serviços, construir/conferir a imagem real no Render, publicar e observar computador/celular fora da LAN (NET-01/02/19). O gate global permanece FAIL por essas pendências externas; testes locais não comprovam4G. Usuário confirmou em15/10 que criou as três contas (Vercel,Render,Aiven). Próximo passo: serviço MySQL gratuito vazio no Aiven e dados de conexão/CA, sem senha no chat; depois Render e Vercel. [Guia de publicação](../docs/PUBLICACAO_INTERNET.md).
+
+Os checkpoints abaixo preservam o andamento anterior; o estado atual é este fechamento local com publicação pendente.
+
 ## Internet — complemento de evidência em15/10/2026
 
 **Incluído no diagnóstico — T12:** a revisão independente apontou que faltava comparar o histórico completo após reinício. Acrescentada a comparação dos seis campos, com histórico não vazio antes do reinício; cenário focado passou1/1 na primeira tentativa,91,4s. Nenhuma mudança no comportamento do sistema ou nos testes antigos. Autor12 invocações/77casos distintos; rechecagem independente desse complemento em seguida. Publicação/imagem real/4G continuam pendentes.
