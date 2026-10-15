@@ -2,6 +2,8 @@
 
 **Estado em15/10/2026:** preparação técnica local implementada e verificada independentemente. Usuário confirmou as três contas (Vercel,Render,Aiven). Ainda não existe URL publicada desta entrega; criação/configuração dos serviços, construção da imagem no Render e conferência4G permanecem pendentes.
 
+**Atualização operacional:** MySQL Aiven criado e estrutura de oito tabelas aplicada com autorização explícita, todas vazias e validadas pelo Spring Boot. Não executar novamente o bloco Estrutura nesse banco. Ainda sem contas/admins online. Próximo passo: repositório privado separado com a cópia preparada e configuração Render/Vercel. O navegador do Codex abriu a página GitHub para continuação e aguarda login do usuário.
+
 O caminho escolhido é React/Vercel, Java e Spring Boot/Render e MySQL/Aiven, com base nova de testes. As contas, quadros e dados deste computador não serão enviados para esse banco.
 
 ## O que pode ser preparado agora

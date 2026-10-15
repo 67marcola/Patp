@@ -1,5 +1,21 @@
 # Evidências — acesso pela internet
 
+## Aiven real — preparação autorizada e conferida,15/10/2026
+
+Usuário pediu manter a credencial existente para testar o projeto e autorizou explicitamente criar as oito tabelas após plano pronto. NativeMySQL com VERIFY_IDENTITY/CA confirmou defaultdb/MySQL8.4.11/0tabelas em transação somente leitura. Preparador Java atual compilado sem application.properties local em TEMP/creral-aiven-plan-0bfb6f34652644aebbee2780e9b9c4f6; --plano exit0 sem escrita; --aplicar autorizado exit0 criou8tabelas/semcontasouimportação.
+
+Consulta posterior mostrou os oito nomes exatos esperados e COUNT(*)0 de cada tabela; sessão TLSv1.3. ValidaAiven temporário reutiliza SistemaApplication e ValidarAmbienteInternet, WebApplicationType.NONE, config internet exclusiva, validate e SQLinitnever. Contexto ativo e marcador ESTRUTURA_AIVEN_VALIDADA_SEM_WEB_OU_MIGRACAO, exit0. Origem https://validacao.invalid existiu somente no processo de validação e foi restaurada depois; não é URL publicada nem configuração para o Render.
+
+Senha transmitida ao processo por terminal Read-Host -AsSecureString, exibindo somente asteriscos; credencial apenas em ambiente temporário, restaurado emfinally, sem valor em arquivos/argumentosCLI/saídas. Uma tentativa Node anterior falhou DNS11001 sem chegar ao banco; consulta nativa autorizada em contexto de rede permitido passou. Uma preparação por stdin nãointerativo recebeuEOF e recusou antes de SQL, substituída por entrada oculta emPTY. Não são falhas do sistema/testes nem houve operação no destino errado. Nenhuma suíte histórica executada.
+
+Não executar --aplicar novamente: estrutura já pronta e qualquer tabela preexistente é recusada. Sem usuários/admins/dados online ainda. GitHub conector confirmou proprietário67marcola, Patp público; cópia de publicação privada separada continua recomendada. NavegadorCodex/IAB2/tab1 abriu github.com/new e está no login, marcado para continuação; sem criação de repositório/upload/push/deploy.
+
+## Aiven real — TLS sem autenticação,15/10/2026
+
+Destino fornecido pelo usuário: creral-mysql-piloto-marcoimmarquin-2e37.f.aivencloud.com:21005, defaultdb/avnadmin. CA original C:/Users/Marco/Desktop/ca.pem,1541bytes; certificado de projeto, válido de14/10/2026 a11/10/2036; fingerprintSHA256 C551151519A8BFE5EDF37A275332F2B65624ECBAC890386E5F4E6E61791EACDD. Cópia pública e PKCS12 em deploy/internet/private/aiven, ignorados peloGit; senha changeit protege só a CA pública.
+
+OpenSSL3.5.6 s_client com starttls mysql, CAfile, verify_hostname e verify_return_error; timeout15s/stdinfechado; exit0, TLSv1.3/TLS_AES_256_GCM_SHA384, VerificationOK e peername compatível. Nenhum login ou SQL, senha não utilizada. Não equivale a JDBC autenticado, schema vazio, estrutura pronta ou publicação. Não houve nova execução das suítes de testes. Consulta do schema será feita com senha local oculta, sem copiá-la ao chat/projeto; recomendada rotação da senha que veio na URI.
+
 ## Fechamento do preparo local —15/10/2026
 
 Verifier concluiu e persistiu validation.md sobre006f3b8: controle final independente1/1 em88,9s, histórico integral não vazio preservado;17NET com evidência local suficiente,NET-02 parcial eNET-01/19 externos. Sensor anterior1/1 morto por200≠403 reutilizado porque93arquivos produtivos tinham hashes idênticos; nenhuma alteração de código produtivo emT12. Total autor12 +Verifier3=15invocações,77casos distintos; sem fullsuite. Matriz/cobertura/limites no relatório independente. A mensagem final do agente foi interrompida por limite de uso depois que controle, limpeza, comparação de hashes e relatório já tinham sido concluídos; os arquivos persistidos confirmam resultado, não foi presumida uma aprovação ausente.
