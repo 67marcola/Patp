@@ -323,13 +323,13 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 
 ## Handoff
 
-- **Feature / branch:** acesso-piloto, testes, preparacao de rede. Contexto em features/acesso-piloto/context.md.
-- **Completed:** revisao-visual440bb6e/7VIS e graficos56fd985/9GRAF verificados. Administrador operacional Marco Polinski,id2,marcoimmarquin@gmail.com,promovido no MySQL local sistema;1conta alterada e exatamente1admin confirmado por leitura e agente independente. Incluido no diagnostico.
-- **Confirmed:** estudantes primeiro,empregados depois;mesma rede inicialmente;estePCcentral. Demais computadores navegador. Sem terceiro papelGERENTE decidido.
-- **Next:** proposta aprovada explicitamente. T1 d526ccd iniciador/checks6PASS e lint;T2 integracao MySQLficticio33823 em andamento. Tentativas1rawoutput e2seletorcartao corrigidas mecanicamente;tentativa3 encontrou Nodepreso aposcleanupWindows,fix process.exit SOMENTE aposcleanup;tentativa4 emexecucao. Nao alterar outcomes/timeouts antigos. DepoisT3guia eVerifierfocado. Nenhum piloto real iniciado;aceitacao/segundocomputador pendentes.
-- **Consent:** AD039 autoriza e concluiu somente UPDATEpapel da conta exata no banco local;nao autoriza outras alteracoes/migracoes de banco,outrascontas ou publicacaoInternet. Nao repetir pedido do e-mail ou da maquina/rede.
-- **Environment:** MySQLreal3306/sistema preservado,adminMarcoid2. FixtureMySQL8.0.43 TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql ATIVA33823;identidadeSQLdatadir/porta conferida. PIDlistener11776 ao conferir,NUNCAreutilizar sem novaidentidade. Rootmysqldparent6724 difere do listener;usar shutdown SQL so aposconferir datadir33823. Interfacesreais Ethernet192.168.0.102 e loopback127.0.0.1. Servicos8081/5173 preservados. Credenciais nunca logar.
-- **Restrictions:** AD035 testesfocados/saida compacta,nao refazer suites completas ou entregas aprovadas. Sem push/deployInternet/upgrades/reset/stash/clean. Gerados existentes preservados.
+- **Feature / branch:** acesso-piloto, testes. T1d526ccd,T262a8ba0,T3guia nestecommit;Implemented,naoVerified.
+- **Completed:** adminMarcoid2 emailmarcoimmarquin@gmail.com promovido e conferido independentemente no MySQLlocal3306/sistema,exatamente1admin. IniciadorMySQLpersistente+UI/API mesmaorigem+schema validate+shutdownWindows implementados.
+- **Gates:**6checksNode PASS,1cenariointegrado MySQLficticio+2EdgeContexts+reinicio+falhas PASS45s,lintPASS;compileJava/Vite fazparte do cenario emTEMP.7invocacoesautor(2unit+5integracao),sem suitescompletas. Tentativas/fixrealWindows em evidence.md. SchemaLOCAL conferido validate semweb/DML exit0;sem piloto real iniciado.
+- **Next:** Verifier fresco automatico8PIL,sensor leve emscratch+MySQLficticio,validate_state;depoisfechamentodiag. Continuam pendentes inicioLAN observado/segundoPC eaceitacaohumana. Nao repetir perguntas de publico/rede/maquina/email.
+- **Fixture ACTIVE:** MySQL8.0.43,127.0.0.1:33823,datadirTEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql. Usarrootvazio SOMENTE aposidentidadeSQLdatadir+porta. PIDreal11776ao conferir,parent6724 diferente;NUNCAreutilizarPID. Encerrar ao final por mysqladmin shutdown SOMENTE depoisidentidadeconfirmada. Harnesscria/drop schemascreral_piloto_*+usuariosficticios;originalcreral_arquivo_test preservado.
+- **Environment:** IP Ethernet192.168.0.102,8082padrao parafuturopiloto;servicosreais8081/5173 preservados. Credenciaisnuncalogar.
+- **Restrictions:** AD035 testesfocados/saida compacta;sem baseline/fullsuite. Nao alteraroutrosdados/schemareal/firewall/roteador ou publicarInternet. Localcommits autorizados,sem push/upgrades/reset/stash/clean. Geradospreexistentespreservados.
 
 ## Registro histórico das conversas sobre destinos e movimentação
 

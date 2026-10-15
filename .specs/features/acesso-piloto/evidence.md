@@ -1,5 +1,9 @@
 # Evidências operacionais do piloto
 
+## T3 guia implementado
+
+OPERACAO.md descreve comandos reais deste computador, seleção do IPv4/porta, URL única, clientes somente navegador, servidor ligado, MySQL persistente, sessões após reinício, encerramento próprio e diagnóstico de dependência/estrutura/rede. Distingue previewH2 temporário, pilotoMySQL e futuro ambiente empresarial. Não informa acesso externo observado: esse teste humano continua pendente. Gate documental: validate_spec strict0 e diff-check; nenhuma repetição de teste por edição documental. T1 d526ccd,T2 62a8ba0,T3 neste commit, ainda Implemented até Verifier fresco.
+
 ## T2 ciclo persistente implementado e aprovado
 
 14/10/2026. Um único teste integrado cobre o iniciador real, build Java/Vite em TEMP, MySQL8.0.43 fictício33823, dois contextos Edge independentes, reinício e falhas. A fixture confere porta/datadir exatos antes de qualquer DDL, cria schemas/usuário exclusivos creral_piloto_*, e os apaga no final. O banco real3306 nunca é banco de testes.

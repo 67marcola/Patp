@@ -1,5 +1,33 @@
 # Operação local do sistema Creral
 
+## Piloto persistente na mesma rede
+
+Este é o modo para o primeiro uso pelos estudantes. Este computador guarda o Java/Spring Boot e o MySQL; os colegas usam somente o navegador. O servidor precisa permanecer ligado. O modo não publica o sistema na internet nem abre o MySQL para os outros computadores. Use uma rede local de confiança; o ambiente definitivo para empregados será preparado separadamente.
+
+No PowerShell deste computador, abra a pasta frontend. Se o terminal ainda não encontrar Java/Maven/Node, os caminhos instalados nesta máquina são:
+
+```powershell
+cd C:\Users\Marco\Desktop\sistema-grupo\frontend
+$env:JAVA_HOME = 'C:\Program Files\Java\jdk-25.0.2'
+$env:PATH = "C:\Program Files\nodejs;C:\Users\Marco\apache-maven-3.9.16\bin;$env:JAVA_HOME\bin;$env:PATH"
+npm.cmd run piloto:rede -- --listar
+npm.cmd run piloto:rede -- --host 192.168.0.102
+```
+
+Em14/10/2026 o endereço Ethernet listado foi192.168.0.102. Confira --listar a cada mudança de rede; não use127.0.0.1 para os colegas, pois esse endereço só atende o próprio computador. A porta padrão é8082, alterável por --porta. O programa recusa endereço que não pertença à máquina ou porta ocupada, sem encerrar outro serviço.
+
+Espere a mensagem **Piloto pronto: http://192.168.0.102:8082**. Só então abra esse endereço aqui e nos computadores dos colegas conectados à mesma rede. A interface e a API usam esse único endereço; não é necessário instalar Java, MySQL ou Workbench nos clientes.
+
+O iniciador compila uma cópia em TEMP e valida a estrutura MySQL antes de liberar a URL. Não executa atualização automática de tabelas, SQL de inicialização, reset de dados ou promoção de conta. As credenciais configuradas em sistema/src/main/resources/application.properties são resolvidas pelo Spring no servidor; SPRING_DATASOURCE_URL/USERNAME/PASSWORD podem sobrescrevê-las no ambiente do servidor. Apenas MySQL local é aceito. Não compartilhe essas credenciais com os colegas. Os serviços atuais8081/5173 e o banco permanecem separados do processo piloto.
+
+Para encerrar, pressione **Ctrl+C** ou digite **encerrar** nesse terminal. O programa fecha seus próprios processos e limpa somente seu TEMP. As contas, quadros e demandas permanecem no MySQL. Reiniciar conserva esses dados, mas as sessões existentes são temporárias: entre novamente se a sessão expirar. O comando precisa ficar aberto enquanto os colegas usam o sistema.
+
+Se a preparação falhar, não há mensagem Piloto pronto. Confira JDK/Maven/dependências e MySQL ligado. Incompatibilidade de estrutura exige plano separado de preparação do banco; não troque validate por update para contornar a recusa. Se abre neste computador mas não no colega, confira IP/rede e eventual bloqueio do firewall com o operador; nenhuma regra de firewall/roteador é alterada pelo iniciador. Se o encerramento não for confirmado, ele informa a falha e preserva o TEMP para conferência, sem remover arquivos ainda em uso.
+
+**Estado atual:** iniciador entregue para verificação técnica; banco local conferido por validate sem servidor web,exit0. Não foi iniciado um serviço piloto real para a rede nem observado acesso de um segundo computador físico. Conta inicial Marco Polinski/marcoimmarquin@gmail.com já é ADMINISTRADOR no banco local; novas contas continuam FUNCIONARIO. Acesso real e aceite humano são pendências separadas dos testes automáticos.
+
+Roteiro do primeiro encontro: iniciar aqui, Marco entrar com sua senha habitual, um colega criar conta comum pelo navegador, consultar um quadro compartilhado, criar uma demanda e conferir após recarga no outro computador. Anotar dificuldades de conexão/uso e informar o resultado para registro no diagnóstico. Se não houver registros antigos externos a importar, essa importação poderá ser marcada como não aplicável por decisão do usuário.
+
 ## Apresentação e uso em computador/celular
 
 Login, cadastro e cabeçalho identificam a Creral. A aba usa Creral | Gestão de demandas, com documento em português do Brasil. A apresentação mantém azul-escuro e verde; Creral é identificação textual, sem representação de logotipo oficial.
