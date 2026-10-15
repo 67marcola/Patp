@@ -1,5 +1,9 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Online — único administrador escolhido em15/10/2026
+
+**Incluído no diagnóstico — decisão confirmada, execução aguarda cadastro.** Usuário determinou que o único administrador do site, por enquanto, será admin@gmail.com. Isso substitui a preparação online de Marco e a proposta de dois admins. Nova consulta Aiven READ ONLY/TLS confirmou0usuários/0administradores. Usuário deve cadastrar pessoalmente admin@gmail.com no site e definir sua senha ali. Sua ordem já autoriza aprovar/promover essa conta após conferir ID/e-mail e confirmar o cadastro pessoal; não repetir a autorização. Conferir depois exatamente1admin online com esse e-mail. Nenhuma conta/permissão alterada até aqui; não declarar admin pronto antes da execução e conferência.
+
 ## Online — primeiro administrador ainda pendente em15/10/2026
 
 **Incluído no diagnóstico — consulta real somente leitura.** Após usuário perguntar por e-mail de administrador para testar, MySQL Aiven/defaultdb consultado com VERIFY_IDENTITY/CA em transação READ ONLY, sem selecionar senhas: total_usuarios0, administradores0, administradores_aprovados0. Contas locais Marco/admin não foram copiadas, conforme base nova escolhida. Próximo passo usuário cadastrar Marco Polinski/marcoimmarquin@gmail.com no site e informar espera de aprovação; depois conferir ID/email e autorizar bootstrap concreto. Nenhuma conta/permissão alterada nesta consulta.

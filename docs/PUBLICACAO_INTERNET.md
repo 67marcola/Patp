@@ -94,9 +94,9 @@ Executar primeiro Plano e conferir o destino. Só depois repetir com Estrutura n
 
 Após a estrutura estar pronta, iniciar o serviço Render e conferir logs de inicialização sem erro. Configurar a API HTTPS na Vercel e fazer novo deploy da interface. Não acrescentar /api em CRERAL_FRONTEND_ORIGIN; esse sufixo pertence somente a VITE_API_URL.
 
-## Primeiros administradores e equipe
+## Primeiro administrador e equipe
 
-Na interface online, criar novamente as contas controladas de marcoimmarquin@gmail.com e admin@gmail.com. Usar senhas definidas para esse ambiente, sem enviá-las pelo chat. Ambas começam pendentes e como funcionários. O cadastro não devolve ID nem concede administração por e-mail.
+Decisão atual AD-048: somente admin@gmail.com será administrador online por enquanto. O usuário deve cadastrar pessoalmente essa conta e definir sua senha no site, sem enviá-la pelo chat. A conta começa pendente e como funcionário; cadastro não devolve ID nem concede administração por e-mail. O usuário já autorizou sua aprovação/promoção depois da conferênciaID/email e do cadastro pessoal. Marco não será promovido online nesta etapa.
 
 Conferir cada conta no MySQL Aiven com uma consulta somente leitura. Por exemplo, no PowerShell, usando os mesmos dbHost/dbPort/dbUser/caPem preenchidos acima, fornecer a senha de forma oculta e restaurar a variável ao terminar:
 
@@ -105,11 +105,11 @@ $pwdAnterior = $env:MYSQL_PWD
 try {
     $segredo = Read-Host 'Senha MySQL do Aiven' -AsSecureString
     $env:MYSQL_PWD = [Net.NetworkCredential]::new('', $segredo).Password
-    & 'C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe' --protocol=TCP --host=$dbHost --port=$dbPort --user=$dbUser --ssl-mode=VERIFY_IDENTITY --ssl-ca=$caPem --database=$dbName --execute="SELECT id,nome,email,papel FROM usuarios WHERE BINARY email IN ('marcoimmarquin@gmail.com','admin@gmail.com');"
+    & 'C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe' --protocol=TCP --host=$dbHost --port=$dbPort --user=$dbUser --ssl-mode=VERIFY_IDENTITY --ssl-ca=$caPem --database=$dbName --execute="SELECT id,nome,email,papel FROM usuarios WHERE BINARY email='admin@gmail.com';"
 } finally { $env:MYSQL_PWD = $pwdAnterior; $segredo = $null }
 ```
 
-Conferir nome, ID e e-mail exatos. Repetir o bloco de preparo com acao Administrador e o ID/e-mail de uma conta por vez. Não usar os IDs2/3 do banco local. A ferramenta aprova e concede ADMINISTRADOR somente à conta indicada; erro de ID/e-mail não altera outra conta. Depois entrar pela interface. Os demais cadastros permanecem pendentes até o administrador abrir **Aprovar cadastros** e aprovar individualmente. Aprovar um funcionário não o torna administrador.
+Conferir nome, ID e e-mail exatos. Executar o bloco de preparo com acao Administrador somente para o ID online de admin@gmail.com; não usar IDs2/3 locais. A ferramenta aprova e concede ADMINISTRADOR à conta indicada; erro de ID/e-mail não altera outra conta. Conferir depois exatamente1administrador online com esse e-mail e entrar pela interface. Os demais cadastros permanecem pendentes até o administrador abrir **Aprovar cadastros** e aprovar individualmente. Aprovar um funcionário não o torna administrador. Mais admins exigem novo pedido do usuário.
 
 ## Conferência real com dados móveis
 

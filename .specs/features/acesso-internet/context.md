@@ -1,5 +1,7 @@
 # Contexto — acesso pela internet
 
+**Decisão atual15/10/2026 — AD-048:** usuário definiu admin@gmail.com como único administrador online por enquanto. Isso substitui a proposta anterior de dois admins e o próximo passo de promover Marco online. Cadastro pessoal e conferênciaID/email continuam obrigatórios; usuário já autorizou aprovação/promoção dessa conta selecionada, sem nova confirmação idêntica. Consulta após o pedido ainda0usuários/0admins. Publicação já Ready/Live, ver evidências atuais; notas abaixo preservam a evolução anterior.
+
 **Data:** 14/10/2026. **Status:** preparação local autorizada ao continuar para acessar pelo celular com dados móveis, após explicação do fluxo pendente/aprovar, base nova, sessões de oito horas e isolamento local. Publicação ainda não realizada. Manter tecnologias conforme AD-024.
 
 ## Pedido e estado confirmado
