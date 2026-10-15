@@ -345,12 +345,36 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-14
 - **Status**: active
 
+### AD-043
+- **Decision**: usar Vercel para React, Render para Java/Spring Boot e Aiven para MySQL, com faixas gratuitas no piloto acadêmico.
+- **Reason**: usuário escolheu explicitamente Vercel + Render + Aiven após explicação de gratuidade/limites.
+- **Trade-off**: limites dos provedores, suspensão por inatividade e demora de retomada; não é compromisso de ambiente empresarial gratuito ou disponibilidade permanente.
+- **Scope**: acesso-internet; preparar configuração e guia antes de qualquer publicação. Sem contratar planos pagos.
+- **Date**: 2026-10-14
+- **Status**: active
+
+### AD-044
+- **Decision**: iniciar o ambiente online com base nova de testes, sem transferir dados/contas locais.
+- **Reason**: escolha explícita do usuário na pergunta sobre transferência com backup ou base nova.
+- **Trade-off**: administradores locais não existem automaticamente na base online; será necessário cadastrar e preparar os primeiros admins de forma controlada.
+- **Scope**: nova base MySQL no Aiven; banco local preservado, sem exportação/importação de dados por suposição.
+- **Date**: 2026-10-14
+- **Status**: active
+
+### AD-045
+- **Decision**: novos cadastros online dependem de autorização de administrador antes de acessar os dados.
+- **Reason**: usuário escolheu autorização administrativa em vez de cadastro livre no endereço público.
+- **Trade-off**: proposta de estado pendente e aprovação individual; primeiro admin precisa de procedimento explícito. O modo local e seu cadastro direto continuam separados.
+- **Scope**: aprovação de acesso no ambiente internet, sem alterar papéis de negócio ou conceder admin pelo cadastro público. Preparação local autorizada ao continuar após apresentação do fluxo, conforme acesso-internet/spec.md.
+- **Date**: 2026-10-14
+- **Status**: active
+
 ## Handoff
 
-- **Feature / branch:** acesso-internet, definição inicial, branch testes. Piloto anterior fechado em 12f2beb (oito PIL Verified); usuário agora confirmou acesso por outro computador no mesmo Wi-Fi.
+- **Feature / branch:** acesso-internet, Execute autorizado, branch testes. Usuário pediu continuar para acessar no celular com dados móveis, após proposta do fluxo/base nova/sessão8h. Spec20NET e plano11tarefas locais preparados; nenhuma publicação realizada.
 - **Completed:** segundo admin admin@gmail.com/ID3/Admin promovido por pedido explícito, somente papel, ROW_COUNT1/COMMIT. Auditor independente confirmou Marco ID2 e Admin ID3 ADMINISTRADOR, total dois no MySQL local sistema. Incluído no diagnóstico. Nenhuma alteração de código ou teste nesta operação.
 - **Gates:** Verifier aprovou seis checks Node, lint e um cenário integrado MySQL fictício/dois contextos Edge/reinício/falhas (48,7s); sensor 1/1 detectado. 4.701 hashes, HEAD e porcelain preservados; scratch removido. Total dez invocações (autor sete, Verifier três), incluindo tentativas/sensor, sem suítes completas. Schema local conferido validate sem web/DML exit0; sem piloto real iniciado.
-- **Next:** explicar opções gratuitas após pergunta sobre Vercel; contexto em acesso-internet/context.md. Recomendação em avaliação: React/Vercel + Java/Render + MySQL/Aiven, limites gratuitos explícitos; containers Vercel também anunciados, mas gratuidade/adequação da API inteira não comprovadas. Escolha de provedores pendente; preparar spec/plano após resolver. Não repetir teste LAN nem perguntas já respondidas. Cadastro externo e transferência de contas/dados exigem definição antes de publicar.
+- **Next:** executar T1–T7 em ordem, depois T8–T11 e Verifier fresco. Preservar schema local: autorização online opt-in sem entidade/coluna JPA obrigatória para validate do piloto. Usuário tem SOMENTE Vercel; foi orientado a criar contas gratuitas Render/Aiven enquanto a implementação avança. URLs não existem ainda; não afirmar acesso4G. Não repetir escolhas de provedores/dados/cadastro.
 - **Fixture INACTIVE:** MySQL fictício 33823 encerrado após identidade SQL exata de porta/datadir e mysqladmin shutdown exit0; listener ausente. Datadir TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql preservado, sem reutilizar PIDs históricos. Harness removeu somente seus schemas/usuários exclusivos. Serviços reais 3306/PID5560, 8081/PID5184 e 5173/PID23848 permaneceram ativos.
 - **Environment:** Ethernet 192.168.0.102, porta padrão 8082 para futuro piloto; confirmar IP via --listar. Comando não muda firewall/roteador. Gerado preexistente frontend/node_modules/.vite/deps/_metadata.json preservado e fora do commit. Credenciais nunca nos logs.
 - **Restrictions:** AD-035 testes focados/saída compacta; sem baseline/fullsuite. Não alterar outros dados/schema real/firewall/roteador ou publicar Internet. Commits locais autorizados; sem push/upgrades/reset/stash/clean. Próxima retomada parte deste fechamento técnico, sem refazer entregas comprovadas.
