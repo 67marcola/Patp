@@ -2,7 +2,7 @@
 
 ## Internet — progresso técnico em 14/10/2026
 
-**Em implementação, ainda sem publicação:** T1–T3 concluídas localmente. Política JDBC opt-in sem mudança JPA/DDL local; cadastro202, login403, sessões8h/revogação e rotas administrativas autorizadas. Gates H2 TEMP:5+6+5 casos aprovados, cinco invocações contando uma compilação corrigida e uma comparação JSON corrigida com autorização explícita do usuário. Nenhum teste antigo alterado. [Evidências](features/acesso-internet/evidence.md). T4–T11 e Verifier pendentes; acesso por dados móveis ainda não observado.
+**Em implementação, ainda sem publicação:** T1–T4 concluídas localmente. Política JDBC opt-in sem mudança JPA/DDL local; cadastro202, login403, sessões8h/revogação, aprovação e preparo explícito da base/admin. Gates TEMP H2/MySQL fictício:5+6+5+5 casos aprovados, seis invocações contando duas tentativas corrigidas (comparação JSON autorizada pelo usuário). Nenhum teste antigo alterado. Preparador comprovou plano sem escrita, recusa existente/parcial e SQL compatível com validate; fixture33823 ativa para integração. [Evidências](features/acesso-internet/evidence.md). T5–T11 e Verifier pendentes; acesso por dados móveis ainda não observado.
 
 ## Segundo administrador e teste pela rede — 14/10/2026
 

@@ -71,3 +71,23 @@ Check A, assertions em sistema/src/test/java/com/patp/sistema/AprovacaoCadastroA
 | NET-11/12 inexistente/falha | :74 status404/mensagem; :77 status500; :78 `isEqualTo(antes)` | Sem efeito parcial | Sim |
 
 Check C reverso: :30–32→NET-10/11; :37–40→NET-10/11; :45–51→NET-10; :59–68→NET-11/12; :74–78→NET-11/12. Todos necessários/mantidos. Adequação A/B/C/D aprovada; padrões/guidelines tasks/AD-035. Sem desvio de contrato; Implementing até Verifier.
+
+## T4 — preparo explícito da base
+
+Premissas: base nova, nenhum Spring/config local no preparador; criação somente no schema vazio. Arquivos: PrepararBancoInternet.java, internet/estrutura.sql e PrepararBancoInternetTests.java. Sucesso: plano sem gravação, recusa não vazio/parcial, SQL real compatível com validate, bootstrap exato e rollback.
+
+Gate Quick Maven `-Dtest=PrepararBancoInternetTests test` em cópia TEMP, tentativa1:5/5, zero erros/falhas/skips. Total autor6 invocações. Fixture iniciada sem initialize/defaults, porta33823, PID atual4472; SQL `@@port,@@datadir` conferido exatamente antes do DDL. Datadir C:/Users/Marco/AppData/Local/Temp/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql preservado. Testes criaram/removeram somente schemas/usuários exclusivos internet_t4_<uuid>; nenhum acesso3306/conta real. Fixture deixada ativa para integração posterior; logs em TEMP/creral-internet-t1t7-20261014/mysql-fixture.*.log. Uma conferência SQL inicial foi barrada pelo sandbox e repetida com runtime autorizado; não é execução de suíte.
+
+Check A, assertions em sistema/src/test/java/com/patp/sistema/PrepararBancoInternetTests.java:
+
+| Critério | Assertion file:line | Outcome do spec | Coberto |
+| --- | --- | --- | --- |
+| NET-05 plano/criação | :44 `contains("nenhum dado ou estrutura foi gravado")`; :45 `tabelas(...).isEmpty()`; :46–48 oito nomes exatos/count0 | Sem gravação no plano/dados importados | Sim |
+| NET-04 validate | :54 `assertThat(app.isActive()).isTrue()` após startup com validate; :55 count0 | Estrutura SQL compatível sem DDL automático | Sim |
+| NET-05 alvo existente | :57–58 recusa/size8; :63–66 recusa e tabela/id42 preservados | Recusar antes da primeira criação | Sim |
+| NET-05 parcial | :75 `hasMessageContaining("estrutura parcial preservada")`; :77 somente usuarios; :78 recusa; :79 count0 | Sem apagar estrutura parcial | Sim |
+| NET-15 conferência e alcance | :86–89 mismatch/ausente, contas iguais/acessos0; :91–95 campos/hash/papéis/conta2/autor/hora | Só conta explicitamente indicada promovida/aprovada | Sim |
+| NET-15 repetição | :97 estado `isEqualTo(primeiro)` | Primeira hora preservada | Sim |
+| NET-03/15 falhas | :107 SQLException; :108 contas `isEqualTo(antes)`; :109 configuração ausente; :110–112 TLS e sem segredo | Rollback/falha sem fallback ou segredos | Sim |
+
+Check C reverso: guardas :20–22→isolamento NET-05/07; :44–58→NET-04/05; :63–66/75–79→NET-05; :86–97→NET-15; :107–112→NET-03/15. Todos mantidos/necessários. Adequação A/B/C/D aprovada, assertions de dados/payload/estado, guidelines tasks/AD-035. Decisão operacional de CLI/autoria inicial adicionada ao design; sem desvio de requisitos. Implementing até Verifier.
