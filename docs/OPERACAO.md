@@ -80,6 +80,8 @@ Informe se esse roteiro funcionou ou descreva o resultado observado. Esse teste 
 
 ## Selecionar administrador
 
+Configuração aplicada em14/10/2026, por indicação do usuário: conta local Marco Polinski, marcoimmarquin@gmail.com, ID2 no banco sistema, promovida para ADMINISTRADOR. Leitura posterior e conferência independente confirmaram exatamente1 administrador. Isso descreve o banco desta máquina, sem promover automaticamente contas de outros ambientes. A preparação do acesso em rede está em andamento; o piloto será usado primeiro pelos estudantes na mesma rede, com esta máquina como servidor central.
+
 O cadastro público sempre cria funcionário, rejeita ID enviado e não permite escolher papel. O primeiro cadastro não recebe privilégios especiais.
 
 Depois que uma conta escolhida pelo responsável já estiver cadastrada, um operador autorizado pode conferir seu ID e e-mail no banco correto e atualizar somente essa conta. O exemplo abaixo é documentação; não foi executado no banco configurado:
