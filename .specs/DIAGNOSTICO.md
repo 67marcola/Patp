@@ -1,5 +1,9 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Render — causa da falha identificada em15/10/2026
+
+**Incluído no diagnóstico — publicação em andamento.** Usuário informou preenchimento da senha e inclusão do certificado no painel. Log real12:15:29Z mostra SpringApplication run failed em ValidarAmbienteInternet.validarOrigem: valor CRERAL_FRONTEND_ORIGIN recusado por formato. Valor atual não foi exibido; não presumir erro específico de digitação. Orientação: substituir somente o Value por https://creral-piloto-online.vercel.app, sem espaços, aspas, barra final ou/api, e Save and deploy. Conferência da regra no código, sem mudança produtiva ou teste repetido. Aguardar novo log/Live e URL real Render; conexão ao banco e servidor público ainda não comprovados por esse início interrompido.
+
 ## Vercel — domínio informado em15/10/2026
 
 **Incluído no diagnóstico — publicação em andamento.** Usuário informou creral-piloto-online.vercel.app após consultar a Vercel. Origem a configurar no Render: https://creral-piloto-online.vercel.app, sem barra final. Isso identifica o destino da interface; não comprova build ou sistema disponível. Próximo passo: Web Service Docker/Free no Render com fonte privada/main, Dockerfile deploy/internet/Dockerfile, contexto raiz, variáveis Aiven e Secret File aiven-ca.pem. Depois usar a URL real Render com/api em VITE_API_URL e repetir build Vercel. Sem mudança produtiva ou teste repetido.
