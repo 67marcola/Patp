@@ -1,0 +1,48 @@
+{
+  "observadoUtc": "2026-10-15 13:50:16.952883",
+  "destino": {
+    "host": "creral-mysql-piloto-marcoimmarquin-2e37.f.aivencloud.com",
+    "porta": 21005,
+    "banco": "defaultdb"
+  },
+  "autorizacao": "AD-048 — admin@gmail.com como único administrador online",
+  "antes": {
+    "id": 1,
+    "nome": "Admin",
+    "email": "admin@gmail.com",
+    "papel": "FUNCIONARIO",
+    "aprovado": false,
+    "totalUsuarios": 1,
+    "totalAdministradores": 0
+  },
+  "acao": {
+    "ferramenta": "PrepararBancoInternet",
+    "argumentos": [
+      "--administrador",
+      "--id",
+      "1",
+      "--email",
+      "admin@gmail.com"
+    ],
+    "exitCode": 0
+  },
+  "depois": {
+    "id": 1,
+    "nome": "Admin",
+    "email": "admin@gmail.com",
+    "papel": "ADMINISTRADOR",
+    "aprovado": true,
+    "aprovadoPor": 1,
+    "aprovadoEm": "2026-10-15 13:49:09.017226",
+    "totalUsuarios": 1,
+    "totalAdministradores": 1,
+    "totalAdministradoresAprovados": 1,
+    "outrosAdministradores": 0
+  },
+  "verificacao": "Cliente nativo MySQL separado do preparador Java; TLS VERIFY_IDENTITY; transação READ ONLY; auditor independente conferiu invariantes.",
+  "pendente": [
+    "login humano",
+    "uso autenticado",
+    "celular com dados móveis"
+  ]
+}

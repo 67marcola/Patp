@@ -1,5 +1,11 @@
 # Evidências — acesso pela internet
 
+## Primeiro administrador — bootstrap autorizado e conferido,15/10/2026
+
+Usuário confirmou “Cadastro aguardando aprovação do administrador.” Nova leitura Aiven/defaultdb com TLS VERIFY_IDENTITY/READ ONLY encontrou ID1,Admin,admin@gmail.com,FUNCIONARIO,aprovado0; total1usuário/0admins. AD-048 já autoriza a ação, sem nova pergunta. PrepararBancoInternet compilado e previamente conferido executou --administrador --id1 --email admin@gmail.com, exit0: “Administrador explicitamente conferido e preparado: ID 1.” Ferramenta transacional verificou ID/e-mail antes de gravar papel/aprovação; nenhuma criação de tabela ou conta adicional.
+
+Conexão posterior distinta (cliente nativoMySQL, TLS VERIFY_IDENTITY, transação READ ONLY) às2026-10-15 13:50:16.952883UTC: ID1,Admin,admin@gmail.com,ADMINISTRADOR,aprovado1,aprovado_por1,aprovado_em2026-10-15 13:49:09.017226. Total1usuário/1admin/1adminaprovado/0outrosadmins. Invariantes comparadas por auditor independente: PASS de liberação e unicidade, total preservado. Prova transcrita em qa/admin-online-20261015.json. Senha/hash da conta não selecionados ou alterados; credencial de banco fornecida só por entrada oculta, env restaurado e clientes encerrados. Login humano/uso4G permanecem pendentes; não inferir deles o resultado do bootstrap. Sem mudança de código ou suíte repetida.
+
 ## Login — origem do deploy específico versus domínio oficial,15/10/2026
 
 Usuário confirmou tentativa pessoal de cadastro de admin@gmail.com (relatou conta existente) e mostrou login com ApiError de comunicação em URL específica de deploy Vercel ...dbg5gla89-marcola2.vercel.app. Nova consulta nativaMySQL TLS VERIFY_IDENTITY, READ ONLY, selecionando somente ID/nome/email/papel/aprovado e contagens:0usuários/0administradores, sem linha da conta. Nenhum bootstrap ou alteração executado; senha do banco só entrada oculta e MYSQL_PWD restaurado. Fontes do preparador compilado ainda conferem com as fontes atuais, mas faltou conta/ID para usá-lo.
