@@ -159,7 +159,7 @@ T7 → T8
 **Requirement**: NET-01,NET-02
 **Tools**: shell/arquivos; skill tlc-spec-driven.
 **Done when**:
-- [ ] Build TEMP apontaAPIHTTPS, semlocalhost/segredos, assets válidos;lint passa; nenhum recurso externo criado por esse arquivo.
+- [x] Build TEMP apontaAPIHTTPS, semlocalhost/segredos, assets válidos;lint passa; nenhum recurso externo criado por esse arquivo.
 **Tests**: none — configuração, gate Build.
 **Gate**: Build
 

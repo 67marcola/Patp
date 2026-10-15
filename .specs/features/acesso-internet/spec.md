@@ -102,8 +102,8 @@ O piloto funciona em outro computador do mesmo Wi-Fi, conforme relato do usuári
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| NET-01 | P1: Outras redes | Specify | Pending |
-| NET-02 | P1: Outras redes | Specify | Pending |
+| NET-01 | P1: Outras redes | Execute | Implementing |
+| NET-02 | P1: Outras redes | Execute | Implementing |
 | NET-03 | P1: Outras redes | Execute | Implementing |
 | NET-04 | P1: Outras redes | Execute | Implementing |
 | NET-05 | P1: Outras redes | Execute | Implementing |

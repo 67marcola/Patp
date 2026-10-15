@@ -162,3 +162,24 @@ Check A, assertions em frontend/src/components/AprovacoesCadastros.test.jsx (P) 
 Layout: inspeção de AprovacoesCadastros.css:24 em360 implica largura336px border-box; :5/12/14/15/16/20/21 permitem texto/quebras/min-width0; controles44px e foco :18. A geometria real será verificada no integrado T10, sem alegar que jsdom mede layout.
 
 Check C reverso: P:20–30→NET-11/14; P:35–45→NET-14; P:55–60→NET-14; P:66–74→NET-14; P:81–84/93–95→NET-14; A:25–32→NET-10/14; A:38–47→NET-10; A:52–55→NET-07; A:63–76→NET-17. Todos necessários/mantidos. Adequação A/B/C/D aprovada nos outcomes funcionais/foco/cache, guidelines tasks/AD-035/Vitest existentes. Prova visual final reservada a T10; requisitos continuam Implementing até Verifier. Publicação/URL4G não realizadas.
+
+## T9 — Vercel e guarda do build público
+
+Premissas: raiz frontend na Vercel; build público exige modo internet, API pública HTTPS absoluta terminando em /api e nenhum dado de banco. Arquivos: frontend/vercel.json e frontend/vite.config.js, além dos registros de tarefa/spec/diagnóstico. Sucesso: build válido/assets/lint aprovados, configuração inválida recusada cedo, padrão local preservado. Tests:none conforme matriz; nenhum teste novo ou invocação comportamental nesta tarefa.
+
+frontend/vercel.json:4 força `VITE_MODO_INTERNET=true npm run build` no shell Linux da Vercel. VITE_API_URL continua variável pública configurada no projeto; sem API válida o build recusa. vite.config.js:7–27 valida HTTPS, /api, ausência de userinfo/query/fragmento, host não local/privado; :32–33 aplica a guarda apenas ao build online. Proxy de desenvolvimento existente preservado.
+
+Exceção exclusivamente de fixture: processo Vite com `CRERAL_TEST_INTERNET=true`, `VITE_MODO_INTERNET=true` e `VITE_API_URL=https://localhost:PORT/api` permite loopback HTTPS. Também reconhece127/::1; não libera privados remotos, HTTP, credenciais, query ou fragmento. A flag sem prefixo VITE é lida somente pela configuração Node e não entra no runtime/assets.
+
+Gate Build em cópia física TEMP/creral-internet-t1t7-20261014/frontend, fonte/config ressincronizadas. Uma passagem de validação, sem falha inesperada:
+
+| Requisito / caso | Comando / evidência | Outcome observado |
+| --- | --- | --- |
+| NET-01/02 build online | `vite build`, VITE_MODO_INTERNET=true e API `https://creral-api-exemplo.onrender.com/api`; T9-build-publico.log | exit0,32 módulos, HTML/CSS/JS gerados |
+| NET-02 assets públicos | Inspeção de todos assets após build público | API esperada presente; localhost:8081/api, jdbc:mysql, CRERAL_DATABASE_, BEGIN PRIVATE KEY e CRERAL_TEST_INTERNET ausentes. Nenhuma credencial real foi fornecida/lida para esse gate |
+| NET-02 configuração recusada | Nove comandos `vite build` com API ausente, HTTP, userinfo fictício, query, fragmento, localhost,192.168.x,fd00:: e caminho sem/api |9/9 exit nãozero identificável `Build internet recusado.`, antes da transformação; sentinela de credencial fictícia não aparece no log |
+| NET-02 fixture explícita | `vite build` com flagCRERAL_TEST_INTERNET e APIHTTPSlocalhost | exit0,URLfixture presente; nome da exceção ausente nos assets |
+| NET-07 compatibilidade local | `vite build` sem flags online/API | exit0,padrão localhost:8081/api mantido |
+| Qualidade/configuração | oxlint `--format json src e2e scripts vite.config.js vitest.config.js playwright.config.js`; T9-lint.json | exit0,73arquivos/96regras,diagnostics[] |
+
+Foram três builds que geram assets (público/fixture/local) e nove recusas rápidas de configuração, sem suítes repetidas. Logs próprios T9-*.log/T9-lint.json no TEMP acima; dist/cache reais preservados. Adequação: testes:none deliberado conforme matriz; outcomes de configuração/build/inspeção acima, sem testes antigos alterados. Total de invocações comportamentais permanece10 até T9. Nenhum recurso Vercel/Render/Aiven criado, push ou publicação. NET-01/02 permanecem Implementing até integração/Verifier/publicação observada.
