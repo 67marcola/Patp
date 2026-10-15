@@ -31,7 +31,7 @@ O piloto funciona em outro computador do mesmo Wi-Fi, conforme relato do usuári
 | Provedores | Vercel + Render + Aiven, faixas gratuitas | Escolha explícita após explicar limites | Sim |
 | Dados iniciais | Base nova de testes, sem copiar dados/contas locais | Escolha explícita do usuário | Sim |
 | Cadastro externo | Exigir aprovação do administrador antes de entrar/consultar | Escolha explícita do usuário | Sim |
-| Administradores da base nova | Novas contas controladas dos e-mails marcoimmarquin@gmail.com e admin@gmail.com, promovidas por procedimento explícito do operador | São os admins escolhidos; base nova não contém essas contas, sem promoção automática por e-mail | Proposto |
+| Administrador da base nova | Somente admin@gmail.com por enquanto, cadastrado pessoalmente e promovido pelo procedimento explícito de NET-15 (AD-048) | Escolha explícita atual substitui a proposta de dois admins; conferir ID/e-mail, sem promoção automática por coincidência de e-mail | Confirmado |
 | Aprovação inicial | Lista de pendentes e ação Aprovar individual, sem rejeitar/apagar | Menor fluxo que implementa a decisão recebida | Proposto |
 | Isolamento local | Aprovação exigida somente no modo internet; não alterar schema/dados do MySQL local | Preservar piloto e cadastro direto já entregues | Proposto |
 | Sessão online | Oito horas a partir da criação e revogação ao sair; novo login após reinício do Render | Limite explícito para o acesso público e compatibilidade com uma instância gratuita | Proposto |
