@@ -36,3 +36,22 @@ Check C, mapeamento reverso:
 | :90–95 | NET-11 concorrência | Sim |
 
 Adequação A/B/C/D: outcomes cobertos, payload conferido, sem assertions rasas; guidelines tasks/AD-035 e padrões JUnit existentes. Sem desvio. T1 completa localmente; requisitos continuam Implementing até Verifier.
+
+## T2 — entrada e sessão
+
+Premissas: contrato local de seis campos conservado; relógio UTC injetável somente para prova do limite absoluto. Arquivos: UsuarioService/UsuarioController/SessaoService e AutenticacaoInternetTests.java. Sucesso:202 sem sessão,403 pendente,401 protegido, cadastro transacional e expiração/revogação.
+
+Gate Quick em mesma cópia TEMP/H2: Maven `-Dtest=Autenticacao*InternetTests test`. Tentativa1 falhou em compilação do helper novo (throws ausente, zero casos executados); correção só da assinatura, nenhuma assertion alterada. Tentativa2:6/6, zero falhas/erros/skips. Total autor:3 invocações, incluindo falha de compilação. Nenhum teste antigo alterado.
+
+Check A, assertions em sistema/src/test/java/com/patp/sistema/AutenticacaoInternetTests.java:
+
+| Critério | Assertion file:line | Outcome do spec | Coberto |
+| --- | --- | --- | --- |
+| NET-08 payload e persistência | :59 `getStatus().isEqualTo(202)`; :60 árvore `isEqualTo` JSON exato; :63–68 nome/setor/email/FUNCIONARIO/BCrypt e false/null/null |202 PENDENTE, sem token/promoção, conta persistida | Sim |
+| NET-09 proteção/duplicado | :52–54 status403/mensagem/token ausente via :74; :75 status401; :77 `isEqualTo(antes)` | Pendente não entra, anônimo não consulta, duplicação sem efeito | Sim |
+| NET-12 rollback | :82 status500; :83 `findByEmail(...).isEmpty()`; :84 count0 | Sem conta parcial quando pendência falha | Sim |
+| NET-16 login/prazo | :92–99 status200 e seis campos/valores/token; :102 status200 aos7h59m59s; :104 status401 às8h | Prazo absoluto sem renovação por uso | Sim |
+| NET-17 saída | :111 status200 logout; :112 status401; :115–116 senha errada sem token | Revogação efetiva | Sim |
+| NET-07 local | :129 status200; :131–134 seis campos/token/id/nome/setor/email/papel; :135–136 me200 após DROP da tabela online | Cadastro/sessão locais sem tabela nova | Sim |
+
+Check C reverso: :59–68→NET-08; :52–54/75–77→NET-09/12; :82–84→NET-12; :92–104→NET-16; :111–116→NET-17/09; :129–136→NET-07. Todos mantidos, nenhum teste sem requisito. Adequação A/B/C/D aprovada, payloads exatos e estado persistido; guidelines tasks/AD-035. Sem desvio; Implementing até Verifier.

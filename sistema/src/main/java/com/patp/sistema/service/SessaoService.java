@@ -1,9 +1,13 @@
 package com.patp.sistema.service;
 
 import java.util.UUID;
+import java.time.Clock;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.ObjectProvider;
 
 import com.patp.sistema.model.Usuario;
 import com.patp.sistema.repository.UsuarioRepository;
@@ -11,19 +15,25 @@ import com.patp.sistema.repository.UsuarioRepository;
 @Service
 public class SessaoService {
 
-    private final ConcurrentHashMap<String, Long> sessoes =
+    private final ConcurrentHashMap<String, Sessao> sessoes =
             new ConcurrentHashMap<>();
     private final UsuarioRepository usuarioRepository;
+    private final AprovacaoCadastroService aprovacao;
+    private final Clock relogio;
 
-    public SessaoService(UsuarioRepository usuarioRepository) {
+    public SessaoService(UsuarioRepository usuarioRepository, AprovacaoCadastroService aprovacao,
+            ObjectProvider<Clock> relogios) {
         this.usuarioRepository = usuarioRepository;
+        this.aprovacao = aprovacao;
+        this.relogio = relogios.getIfAvailable(Clock::systemUTC);
     }
 
     public String criarSessao(Usuario usuario) {
+        aprovacao.exigirAprovado(usuario.getId());
 
         String token = UUID.randomUUID().toString();
 
-        sessoes.put(token, usuario.getId());
+        sessoes.put(token, new Sessao(usuario.getId(), relogio.instant()));
 
         return token;
     }
@@ -34,13 +44,18 @@ public class SessaoService {
             throw new RuntimeException("Usuário não autenticado.");
         }
 
-        Long usuarioId = sessoes.get(token);
+        Sessao sessao = sessoes.get(token);
 
-        if (usuarioId == null) {
+        if (sessao == null) {
             throw new RuntimeException("Sessão inválida ou expirada.");
         }
 
-        return usuarioRepository.findById(usuarioId)
+        if (aprovacao.modoInternet() && !relogio.instant().isBefore(sessao.criadaEm().plus(Duration.ofHours(8)))) {
+            sessoes.remove(token);
+            throw new RuntimeException("Sessão inválida ou expirada.");
+        }
+        aprovacao.exigirAprovado(sessao.usuarioId());
+        return usuarioRepository.findById(sessao.usuarioId())
                 .orElseThrow(() -> new RuntimeException("Sessão inválida ou expirada."));
     }
 
@@ -50,4 +65,6 @@ public class SessaoService {
             sessoes.remove(token);
         }
     }
+
+    private record Sessao(Long usuarioId, Instant criadaEm) {}
 }

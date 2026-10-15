@@ -2,7 +2,7 @@
 
 ## Internet — progresso técnico em 14/10/2026
 
-**Em implementação, ainda sem publicação:** T1 concluída localmente, política JDBC opt-in sem mudança JPA/DDL local. Aprovação repetida/concorrente preserva primeira autoria/hora e dados. Gate focado H2 em cópia TEMP: 5/5, uma tentativa/invocação, nenhum teste antigo alterado. [Evidências](features/acesso-internet/evidence.md). T2–T11 e Verifier pendentes; acesso por dados móveis ainda não observado.
+**Em implementação, ainda sem publicação:** T1–T2 concluídas localmente. Política JDBC opt-in sem mudança JPA/DDL local; cadastro202 pendente sem token, login403, sessões8h/revogação e rollback preservados. Gates H2 TEMP:5+6 casos aprovados, três invocações contando uma falha de compilação corrigida no helper novo. Nenhum teste antigo alterado. [Evidências](features/acesso-internet/evidence.md). T3–T11 e Verifier pendentes; acesso por dados móveis ainda não observado.
 
 ## Segundo administrador e teste pela rede — 14/10/2026
 

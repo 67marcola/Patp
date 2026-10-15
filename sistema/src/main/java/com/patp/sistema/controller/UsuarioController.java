@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
 import com.patp.sistema.model.Usuario;
 import com.patp.sistema.model.PapelUsuario;
 import com.patp.sistema.service.SessaoService;
 import com.patp.sistema.service.UsuarioService;
+import com.patp.sistema.service.AprovacaoCadastroService;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -19,21 +21,26 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
     private final SessaoService sessaoService;
+    private final AprovacaoCadastroService aprovacao;
 
     public UsuarioController(
             UsuarioService usuarioService,
-            SessaoService sessaoService) {
+            SessaoService sessaoService, AprovacaoCadastroService aprovacao) {
 
         this.usuarioService = usuarioService;
         this.sessaoService = sessaoService;
+        this.aprovacao = aprovacao;
     }
 
     // Cadastro
     @PostMapping("/cadastro")
-    public LoginResponse cadastrar(
+    public ResponseEntity<?> cadastrar(
             @RequestBody Usuario usuario) {
 
-        return criarRespostaDeEntrada(usuarioService.cadastrar(usuario));
+        Usuario salvo = usuarioService.cadastrar(usuario);
+        if (aprovacao.modoInternet()) return ResponseEntity.accepted().body(
+                new CadastroPendenteResponse("PENDENTE", AprovacaoCadastroService.MENSAGEM_PENDENTE));
+        return ResponseEntity.ok(criarRespostaDeEntrada(salvo));
     }
 
     // Login
@@ -111,6 +118,8 @@ public class UsuarioController {
     }
 
     // Dados recebidos no login
+    public record CadastroPendenteResponse(String estado, String mensagem) {}
+
     public record LoginRequest(
             String email,
             String senha

@@ -75,7 +75,7 @@ T7 → T8
 **Requirement**: NET-07,NET-08,NET-09,NET-12,NET-16,NET-17
 **Tools**: shell/arquivos; skill tlc-spec-driven.
 **Done when**:
-- [ ] Cadastro online202 sem token, local200/seis campos, pendente403, persistência atômica, token expirado8h401 e revogação; testes focados por outcomes aprovados.
+- [x] Cadastro online202 sem token, local200/seis campos, pendente403, persistência atômica, token expirado8h401 e revogação; testes focados por outcomes aprovados.
 **Tests**: integration — AutenticacaoInternetTests; relógio controlado, sem esperar horas.
 **Gate**: Quick
 
