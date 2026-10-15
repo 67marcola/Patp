@@ -1,5 +1,13 @@
 # Evidências — acesso pela internet
 
+## GitHub privado — envio autorizado e conferido,15/10/2026
+
+Destino exato fornecido pelo usuário:67marcola/-creral-piloto-online. (inclusive ponto final), confirmado pelo conector como private, owner67marcola, push/admin true. Main em1db23c882d533423768c5b0e0ef2e3c21d4d5a20, tree733ccfb0662cfe8ea8d090b5a0bbd40ed531d8b6, somenteREADME.md. Conector já consegue acessar; login do navegador não é necessário para o envio por API.
+
+ZIP continua SHA256 BED19025F5FD8FB87529B2E8F2C721352CA0542F63F57B5C33731CB5CBCE20A6. Manifesto preparado somente localmente em deploy/internet/private/github-publicacao.json:139arquivos/801156bytes,138UTF8 e1PNG(frontend/src/assets/hero.png); gitblobSHA calculado de cada conteúdo. Recusados .git/node_modules/target/dist/private/.env/application.properties/certificados/chaves; senha local comparada em memória e prefixo de credencial Aiven ausente nos textos. EntrypointLF confirmado. Fonte é a mesma cópia já verificada, sem testes novos ou mudança produtiva. README remoto será conservado; atualização futura da main deve conferir expected_sha para impedir sobrescrever mudança concorrente.
+
+Usuário respondeu “Sim, enviar o código (recomendado)” à pergunta explícita de envio. Conector criou blobPNG, árvore baseada na árvore inicial e commit c496d91b495dea5b2fa2fa299c337cb15c375377 (mensagem feat: publish verified internet pilot source). Ref main atualizada com expected_sha1db23c882d533423768c5b0e0ef2e3c21d4d5a20,forcefalse. Leitura posterior confirmou privado,head exato e árvore4b8df7aa130df88c93c8daf7dd1589fe27ef7c57; leitura recursiva sem truncamento confirmou140blobs,139/139 hashes iguais ao manifesto e README original1ffe075d47eaa7757c10547f9a45e4817a7b5d58 preservado. Nenhum teste comportamental repetido: transferência byte a byte do código verificado, sem mudança produtiva. Publicação Render/Vercel exige etapa própria e configurações reais; nomes sugeridos de serviço/projeto não precisam repetir a pontuação do nomeGitHub.
+
 ## Aiven real — preparação autorizada e conferida,15/10/2026
 
 Usuário pediu manter a credencial existente para testar o projeto e autorizou explicitamente criar as oito tabelas após plano pronto. NativeMySQL com VERIFY_IDENTITY/CA confirmou defaultdb/MySQL8.4.11/0tabelas em transação somente leitura. Preparador Java atual compilado sem application.properties local em TEMP/creral-aiven-plan-0bfb6f34652644aebbee2780e9b9c4f6; --plano exit0 sem escrita; --aplicar autorizado exit0 criou8tabelas/semcontasouimportação.

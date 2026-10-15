@@ -1,10 +1,16 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## GitHub — código enviado e conferido em15/10/2026
+
+**Incluído no diagnóstico:** usuário criou e informou https://github.com/67marcola/-creral-piloto-online. (o hífen inicial e o ponto final fazem parte do nome real). Conector confirmou repositório privado, permissão de escrita e branch main com somente README.md. Não é necessário login no navegador do Codex para enviar por esse conector.
+
+**Concluído e verificado — tudo ok: envio da fonte ao GitHub privado. Incluído no diagnóstico.** Após autorização explícita do usuário, enviados139arquivos,801.156bytes,138textos e1imagem para main, preservando README.md. Commit remoto c496d91b495dea5b2fa2fa299c337cb15c375377; árvore4b8df7aa130df88c93c8daf7dd1589fe27ef7c57. Conferência posterior confirmou repositório privado,140arquivos totais e139/139 hashes gitblob iguais à cópia verificada. Atualização sem force, condicionada ao head anterior; sem histórico antigo, credenciais/configuração local/certificados. Aiven já preparado; Render/Vercel/publicação4G seguem pendentes.
+
 ## Aiven — base online preparada em15/10/2026
 
 **Concluído e verificado — tudo ok: estrutura MySQL online. Incluído no diagnóstico.** Após consulta TLS confirmar defaultdb vazio (MySQL8.4.11), plano JDBC somente leitura passou. Usuário autorizou explicitamente criar as oito tabelas somente no Aiven. PrepararBancoInternet --aplicar concluiu exit0; consulta posterior confirmou acessos_usuarios,atividades,comentarios,etapas,gerenciamentos,historicos,processos,usuarios, todas com zero registros. Perfil internet do Spring Boot validou a estrutura com ddl-auto=validate/SQLinitnever, sem web ou migração, exit0.
 
-Nenhuma conta/senha/demanda local foi copiada e nenhum administrador online existe ainda. Senha informada utilizada somente em memória e entrada oculta; usuário decidiu mantê-la para este teste. Próximo passo: publicação da cópia preparada em repositório privado separado e serviços Render/Vercel. O GitHub do navegador do Codex está na tela de login; requer entrada do usuário. Patp original foi confirmado público por consulta ao conector; não enviar seu histórico original. API/interface públicas e4G continuam pendentes.
+Nenhuma conta/senha/demanda local foi copiada e nenhum administrador online existe ainda. Senha informada utilizada somente em memória e entrada oculta; usuário decidiu mantê-la para este teste. Fonte já enviada ao repositório privado separado pelo conector autorizado, sem necessidade de login no navegador do Codex. Próximo passo: configurar Render/Vercel e verificar API/interface públicas e4G.
 
 ## Aiven — conexão segura conferida em15/10/2026
 
