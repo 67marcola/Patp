@@ -99,7 +99,7 @@ T7 → T8
 **Requirement**: NET-03,NET-04,NET-05,NET-15
 **Tools**: shell/arquivos; skill tlc-spec-driven.
 **Done when**:
-- [ ] Plano não grava; alvo não vazio/estrutura parcial recusados; criação explícita em vazio conserva banco local; bootstrap confere ID/e-mail e não depende do cadastro público; SQL/schema e casos de falha têm gate real fictício.
+- [x] Plano não grava; alvo não vazio/estrutura parcial recusados; criação explícita em vazio conserva banco local; bootstrap confere ID/e-mail e não depende do cadastro público; SQL/schema e casos de falha têm gate real fictício.
 **Tests**: integration — PrepararBancoInternetTests; sem3306 ou credenciais reais.
 **Gate**: Quick
 
