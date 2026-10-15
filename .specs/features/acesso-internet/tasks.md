@@ -44,7 +44,7 @@ T5 → T6 → T7
 
 ### Phase 3: Pacote, integração e operação
 ```text
-T8 → T9 → T10 → T11
+T8 → T9 → T10 → T11 → T12
 ```
 
 Ligações entre fases:
@@ -187,6 +187,18 @@ T7 → T8
 **Tests**: none — documentação, sem repetição de testes.
 **Gate**: Build
 
+### T12: Completar prova do histórico após reinício
+**What**: correção de cobertura NET-06 encontrada na revisão independente; comparar todos os campos do histórico salvo antes/depois do reinício no cenário integrado existente.
+**Where**: `frontend/scripts/internet-integracao.test.mjs`
+**Depends on**: T11
+**Reuses**: fixture TLS, criação de demanda e ciclo de reinício do T10.
+**Requirement**: NET-06
+**Tools**: shell/arquivos; skill tlc-spec-driven.
+**Done when**:
+- [x] Histórico antes do reinício não vazio e id/ação/descrição/datahora/autor/demanda inteiros iguais depois; cenário focado1/1PASS na primeira tentativaT12,91,4s, sem alterar expectativas existentes. Autor12 invocações/77casos distintos. Revalidar controle independente após commit; sensor anterior pode ser reutilizado porque comportamento produtivo não mudou.
+**Tests**: e2e — mesmo cenário integrado, assertions SQL de estado completo; sem suíte histórica.
+**Gate**: Full
+
 ## Diagram-Definition Cross-Check
 
 | Task | Depends On | Diagram Shows | Status |
@@ -202,6 +214,7 @@ T7 → T8
 | T9 | T8 | T8 | OK |
 | T10 | T9 | T9 | OK |
 | T11 | T10 | T10 | OK |
+| T12 | T11 | T11 | OK |
 
 ## Test Co-location Validation
 
@@ -212,5 +225,6 @@ T7 → T8
 | T8–9 | Configuração/pacote | none/build | none/build | OK |
 | T10 | Integrado | e2e | e2e | OK |
 | T11 | Guia | none/documental | none/documental | OK |
+| T12 | Histórico/reinício | e2e | e2e | OK |
 
 Granularidade: cada tarefa entrega um componente/fluxo coeso ou artefato. Colaboradores mínimos de T2/T7/T8 entram na mesma tarefa para que o componente possa ser testado sem adiar seus testes. Sem tarefa separada para escrever testes. Nenhum gate Full histórico é necessário; AD-035 prevalece sobre repetição rotineira de todas as suítes.

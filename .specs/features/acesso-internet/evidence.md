@@ -1,5 +1,11 @@
 # Evidências — acesso pela internet
 
+## T12 — cobertura explícita de histórico,15/10/2026
+
+A primeira revisão independente passou controle1/1 e matou sensor de pendente1/1, mas a conferência final das conjunções NET-06 encontrou que o snapshot de estrutura não trazia histórico. Correção de cobertura, sem mudança produtiva: `frontend/scripts/internet-integracao.test.mjs:179` lê id/acao/descricao/data_hora/usuario/processo_id de todos os históricos ordenados e exige resultado não vazio antes do reinício; `:185` exige igualdade completa depois. Assim nenhum campo/histórico pode desaparecer ou mudar silenciosamente. Checks existentes permanecem intactos, sem ajuste de expectativa, exclusão ou skip.
+
+GateT12 do mesmo cenário focado, primeira tentativa PASS1/1,91,4s/0skips. Java/Vite reais emTEMP, mesmos guards TLS/MySQL/HTTPS; cleanup próprio concluído. Total autor12 invocações,77 casos distintos, sem suítes históricas. A repetição foi necessária por lacuna concreta do Verifier, conforme AD-035; nenhum percentual de economia prometido. Cenário cobreNET-06 explicitamente (:179/185), mantémmapeamentosA/B/C/D deT10; sem testes além da spec. Código do sistema e fonte sanitizada de publicação permanecem idênticos; ZIP não inclui scripts de testes. Novo controle independente após commit, reaproveitando sensor anterior porque política e assertion403 não mudaram.
+
 ## T11 — operação e entrega local
 
 docs/PUBLICACAO_INTERNET.md contém sequência de contas gratuitas, fonte sem histórico/configuração locais, endereços Vercel/Render, CASecretFile, preparação explícita via Java no PC (sem RenderShell), consulta SQL remota somente leitura ID/e-mail e bootstrap dos dois novos admins, aprovação comum e roteiro4G. docs/OPERACAO.md referencia o guia separado. Código PowerShell foi conferido sintaticamente; comandos remotos não executados. Variáveis de credenciais restauradas emfinally e senha obtida somente por entrada oculta.
