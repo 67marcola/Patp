@@ -2,6 +2,8 @@
 
 **Data:** 14/10/2026. **Estado:** decisões de uso confirmadas; acesso em rede ainda em preparação.
 
+Proposta operacional em spec.md, oito critérios, validada estruturalmente; confirmação do modo de início/encerramento solicitada ao usuário antes da implementação. Rede, máquina central e e-mail já decididos, sem repetir essas perguntas.
+
 ## Alcance confirmado
 
 - Primeiro uso pelos estudantes; uso posterior pelos empregados da Creral.

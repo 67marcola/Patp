@@ -4,6 +4,8 @@
 
 **Incluído no diagnóstico:** primeiro uso pelos estudantes; depois pelos empregados da Creral. Piloto inicialmente na mesma rede, com este computador como servidor central e os demais acessando pelo navegador. Acesso em rede ainda em preparação, sem endereço compartilhado entregue ou verificado.
 
+[Proposta do modo piloto](features/acesso-piloto/spec.md) preparada com oito critérios: comando de início, endereço central, MySQL persistente, validação de estrutura, falhas seguras, encerramento próprio e guia. Validador estrutural aprovado; aguardando confirmação do conjunto antes de implementar. Esta preparação não representa rede já habilitada ou aceite dos estudantes.
+
 **Administrador inicial: Concluído e verificado — tudo ok (configuração operacional).** A conta existente de Marco Polinski, marcoimmarquin@gmail.com, ID2 no banco MySQL local sistema, foi promovida para ADMINISTRADOR conforme escolha do usuário. Uma conta alterada em transação; leitura posterior e conferência independente confirmaram exatamente1 administrador. Senha, dados e demais contas preservados; novos cadastros continuam FUNCIONARIO. Outros administradores dependerão de e-mails indicados posteriormente. [Evidências](features/acesso-piloto/evidence.md).
 
 Os papéis existentes continuam Funcionário e Administrador; gerente ainda não é um papel separado. Aceitação pelos estudantes e preparação completa da rede permanecem pendentes.
