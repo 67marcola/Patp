@@ -47,7 +47,10 @@ async function parar(codigo) {
             catch { console.error("Não foi possível limpar o temporário do piloto. Os dados MySQL não foram apagados."); codigo = 1; }
         }
         process.exitCode = codigo;
-        console.log("Piloto encerrado. MySQL e serviços preexistentes preservados.");
+        await new Promise(resolvePromise => process.stdout.write("Piloto encerrado. MySQL e serviços preexistentes preservados.\n", resolvePromise));
+        // No Windows, a entrada encanada pode manter o Node vivo mesmo após pause().
+        // A saída explícita só ocorre depois de confirmar filhos e tratar os temporários.
+        process.exit(codigo);
     })();
     return encerrando;
 }
@@ -68,6 +71,7 @@ async function main() {
     if (encerrando) return;
     preparandoArquivos = (async () => {
         pasta = await mkdtemp(join(tmpdir(), "creral-piloto-"));
+        console.log(`Temporário do piloto: ${pasta}`);
     // No Windows, somente o caminho gerado é interpolado no comando Maven.
     if (process.platform === "win32" && /[%!&^|<>\r\n"]/.test(pasta)) throw new Error("Use um diretório TEMP sem caracteres especiais para preparar o piloto.");
         await cp(join(sistema, "src/main"), join(pasta, "sistema/src/main"), { recursive: true });
