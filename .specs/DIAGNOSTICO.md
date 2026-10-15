@@ -1,5 +1,9 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Login online — origem alternativa recusada em15/10/2026
+
+**Incluído no diagnóstico — causa de comunicação conferida, admin ainda pendente.** Usuário relatou cadastro existente e mostrou erro genérico de comunicação no login em endereço específico de deploy (...dbg5gla89-marcola2.vercel.app). Nova consulta Aiven/defaultdb READ ONLY/TLS trouxe0usuários/0admins; não há ID/e-mail para executar bootstrap e nenhuma alteração foi feita. OPTIONS real /api/usuarios/login: origem oficial https://creral-piloto-online.vercel.app respondeu200 com ACAO exato; origem https://creral-piloto-online-dbg5gla89-marcola2.vercel.app respondeu403 sem ACAO. Isso comprova rejeição dessa origem alternativa. Orientado abrir o domínio oficial diretamente e cadastrar pessoalmente admin@gmail.com; eventual nova mensagem de duplicidade deve ser conferida literalmente. AD-048 já autoriza aprovação/promoção quando cadastro existir e ID/e-mail conferirem. Não declarar admin/login prontos. Sem mudança de código/CORS ou suíte repetida.
+
 ## Online — único administrador escolhido em15/10/2026
 
 **Incluído no diagnóstico — decisão confirmada, execução aguarda cadastro.** Usuário determinou que o único administrador do site, por enquanto, será admin@gmail.com. Isso substitui a preparação online de Marco e a proposta de dois admins. Nova consulta Aiven READ ONLY/TLS confirmou0usuários/0administradores. Usuário deve cadastrar pessoalmente admin@gmail.com no site e definir sua senha ali. Sua ordem já autoriza aprovar/promover essa conta após conferir ID/e-mail e confirmar o cadastro pessoal; não repetir a autorização. Conferir depois exatamente1admin online com esse e-mail. Nenhuma conta/permissão alterada até aqui; não declarar admin pronto antes da execução e conferência.
