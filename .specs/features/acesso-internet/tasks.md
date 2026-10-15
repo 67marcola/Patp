@@ -123,7 +123,7 @@ T7 → T8
 **Requirement**: NET-07,NET-13
 **Tools**: shell/arquivos; skill tlc-spec-driven.
 **Done when**:
-- [ ] Pendente não chama onLogin, não muda storage, mantém proteção de envio/erros;200 local segue fluxo atual; testes focados aprovados.
+- [x] Pendente não chama onLogin, não muda storage, mantém proteção de envio/erros;200 local segue fluxo atual; testes focados aprovados.
 **Tests**: unit — CadastroInternet.test.jsx.
 **Gate**: Quick
 

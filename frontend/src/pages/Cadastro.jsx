@@ -11,6 +11,7 @@ function Cadastro({ voltar, onLogin }) {
 
     const [erro, setErro] = useState("");
     const [carregando, setCarregando] = useState(false);
+    const [pendente, setPendente] = useState(false);
     const enviando = useRef(false);
 
 
@@ -55,7 +56,8 @@ function Cadastro({ voltar, onLogin }) {
             });
 
 
-            onLogin(dados);
+            if (dados.estado === "PENDENTE") setPendente(true);
+            else onLogin(dados);
 
 
         } catch (error) {
@@ -73,6 +75,18 @@ function Cadastro({ voltar, onLogin }) {
         }
     }
 
+
+    if (pendente) return (
+        <div className="login-page">
+            <div className="login-card cadastro-card">
+                <p className="marca-creral">Creral</p>
+                <h1>Cadastro enviado</h1>
+                <p className="login-subtitulo" role="status">Cadastro aguardando aprovação do administrador.</p>
+                <p className="login-subtitulo">Após a autorização, entre com seu e-mail e senha.</p>
+                <button type="button" className="btn-login" onClick={voltar}>Voltar para login</button>
+            </div>
+        </div>
+    );
 
     return (
 
