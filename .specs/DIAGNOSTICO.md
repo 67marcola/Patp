@@ -1,5 +1,17 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Aiven — base online preparada em15/10/2026
+
+**Concluído e verificado — tudo ok: estrutura MySQL online. Incluído no diagnóstico.** Após consulta TLS confirmar defaultdb vazio (MySQL8.4.11), plano JDBC somente leitura passou. Usuário autorizou explicitamente criar as oito tabelas somente no Aiven. PrepararBancoInternet --aplicar concluiu exit0; consulta posterior confirmou acessos_usuarios,atividades,comentarios,etapas,gerenciamentos,historicos,processos,usuarios, todas com zero registros. Perfil internet do Spring Boot validou a estrutura com ddl-auto=validate/SQLinitnever, sem web ou migração, exit0.
+
+Nenhuma conta/senha/demanda local foi copiada e nenhum administrador online existe ainda. Senha informada utilizada somente em memória e entrada oculta; usuário decidiu mantê-la para este teste. Próximo passo: publicação da cópia preparada em repositório privado separado e serviços Render/Vercel. O GitHub do navegador do Codex está na tela de login; requer entrada do usuário. Patp original foi confirmado público por consulta ao conector; não enviar seu histórico original. API/interface públicas e4G continuam pendentes.
+
+## Aiven — conexão segura conferida em15/10/2026
+
+**Incluído no diagnóstico — etapa de infraestrutura:** usuário informou o serviço MySQL creral-mysql-piloto-marcoimmarquin-2e37.f.aivencloud.com, porta21005, banco defaultdb e usuário avnadmin; CA em C:/Users/Marco/Desktop/ca.pem. Certificado local válido e handshake MySQL STARTTLS remoto conferido: TLS1.3, verificação da cadeia e hostname OK, exit0. CA pública e truststore PKCS12 preparados em diretório ignorado pelo Git.
+
+Nenhuma senha foi usada, repetida ou gravada nesta conferência; nenhum login/SQL/DDL executado. A URI enviada continha senha, e foi recomendada sua redefinição antes da publicação. Próximo passo: consulta autenticada somente leitura do schema, com senha digitada localmente; depois preparar/revisar a criação das oito tabelas. Banco vazio, estrutura criada, API publicada e acesso4G continuam sem confirmação.
+
 ## Internet — preparação local verificada em15/10/2026
 
 **Concluído e verificado — tudo ok: preparação técnica local. Incluído no diagnóstico.** Cadastro pendente, aprovação administrativa, sessão online de8h, saída com revogação, pacote Render/Vercel, preparador explícito da base nova e guia prontos. Verifier independente aprovou o controle final (1/1,88,9s), confirmou o histórico completo após reinício e preservou4.590 hashes; sensor de liberação indevida detectado. Gates focados:77casos distintos;15invocações totais (autor12,Verifier3), incluindo falhas/reforços registrados, sem suítes históricas. [Verificação e limites](features/acesso-internet/validation.md).
