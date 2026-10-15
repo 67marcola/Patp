@@ -1,0 +1,10 @@
+{
+  "observedAtUtc": "2026-10-15T12:53:06.7229013Z",
+  "method": "GET",
+  "url": "https://creral-piloto-online.onrender.com/api/usuarios/me",
+  "authentication": "none",
+  "origin": "https://creral-piloto-online.vercel.app",
+  "status": 401,
+  "accessControlAllowOrigin": "https://creral-piloto-online.vercel.app",
+  "redirectFinalUri": "https://creral-piloto-online.onrender.com/api/usuarios/me"
+}

@@ -1,5 +1,11 @@
 # Evidências — acesso pela internet
 
+## Render — Live e consulta pública protegida,15/10/2026
+
+Captura fornecida pelo usuário mostra Deploy succeeded | Live, duração2m13s, deploy manual15/10/2026 às09:47:55GMT-3, fontec496d91. Em seguida, consulta real somente leitura GET https://creral-piloto-online.onrender.com/api/usuarios/me, sem credenciais e com Origin https://creral-piloto-online.vercel.app, às2026-10-15T12:53:06.7229013Z: HTTP401, Access-Control-Allow-Origin idêntico e URL HTTPS final preservada. Arquivo qa/render-publico-20261015.json contém somente metadados públicos da consulta; corpo não foi registrado. Isso comprova alcance da API protegida e CORS nesse GET, sem alegar fluxo autorizado, navegador/4G ou inspeção completa da imagem.
+
+Revisão independente somente leitura confirmou configuração Vercel mínima: Production VITE_API_URL=https://creral-piloto-online.onrender.com/api, sem barra depois de/api; frontend/vercel.json já define modo internet no build. Root Directory frontend já usado no primeiro log. Próximo passo usuário salvar/redeploy e informar resultado. Nenhuma mudança produtiva, teste repetido ou deploy pelo agente. Não contar a consulta operacional como nova suíte comportamental. NET-01/02/19 avançam parcialmente, mantendo fechamento externo pendente.
+
 ## Render — recusa da origem na inicialização real,15/10/2026
 
 Usuário relatou preenchimento de CRERAL_DATABASE_PASSWORD e inclusão da CA no painel; não foram lidos valores protegidos pelo agente. Primeiro recorte mostrava só exit1/JAVA_TOOL_OPTIONS, sem causa. Log completo posterior2026-10-15T12:15:29.279Z mostra IllegalStateException em ValidarAmbienteInternet.validarOrigem:56/initialize:34, “Informe origem HTTPS exata, sem caminho, barra final ou curinga.” Leitura local :49–56 confirmou HTTPS, host, caminho vazio, ausência de userinfo/query/fragmento/curinga e trim idêntico. Não se conhece o valor atual no painel. Correção indicada somente no Value da variável: https://creral-piloto-online.vercel.app; Save and deploy reutiliza imagem existente. Sem alteração produtiva ou testes repetidos. Log prova execução Java/Spring até o inicializador, ainda sem contexto ativo/conexão MySQL/acesso público verificados. Aguardar resultado após correção; NET-01/02/19 externos permanecem pendentes.
