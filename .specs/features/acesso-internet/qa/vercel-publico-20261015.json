@@ -1,0 +1,24 @@
+{
+  "observedAtUtc": "2026-10-15T13:14:48.3691857Z",
+  "url": "https://creral-piloto-online.vercel.app",
+  "status": 200,
+  "redirectFinalUri": "https://creral-piloto-online.vercel.app/",
+  "assets": [
+    {
+      "path": "/assets/index-Bsh78feL.js",
+      "status": 200,
+      "sha256": "E757580717493541F3385AA1B61439D5F2E55EB5668DF8AFEB69FCEB961F74A5",
+      "length": 287622
+    },
+    {
+      "path": "/assets/index-CjQnbSBo.css",
+      "status": 200,
+      "sha256": "ED0157B862CEC0F73C5A2207C007260C297D0BF90844DDD3A78D0AFAE8743C3E",
+      "length": 19394
+    }
+  ],
+  "expectedApiUrl": "https://creral-piloto-online.onrender.com/api",
+  "expectedApiPresent": true,
+  "unexpectedMarkers": [],
+  "scope": "HTTP público e assets referenciados no HTML; sem execução de navegador, login ou prova4G"
+}

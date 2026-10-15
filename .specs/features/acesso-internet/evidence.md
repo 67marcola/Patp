@@ -1,5 +1,11 @@
 # Evidências — acesso pela internet
 
+## Vercel — Ready Production e assets públicos,15/10/2026
+
+Captura do usuário mostra deployment BRX6zfr75, Ready/Latest, Production/Current, domínio creral-piloto-online.vercel.app e prévia da tela de login. GET sem autenticação às2026-10-15T13:14:48.3691857Z respondeu200, URL final https://creral-piloto-online.vercel.app/. Dois assets referenciados diretamente no HTML responderam200: /assets/index-Bsh78feL.js (287622caracteres, SHA256E757580717493541F3385AA1B61439D5F2E55EB5668DF8AFEB69FCEB961F74A5) e /assets/index-CjQnbSBo.css (19394caracteres, SHA256ED0157B862CEC0F73C5A2207C007260C297D0BF90844DDD3A78D0AFAE8743C3E). Hashes calculados do texto UTF8 obtido, não do fluxo comprimido HTTP. JS contém API pública esperada https://creral-piloto-online.onrender.com/api; marcadores listados no arquivo qa/vercel-publico-20261015.json ausentes. Não foram executados JS, login, cadastro ou alteração remota de configuração/dados pelo agente.
+
+Isso confirma publicação da interface/alcance HTTP e configuração pública do bundle observado. NET-01/02/19 continuam com limites: imagem final completa não inspecionada; primeiro admin/login/persistência e celular4G ainda pendentes. Revisão independente somente leitura confirmou fluxo seguinte: usuário registra pessoalmente conta Marco; conferênciaID/email somente leitura; autorização explícita da ação concreta de bootstrap; login e teste real fora da LAN. Fonte/código/testes não mudaram e nenhuma suíte histórica foi repetida.
+
 ## Render — Live e consulta pública protegida,15/10/2026
 
 Captura fornecida pelo usuário mostra Deploy succeeded | Live, duração2m13s, deploy manual15/10/2026 às09:47:55GMT-3, fontec496d91. Em seguida, consulta real somente leitura GET https://creral-piloto-online.onrender.com/api/usuarios/me, sem credenciais e com Origin https://creral-piloto-online.vercel.app, às2026-10-15T12:53:06.7229013Z: HTTP401, Access-Control-Allow-Origin idêntico e URL HTTPS final preservada. Arquivo qa/render-publico-20261015.json contém somente metadados públicos da consulta; corpo não foi registrado. Isso comprova alcance da API protegida e CORS nesse GET, sem alegar fluxo autorizado, navegador/4G ou inspeção completa da imagem.
