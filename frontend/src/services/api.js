@@ -9,7 +9,7 @@ export class ApiError extends Error {
     }
 }
 
-async function requisicao(caminho, { token, method = "GET", dados, signal, validar } = {}) {
+async function requisicao(caminho, { token, method = "GET", dados, signal, validar, validarTexto } = {}) {
     const headers = {};
     if (token) headers.Authorization = `Bearer ${token}`;
     if (dados !== undefined) headers["Content-Type"] = "application/json";
@@ -26,12 +26,12 @@ async function requisicao(caminho, { token, method = "GET", dados, signal, valid
     }
 
     if (resposta.status === 204) {
-        if (validar) throw new ApiError(ERRO_COMUNICACAO, resposta.status);
+        if (validar || validarTexto) throw new ApiError(ERRO_COMUNICACAO, resposta.status);
         return;
     }
     let corpo;
     try {
-        corpo = await resposta.json();
+        corpo = resposta.ok && validarTexto ? await resposta.text() : await resposta.json();
     } catch {
         if (resposta.ok) throw new ApiError(ERRO_COMUNICACAO, resposta.status);
     }
@@ -39,6 +39,7 @@ async function requisicao(caminho, { token, method = "GET", dados, signal, valid
         throw new ApiError(corpo?.erro || "Não foi possível concluir a operação.", resposta.status);
     }
     if (validar && !validar(corpo, resposta.status)) throw new ApiError(ERRO_COMUNICACAO, resposta.status);
+    if (validarTexto && !validarTexto(corpo, resposta.status)) throw new ApiError(ERRO_COMUNICACAO, resposta.status);
     return corpo;
 }
 
@@ -153,15 +154,19 @@ function edicaoConfirmada(resposta, id, anterior, enviados, status) {
     return Object.entries(campos).every(([campo, valor]) => demanda[campo] === valor);
 }
 
-async function autenticar(caminho, dados) {
-    const resposta = await requisicao(caminho, { method: "POST", dados });
-    if (!resposta || typeof resposta !== "object" || Array.isArray(resposta)
-        || typeof resposta.token !== "string" || !resposta.token.trim()
-        || !Number.isInteger(resposta.id) || resposta.id <= 0
-        || typeof resposta.nome !== "string" || typeof resposta.email !== "string"
-        || (resposta.setor !== null && typeof resposta.setor !== "string")) {
-        throw new ApiError(ERRO_COMUNICACAO, 200);
-    }
+function sessaoValida(resposta) {
+    return resposta && typeof resposta === "object" && !Array.isArray(resposta)
+        && typeof resposta.token === "string" && !!resposta.token.trim()
+        && Number.isInteger(resposta.id) && resposta.id > 0
+        && typeof resposta.nome === "string" && typeof resposta.email === "string"
+        && (resposta.setor === null || typeof resposta.setor === "string");
+}
+
+async function autenticar(caminho, dados, aceitarPendencia = false) {
+    const resposta = await requisicao(caminho, { method: "POST", dados,
+        validar: (corpo, status) => status === 200 && sessaoValida(corpo)
+            || aceitarPendencia && status === 202 && camposExatos(corpo, ["estado", "mensagem"])
+                && corpo.estado === "PENDENTE" && corpo.mensagem === "Cadastro aguardando aprovação do administrador." });
     return resposta;
 }
 
@@ -170,7 +175,26 @@ export function login(email, senha) {
 }
 
 export function cadastrarUsuario(usuario) {
-    return autenticar("/usuarios/cadastro", usuario);
+    return autenticar("/usuarios/cadastro", usuario, true);
+}
+
+export function listarCadastrosPendentes(token, options = {}) {
+    return requisicao("/administracao/cadastros/pendentes", { token, signal: options.signal,
+        validar: (lista, status) => status === 200 && Array.isArray(lista) && lista.every((conta, i) =>
+            camposExatos(conta, ["id", "nome", "setor", "email"]) && idValido(conta.id)
+            && typeof conta.nome === "string" && textoOuNull(conta.setor) && typeof conta.email === "string"
+            && (i === 0 || lista[i - 1].id < conta.id)) });
+}
+
+export function aprovarCadastro(token, id) {
+    return requisicao(`/administracao/cadastros/${id}/aprovar`, { token, method: "POST",
+        validar: (resposta, status) => status === 200 && camposExatos(resposta, ["id", "estado"])
+            && idValido(resposta.id) && resposta.id === id && resposta.estado === "APROVADO" });
+}
+
+export function encerrarSessao(token) {
+    return requisicao("/usuarios/logout", { token, method: "POST",
+        validarTexto: (resposta, status) => status === 200 && resposta === "Logout realizado com sucesso." });
 }
 
 export function buscarUsuarioLogado(token) {
