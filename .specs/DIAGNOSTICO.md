@@ -1,5 +1,9 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Render — barra final confirmada na origem em15/10/2026
+
+**Incluído no diagnóstico — causa confirmada, correção pendente de execução.** Após repetição do erro validarOrigem às12:27:59Z, usuário copiou o valor salvo: https://creral-piloto-online.vercel.app/. A barra final cria caminho /, recusado pela regra de origem exata. Correção pontual: remover somente a última barra, deixando https://creral-piloto-online.vercel.app, e Save and deploy. Nenhuma alteração de código ou teste repetido; aguardar resultado real do novo deploy antes de marcar funcionamento confirmado.
+
 ## Render — endereço identificado na tela em15/10/2026
 
 **Incluído no diagnóstico — publicação em andamento.** Captura do usuário mostra Web Service creral-piloto-online, Docker/Free, fonte privada/main c496d91 e URL https://creral-piloto-online.onrender.com. Status continua Failed; não comprova serviço disponível nem correção da origem. Nome real difere do nome sugerido creral-api-piloto; usar o nome mostrado na conta. Após Live, VITE_API_URL será https://creral-piloto-online.onrender.com/api. Ação atual: abrir navegação Environment, corrigir Value de CRERAL_FRONTEND_ORIGIN para https://creral-piloto-online.vercel.app e Save and deploy. Sem mudanças produtivas ou testes repetidos.
