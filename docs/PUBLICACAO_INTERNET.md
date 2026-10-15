@@ -16,6 +16,8 @@ Não envie senha do banco, senha das contas ou códigos de autenticação pelo c
 
 O endereço final será o endereço HTTPS da interface na Vercel. Os colegas não precisarão instalar Java, MySQL ou Workbench no celular/computador.
 
+Usar diretamente **https://creral-piloto-online.vercel.app** para cadastrar/entrar e compartilhar com os colegas. A API permite somente essa origem de produção. URLs específicas de deploy/branch exibidas pelo painel Vercel são origens diferentes e podem falhar na comunicação; probe real confirmou403 para a URL alternativa usada na tentativa de login do usuário. Manter o domínio oficial, sem ampliar a lista de origens.
+
 ## Fonte e endereços antes da publicação
 
 Há um application.properties local já versionado no repositório original. O .dockerignore impede que ele entre na imagem, mas não o remove do histórico Git. A cópia de publicação já foi preparada e enviada ao repositório privado separado, sem esse arquivo, .git, .env, certificados, node_modules, target, dist ou dados locais. O histórico original não foi enviado. Manter essas exclusões nas próximas atualizações.
