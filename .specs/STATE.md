@@ -326,7 +326,7 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Feature / branch:** acesso-piloto, testes, preparacao de rede. Contexto em features/acesso-piloto/context.md.
 - **Completed:** revisao-visual440bb6e/7VIS e graficos56fd985/9GRAF verificados. Administrador operacional Marco Polinski,id2,marcoimmarquin@gmail.com,promovido no MySQL local sistema;1conta alterada e exatamente1admin confirmado por leitura e agente independente. Incluido no diagnostico.
 - **Confirmed:** estudantes primeiro,empregados depois;mesma rede inicialmente;estePCcentral. Demais computadores navegador. Sem terceiro papelGERENTE decidido.
-- **Next:** preparar proposta de acessoLAN persistenteMySQL,endereco do servidor,sem confundir previewH2temporario com piloto;rede ainda nao configurada/verificada. Aceitacao humana pendente.
+- **Next:** proposta acesso-piloto/spec.md pronta,8PIL,validate_spec strict0;pergunta de confirmacao do modo piloto enviada,aguardando resposta. Depois implementar tres passos e Verifier focado. Rede ainda nao configurada/verificada;nao repetir perguntas de publico/rede/servidor/email. Aceitacao humana pendente.
 - **Consent:** AD039 autoriza e concluiu somente UPDATEpapel da conta exata no banco local;nao autoriza outras alteracoes/migracoes de banco,outrascontas ou publicacaoInternet. Nao repetir pedido do e-mail ou da maquina/rede.
 - **Environment:** MySQL8.0.43,localhost3306/sistema,DESKTOP-ESO6LOG;servicos existentes8081java e5173interface preservados. Credenciais nao registrar emdocs/logs.
 - **Restrictions:** AD035 testesfocados/saida compacta,nao refazer suites completas ou entregas aprovadas. Sem push/deployInternet/upgrades/reset/stash/clean. Gerados existentes preservados.
