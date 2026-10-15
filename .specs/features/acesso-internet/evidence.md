@@ -111,3 +111,21 @@ Check A, assertions em frontend/src/services/apiInternet.test.js:
 | NET-13/14/17 rede | :96 rejeição status0; :97 `toHaveBeenCalledTimes(1)` junto ao erro | Sem retry nem confirmação | Sim |
 
 Check C reverso: :13–21→NET-07/08; :29–37→NET-08/09/13; :42–52→NET-10/14; :57–71/76–77→NET-11/14; :82–90→NET-17; :96–97→NET-13/14/17. Todos mantidos/necessários; chamadas provam transporte e assertions de resultado/erro provam outcomes. Adequação A/B/C/D aprovada, guidelines tasks/AD-035/Vitest existentes. Sem desvio; Implementing até Verifier.
+
+## T6 — espera no cadastro
+
+Premissas:202 confirmado mostra espera sem onLogin/storage;200 local mantém fluxo. Arquivos: Cadastro.jsx e CadastroInternet.test.jsx. Sucesso: formulário bloqueia duplo envio, erros preservam campos, pendência oferece voltar para login por teclado.
+
+Gate Quick `node node_modules/vitest/vitest.mjs run src/pages/CadastroInternet.test.jsx`, fonte ressincronizada na cópia TEMP. Tentativa1:6/6, zero falhas/skips. Total autor8 invocações. Nenhum teste antigo alterado/excluído/ignorado.
+
+Check A, assertions em frontend/src/pages/CadastroInternet.test.jsx:
+
+| Critério | Assertion file:line | Outcome do spec | Coberto |
+| --- | --- | --- | --- |
+| NET-13 espera sem entrada/storage | :23 `textContent.toBe(pendente.mensagem)`; :24 título; :25 onLogin não chamado; :26 token/usuario `toBe("anterior")` |202 não entra nem grava sessão | Sim |
+| NET-13 dados e retorno | :27 corpo `toEqual(dados)`/1 envio; :29 voltar1 por Enter | Cadastro/retorno utilizáveis | Sim |
+| NET-13 duplicação | :37 fetch1; :38–39 controles disabled true; :41 espera sem login | Envios simultâneos bloqueados | Sim |
+| NET-13 rede/HTTP/malformado | :50 alert exato; :52 campos `toBe(valor)`; :53 status ausente/onLogin não chamado; :54 cache null; :55 fetch1; :56 desbloqueado | Erro conserva campos sem retry/sessão | Sim |
+| NET-07 local | :63 onLogin `toHaveBeenCalledWith(sessao)`; :64 sem tela pendente/cache |200 local preservado | Sim |
+
+Check C reverso: :23–29→NET-13; :37–41→NET-13; :50–56→NET-13; :63–64→NET-07. Todos necessários/mantidos. Adequação A/B/C/D aprovada; outcomes com valores/cache e transporte, guidelines tasks/AD-035/Vitest existentes. Sem desvio; Implementing até Verifier.
