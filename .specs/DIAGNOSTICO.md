@@ -1,5 +1,9 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Online — primeiro administrador ainda pendente em15/10/2026
+
+**Incluído no diagnóstico — consulta real somente leitura.** Após usuário perguntar por e-mail de administrador para testar, MySQL Aiven/defaultdb consultado com VERIFY_IDENTITY/CA em transação READ ONLY, sem selecionar senhas: total_usuarios0, administradores0, administradores_aprovados0. Contas locais Marco/admin não foram copiadas, conforme base nova escolhida. Próximo passo usuário cadastrar Marco Polinski/marcoimmarquin@gmail.com no site e informar espera de aprovação; depois conferir ID/email e autorizar bootstrap concreto. Nenhuma conta/permissão alterada nesta consulta.
+
 ## Vercel — interface publicada e conferida em15/10/2026
 
 **Concluído e verificado — tudo ok: publicação da interface e da API. Incluído no diagnóstico.** Captura do usuário mostra Ready/Latest, Production/Current e domínio creral-piloto-online.vercel.app. Consulta pública real às13:14:48Z retornou HTTP200 para https://creral-piloto-online.vercel.app e seus dois assets JS/CSS. JS publicado contém https://creral-piloto-online.onrender.com/api; marcadores localhost8081/api, jdbc:mysql, CRERAL_DATABASE_PASSWORD, AVNS_, BEGIN PRIVATE KEY e BEGIN CERTIFICATE ausentes. Metadados/hashes em features/acesso-internet/qa/vercel-publico-20261015.json. API protegida já conferida401 sem sessão/CORS exato. Não equivale a login autorizado, inspeção completa da imagem ou teste humano4G.
