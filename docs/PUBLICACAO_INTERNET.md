@@ -98,6 +98,8 @@ Após a estrutura estar pronta, iniciar o serviço Render e conferir logs de ini
 
 ## Primeiro administrador e equipe
 
+**Concluído em15/10/2026:** conta online ID1/Admin/admin@gmail.com aprovada e promovida pelo preparador autorizado; leitura independente confirmou exatamente1admin aprovado e0outrosadmins. Não repetir o bootstrap dessa conta. Agora entrar pelo domínio oficial com a senha definida no cadastro e validar o uso real. Os passos abaixo permanecem como referência operacional.
+
 Decisão atual AD-048: somente admin@gmail.com será administrador online por enquanto. O usuário deve cadastrar pessoalmente essa conta e definir sua senha no site, sem enviá-la pelo chat. A conta começa pendente e como funcionário; cadastro não devolve ID nem concede administração por e-mail. O usuário já autorizou sua aprovação/promoção depois da conferênciaID/email e do cadastro pessoal. Marco não será promovido online nesta etapa.
 
 Conferir cada conta no MySQL Aiven com uma consulta somente leitura. Por exemplo, no PowerShell, usando os mesmos dbHost/dbPort/dbUser/caPem preenchidos acima, fornecer a senha de forma oculta e restaurar a variável ao terminar:
