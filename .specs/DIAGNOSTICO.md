@@ -1,5 +1,11 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Vercel — interface publicada e conferida em15/10/2026
+
+**Concluído e verificado — tudo ok: publicação da interface e da API. Incluído no diagnóstico.** Captura do usuário mostra Ready/Latest, Production/Current e domínio creral-piloto-online.vercel.app. Consulta pública real às13:14:48Z retornou HTTP200 para https://creral-piloto-online.vercel.app e seus dois assets JS/CSS. JS publicado contém https://creral-piloto-online.onrender.com/api; marcadores localhost8081/api, jdbc:mysql, CRERAL_DATABASE_PASSWORD, AVNS_, BEGIN PRIVATE KEY e BEGIN CERTIFICATE ausentes. Metadados/hashes em features/acesso-internet/qa/vercel-publico-20261015.json. API protegida já conferida401 sem sessão/CORS exato. Não equivale a login autorizado, inspeção completa da imagem ou teste humano4G.
+
+Próximo passo: usuário cadastrar pessoalmente Marco Polinski/marcoimmarquin@gmail.com na interface online, com senha definida por ele; estado esperado aguardando aprovação. Base online nova não recebeu contas locais. Depois conferir nome/ID/e-mail por leitura e obter autorização explícita para aprovar e promover essa conta concreta pelo preparador. Manter admin@gmail.com para procedimento próprio quando cadastrado. Recomendado abrir/cadastrar no celular com Wi-Fi desligado para iniciar observação externa; registrar resultado humano separadamente. Internet integral ainda aguarda conta/admin/login, uso persistente e celular em dados móveis. Nenhuma suíte repetida ou alteração produtiva nesta conferência.
+
 ## Render — deploy Live e API pública conferidos em15/10/2026
 
 **Concluído e verificado — tudo ok: deploy da API e consulta sem sessão. Incluído no diagnóstico.** Captura do usuário mostra Deploy succeeded | Live, fonte c496d91, deploy manual às09:47:55GMT-3. Consulta somente leitura real às12:53:06Z a https://creral-piloto-online.onrender.com/api/usuarios/me, sem autenticação, respondeu HTTP401 e Access-Control-Allow-Origin exato https://creral-piloto-online.vercel.app. Prova em features/acesso-internet/qa/render-publico-20261015.json. Falha de origem superada no deploy observado; nenhum código alterado ou suíte repetida.
