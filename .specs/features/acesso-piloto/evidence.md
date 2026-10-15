@@ -1,5 +1,11 @@
 # Evidências operacionais do piloto
 
+## Atualização operacional posterior — segundo admin e rede física
+
+14/10/2026. **Concluído e verificado — tudo ok; incluído no diagnóstico:** usuário indicou admin@gmail.com como outro administrador. SELECT dirigido no banco local sistema/3306 identificou ID3, nome Admin, e-mail exato, FUNCIONARIO e um administrador existente. Transação com SELECT FOR UPDATE e UPDATE somente de papel, limitado por ID3, BINARY email, BINARY nome e papel anterior FUNCIONARIO. ROW_COUNT=1, COMMIT; leitura posterior confirmou ID2/Marco e ID3/Admin ADMINISTRADOR, contagem dois. Auditor independente repetiu somente SELECT e confirmou ambos e total dois. URL local exata validada antes de conectar; credenciais só em memória/ambiente temporário restaurado em finally, sem senha em argumentos ou evidência. Nenhuma outra conta/campo/schema alterado; sem novo teste automatizado para operação existente.
+
+O usuário relatou: "testei em um outro computador na mesma rede de wifi e deu certo". Registro como teste humano de conectividade informado, sem inferir teste em celular, ações de negócio ou aceite completo. A pendência anterior de primeiro acesso físico à mesma rede foi satisfeita por esse relato; o relatório de validação técnica abaixo permanece o registro histórico do que o Verifier observou naquele momento. Novo acesso pela internet em discussão em ../acesso-internet/context.md, sem publicação realizada.
+
 ## Fechamento técnico — 14/10/2026
 
 **Concluído e verificado — tudo ok. Incluído no diagnóstico.** T1 d526ccd, T2 62a8ba0 e T3 330d984; oito critérios técnicos Verified no [relatório independente](validation.md). Verifier fresco aprovou seis testes Node, lint e um cenário integrado real em MySQL fictício com dois contextos Edge, reinício e falhas, em 48,7s. Sensor único validate→update detectado pela assertion que recusa falso Piloto pronto em schema vazio; nenhum sobrevivente ou correção obrigatória. Não houve lição nova em PASS limpo.

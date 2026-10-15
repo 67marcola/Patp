@@ -321,12 +321,36 @@ Esclarecimento recebido em 2026-10-04: "projeto" pode designar o gerenciamento o
 - **Date**: 2026-10-14
 - **Status**: active
 
+### AD-040
+- **Decision**: adicionar a conta existente admin@gmail.com como segundo administrador, mantendo Marco.
+- **Reason**: pedido explícito do usuário em 14/10/2026.
+- **Trade-off**: promoção limitada a uma conta do banco local, sem regra automática por e-mail/nome ou replicação para outros bancos.
+- **Scope**: aplicado somente papel de ID3/Admin no MySQL local sistema/3306, com e-mail/nome exatos e papel anterior. ROW_COUNT1, COMMIT; auditor independente confirmou IDs2/3 ADMINISTRADOR, total dois. Cadastro continua FUNCIONARIO.
+- **Date**: 2026-10-14
+- **Status**: active
+
+### AD-041
+- **Decision**: registrar sucesso de acesso por outro computador no mesmo Wi-Fi como teste humano de conectividade relatado pelo usuário.
+- **Reason**: usuário informou explicitamente que testou e funcionou em 14/10/2026.
+- **Trade-off**: confirma conectividade LAN; não infere teste em celular, operações de negócio ou aceite integral dos estudantes.
+- **Scope**: acesso-piloto, fecha pendência do primeiro acesso físico. Evidência é relato humano, separado dos gates automatizados.
+- **Date**: 2026-10-14
+- **Status**: active
+
+### AD-042
+- **Decision**: próximo objetivo é acesso ao sistema por computador/celular em redes externas; usuário perguntou se pode hospedar gratuitamente na Vercel.
+- **Reason**: pedido de evolução explícito após sucesso na LAN em 14/10/2026.
+- **Trade-off**: hospedagem, persistência, política de cadastro externo e migração precisam de definições antes de publicação; gratuidade ainda é uma opção em discussão.
+- **Scope**: acesso-internet/context.md. Manter Java/Spring Boot/MySQL/React. Sem escolha definitiva de provedor, contratação, publicação, migração ou mudança de firewall autorizada por suposição.
+- **Date**: 2026-10-14
+- **Status**: active
+
 ## Handoff
 
-- **Feature / branch:** acesso-piloto, testes. Preparação técnica Concluída e verificada — tudo ok; incluído no diagnóstico. T1 d526ccd, T2 62a8ba0, T3 330d984; oito PIL Verified no validation.md independente.
-- **Completed:** conta Marco Polinski, ID2, marcoimmarquin@gmail.com, promovida e conferida independentemente no MySQL local 3306/sistema, exatamente um admin. Iniciador MySQL persistente, UI/API na mesma origem, schema validate, encerramento Windows e guia entregues.
+- **Feature / branch:** acesso-internet, definição inicial, branch testes. Piloto anterior fechado em 12f2beb (oito PIL Verified); usuário agora confirmou acesso por outro computador no mesmo Wi-Fi.
+- **Completed:** segundo admin admin@gmail.com/ID3/Admin promovido por pedido explícito, somente papel, ROW_COUNT1/COMMIT. Auditor independente confirmou Marco ID2 e Admin ID3 ADMINISTRADOR, total dois no MySQL local sistema. Incluído no diagnóstico. Nenhuma alteração de código ou teste nesta operação.
 - **Gates:** Verifier aprovou seis checks Node, lint e um cenário integrado MySQL fictício/dois contextos Edge/reinício/falhas (48,7s); sensor 1/1 detectado. 4.701 hashes, HEAD e porcelain preservados; scratch removido. Total dez invocações (autor sete, Verifier três), incluindo tentativas/sensor, sem suítes completas. Schema local conferido validate sem web/DML exit0; sem piloto real iniciado.
-- **Next:** iniciar o piloto neste computador e observar acesso de outro computador da mesma rede, seguindo docs/OPERACAO.md; registrar resultado e aceite dos estudantes. Primeiro acesso real ainda precisa ser combinado. Não repetir perguntas de público/rede/máquina/e-mail. Ambiente posterior dos empregados e eventual importação antiga continuam separados.
+- **Next:** explicar opções gratuitas após pergunta sobre Vercel; contexto em acesso-internet/context.md. Recomendação em avaliação: React/Vercel + Java/Render + MySQL/Aiven, limites gratuitos explícitos; containers Vercel também anunciados, mas gratuidade/adequação da API inteira não comprovadas. Escolha de provedores pendente; preparar spec/plano após resolver. Não repetir teste LAN nem perguntas já respondidas. Cadastro externo e transferência de contas/dados exigem definição antes de publicar.
 - **Fixture INACTIVE:** MySQL fictício 33823 encerrado após identidade SQL exata de porta/datadir e mysqladmin shutdown exit0; listener ausente. Datadir TEMP/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql preservado, sem reutilizar PIDs históricos. Harness removeu somente seus schemas/usuários exclusivos. Serviços reais 3306/PID5560, 8081/PID5184 e 5173/PID23848 permaneceram ativos.
 - **Environment:** Ethernet 192.168.0.102, porta padrão 8082 para futuro piloto; confirmar IP via --listar. Comando não muda firewall/roteador. Gerado preexistente frontend/node_modules/.vite/deps/_metadata.json preservado e fora do commit. Credenciais nunca nos logs.
 - **Restrictions:** AD-035 testes focados/saída compacta; sem baseline/fullsuite. Não alterar outros dados/schema real/firewall/roteador ou publicar Internet. Commits locais autorizados; sem push/upgrades/reset/stash/clean. Próxima retomada parte deste fechamento técnico, sem refazer entregas comprovadas.
