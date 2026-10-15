@@ -3,6 +3,7 @@ package com.patp.sistema.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.patp.sistema.exception.ApiException;
 import com.patp.sistema.model.PapelUsuario;
@@ -14,13 +15,16 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final AprovacaoCadastroService aprovacao;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, AprovacaoCadastroService aprovacao) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
+        this.aprovacao = aprovacao;
     }
 
     // Cadastrar usuário
+    @Transactional
     public Usuario cadastrar(Usuario usuario) {
 
         if (usuario.getId() != null) {
@@ -39,7 +43,10 @@ public class UsuarioService {
 
         usuario.setSenha(senhaCriptografada);
 
-        return usuarioRepository.save(usuario);
+        Usuario salvo = usuarioRepository.save(usuario);
+        usuarioRepository.flush();
+        aprovacao.registrarPendente(salvo.getId());
+        return salvo;
     }
 
     // Login
@@ -63,6 +70,7 @@ public class UsuarioService {
             );
         }
 
+        aprovacao.exigirAprovado(usuario.getId());
         return usuario;
     }
 
