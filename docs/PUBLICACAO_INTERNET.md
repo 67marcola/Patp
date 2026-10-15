@@ -2,7 +2,7 @@
 
 **Estado em15/10/2026:** preparação técnica local implementada e verificada independentemente. Usuário confirmou as três contas (Vercel,Render,Aiven). Ainda não existe URL publicada desta entrega; criação/configuração dos serviços, construção da imagem no Render e conferência4G permanecem pendentes.
 
-**Atualização operacional:** MySQL Aiven criado e estrutura de oito tabelas aplicada com autorização explícita, todas vazias e validadas pelo Spring Boot. Não executar novamente o bloco Estrutura nesse banco. Ainda sem contas/admins online. Próximo passo: repositório privado separado com a cópia preparada e configuração Render/Vercel. O navegador do Codex abriu a página GitHub para continuação e aguarda login do usuário.
+**Atualização operacional:** MySQL Aiven criado e estrutura de oito tabelas aplicada com autorização explícita, todas vazias e validadas pelo Spring Boot. Não executar novamente o bloco Estrutura nesse banco. Ainda sem contas/admins online. Fonte enviada com autorização ao repositório privado [67marcola/-creral-piloto-online.](https://github.com/67marcola/-creral-piloto-online.), main c496d91b495dea5b2fa2fa299c337cb15c375377.139/139 hashes conferidos e README preservado; login no navegador do Codex não é necessário para o conectorGitHub. Próximo passo: importar na Vercel com raiz frontend, obter domínio de produção e configurar Render/Vercel conforme abaixo.
 
 O caminho escolhido é React/Vercel, Java e Spring Boot/Render e MySQL/Aiven, com base nova de testes. As contas, quadros e dados deste computador não serão enviados para esse banco.
 
@@ -18,9 +18,9 @@ O endereço final será o endereço HTTPS da interface na Vercel. Os colegas nã
 
 ## Fonte e endereços antes da publicação
 
-Há um application.properties local já versionado no repositório original. O .dockerignore impede que ele entre na imagem, mas não o remove do histórico Git. Antes de enviar código aos provedores, preparar uma cópia de publicação sem esse arquivo, .git, .env, certificados, node_modules, target, dist ou dados locais. Usar um repositório privado novo e conferir a cópia e os segredos antes do primeiro envio. Não publicar o histórico original. Este procedimento ainda será acompanhado; nenhum push foi realizado nesta entrega.
+Há um application.properties local já versionado no repositório original. O .dockerignore impede que ele entre na imagem, mas não o remove do histórico Git. A cópia de publicação já foi preparada e enviada ao repositório privado separado, sem esse arquivo, .git, .env, certificados, node_modules, target, dist ou dados locais. O histórico original não foi enviado. Manter essas exclusões nas próximas atualizações.
 
-Uma cópia local já está preparada em deploy/internet/private/publicacao-6854ab28c5e8421d9412aa7c7e55e2f8.zip (139 arquivos, SHA256 BED19025F5FD8FB87529B2E8F2C721352CA0542F63F57B5C33731CB5CBCE20A6). A pasta é ignorada pelo Git. Conferência local encontrou zero arquivos proibidos e nenhuma ocorrência do valor da senha local nos arquivos de texto. Esse ZIP contém somente a fonte selecionada, sem histórico Git; não foi enviado a nenhum provedor. Gerar outra cópia se o código mudar antes da publicação.
+Uma cópia local está preservada em deploy/internet/private/publicacao-6854ab28c5e8421d9412aa7c7e55e2f8.zip (139 arquivos, SHA256 BED19025F5FD8FB87529B2E8F2C721352CA0542F63F57B5C33731CB5CBCE20A6). A pasta é ignorada pelo Git. Conferência local encontrou zero arquivos proibidos e nenhuma ocorrência do valor da senha local nos arquivos de texto. Os139arquivos dessa fonte, sem histórico Git, foram enviados pelo conector e conferidos por hash no GitHub. Gerar outra cópia se o código mudar antes da publicação.
 
 Na cópia de publicação conservar sistema/pom.xml e sistema/src/main (exceto application.properties), frontend/src, frontend/public, frontend/index.html, frontend/package.json, frontend/package-lock.json, frontend/vite.config.js, frontend/vercel.json, deploy/internet, .dockerignore e render.yaml. Os provedores instalarão as dependências.
 
