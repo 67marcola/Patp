@@ -1,5 +1,9 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Internet — progresso técnico em 14/10/2026
+
+**Em implementação, ainda sem publicação:** T1 concluída localmente, política JDBC opt-in sem mudança JPA/DDL local. Aprovação repetida/concorrente preserva primeira autoria/hora e dados. Gate focado H2 em cópia TEMP: 5/5, uma tentativa/invocação, nenhum teste antigo alterado. [Evidências](features/acesso-internet/evidence.md). T2–T11 e Verifier pendentes; acesso por dados móveis ainda não observado.
+
 ## Segundo administrador e teste pela rede — 14/10/2026
 
 **Concluído e verificado — tudo ok. Incluído no diagnóstico:** conta existente Admin, admin@gmail.com, ID3 no MySQL local sistema, promovida de FUNCIONARIO para ADMINISTRADOR por pedido explícito do usuário. Alterado somente papel, em transação limitada por ID, e-mail e nome exatos e papel anterior; uma conta alterada. Leitura posterior e auditoria independente confirmaram Marco (ID2) e Admin (ID3) como administradores, total de dois. Novos cadastros continuam FUNCIONARIO. [Evidência operacional](features/acesso-piloto/evidence.md).

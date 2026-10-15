@@ -108,12 +108,12 @@ O piloto funciona em outro computador do mesmo Wi-Fi, conforme relato do usuári
 | NET-04 | P1: Outras redes | Specify | Pending |
 | NET-05 | P1: Outras redes | Specify | Pending |
 | NET-06 | P1: Outras redes | Specify | Pending |
-| NET-07 | P1: Outras redes | Specify | Pending |
-| NET-08 | P1: Autorizar contas | Specify | Pending |
+| NET-07 | P1: Outras redes | Execute | Implementing |
+| NET-08 | P1: Autorizar contas | Execute | Implementing |
 | NET-09 | P1: Autorizar contas | Specify | Pending |
-| NET-10 | P1: Autorizar contas | Specify | Pending |
-| NET-11 | P1: Autorizar contas | Specify | Pending |
-| NET-12 | P1: Autorizar contas | Specify | Pending |
+| NET-10 | P1: Autorizar contas | Execute | Implementing |
+| NET-11 | P1: Autorizar contas | Execute | Implementing |
+| NET-12 | P1: Autorizar contas | Execute | Implementing |
 | NET-13 | P1: Autorizar contas | Specify | Pending |
 | NET-14 | P1: Autorizar contas | Specify | Pending |
 | NET-15 | P1: Autorizar contas | Specify | Pending |

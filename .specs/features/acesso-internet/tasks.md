@@ -63,7 +63,7 @@ T7 → T8
 **Requirement**: NET-07,NET-08,NET-10,NET-11,NET-12
 **Tools**: shell/arquivos; skill tlc-spec-driven.
 **Done when**:
-- [ ] Política local não acessa tabela; online cria/verifica pendência e aprova preservando papel/autoria/hora em repetição/concorrência; testes de estado/rollback e gate focado passam.
+- [x] Política local não acessa tabela; online cria/verifica pendência e aprova preservando papel/autoria/hora em repetição/concorrência; testes de estado/rollback e gate focado passam.
 **Tests**: integration — AprovacaoCadastroServiceInternetTests; asserts de estado, não apenas chamadas.
 **Gate**: Quick
 
