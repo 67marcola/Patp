@@ -6,7 +6,7 @@
 
 **Acesso por outro computador na mesma rede: confirmado pelo usuário. Incluído no diagnóstico.** Em 14/10/2026, o usuário informou que testou em outro computador no mesmo Wi-Fi e funcionou. Esse relato encerra a pendência de confirmar a conexão entre computadores. Não foram informados detalhes sobre operações realizadas, teste em celular ou aceite de todos os fluxos pelos estudantes.
 
-**Próximo requisito em definição:** acesso por computador/celular em outras redes. Usuário perguntou sobre gratuidade na Vercel; proposta de hospedagem e banco ainda não escolhida. [Contexto e opções](features/acesso-internet/context.md). Nenhuma publicação, contratação ou migração para nuvem realizada.
+**Acesso por dados móveis em implementação — incluído no diagnóstico:** usuário escolheu Vercel + Render + Aiven, base nova de testes e aprovação de novos cadastros por administrador; pediu continuar após apresentação do fluxo e reforçou o uso no celular com dados móveis. [Spec com 20 critérios](features/acesso-internet/spec.md), [design](features/acesso-internet/design.md) e [11 tarefas](features/acesso-internet/tasks.md) preparados. Sessão online8h, aprovação individual e primeiro admin por procedimento explícito; piloto local preservado. Usuário tem somente Vercel e foi orientado a criar Render/Aiven grátis. Nenhuma publicação ou URL4G disponível ainda; não marcar Internet concluída antes da prova correspondente.
 
 ## Preparação técnica do piloto — concluída em 14/10/2026
 
@@ -287,7 +287,7 @@ Incluído no diagnóstico em12/10/2026: T15 Implemented,cliente de atividade com
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
 | Aceitação dos fluxos pelos estudantes | Conexão de outro computador no mesmo Wi-Fi confirmada pelo usuário em 14/10/2026. Falta registrar a avaliação dos fluxos de trabalho e uso em celular. |
-| Acesso pela internet | Novo pedido em 14/10/2026: computador/celular fora da mesma rede. Hospedagem e banco em definição, com interesse em opção gratuita/Vercel; nenhuma publicação realizada. |
+| Acesso pela internet | Vercel + Render + Aiven escolhidos, base nova e cadastros aprovados por admin. Preparo local autorizado e tarefas em execução; faltam contas Render/Aiven, publicação e acesso real com dados móveis. |
 | Preparação posterior para os empregados | Definir ambiente definitivo e eventual importação de registros antigos, se houver. O administrador inicial já foi configurado somente no banco local; nenhuma migração do banco da empresa foi executada. |
 
 ## Testes já registrados
@@ -304,7 +304,7 @@ Os números abaixo são registros das execuções aprovadas, não uma nova execu
 
 ## Onde acompanhar o projeto
 
-- [STATE.md](STATE.md): decisões AD-001 a AD-042, regra permanente de acompanhamento e ponto de retomada.
+- [STATE.md](STATE.md): decisões AD-001 a AD-045, regra permanente de acompanhamento e ponto de retomada.
 - [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-arquivamento está concluída tecnicamente, com aceitação humana pendente.
 - [OPERACAO.md](../docs/OPERACAO.md): orientações de execução e verificação com dados fictícios.
 
