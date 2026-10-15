@@ -1,5 +1,9 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Vercel — domínio informado em15/10/2026
+
+**Incluído no diagnóstico — publicação em andamento.** Usuário informou creral-piloto-online.vercel.app após consultar a Vercel. Origem a configurar no Render: https://creral-piloto-online.vercel.app, sem barra final. Isso identifica o destino da interface; não comprova build ou sistema disponível. Próximo passo: Web Service Docker/Free no Render com fonte privada/main, Dockerfile deploy/internet/Dockerfile, contexto raiz, variáveis Aiven e Secret File aiven-ca.pem. Depois usar a URL real Render com/api em VITE_API_URL e repetir build Vercel. Sem mudança produtiva ou teste repetido.
+
 ## Vercel — primeiro build recebido em15/10/2026
 
 **Incluído no diagnóstico — publicação em andamento.** Log fornecido pelo usuário confirma clone da main/c496d91 e instalação das dependências. Build online recusado pela guarda VITE_API_URL HTTPS pública terminando em/api, conforme configuração existente. O log não informa o valor da variável nem o domínio Vercel; não comprova build concluído ou acesso público. Aviso npm cache-dir não é a causa da interrupção. Sem alteração de código ou testes repetidos. Próximo passo: obter domínio de produção em Settings → Domains, configurar a API no Render e então informar sua URL real em VITE_API_URL na Vercel para novo deploy.

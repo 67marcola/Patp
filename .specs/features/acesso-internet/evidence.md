@@ -1,5 +1,9 @@
 # Evidências — acesso pela internet
 
+## Vercel — domínio fornecido pelo usuário,15/10/2026
+
+Usuário enviou creral-piloto-online.vercel.app. Origem completa a configurar: https://creral-piloto-online.vercel.app, sem barra final/caminho. Domínio é relato do usuário, sem inferir disponibilidade da aplicação; primeiro build recusado ainda é a única evidência de execução Vercel. Conferência somente leitura de render.yaml/Dockerfile/entrypoint confirmou Docker/Free, raiz do contexto,6variáveis e CA em /etc/secrets/aiven-ca.pem. Documentação Render consultada confirmou importação de repo privado via Git Provider, Dockerfile Path e variáveis/Secret Files. Nenhum recurso/deploy criado pelo agente ou teste repetido; próximo passo é configuração no painel Render pelo usuário em sua própria conta.
+
 ## Vercel — log humano do primeiro build,15/10/2026
 
 Usuário forneceu log08:30:07–08:30:12: clone main/c496d91 do repositório privado, instalação98pacotes concluída; comando VITE_MODO_INTERNET=true npm run build encerrou1 com “Build internet recusado. Informe VITE_API_URL HTTPS pública terminando em /api, sem credenciais, query ou fragmento.” Conferência somente leitura de frontend/vite.config.js confirmou a origem da recusa; frontend/vercel.json força modo internet. O log não distingue variável ausente de valor inválido e não contém domínio de produção. Warning npm cache-dir precede a instalação bem-sucedida e não é a exceção que encerra o build. Nenhum teste repetido ou código alterado. Solicitado domínio Settings → Domains para configuração exata CRERAL_FRONTEND_ORIGIN no Render; URL real da API depois alimentará VITE_API_URL e novo build. NET-01/02/19 continuam pendentes no alcance externo.

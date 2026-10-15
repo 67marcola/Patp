@@ -24,14 +24,14 @@ Uma cópia local está preservada em deploy/internet/private/publicacao-6854ab28
 
 Na cópia de publicação conservar sistema/pom.xml e sistema/src/main (exceto application.properties), frontend/src, frontend/public, frontend/index.html, frontend/package.json, frontend/package-lock.json, frontend/vite.config.js, frontend/vercel.json, deploy/internet, .dockerignore e render.yaml. Os provedores instalarão as dependências.
 
-Criar o projeto Vercel com pasta raiz frontend e anotar o domínio de produção HTTPS. Esse endereço precisa ser conhecido antes de iniciar a API: CRERAL_FRONTEND_ORIGIN é obrigatório. Se um primeiro build ainda não tiver API configurada, a recusa é esperada; configurar os endereços abaixo e publicar novamente depois.
+Projeto Vercel criado com pasta raiz frontend; usuário informou domínio https://creral-piloto-online.vercel.app em15/10/2026. Primeiro build recusou VITE_API_URL ausente/inválida conforme esperado; ainda sem API real configurada. Esse domínio deve ser usado no CRERAL_FRONTEND_ORIGIN obrigatório do Render. Depois de obter URL real da API, configurar VITE_API_URL e publicar novamente a interface.
 
 | Lugar | Configuração |
 | --- | --- |
 | Render Web Service, plano Free | Runtime Docker; Dockerfile deploy/internet/Dockerfile; contexto raiz do projeto. render.yaml fornece os mesmos defaults. |
 | Ambiente protegido Render | CRERAL_DATABASE_HOST, CRERAL_DATABASE_PORT, CRERAL_DATABASE_NAME, CRERAL_DATABASE_USERNAME, CRERAL_DATABASE_PASSWORD, fornecidos pelo Aiven. Nome usual defaultdb, conferir no painel. |
 | Secret File Render | Nome aiven-ca.pem, conteúdo da CA pública baixada do Aiven; fica em /etc/secrets/aiven-ca.pem. Nunca enviar a chave privada. |
-| Origem permitida Render | CRERAL_FRONTEND_ORIGIN=https://SEU-PROJETO.vercel.app, sem barra final/caminho. Somente esse domínio de produção será liberado. |
+| Origem permitida Render | CRERAL_FRONTEND_ORIGIN=https://creral-piloto-online.vercel.app, sem barra final/caminho. Domínio informado pelo usuário; somente essa origem de produção será liberada. |
 | Build Vercel | VITE_API_URL=https://SUA-API.onrender.com/api e VITE_MODO_INTERNET=true. vercel.json força o modo internet. Nenhuma variável de banco na Vercel. |
 
 O Render define PORT e termina o HTTPS. O processo Java escuta em0.0.0.0:PORT. Seu entrypoint constrói a URL JDBC com TLS VERIFY_IDENTITY e importa a CA para PKCS12 temporário; não precisa fornecer CRERAL_DATABASE_URL no painel. Configuração ausente/insegura ou estrutura incompatível impede a inicialização, sem usar o banco local. Docker não está instalado neste computador: a construção da imagem no Render ainda precisa ser observada.
