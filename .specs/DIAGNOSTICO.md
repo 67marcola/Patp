@@ -1,5 +1,9 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Render — endereço identificado na tela em15/10/2026
+
+**Incluído no diagnóstico — publicação em andamento.** Captura do usuário mostra Web Service creral-piloto-online, Docker/Free, fonte privada/main c496d91 e URL https://creral-piloto-online.onrender.com. Status continua Failed; não comprova serviço disponível nem correção da origem. Nome real difere do nome sugerido creral-api-piloto; usar o nome mostrado na conta. Após Live, VITE_API_URL será https://creral-piloto-online.onrender.com/api. Ação atual: abrir navegação Environment, corrigir Value de CRERAL_FRONTEND_ORIGIN para https://creral-piloto-online.vercel.app e Save and deploy. Sem mudanças produtivas ou testes repetidos.
+
 ## Render — causa da falha identificada em15/10/2026
 
 **Incluído no diagnóstico — publicação em andamento.** Usuário informou preenchimento da senha e inclusão do certificado no painel. Log real12:15:29Z mostra SpringApplication run failed em ValidarAmbienteInternet.validarOrigem: valor CRERAL_FRONTEND_ORIGIN recusado por formato. Valor atual não foi exibido; não presumir erro específico de digitação. Orientação: substituir somente o Value por https://creral-piloto-online.vercel.app, sem espaços, aspas, barra final ou/api, e Save and deploy. Conferência da regra no código, sem mudança produtiva ou teste repetido. Aguardar novo log/Live e URL real Render; conexão ao banco e servidor público ainda não comprovados por esse início interrompido.
