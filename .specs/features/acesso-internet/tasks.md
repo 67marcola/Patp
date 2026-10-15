@@ -87,7 +87,7 @@ T7 → T8
 **Requirement**: NET-10,NET-11,NET-12
 **Tools**: shell/arquivos; skill tlc-spec-driven.
 **Done when**:
-- [ ] Controller online expõe contratos do design; testes HTTP provam200/401/403/404, payload exato, repetição e dados preservados.
+- [x] Controller online expõe contratos do design; testes HTTP provam200/401/403/404, payload exato, repetição e dados preservados.
 **Tests**: integration — AprovacaoCadastroApiInternetTests.
 **Gate**: Quick
 

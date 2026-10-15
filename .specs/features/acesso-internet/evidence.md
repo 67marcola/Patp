@@ -55,3 +55,19 @@ Check A, assertions em sistema/src/test/java/com/patp/sistema/AutenticacaoIntern
 | NET-07 local | :129 status200; :131–134 seis campos/token/id/nome/setor/email/papel; :135–136 me200 após DROP da tabela online | Cadastro/sessão locais sem tabela nova | Sim |
 
 Check C reverso: :59–68→NET-08; :52–54/75–77→NET-09/12; :82–84→NET-12; :92–104→NET-16; :111–116→NET-17/09; :129–136→NET-07. Todos mantidos, nenhum teste sem requisito. Adequação A/B/C/D aprovada, payloads exatos e estado persistido; guidelines tasks/AD-035. Sem desvio; Implementing até Verifier.
+
+## T3 — API administrativa
+
+Premissas: controller somente com flag internet; papel e autor obtidos pela sessão/DB. Arquivos: AprovacaoCadastroController.java e AprovacaoCadastroApiInternetTests.java. Sucesso: GET/POST seguros, contratos exatos e persistência íntegra. Gate Quick Maven `-Dtest=AprovacaoCadastroApiInternetTests test`, TEMP/H2. Tentativa1:5 casos,1 falha na comparação IntNode/LongNode do expected recém-criado; JSON recebido tinha os mesmos campos/valores/ordem. Usuário autorizou explicitamente “Sim, corrigir a comparação (recomendado)”, conforme mensagem repassada pelo root. Aplicado somente `readTree(writeValueAsString(lista))`, sem mudar campos/valores/ordem/cenários. Tentativa2:5/5, zero erros/falhas/skips. Total autor:5 invocações; nenhum teste antigo alterado/excluído/ignorado.
+
+Check A, assertions em sistema/src/test/java/com/patp/sistema/AprovacaoCadastroApiInternetTests.java:
+
+| Critério | Assertion file:line | Outcome do spec | Coberto |
+| --- | --- | --- | --- |
+| NET-10/11 anônimo | :30/31 status `isEqualTo(401)`; :32 estado `isEqualTo(antes)` | GET/POST401, sem alteração | Sim |
+| NET-10/11 funcionário | :37–39 status403; :40 `isEqualTo(antes)` com body tentando admin | GET/POST403, sem alteração | Sim |
+| NET-10 vazio/lista | :45 status200/vazio; :48 status200; :49–51 árvore exata ID/nome/setor/email em ordem |200 seguro e ordenado | Sim |
+| NET-11/12 aprovar/repetir | :59–60 status200/JSON `{id,estado:APROVADO}`; :62 true/autor da sessão; :63 hora; :65–68 repetição/conta iguais | Autoria/hora/papel/senha conservados | Sim |
+| NET-11/12 inexistente/falha | :74 status404/mensagem; :77 status500; :78 `isEqualTo(antes)` | Sem efeito parcial | Sim |
+
+Check C reverso: :30–32→NET-10/11; :37–40→NET-10/11; :45–51→NET-10; :59–68→NET-11/12; :74–78→NET-11/12. Todos necessários/mantidos. Adequação A/B/C/D aprovada; padrões/guidelines tasks/AD-035. Sem desvio de contrato; Implementing até Verifier.
