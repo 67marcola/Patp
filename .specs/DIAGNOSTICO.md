@@ -1,5 +1,13 @@
 # Diagnóstico e resumo atual do sistema Creral
 
+## Segundo administrador e teste pela rede — 14/10/2026
+
+**Concluído e verificado — tudo ok. Incluído no diagnóstico:** conta existente Admin, admin@gmail.com, ID3 no MySQL local sistema, promovida de FUNCIONARIO para ADMINISTRADOR por pedido explícito do usuário. Alterado somente papel, em transação limitada por ID, e-mail e nome exatos e papel anterior; uma conta alterada. Leitura posterior e auditoria independente confirmaram Marco (ID2) e Admin (ID3) como administradores, total de dois. Novos cadastros continuam FUNCIONARIO. [Evidência operacional](features/acesso-piloto/evidence.md).
+
+**Acesso por outro computador na mesma rede: confirmado pelo usuário. Incluído no diagnóstico.** Em 14/10/2026, o usuário informou que testou em outro computador no mesmo Wi-Fi e funcionou. Esse relato encerra a pendência de confirmar a conexão entre computadores. Não foram informados detalhes sobre operações realizadas, teste em celular ou aceite de todos os fluxos pelos estudantes.
+
+**Próximo requisito em definição:** acesso por computador/celular em outras redes. Usuário perguntou sobre gratuidade na Vercel; proposta de hospedagem e banco ainda não escolhida. [Contexto e opções](features/acesso-internet/context.md). Nenhuma publicação, contratação ou migração para nuvem realizada.
+
 ## Preparação técnica do piloto — concluída em 14/10/2026
 
 **Concluído e verificado — tudo ok. Incluído no diagnóstico.** O comando do piloto está pronto para servir interface e API pelo mesmo endereço deste computador, com dados persistentes no MySQL. Os colegas usarão o navegador na mesma rede, inicialmente como estudantes; o uso posterior pelos empregados da Creral terá preparação própria. [Verificação independente](features/acesso-piloto/validation.md): oito critérios PASS, seis testes Node e um cenário integrado com dois contextos Edge aprovados, lint ok e sensor de proteção do banco 1/1 detectado.
@@ -17,11 +25,11 @@
 
 Dez invocações de testes nesta entrega, incluindo tentativas e sensor: sete do autor e três do Verifier, 50% menos que a referência de vinte do fluxo anterior (AD-035). Essa contagem não mede tokens. Nenhum teste antigo foi alterado, removido ou ignorado; nenhuma suíte completa foi repetida. O scratch foi removido e 4.701 hashes da árvore real ficaram iguais. O MySQL fictício de testes na porta 33823 foi encerrado após conferência de identidade; os serviços reais 3306/8081/5173 permanecem ativos.
 
-O MySQL local passou na conferência de estrutura com validate, sem servidor web ou migração. **Ainda falta iniciar o piloto real e observar o acesso de outro computador da mesma rede, além do aceite dos estudantes.** O endereço previsto, após iniciar e confirmar a prontidão, é http://192.168.0.102:8082; conferir o IP se a rede mudar. Comandos e roteiro em [docs/OPERACAO.md](../docs/OPERACAO.md). A prova automatizada usou duas sessões no mesmo computador e banco fictício; não substitui esse encontro real. Histórico dos passos e tentativas em [evidence.md](features/acesso-piloto/evidence.md).
+O MySQL local passou na conferência de estrutura com validate, sem servidor web ou migração. **O usuário confirmou acesso de outro computador no mesmo Wi-Fi em 14/10/2026.** O aceite dos demais fluxos pelos estudantes continua pendente. O endereço preparado foi http://192.168.0.102:8082; conferir o IP se a rede mudar. Comandos e roteiro em [docs/OPERACAO.md](../docs/OPERACAO.md). A prova automatizada usou duas sessões no mesmo computador e banco fictício; o teste físico foi relatado pelo usuário separadamente. Histórico dos passos e tentativas em [evidence.md](features/acesso-piloto/evidence.md).
 
-**Administrador inicial: Concluído e verificado — tudo ok (configuração operacional).** A conta existente de Marco Polinski, marcoimmarquin@gmail.com, ID2 no banco MySQL local sistema, foi promovida para ADMINISTRADOR conforme escolha do usuário. Uma conta alterada em transação; leitura posterior e conferência independente confirmaram exatamente1 administrador. Senha, dados e demais contas preservados; novos cadastros continuam FUNCIONARIO. Outros administradores dependerão de e-mails indicados posteriormente. [Evidências](features/acesso-piloto/evidence.md).
+**Administrador inicial: Concluído e verificado — tudo ok (configuração operacional).** Marco Polinski, marcoimmarquin@gmail.com, ID2 no MySQL local sistema, foi o primeiro administrador. Depois, por indicação explícita do usuário, admin@gmail.com (ID3) também foi promovido, total atual de dois administradores. Novos cadastros continuam FUNCIONARIO. [Evidências](features/acesso-piloto/evidence.md).
 
-Os papéis existentes continuam Funcionário e Administrador; gerente ainda não é um papel separado. Aceitação pelos estudantes e conferência da conexão entre computadores permanecem pendentes.
+Os papéis existentes continuam Funcionário e Administrador; gerente ainda não é um papel separado. Conexão entre computadores confirmada pelo usuário; avaliação dos fluxos pelos estudantes e acesso pela internet permanecem pendentes.
 
 
 **Atualizado em 14/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
@@ -84,7 +92,7 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 
 | Entrega | O que já é possível fazer | Evidência |
 | --- | --- | --- |
-| Preparação técnica do piloto | Iniciar interface/API no mesmo endereço, com MySQL persistente, validação da estrutura e encerramento próprio; guia pronto para o primeiro acesso entre computadores. | [8 critérios aprovados](features/acesso-piloto/validation.md); teste físico e aceite pendentes. |
+| Preparação técnica do piloto | Iniciar interface/API no mesmo endereço, com MySQL persistente, validação da estrutura e encerramento próprio; acesso de outro computador no mesmo Wi-Fi confirmado pelo usuário. | [8 critérios aprovados](features/acesso-piloto/validation.md); relato posterior em [evidence.md](features/acesso-piloto/evidence.md), aceite dos fluxos pendente. |
 | Revisão visual geral | Identificação Creral, rótulos acessíveis, contraste/foco, controles44px e layout em computador/celular, com regras preservadas. | [7 critérios aprovados](features/revisao-visual/validation.md). |
 | Gráficos por quadro | Consultar distribuição atual por situação e etapa, com total de arquivadas separado; acesso para todos autenticados, inclusive quadros arquivados. | [9 critérios aprovados](features/graficos-quadro/validation.md). |
 | Gerenciamentos | Criar, listar, consultar, editar, arquivar e restaurar quadros. Todos os usuários autenticados podem criar e consultar; edição e administração ficam com o criador ou administradores. Arquivar preserva os dados e deixa o conteúdo somente para consulta. | [41 critérios aprovados](features/gerenciamentos/validation.md). |
@@ -278,7 +286,8 @@ Incluído no diagnóstico em12/10/2026: T15 Implemented,cliente de atividade com
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Primeiro acesso pela rede e aceitação pelos estudantes | Iniciador e guia tecnicamente aprovados; falta iniciar neste computador e observar outro computador consultar os mesmos dados, depois registrar a avaliação dos estudantes. |
+| Aceitação dos fluxos pelos estudantes | Conexão de outro computador no mesmo Wi-Fi confirmada pelo usuário em 14/10/2026. Falta registrar a avaliação dos fluxos de trabalho e uso em celular. |
+| Acesso pela internet | Novo pedido em 14/10/2026: computador/celular fora da mesma rede. Hospedagem e banco em definição, com interesse em opção gratuita/Vercel; nenhuma publicação realizada. |
 | Preparação posterior para os empregados | Definir ambiente definitivo e eventual importação de registros antigos, se houver. O administrador inicial já foi configurado somente no banco local; nenhuma migração do banco da empresa foi executada. |
 
 ## Testes já registrados
@@ -295,7 +304,7 @@ Os números abaixo são registros das execuções aprovadas, não uma nova execu
 
 ## Onde acompanhar o projeto
 
-- [STATE.md](STATE.md): decisões AD-001 a AD-039, regra permanente de acompanhamento e ponto de retomada.
+- [STATE.md](STATE.md): decisões AD-001 a AD-042, regra permanente de acompanhamento e ponto de retomada.
 - [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-arquivamento está concluída tecnicamente, com aceitação humana pendente.
 - [OPERACAO.md](../docs/OPERACAO.md): orientações de execução e verificação com dados fictícios.
 

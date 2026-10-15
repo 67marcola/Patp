@@ -1,6 +1,6 @@
 # Acesso piloto na rede local Specification
 
-**Data:** 14/10/2026. **Status:** Approved pelo usuário em14/10/2026; entrega técnica Verified, oito critérios PASS no Verifier independente. Porte médio, sem novos papéis ou regras de negócio. Acesso físico e aceite humano pendentes.
+**Data:** 14/10/2026. **Status:** Approved pelo usuário em14/10/2026; entrega técnica Verified, oito critérios PASS no Verifier independente. Porte médio, sem novos papéis ou regras de negócio. Atualização posterior: usuário confirmou acesso de outro computador na mesma rede; aceite dos fluxos ainda pendente.
 
 ## Problem Statement
 
@@ -33,7 +33,7 @@ O sistema está configurado para acesso local neste computador. Os estudantes pr
 | Dados | MySQL configurado neste computador, sem apagar ao encerrar; validar estrutura antes de liberar o serviço | Evitar confundir piloto com H2 descartável ou executar migração implícita | Sim, conjunto aprovado |
 | Rede escolhida | Endereço IPv4 de uma interface local, informado/selecionado pelo operador | Evitar escolher VPN/interface errada automaticamente | Default técnico |
 
-**Open questions:** none — conjunto técnico e operacional aprovado antes da implementação. Primeiro acesso físico pela rede e aceite serão registrados quando observados.
+**Open questions:** none — conjunto técnico e operacional aprovado antes da implementação. Primeiro acesso físico pela mesma rede confirmado posteriormente pelo usuário, registrado em evidence.md; aceite dos fluxos ainda não relatado.
 
 ## User Stories
 
