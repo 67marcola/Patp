@@ -2,6 +2,8 @@
 
 ## Internet — progresso técnico em 14/10/2026
 
+**Incluído no diagnóstico — T8:** pacote Render preparado, classes/runtime compilados em TEMP e sintaxe do inicializador conferida. Configuração online exige TLS, origem HTTPS e estrutura validada, excluindo credenciais locais do contexto Docker. Imagem Docker/publicação ainda não executadas; provas integradas e Verifier pendentes.
+
 **Em implementação, ainda sem publicação:** T1–T7 concluídas localmente. Servidor/preparo explícito, cadastro pendente, painel administrativo e saída online prontos; papel conferido pelo servidor, cache público conservado e respostas incertas explícitas. Gates finais TEMP:76 casos distintos aprovados (21 Java,55 Vitest), dez invocações contando duas falhas corrigidas e reforço de StrictMode. Alvo de sete no lote excedido, sem declarar economia alvo como alcançada. Build HTTPS fictício/lint sem diagnósticos aprovados. Nenhum teste antigo alterado. Fixture MySQL33823 ativa para integração. [Evidências](features/acesso-internet/evidence.md). T8–T11, layout real360px e Verifier pendentes; acesso por dados móveis ainda não observado.
 
 ## Segundo administrador e teste pela rede — 14/10/2026

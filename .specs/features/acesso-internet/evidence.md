@@ -1,5 +1,11 @@
 # Evidências — acesso pela internet
 
+## T8 — pacote Render
+
+Build em cópia física TEMP/creral-internet-root-94babcdf879b474b87cbcb7f40acfbef, excluindo application.properties local: Maven compile + dependency:build-classpath runtime PASS,65 fontes/release17, sem fase de testes ou conexão ao banco. Bash -n entrypoint.sh PASS após permitir o runtime Bash fora do sandbox (a primeira chamada foi impedida antes da análise pelo MSYS). Nenhuma execução comportamental adicional. git diff --check PASS.
+
+Dockerfile multistage copia classes e dependências, executa UID10001/GID1000, sem props locais; .dockerignore exclui credenciais/certificados/dependências/artefatos/testes. EntryPoint importa somente CA pública para PKCS12 temporário; banco VERIFY_IDENTITY, sem fallback. application-internet.properties externo e initializer recusam configuração incompleta antes de beans; esquema validate e SQL init never. CORS conserva localhost5173 no modo local e usa origemHTTPS exata no perfil internet. Provas de execução/falhas pertencem a T10. Docker não instalado: imagem real não construída, publicação pendente. Incluído no diagnóstico; requisitos permanecem Implementing.
+
 ## Planejamento e autorização — 14/10/2026
 
 Usuário escolheu Vercel/Render/Aiven, base nova de testes e aprovação administrativa de cadastros. Após apresentação do fluxo proposto, sessão8h, preservação local e publicação separada, pediu continuar para rodar no celular com dados móveis. Usuário possui somente Vercel; foi orientado a criar Render/Aiven gratuitos. Não houve compartilhamento de senha, criação de conta, contratação ou publicação.
