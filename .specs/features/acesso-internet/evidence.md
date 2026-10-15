@@ -91,3 +91,23 @@ Check A, assertions em sistema/src/test/java/com/patp/sistema/PrepararBancoInter
 | NET-03/15 falhas | :107 SQLException; :108 contas `isEqualTo(antes)`; :109 configuração ausente; :110–112 TLS e sem segredo | Rollback/falha sem fallback ou segredos | Sim |
 
 Check C reverso: guardas :20–22→isolamento NET-05/07; :44–58→NET-04/05; :63–66/75–79→NET-05; :86–97→NET-15; :107–112→NET-03/15. Todos mantidos/necessários. Adequação A/B/C/D aprovada, assertions de dados/payload/estado, guidelines tasks/AD-035. Decisão operacional de CLI/autoria inicial adicionada ao design; sem desvio de requisitos. Implementing até Verifier.
+
+## T5 — contratos cliente
+
+Premissas: logout conserva resposta textual do endpoint atual; entrada200 conserva validação pública atual,202 exige objeto exato de espera. Arquivos: frontend/src/services/api.js e apiInternet.test.js. Sucesso: nenhum payload malformado confirma entrada/aprovação/saída, sem retries; rotas/token/corpo e lista segura validados.
+
+Gate Quick `node node_modules/vitest/vitest.mjs run src/services/apiInternet.test.js` em cópia física de todo frontend/dependências para TEMP/creral-internet-t1t7-20261014/frontend. Tentativa1:32/32, zero falhas/skips. Total autor7 invocações. Nenhum teste antigo alterado; nenhuma exclusão de dist/caches nas dependências.
+
+Check A, assertions em frontend/src/services/apiInternet.test.js:
+
+| Critério | Assertion file:line | Outcome do spec | Coberto |
+| --- | --- | --- | --- |
+| NET-08/07 cadastro202/local200 | :13 `toEqual(pendente)`; :14–16 rota/POST/corpo/1chamada; :21 `toEqual(sessao)` | Pendente separado de entrada local | Sim |
+| NET-08/09/13 malformados/status | :29 `rejects.toMatchObject({status,...})`; :35/37 login202/403 exatos | Sem token/entrada incerta | Sim |
+| NET-10 lista | :42 `toEqual([conta])`; :43–45 rota/Bearer/signal/vazio; :51 rejeição | Quatro campos/ordem/ID sem senha, erro explícito | Sim |
+| NET-11 aprovar | :57 `toEqual(body)`; :58–59 rota/POST/Bearer sem body; :64–65 rejeição/1chamada | Confirma só ID e APROVADO exatos | Sim |
+| NET-10/11 erros | :70 erro/status; :76 JSON inválido | Sem confirmação falsa | Sim |
+| NET-17 logout | :82 texto exato; :83–84 rota/Bearer/POST; :89 rejeição | Revogação confirmada somente no contrato atual | Sim |
+| NET-13/14/17 rede | :96 rejeição status0; :97 `toHaveBeenCalledTimes(1)` junto ao erro | Sem retry nem confirmação | Sim |
+
+Check C reverso: :13–21→NET-07/08; :29–37→NET-08/09/13; :42–52→NET-10/14; :57–71/76–77→NET-11/14; :82–90→NET-17; :96–97→NET-13/14/17. Todos mantidos/necessários; chamadas provam transporte e assertions de resultado/erro provam outcomes. Adequação A/B/C/D aprovada, guidelines tasks/AD-035/Vitest existentes. Sem desvio; Implementing até Verifier.

@@ -114,8 +114,8 @@ O piloto funciona em outro computador do mesmo Wi-Fi, conforme relato do usuári
 | NET-10 | P1: Autorizar contas | Execute | Implementing |
 | NET-11 | P1: Autorizar contas | Execute | Implementing |
 | NET-12 | P1: Autorizar contas | Execute | Implementing |
-| NET-13 | P1: Autorizar contas | Specify | Pending |
-| NET-14 | P1: Autorizar contas | Specify | Pending |
+| NET-13 | P1: Autorizar contas | Execute | Implementing |
+| NET-14 | P1: Autorizar contas | Execute | Implementing |
 | NET-15 | P1: Autorizar contas | Execute | Implementing |
 | NET-16 | P1: Autorizar contas | Execute | Implementing |
 | NET-17 | P1: Autorizar contas | Execute | Implementing |

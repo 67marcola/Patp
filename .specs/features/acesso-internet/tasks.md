@@ -111,7 +111,7 @@ T7 → T8
 **Requirement**: NET-08,NET-10,NET-11,NET-13,NET-14,NET-17
 **Tools**: shell/arquivos; skill tlc-spec-driven.
 **Done when**:
-- [ ] Respostas exatas validadas; malformed/sucesso incerto não entra nem aprova; contratos antigos preservados, gate focado aprovado.
+- [x] Respostas exatas validadas; malformed/sucesso incerto não entra nem aprova; contratos antigos preservados, gate focado aprovado.
 **Tests**: unit — apiInternet.test.js.
 **Gate**: Quick
 
