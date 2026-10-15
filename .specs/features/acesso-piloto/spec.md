@@ -1,6 +1,6 @@
 # Acesso piloto na rede local Specification
 
-**Data:** 14/10/2026. **Status:** Approved pelo usuário em14/10/2026, incluindo o modo de operação. Porte médio, sem novos papéis ou regras de negócio.
+**Data:** 14/10/2026. **Status:** Approved pelo usuário em14/10/2026; entrega técnica Verified, oito critérios PASS no Verifier independente. Porte médio, sem novos papéis ou regras de negócio. Acesso físico e aceite humano pendentes.
 
 ## Problem Statement
 
@@ -33,7 +33,7 @@ O sistema está configurado para acesso local neste computador. Os estudantes pr
 | Dados | MySQL configurado neste computador, sem apagar ao encerrar; validar estrutura antes de liberar o serviço | Evitar confundir piloto com H2 descartável ou executar migração implícita | Sim, conjunto aprovado |
 | Rede escolhida | Endereço IPv4 de uma interface local, informado/selecionado pelo operador | Evitar escolher VPN/interface errada automaticamente | Default técnico |
 
-**Open questions:** none — defaults técnicos e operacionais registrados acima; confirmar o conjunto antes de implementar o novo modo.
+**Open questions:** none — conjunto técnico e operacional aprovado antes da implementação. Primeiro acesso físico pela rede e aceite serão registrados quando observados.
 
 ## User Stories
 
@@ -65,20 +65,20 @@ O sistema está configurado para acesso local neste computador. Os estudantes pr
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| PIL-01 | P1: Rede local | Execute | Implementing |
-| PIL-02 | P1: Rede local | Execute | Implementing |
-| PIL-03 | P1: Rede local | Execute | Implementing |
-| PIL-04 | P1: Rede local | Execute | Implementing |
-| PIL-05 | P1: Rede local | Execute | Implementing |
-| PIL-06 | P1: Rede local | Execute | Implementing |
-| PIL-07 | P1: Rede local | Execute | Implementing |
-| PIL-08 | P1: Rede local | Execute | Implementing |
+| PIL-01 | P1: Rede local | Execute | Verified |
+| PIL-02 | P1: Rede local | Execute | Verified |
+| PIL-03 | P1: Rede local | Execute | Verified |
+| PIL-04 | P1: Rede local | Execute | Verified |
+| PIL-05 | P1: Rede local | Execute | Verified |
+| PIL-06 | P1: Rede local | Execute | Verified |
+| PIL-07 | P1: Rede local | Execute | Verified |
+| PIL-08 | P1: Rede local | Execute | Verified |
 
 ## Success Criteria
 
-- [ ] Comando e endereço central preparados, com dados persistentes e configuração de API correta.
-- [ ] Gates focados em MySQL fictício e Verifier independente aprovados; falhas preservam dados/processos.
-- [ ] Guia e diagnóstico registram estado real, separando prova automatizada do acesso observado pelos estudantes.
+- [x] Comando e endereço central preparados, com dados persistentes e configuração de API correta.
+- [x] Gates focados em MySQL fictício e Verifier independente aprovados; falhas preservam dados/processos.
+- [x] Guia e diagnóstico registram estado real, separando prova automatizada do acesso observado pelos estudantes.
 
 ## Plano proposto
 

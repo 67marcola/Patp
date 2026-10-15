@@ -1,5 +1,15 @@
 # Evidências operacionais do piloto
 
+## Fechamento técnico — 14/10/2026
+
+**Concluído e verificado — tudo ok. Incluído no diagnóstico.** T1 d526ccd, T2 62a8ba0 e T3 330d984; oito critérios técnicos Verified no [relatório independente](validation.md). Verifier fresco aprovou seis testes Node, lint e um cenário integrado real em MySQL fictício com dois contextos Edge, reinício e falhas, em 48,7s. Sensor único validate→update detectado pela assertion que recusa falso Piloto pronto em schema vazio; nenhum sobrevivente ou correção obrigatória. Não houve lição nova em PASS limpo.
+
+Integridade independente: 4.701 hashes, HEAD e porcelain idênticos antes da escrita do relatório; scratch físico removido, sem compartilhamento de caches/target. Nenhum teste antigo alterado ou removido. Total de dez invocações comportamentais (autor sete, Verifier três, incluindo tentativas e sensor), 50% menos que a referência de vinte em AD-035; sem medir tokens ou repetir suítes completas. Gates documentais de fechamento: validate_spec --strict e validate_state exit0, zero erros/avisos; check_commit OK e diff-check sem erro. Nenhum teste comportamental repetido para fechar os documentos.
+
+Após o Verifier liberar a fixture, o orquestrador conferiu por SQL porta 33823 e datadir exato C:/Users/Marco/AppData/Local/Temp/creral-arquivo-049cfd5cc86d4d8b840e41f1710d7a43/mysql/. mysqladmin shutdown exit0, nenhum listener 33823 restante. MySQL real 3306/PID5560, backend 8081/PID5184 e frontend 5173/PID23848 preservados. Nenhum diretório do banco fictício preexistente foi apagado.
+
+Entrega concluída é a preparação técnica. Serviço piloto real não iniciado; acesso de um segundo computador físico, Ctrl+C físico e aceite dos estudantes ainda não observados. O gate usa encerrar, que segue a mesma rotina de fechamento. Roteiro de início e conexão em docs/OPERACAO.md; não transformar prova localhost em confirmação da rede física. Os checkpoints abaixo são históricos e não reabrem passos já concluídos.
+
 ## T3 guia implementado
 
 OPERACAO.md descreve comandos reais deste computador, seleção do IPv4/porta, URL única, clientes somente navegador, servidor ligado, MySQL persistente, sessões após reinício, encerramento próprio e diagnóstico de dependência/estrutura/rede. Distingue previewH2 temporário, pilotoMySQL e futuro ambiente empresarial. Não informa acesso externo observado: esse teste humano continua pendente. Gate documental: validate_spec strict0 e diff-check; nenhuma repetição de teste por edição documental. T1 d526ccd,T2 62a8ba0,T3 neste commit, ainda Implemented até Verifier fresco.

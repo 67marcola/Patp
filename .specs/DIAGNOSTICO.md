@@ -1,20 +1,27 @@
 # Diagnóstico e resumo atual do sistema Creral
 
-## Preparação do piloto — 14/10/2026
+## Preparação técnica do piloto — concluída em 14/10/2026
 
-**Incluído no diagnóstico:** primeiro uso pelos estudantes; depois pelos empregados da Creral. Piloto inicialmente na mesma rede, com este computador como servidor central e os demais acessando pelo navegador. Acesso em rede ainda em preparação, sem endereço compartilhado entregue ou verificado.
+**Concluído e verificado — tudo ok. Incluído no diagnóstico.** O comando do piloto está pronto para servir interface e API pelo mesmo endereço deste computador, com dados persistentes no MySQL. Os colegas usarão o navegador na mesma rede, inicialmente como estudantes; o uso posterior pelos empregados da Creral terá preparação própria. [Verificação independente](features/acesso-piloto/validation.md): oito critérios PASS, seis testes Node e um cenário integrado com dois contextos Edge aprovados, lint ok e sensor de proteção do banco 1/1 detectado.
 
-[Proposta do modo piloto](features/acesso-piloto/spec.md) preparada com oito critérios: comando de início, endereço central, MySQL persistente, validação de estrutura, falhas seguras, encerramento próprio e guia. Validador estrutural aprovado; aguardando confirmação do conjunto antes de implementar. Esta preparação não representa rede já habilitada ou aceite dos estudantes.
+| Requisito | Resultado | Estado |
+| --- | --- | --- |
+| PIL-01 | Interface e API pelo mesmo endereço central, com URL informada após prontidão | Concluído e verificado — tudo ok |
+| PIL-02 | MySQL local, contas e dados conservados após encerrar e reiniciar | Concluído e verificado — tudo ok |
+| PIL-03 | Estrutura validada; banco incompatível recusado sem criação de tabelas | Concluído e verificado — tudo ok |
+| PIL-04 | Entradas inválidas, porta ocupada e dependência ausente recusadas sem falso sucesso | Concluído e verificado — tudo ok |
+| PIL-05 | Encerramento dos próprios processos, limpeza restrita e preservação dos serviços existentes | Concluído e verificado — tudo ok |
+| PIL-06 | Autenticação e papéis preservados, credenciais somente no servidor | Concluído e verificado — tudo ok |
+| PIL-07 | Duas sessões autenticadas consultam a mesma demanda e respeitam permissões | Concluído e verificado — tudo ok |
+| PIL-08 | Guia de operação e roteiro humano, com acesso físico e aceite explicitamente pendentes | Concluído e verificado — tudo ok |
 
-Atualização: proposta aprovada. T1 iniciador/configuração implementado, seis checks focados e lint aprovados; build temporário, mesma origem e proteção da API preparados. T2 de ciclo real em MySQL fictício e duas sessões ainda pendente. Nenhuma inicialização do piloto no banco real; rede ainda sem teste observado de outro computador. Incluído no diagnóstico como progresso parcial.
+Dez invocações de testes nesta entrega, incluindo tentativas e sensor: sete do autor e três do Verifier, 50% menos que a referência de vinte do fluxo anterior (AD-035). Essa contagem não mede tokens. Nenhum teste antigo foi alterado, removido ou ignorado; nenhuma suíte completa foi repetida. O scratch foi removido e 4.701 hashes da árvore real ficaram iguais. O MySQL fictício de testes na porta 33823 foi encerrado após conferência de identidade; os serviços reais 3306/8081/5173 permanecem ativos.
 
-T2 implementado — incluído no diagnóstico: ciclo real com MySQL fictício e dois navegadores PASS, dados preservados no reinício, porta ocupada/dependência ausente recusadas e schema vazio preservado. Corrigido encerramento do Node no Windows;lint final ok. Banco local conferido apenas por Hibernate validate sem web/DML,exit0. Falta guia e Verifier independente. Sete invocações autor acumuladas,sem suítes completas; nenhum endereço real LAN iniciado nesta entrega ainda.
-
-T3 guia implementado — incluído no diagnóstico: comandos de início/encerramento e roteiro de acesso dos estudantes em docs/OPERACAO.md. Iniciador pronto para Verifier independente automático; não representa piloto real já ligado ou acesso físico por outro computador. Nenhum teste repetido para documentação.
+O MySQL local passou na conferência de estrutura com validate, sem servidor web ou migração. **Ainda falta iniciar o piloto real e observar o acesso de outro computador da mesma rede, além do aceite dos estudantes.** O endereço previsto, após iniciar e confirmar a prontidão, é http://192.168.0.102:8082; conferir o IP se a rede mudar. Comandos e roteiro em [docs/OPERACAO.md](../docs/OPERACAO.md). A prova automatizada usou duas sessões no mesmo computador e banco fictício; não substitui esse encontro real. Histórico dos passos e tentativas em [evidence.md](features/acesso-piloto/evidence.md).
 
 **Administrador inicial: Concluído e verificado — tudo ok (configuração operacional).** A conta existente de Marco Polinski, marcoimmarquin@gmail.com, ID2 no banco MySQL local sistema, foi promovida para ADMINISTRADOR conforme escolha do usuário. Uma conta alterada em transação; leitura posterior e conferência independente confirmaram exatamente1 administrador. Senha, dados e demais contas preservados; novos cadastros continuam FUNCIONARIO. Outros administradores dependerão de e-mails indicados posteriormente. [Evidências](features/acesso-piloto/evidence.md).
 
-Os papéis existentes continuam Funcionário e Administrador; gerente ainda não é um papel separado. Aceitação pelos estudantes e preparação completa da rede permanecem pendentes.
+Os papéis existentes continuam Funcionário e Administrador; gerente ainda não é um papel separado. Aceitação pelos estudantes e conferência da conexão entre computadores permanecem pendentes.
 
 
 **Atualizado em 14/10/2026.** Este resumo foi conferido com os relatórios de validação, as tarefas da skill `tlc-spec-driven`, o registro de decisões e os commits locais. “Pronto” significa implementado e aprovado tecnicamente nos testes e na revisão independente; a avaliação prática pelos usuários da Creral ainda está pendente.
@@ -77,6 +84,7 @@ A empresa está identificada como **Creral**. O projeto usa Java/Spring Boot no 
 
 | Entrega | O que já é possível fazer | Evidência |
 | --- | --- | --- |
+| Preparação técnica do piloto | Iniciar interface/API no mesmo endereço, com MySQL persistente, validação da estrutura e encerramento próprio; guia pronto para o primeiro acesso entre computadores. | [8 critérios aprovados](features/acesso-piloto/validation.md); teste físico e aceite pendentes. |
 | Revisão visual geral | Identificação Creral, rótulos acessíveis, contraste/foco, controles44px e layout em computador/celular, com regras preservadas. | [7 critérios aprovados](features/revisao-visual/validation.md). |
 | Gráficos por quadro | Consultar distribuição atual por situação e etapa, com total de arquivadas separado; acesso para todos autenticados, inclusive quadros arquivados. | [9 critérios aprovados](features/graficos-quadro/validation.md). |
 | Gerenciamentos | Criar, listar, consultar, editar, arquivar e restaurar quadros. Todos os usuários autenticados podem criar e consultar; edição e administração ficam com o criador ou administradores. Arquivar preserva os dados e deixa o conteúdo somente para consulta. | [41 critérios aprovados](features/gerenciamentos/validation.md). |
@@ -270,7 +278,8 @@ Incluído no diagnóstico em12/10/2026: T15 Implemented,cliente de atividade com
 
 | Requisito | Situação atual / próximo trabalho |
 | --- | --- |
-| Aceitação por usuários e preparação para uso real | O teste humano ainda não foi registrado. Nenhuma migração de dados antigos ou operação foi executada no banco real da empresa. |
+| Primeiro acesso pela rede e aceitação pelos estudantes | Iniciador e guia tecnicamente aprovados; falta iniciar neste computador e observar outro computador consultar os mesmos dados, depois registrar a avaliação dos estudantes. |
+| Preparação posterior para os empregados | Definir ambiente definitivo e eventual importação de registros antigos, se houver. O administrador inicial já foi configurado somente no banco local; nenhuma migração do banco da empresa foi executada. |
 
 ## Testes já registrados
 
@@ -286,7 +295,7 @@ Os números abaixo são registros das execuções aprovadas, não uma nova execu
 
 ## Onde acompanhar o projeto
 
-- [STATE.md](STATE.md): decisões de negócio AD-001 a AD-029, regra permanente de acompanhamento e ponto de retomada.
+- [STATE.md](STATE.md): decisões AD-001 a AD-039, regra permanente de acompanhamento e ponto de retomada.
 - [features/](features/): especificações, tarefas, evidências e relatórios de cada entrega; demandas-arquivamento está concluída tecnicamente, com aceitação humana pendente.
 - [OPERACAO.md](../docs/OPERACAO.md): orientações de execução e verificação com dados fictícios.
 

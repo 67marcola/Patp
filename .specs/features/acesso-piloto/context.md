@@ -1,6 +1,6 @@
 # Contexto do acesso piloto
 
-**Data:** 14/10/2026. **Estado:** decisões de uso confirmadas; acesso em rede ainda em preparação.
+**Data:** 14/10/2026. **Estado:** preparação técnica concluída e verificada; início real, acesso de outro computador e aceite humano pendentes.
 
 Proposta operacional em spec.md, oito critérios, validada estruturalmente; modo de início/encerramento aprovado explicitamente pelo usuário antes da implementação. Rede, máquina central e e-mail já decididos, sem repetir essas perguntas.
 
@@ -19,7 +19,7 @@ A conta escolhida foi identificada por ID2, nome e e-mail exatos no MySQL local 
 ## Pontos de preparação
 
 - Configuração atual da interface usa localhost e a origem local; ainda não há endereço piloto funcionando nos outros computadores.
-- Preparar um endereço do servidor central para os navegadores da mesma rede, com dados persistentes no MySQL existente.
+- Iniciador preparado e verificado para um endereço do servidor central, com dados persistentes no MySQL existente; primeiro acesso físico ainda não observado.
 - Os papéis existentes são FUNCIONARIO e ADMINISTRADOR. O termo gerente ainda não definiu um terceiro papel ou novas permissões.
 - A conta foi promovida somente neste banco local; isso não replica automaticamente administradores para outros bancos futuros.
 - Testes focados e saída compacta conforme AD-035. Aceitação prática pelos estudantes permanece pendente.
