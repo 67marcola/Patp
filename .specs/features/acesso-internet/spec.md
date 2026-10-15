@@ -121,7 +121,7 @@ O piloto funciona em outro computador do mesmo Wi-Fi, conforme relato do usuári
 | NET-17 | P1: Autorizar contas | Execute | Implementing |
 | NET-18 | P1: Publicação | Specify | Pending |
 | NET-19 | P1: Publicação | Specify | Pending |
-| NET-20 | P1: Publicação | Specify | Pending |
+| NET-20 | P1: Publicação | Execute | Implementing |
 
 ## Success Criteria
 

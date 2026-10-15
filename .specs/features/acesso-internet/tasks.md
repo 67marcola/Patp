@@ -135,7 +135,7 @@ T7 → T8
 **Requirement**: NET-10,NET-11,NET-14,NET-17
 **Tools**: shell/arquivos; skill tlc-spec-driven.
 **Done when**:
-- [ ] Admin consulta/aprova; funcionário não recebe controle; estados carregar/vazio/erro/incerto preservados, foco e largura360px; App local continua sem consulta nova; saída online informa falha incerta; gate novo integrado de componente aprovado.
+- [x] Admin consulta/aprova; funcionário não recebe controle; estados carregar/vazio/erro/incerto preservados, foco e CSS para360px; App local continua sem consulta nova; saída online informa falha incerta; gate novo integrado de componente aprovado. Geometria real em360px será conferida no integrado T10, sem tratar jsdom como prova visual.
 **Tests**: unit — AprovacoesCadastros.test.jsx e AppInternet.test.jsx em uma seleção.
 **Gate**: Quick
 

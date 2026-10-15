@@ -1,0 +1,27 @@
+.aprovacoes-cadastros {
+    box-sizing: border-box;
+    width: calc(100% - 32px);
+    max-width: 1100px;
+    min-width: 0;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    color: #16323c;
+    border: 1px solid #b3cbd1;
+    border-radius: 12px;
+    overflow-wrap: anywhere;
+}
+.aprovacoes-cabecalho { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.aprovacoes-cabecalho h2 { min-width: 0; flex: 1 1 240px; }
+.aprovacoes-cadastros button { min-height: 44px; padding: 10px 14px; white-space: normal; max-width: 100%; cursor: pointer; }
+.aprovacoes-cadastros button:disabled { cursor: default; }
+.aprovacoes-cadastros button:focus-visible, .aprovacoes-cadastros h2:focus { outline: 3px solid #146c43; outline-offset: 3px; }
+.aprovacoes-lista { list-style: none; margin: 16px 0 0; padding: 0; }
+.aprovacoes-lista li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 0; border-top: 1px solid #b3cbd1; }
+.aprovacoes-lista li > div { display: grid; gap: 4px; min-width: 0; flex: 1 1 200px; }
+.aviso-sessao { margin: 0 auto; padding: 16px; color: #713c05; background: #fff4db; overflow-wrap: anywhere; }
+@media (max-width: 480px) {
+    .aprovacoes-cadastros { width: calc(100% - 24px); padding: 16px; }
+    .aprovacoes-cabecalho { align-items: stretch; }
+    .aprovacoes-cabecalho h2 { flex-basis: 100%; }
+}

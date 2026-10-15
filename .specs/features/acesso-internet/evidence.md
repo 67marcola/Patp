@@ -129,3 +129,30 @@ Check A, assertions em frontend/src/pages/CadastroInternet.test.jsx:
 | NET-07 local | :63 onLogin `toHaveBeenCalledWith(sessao)`; :64 sem tela pendente/cache |200 local preservado | Sim |
 
 Check C reverso: :23–29→NET-13; :37–41→NET-13; :50–56→NET-13; :63–64→NET-07. Todos necessários/mantidos. Adequação A/B/C/D aprovada; outcomes com valores/cache e transporte, guidelines tasks/AD-035/Vitest existentes. Sem desvio; Implementing até Verifier.
+
+## T7 — painel, App e saída
+
+Premissas: papel vem de /me, somente online; cache público continua com id/nome/setor/email. Arquivos: AprovacoesCadastros.jsx/.css/.test.jsx, App.jsx/AppInternet.test.jsx. Sucesso: lista/aprovação conservadoras, foco, estados explícitos, nenhum request novo no local e saída com revogação/aviso.
+
+Gate Quick: seleção única `node node_modules/vitest/vitest.mjs run src/components/AprovacoesCadastros.test.jsx src/AppInternet.test.jsx`, TEMP físico. Tentativa1:16/16. Revisão identificou risco concreto no StrictMode já usado em main.jsx: abort da primeira montagem bloquearia a seguinte por ref de operação. Correção pela identidade da requisição e prova nova do carregamento; assertions/casos anteriores intactos. Tentativa2:17/17, zero falhas/skips. Total autor T1–T7:10 invocações comportamentais, incluindo compilação falha T2, comparação numérica falha T3 corrigida com autorização e reforço T7. Gates finais cobrem76 casos distintos; nenhuma suíte histórica repetida. Alvo original de sete invocações neste lote foi excedido por motivos registrados; não afirmar economia alvo como alcançada.
+
+Build Vite HTTPS fictício/modo online e lint JSON (73 arquivos,96 regras, diagnostics[]) passaram no TEMP. Build repetido após correção StrictMode. Lint inicialmente silencioso exigiu conferência direta/JSON, sem execução extra de testes. Não houve alteração de dist/caches reais ou exclusão nas dependências.
+
+Check A, assertions em frontend/src/components/AprovacoesCadastros.test.jsx (P) e frontend/src/AppInternet.test.jsx (A):
+
+| Critério | Assertion file:line | Outcome do spec | Coberto |
+| --- | --- | --- | --- |
+| NET-14 carregar/dados/foco | P:20 `textContent.toBe("Carregando cadastros...")`; P:21 foco título; P:23–24 e-mails/setor | Carregamento explícito/lista segura e foco | Sim |
+| NET-11/14 aprovação individual | P:26 status `toBe("Cadastro de Ana aprovado.")`; P:27 Ana ausente/Bia presente; P:28 foco e ocupação | Só conta confirmada sai da lista | Sim |
+| NET-14 vazio/erro | P:35 texto exato/vazio; P:42 alert; P:43 sem vazio falso/1request; P:45 atualização | Estados explícitos sem retry | Sim |
+| NET-14 incerto | P:55 mensagem exata; P:56 lista; P:57 sem sucesso/2requests; P:58 controles bloqueados; P:60 atualização explícita | Lista preservada e orientação atualizar | Sim |
+| NET-14 recusa/refresh falho | P:66–67 recusado/lista/sem sucesso; P:73–74 refresh falho mantém dados/desabilita | Sem falso sucesso | Sim |
+| NET-14 envio/StrictMode | P:81–84 bloqueio/resultado; P:93 e-mail; P:94 loading ausente; P:95 botão habilitado | Fluxo carregado no ambiente atual, sem envio duplicado | Sim |
+| NET-10/14 App admin | A:25 cache `toEqual(publico)`; A:26 me1; A:27/29 lista/status; A:31 fechar/foco | Administração da sessão confirmada, quatro campos cache | Sim |
+| NET-10 funcionário/cache/erro | A:38/40 controle null após meFUNCIONARIO; A:46 alert; A:47 controle null | Papel do cache não concede botão; falha oculta | Sim |
+| NET-07 App local | A:52 sistema/sem botão; A:54 fetch não chamado; A:55 cache null | Nenhuma consulta/saída online no local | Sim |
+| NET-17 logout incerto/confirmado | A:63 mensagem exata; A:64 cache null/login; A:65 logout1; A:66 Bearer/POST; A:73 duplicação/busy; A:75–76 login/semalert/cache null | Revoga, limpa e avisa falha sem retry | Sim |
+
+Layout: inspeção de AprovacoesCadastros.css:24 em360 implica largura336px border-box; :5/12/14/15/16/20/21 permitem texto/quebras/min-width0; controles44px e foco :18. A geometria real será verificada no integrado T10, sem alegar que jsdom mede layout.
+
+Check C reverso: P:20–30→NET-11/14; P:35–45→NET-14; P:55–60→NET-14; P:66–74→NET-14; P:81–84/93–95→NET-14; A:25–32→NET-10/14; A:38–47→NET-10; A:52–55→NET-07; A:63–76→NET-17. Todos necessários/mantidos. Adequação A/B/C/D aprovada nos outcomes funcionais/foco/cache, guidelines tasks/AD-035/Vitest existentes. Prova visual final reservada a T10; requisitos continuam Implementing até Verifier. Publicação/URL4G não realizadas.
