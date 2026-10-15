@@ -1,0 +1,8 @@
+# Arquivos locais de publicação; não incluir senhas ou certificados no Git.
+.env
+.env.*
+**/*.pem
+**/*.key
+**/*.p12
+**/*.jks
+deploy/internet/private/

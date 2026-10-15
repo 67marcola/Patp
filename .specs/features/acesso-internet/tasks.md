@@ -16,7 +16,7 @@ Implementar com a skill tlc-spec-driven, gates focados, evidência por assertion
 | API administrativa | integration | GET/POST novos:200,401,403,404, repetição e persistência | mesma pasta Java | Maven -Dtest=classeNova test |
 | Preparador SQL | integration | schema vazio/não vazio/DDL parcial/admin explícito, nenhum dado local | mesma pasta Java | teste focado com banco fictício guardado |
 | API cliente/componentes | unit | Contratos novos, pendência, erro, vazio, usuário comum/admin e envio incerto | frontend/src/**/*.test.{js,jsx} | npm test -- arquivoNovo |
-| Perfil/artefatos/configuração | none | Build/lint; ausência de segredos e falhas de startup conferidas no integrado | deploy e recursos | compilação jar/Vite TEMP + lint |
+| Perfil/artefatos/configuração | none | Build/lint; ausência de segredos e falhas de startup conferidas no integrado | deploy e recursos | compilação Java/Vite TEMP + lint |
 | Fluxo integrado | e2e | Dois contextos, pendente→aprovação→login/demanda, reinício/config e celular | frontend/scripts/internet-integracao.test.mjs | Node --test arquivoNovo |
 | Guia/publicação real | none | Inspeção documental; URL/4G somente quando observados | docs/OPERACAO.md | validate_spec/state/diff; roteiro real separado |
 
@@ -147,7 +147,7 @@ T7 → T8
 **Requirement**: NET-01,NET-02,NET-03,NET-04,NET-07
 **Tools**: shell/arquivos; skill tlc-spec-driven.
 **Done when**:
-- [ ] Falta de configuração não cai em localhost; schema validate/SQLinitnever, TLS VERIFY_IDENTITY, origemHTTPS exata e PORT; imagem exclui props locais/segredos; jar compila emTEMP/lint aprovados. Build Docker no Render fica explicitamente pendente se Docker indisponível aqui.
+- [x] Artefato com guardas de configuração, schema validate/SQLinitnever, TLS VERIFY_IDENTITY, origemHTTPS exata e PORT; contexto exclui props locais/segredos; classes Java e classpath runtime compilados emTEMP. Sintaxe shell conferida. Falhas reais de startup serão provadas em T10. Build Docker no Render fica pendente: Docker indisponível aqui.
 **Tests**: none — configuração/artefato; comportamento de execução conferido em T10.
 **Gate**: Build
 

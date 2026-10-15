@@ -49,7 +49,7 @@ Início sem configuração/TLS/estrutura recusa sem fallback ou segredos. Prepar
 | SessaoService:14 | Estado em memória sem prazo |8h no modo internet, revogação ao sair e aviso de reinício/single-instance. |
 | WebConfig:25 e CorsConfig:14 | Origens/rotas podem bloquear ou alargar acesso | API autenticada, CORS HTTPS exato, endpoint novo pelo mesmo interceptor. |
 | Validação JPA do piloto | Entidade/coluna nova quebraria base local | Tabela JDBC somente online, sem migração local. |
-| Docker não encontrado no PATH local | Não é possível afirmar build de imagem local executado | Provar jar/config/build local; marcar validação do container no Render pendente até observada. |
+| Docker não encontrado no PATH local | Não é possível afirmar build de imagem local executado | Provar classes/classpath/config local; marcar validação do container no Render pendente até observada. |
 | Render/Aiven ainda sem conta | Nenhuma URL pública real disponível agora | Preparar localmente; usuário cria contas gratuitas; não inventar link/resultado 4G. |
 
 ## Tech Decisions
@@ -57,3 +57,5 @@ Início sem configuração/TLS/estrutura recusa sem fallback ou segredos. Prepar
 Sem novos frameworks. Conservar papéis e regras dos quadros; aprovados comuns são funcionários. Falha de aprovação não promove ninguém. Política online opt-in e perfil Render obrigatório conservam o cadastro direto local. Testes focados por componente e um integrado de fechamento; Verifier independente com controle integrado e um sensor dirigido, sem refazer suítes históricas.
 
 Preparador T4: variáveis CRERAL_DATABASE_URL/USERNAME/PASSWORD, sem Spring/props locais; CLI `--plano`, `--aplicar` ou `--administrador --id ID --email EMAIL`. CLI exige sslMode=VERIFY_IDENTITY. Métodos JDBC explícitos permitem teste fictício guardado sem alterar essas guardas da CLI. Bootstrap usa a conta indicada como referência de autoria da liberação inicial, preservando a primeira hora em repetição; não atribui um operador inexistente na base nova.
+
+Pacote T8 usa classes compiladas + dependências runtime no container, como o piloto já faz, sem exigir fat jar. spring.config.location aponta exclusivamente para application-internet.properties e o initializer valida perfil/flag/datasource/TLS/origem antes de criar beans. A CA pública vira PKCS12 temporário no entrypoint, executado sem root; senha real do banco só no ambiente. Secret File aiven-ca.pem será enviado pelo painel Render; Free não oferece shell para o preparo, que será executado explicitamente pelo operador neste computador.

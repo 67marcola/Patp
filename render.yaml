@@ -1,0 +1,22 @@
+# O Secret File aiven-ca.pem deve ser adicionado pelo painel, sem versionar.
+services:
+  - type: web
+    name: creral-api-piloto
+    runtime: docker
+    plan: free
+    dockerfilePath: ./deploy/internet/Dockerfile
+    dockerContext: .
+    autoDeployTrigger: off
+    envVars:
+      - key: CRERAL_DATABASE_HOST
+        sync: false
+      - key: CRERAL_DATABASE_PORT
+        sync: false
+      - key: CRERAL_DATABASE_NAME
+        value: defaultdb
+      - key: CRERAL_DATABASE_USERNAME
+        sync: false
+      - key: CRERAL_DATABASE_PASSWORD
+        sync: false
+      - key: CRERAL_FRONTEND_ORIGIN
+        sync: false
